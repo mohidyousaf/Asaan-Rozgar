@@ -78,25 +78,26 @@ class _company_setupState extends State<company_setup1> {
                       SizedBox(height: textfield_gap),
                       input_text_fields('Notes Payable/loans (Rs.)',''),
                       SizedBox(height: button_gap),
-                      Container(
-                        height: longBtt_height,
-                        width: longBtt_width,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.grey[900],
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                          elevation: 7.0,
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: Center(
-                              child: Text(
-                                'Save',
-                                style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,)),
-                              ),
-                            ),
-                          ),
-                        ),
-                        )
+                      long_circleBtt('Save'),
+                      // Container(
+                      //   height: longBtt_height,
+                      //   width: longBtt_width,
+                      //   child: Material(
+                      //     borderRadius: BorderRadius.circular(20.0),
+                      //     shadowColor: Colors.grey[900],
+                      //     color: Color.fromRGBO(11, 71, 109, 1.0),
+                      //     elevation: 7.0,
+                      //     child: FlatButton(
+                      //       onPressed: () {},
+                      //       child: Center(
+                      //         child: Text(
+                      //           'Save',
+                      //           style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,)),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   )
 
                     ],
                   ),
