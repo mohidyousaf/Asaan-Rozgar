@@ -12,16 +12,16 @@ void main() {
         accentColor: Colors.white,
         textTheme: GoogleFonts.latoTextTheme(),
       ),
-      home: company_setup()
+      home: company_setup1()
   ));
 }
 
-class company_setup extends StatefulWidget {
+class company_setup1 extends StatefulWidget {
   @override
   _company_setupState createState() => _company_setupState();
 }
 
-class _company_setupState extends State<company_setup> {
+class _company_setupState extends State<company_setup1> {
   @override
   Widget build(BuildContext context) {
     //final color_setting = Color.fromRGBO(color_Red,color_Green,color_Blue,1.0)
@@ -68,35 +68,35 @@ class _company_setupState extends State<company_setup> {
                 child: SingleChildScrollView(
                                   child: Column(
                     children: <Widget>[
-                      input_text_fields('Available Cash (Rs.)',''),
+                      input_text_fields('Existing Equipment (Rs.)',''),
                       SizedBox(height: textfield_gap),
-                      input_text_fields('Cash In Account (Rs.)',''),
+                      input_text_fields('Accumulate Depriciation (Rs.)',''),
                       SizedBox(height: textfield_gap),
-                      input_text_fields('Land Price (Rs.)',''),
+                      input_text_fields('Intangible Assets (Rs.)', 'e.g Bonds, Shares etc'),
                       SizedBox(height: textfield_gap),
                       input_text_fields('Cost on Business Building (Rs.)',''),
                       SizedBox(height: textfield_gap),
-                      input_text_fields('Owners Equity (Rs.)',''),
+                      input_text_fields('Notes Payable/loans (Rs.)',''),
                       SizedBox(height: button_gap),
                       Container(
-                          height: longBtt_height,
-                          width: longBtt_width,
-                          child: Material(
-                            borderRadius: BorderRadius.circular(20.0),
-                            shadowColor: Colors.grey[900],
-                            color: Color.fromRGBO(11, 71, 109, 1.0),
-                            elevation: 7.0,
-                            child: FlatButton(
-                              onPressed: () {},
-                              child: Center(
-                                child: Text(
-                                  'Next',
-                                  style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,)),
-                                ),
+                        height: longBtt_height,
+                        width: longBtt_width,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20.0),
+                          shadowColor: Colors.grey[900],
+                          color: Color.fromRGBO(11, 71, 109, 1.0),
+                          elevation: 7.0,
+                          child: FlatButton(
+                            onPressed: () {},
+                            child: Center(
+                              child: Text(
+                                'Save',
+                                style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,)),
                               ),
                             ),
                           ),
-                          )
+                        ),
+                        )
 
                     ],
                   ),
