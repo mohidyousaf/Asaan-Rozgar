@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>SignIn.dart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.s1 { color: #6a8759;}
+.s2 { color: #cc7832;}
+.s3 { color: #808080;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SignIn.dart</font>
+</center></td></tr></table>
+<pre>
+<span class="s0">import </span><span class="s1">'package:flutter/material.dart'</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">'package:google_fonts/google_fonts.dart'</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">'DataBase.dart'</span><span class="s2">;</span>
+
+<span class="s2">void </span><span class="s0">main() {</span>
+  <span class="s3">// TestWidgetsFlutterBinding.ensureInitialized();</span>
+  <span class="s0">runApp(MaterialApp(</span>
+      <span class="s0">theme: ThemeData(</span>
+        <span class="s0">primaryColor: Color.fromRGBO(</span><span class="s4">11</span><span class="s2">, </span><span class="s4">71</span><span class="s2">, </span><span class="s4">109</span><span class="s2">, </span><span class="s4">1.0</span><span class="s0">)</span><span class="s2">,</span>
+        <span class="s0">accentColor: Colors.white</span><span class="s2">,</span>
+        <span class="s0">textTheme: GoogleFonts.latoTextTheme()</span><span class="s2">,</span>
+      <span class="s0">)</span><span class="s2">,</span>
+      <span class="s0">home: SignIn()</span>
+  <span class="s0">))</span><span class="s2">;</span>
+<span class="s0">}</span>
+
+<span class="s2">class </span><span class="s0">SignIn </span><span class="s2">extends </span><span class="s0">StatefulWidget {</span>
+  <span class="s0">@override</span>
+  <span class="s0">_SignInState createState() =&gt; _SignInState()</span><span class="s2">;</span>
+<span class="s0">}</span>
+
+<span class="s2">class </span><span class="s0">_SignInState </span><span class="s2">extends </span><span class="s0">State&lt;SignIn&gt; {</span>
+  <span class="s0">String response = </span><span class="s1">&quot;&quot;</span><span class="s2">;</span>
+  <span class="s0">TextEditingController userEntry = </span><span class="s2">new </span><span class="s0">TextEditingController()</span><span class="s2">;</span>
+  <span class="s0">TextEditingController passEntry = </span><span class="s2">new </span><span class="s0">TextEditingController()</span><span class="s2">;</span>
+
+  <span class="s0">@override</span>
+  <span class="s0">Widget build(BuildContext context) {</span>
+    <span class="s2">return </span><span class="s0">Scaffold(</span>
+        <span class="s0">backgroundColor: Color.fromRGBO(</span><span class="s4">11</span><span class="s2">, </span><span class="s4">71</span><span class="s2">, </span><span class="s4">109</span><span class="s2">, </span><span class="s4">1.0</span><span class="s0">)</span><span class="s2">,</span>
+      <span class="s0">body: Column(</span>
+        <span class="s0">children: &lt;Widget&gt; [</span>
+          <span class="s0">SizedBox(height: </span><span class="s4">40</span><span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">Text(</span>
+              <span class="s1">'Welcome Back'</span><span class="s2">,</span>
+            <span class="s0">style: TextStyle(</span>
+              <span class="s0">fontSize: </span><span class="s4">30</span><span class="s2">,</span>
+              <span class="s0">color: Colors.white</span><span class="s2">,</span>
+              <span class="s0">fontFamily: </span><span class="s1">'lato'</span><span class="s2">,</span>
+            <span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">SizedBox(height: </span><span class="s4">30</span><span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">Image.asset(</span><span class="s1">'assets/bro.png'</span><span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">SizedBox(height: </span><span class="s4">30</span><span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">Expanded(</span>
+            <span class="s0">child: Container(</span>
+              <span class="s0">padding: EdgeInsets.only(top: </span><span class="s4">35.0</span><span class="s2">, </span><span class="s0">left: </span><span class="s4">20.0</span><span class="s2">, </span><span class="s0">right: </span><span class="s4">20.0</span><span class="s0">)</span><span class="s2">,</span>
+              <span class="s3">// color: Colors.white,</span>
+              <span class="s0">decoration: BoxDecoration(</span>
+                  <span class="s0">borderRadius: BorderRadius.only(</span>
+                      <span class="s0">topRight: Radius.circular(</span><span class="s4">40.0</span><span class="s0">)</span><span class="s2">,</span>
+                      <span class="s0">topLeft: Radius.circular(</span><span class="s4">40.0</span><span class="s0">)</span><span class="s2">,</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">color: Colors.white)</span><span class="s2">,</span>
+
+              <span class="s0">child: SingleChildScrollView(</span>
+                <span class="s0">child: Column(</span>
+                  <span class="s0">mainAxisAlignment: MainAxisAlignment.start</span><span class="s2">,</span>
+
+                  <span class="s0">children: &lt;Widget&gt; [</span>
+                    <span class="s0">TextField(</span>
+                      <span class="s0">controller: userEntry</span><span class="s2">,</span>
+                      <span class="s0">decoration: InputDecoration(</span>
+                          <span class="s0">labelText: </span><span class="s1">'User Name'</span><span class="s2">,</span>
+                          <span class="s0">labelStyle: TextStyle(</span>
+                              <span class="s0">color: Colors.grey</span>
+                          <span class="s0">)</span><span class="s2">,</span>
+                          <span class="s0">focusedBorder: UnderlineInputBorder(</span>
+                              <span class="s0">borderSide: BorderSide(color: Colors.grey)</span>
+                          <span class="s0">)</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">SizedBox(height:</span><span class="s4">30</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">TextField(</span>
+                      <span class="s0">controller: passEntry</span><span class="s2">,</span>
+                      <span class="s0">obscureText: </span><span class="s2">true,</span>
+                      <span class="s0">decoration: InputDecoration(</span>
+                          <span class="s0">labelText: </span><span class="s1">'Password'</span><span class="s2">,</span>
+                          <span class="s0">labelStyle: TextStyle(</span>
+                              <span class="s0">color: Colors.grey</span>
+                          <span class="s0">)</span><span class="s2">,</span>
+                          <span class="s0">focusedBorder: UnderlineInputBorder(</span>
+                              <span class="s0">borderSide: BorderSide(color: Colors.grey)</span>
+                          <span class="s0">)</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">SizedBox(height: </span><span class="s4">40</span><span class="s0">)</span><span class="s2">,</span>
+                     <span class="s0">Container(</span>
+                      <span class="s0">height: </span><span class="s4">40.0</span><span class="s2">,</span>
+                      <span class="s0">width: </span><span class="s4">200.0</span><span class="s2">,</span>
+                      <span class="s0">child: Material(</span>
+                        <span class="s0">borderRadius: BorderRadius.circular(</span><span class="s4">20.0</span><span class="s0">)</span><span class="s2">,</span>
+                        <span class="s0">shadowColor: Colors.grey[</span><span class="s4">900</span><span class="s0">]</span><span class="s2">,</span>
+                        <span class="s0">color: Color.fromRGBO(</span><span class="s4">11</span><span class="s2">, </span><span class="s4">71</span><span class="s2">, </span><span class="s4">109</span><span class="s2">, </span><span class="s4">1.0</span><span class="s0">)</span><span class="s2">,</span>
+                        <span class="s0">elevation: </span><span class="s4">7.0</span><span class="s2">,</span>
+                        <span class="s0">child: TextButton(</span>
+                          <span class="s0">onPressed: () async{</span>
+                            <span class="s2">var </span><span class="s0">temp = await DBprovider.db.login(userEntry.text.toString()</span><span class="s2">, </span><span class="s0">passEntry.text.toString())</span><span class="s2">;</span>
+                            <span class="s0">setState(() {</span>
+                              <span class="s0">response = temp</span><span class="s2">;</span>
+                            <span class="s0">})</span><span class="s2">;</span>
+                          <span class="s0">}</span><span class="s2">,</span>
+                          <span class="s0">child: Center(</span>
+                            <span class="s0">child: Text(</span>
+                                <span class="s1">'Login'</span><span class="s2">,</span>
+                                <span class="s0">style: TextStyle(</span>
+                                    <span class="s0">color: Colors.white</span><span class="s2">,</span>
+                                    <span class="s0">fontWeight: FontWeight.bold</span><span class="s2">,</span>
+                                    <span class="s0">fontFamily: </span><span class="s1">'lato'</span>
+                                <span class="s0">)</span>
+                            <span class="s0">)</span><span class="s2">,</span>
+                          <span class="s0">)</span><span class="s2">,</span>
+                        <span class="s0">)</span><span class="s2">,</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">SizedBox(height: </span><span class="s4">30</span><span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">Text(response</span><span class="s2">,</span>
+                      <span class="s0">style: TextStyle(</span>
+                        <span class="s0">fontSize: </span><span class="s4">20</span><span class="s2">,</span>
+                        <span class="s0">fontWeight: FontWeight.bold</span><span class="s2">,</span>
+                        <span class="s0">letterSpacing: </span><span class="s4">2</span><span class="s2">,</span>
+                        <span class="s0">color: Colors.grey[</span><span class="s4">600</span><span class="s0">]</span><span class="s2">,</span>
+                        <span class="s0">fontFamily: </span><span class="s1">'lato'</span>
+                      <span class="s0">)</span><span class="s2">,</span>
+                    <span class="s0">)</span><span class="s2">,</span>
+                  <span class="s0">]</span><span class="s2">,</span>
+                <span class="s0">)</span><span class="s2">,</span>
+              <span class="s0">)</span><span class="s2">,</span>
+            <span class="s0">)</span><span class="s2">,</span>
+          <span class="s0">)</span>
+        <span class="s0">]</span><span class="s2">,</span>
+      <span class="s0">)</span>
+    <span class="s0">)</span><span class="s2">;</span>
+  <span class="s0">}</span>
+<span class="s0">}</span>
+</pre>
+</body>
+</html>
