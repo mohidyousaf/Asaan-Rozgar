@@ -5,7 +5,7 @@ import 'SignIn.dart';
 // import 'package:asaan_rozgar/Widgets/long_circleBtt.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  // TestWidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
