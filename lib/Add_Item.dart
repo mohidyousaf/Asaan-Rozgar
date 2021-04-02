@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.9,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: Colors.grey,
+                color: Color.fromRGBO(250, 250, 250, 1.0),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(26),
                   topRight: Radius.circular(26),
@@ -101,6 +101,34 @@ class MyApp extends StatelessWidget {
                     child: Row(
                       children: [
                         Text("Quantity"),
+                        SizedBox(width: 100),
+                        Container(
+                          height: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            color: Color.fromRGBO(118, 118, 128, 0.12)
+                          ),
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: Row(
+                            children: [
+                              Text("-"),
+                              SizedBox(width: 5),
+                              Container(
+                                height: 15,
+                                child: VerticalDivider()
+                              ),
+                              SizedBox(width: 5),
+                              Text("1"),
+                              SizedBox(width: 5),
+                              Container(
+                                height: 15,
+                                child: VerticalDivider()
+                              ),
+                              SizedBox(width: 5),
+                              Text("+"),
+                            ],
+                          )
+                        )
                       ],
                     )),
                 Container(
@@ -111,6 +139,34 @@ class MyApp extends StatelessWidget {
                     child: Row(
                       children: [
                         Text("Minimum Stock"),
+                        SizedBox(width: 55),
+                        Container(
+                          height: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                            color: Color.fromRGBO(118, 118, 128, 0.12)
+                          ),
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: Row(
+                            children: [
+                              Text("-"),
+                              SizedBox(width: 5),
+                              Container(
+                                height: 15,
+                                child: VerticalDivider()
+                              ),
+                              SizedBox(width: 5),
+                              Text("1"),
+                              SizedBox(width: 5),
+                              Container(
+                                height: 15,
+                                child: VerticalDivider()
+                              ),
+                              SizedBox(width: 5),
+                              Text("+"),
+                            ],
+                          )
+                        )
                       ],
                     )),
                 Container(
