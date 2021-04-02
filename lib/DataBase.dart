@@ -15,6 +15,7 @@ class DBprovider{
     }
     else
     {
+      // delete = true only if database needs to be rebuilt from scratch
       _database= await this.initDB(delete: true);
       print('returned');
       return _database;
@@ -28,10 +29,149 @@ class DBprovider{
       await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
     }
     Database dbs = await openDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'),            //join method comes from path package
-        onCreate: (db,version) async { await db.execute('''
-          CREATE TABLE users(
-            username TEXT PRIMARY KEY,BusinessName Text, EmailAddress TEXT, password TEXT
-          )        
+        onCreate: (db,version) async {
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS users (
+              Username	TEXT,
+              Name	Text,
+              EmailAddress	TEXT,
+              Password	TEXT,
+              PRIMARY KEY(Username)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS company (
+              CompanyID	INTEGER,
+              Username	TEXT,
+              CompanyName	Text,
+              CompanyDescription	,
+              TotalPayable	REAL,
+              TotalReceivable	REAL,
+              EmailAddress	TEXT,
+              CompanyNo	INTEGER,
+              PRIMARY KEY(CompanyID),
+              FOREIGN KEY(Username) REFERENCES users(Username)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS accounts (
+              AccountID	INTEGER,
+              CompanyID	INTEGER,
+              AccountType	TEXT,
+              AccountNo	TEXT,
+              BankName	TEXT,
+              Balance	REAL,
+              PRIMARY KEY(AccountID),
+              FOREIGN KEY(CompanyID) REFERENCES company(CompanyID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS transactions (
+              TransactionID	INTEGER,
+              AccountID	INTEGER,
+              PartyID	INTEGER,
+              OrderID	INTEGER,
+              AssetID	INTEGER,
+              LiabilityID	TEXT,
+              ExpenseID	TEXT,
+              Amount	REAL,
+              TransactionType	TEXT,
+              Description	TEXT,
+              PRIMARY KEY(TransactionID),
+              FOREIGN KEY(AccountID) REFERENCES accounts(AccountID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              FOREIGN KEY(ExpenseID) REFERENCES expenses(ExpenseID),
+              FOREIGN KEY(LiabilityID) REFERENCES liabilities(LiabilityID),
+              FOREIGN KEY(AssetID) REFERENCES assets(AssetID),
+              FOREIGN KEY(OrderID) REFERENCES orders(OrderID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS parties (
+              PartyID	INTEGER,
+              PartyType	TEXT,
+              PartyName	TEXT,
+              Description	TEXT,
+              EmailAddress	TEXT,
+              ContactNo	INTEGER,
+              AccountNo	TEXT,
+              Receivable	REAL,
+              Payable	REAL,
+              PRIMARY KEY(PartyID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS orders (
+              OrderID	INTEGER,
+              PartyID	INTEGER,
+              TotalPayable	REAL,
+              TotalReceived	REAL,
+              OrderType	TEXT,
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              PRIMARY KEY(OrderID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS assets (
+              AssetID	INTEGER,
+              CompanyID	INTEGER,
+              Name	TEXT,
+              Type	TEXT,
+              Description	TEXT,
+              Value	REAL,
+              FOREIGN KEY(CompanyID) REFERENCES company(CompanyID),
+              PRIMARY KEY(AssetID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS liabilities (
+              LiabilityID	INTEGER,
+              CompanyID	INTEGER,
+              PartyID	INTEGER,
+              BaseAmount	REAL,
+              TimePeriod	INT,
+              InterestRate	REAL,
+              PaymentSchedule	TEXT,
+              LateFees	REAL,
+              InterestType	TEXT,
+              BalanceDue	REAL,
+              AmountPaid	REAL,
+              FOREIGN KEY(CompanyID) REFERENCES company(CompanyID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              PRIMARY KEY(LiabilityID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS inventory (
+              ProductID	INTEGER,
+              PartyID	INTEGER,
+              ProductName	TEXT,
+              ProductDescription	TEXT,
+              ProductPicture	TEXT,
+              TaxRate	REAL,
+              SalePrice	REAL,
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              PRIMARY KEY(ProductID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS purchases (
+              PurchaseID	INTEGER,
+              ProductID	INTEGER,
+              PurchasePrice	REAL,
+              Quantity	INTEGER,
+              FOREIGN KEY(ProductID) REFERENCES inventory(ProductID),
+              PRIMARY KEY(PurchaseID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS orderGoods (
+              OrderID	INTEGER,
+              ProductID	INTEGER,
+              Quantity	INTEGER,
+              FOREIGN KEY(ProductID) REFERENCES inventory(ProductID),
+              FOREIGN KEY(OrderID) REFERENCES orders(OrderID),
+              PRIMARY KEY(OrderID)
+            );
+            ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS expenses (
+              ExpenseID	INTEGER,
+              CompanyID	INTEGER,
+              Type	TEXT,
+              Description	TEXT,
+              FOREIGN KEY(CompanyID) REFERENCES companies(CompanyID),
+              PRIMARY KEY(ExpenseID)
+            );       
        ''');
         },
         version: 1
