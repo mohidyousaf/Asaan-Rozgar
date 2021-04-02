@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaan_rozgar/Widgets/long_circleBtt.dart';
 import 'package:asaan_rozgar/Widgets/textfield.dart';
+import 'package:asaanrozgar/Circle_Button.dart';
 
 class company_setup extends StatefulWidget {
   @override
