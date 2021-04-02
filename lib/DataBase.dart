@@ -13,13 +13,20 @@ class DBprovider{
     if(_database!= null){
       return _database;
     }
-    _database= await this.initDB();
-    print('returned');
-    return _database;
+    else
+    {
+      _database= await this.initDB(delete: true);
+      print('returned');
+      return _database;
+    }
+
   }
 
-  initDB() async{
+  initDB({delete: false}) async{
     print(await getDatabasesPath());
+    if (delete) {
+      await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
+    }
     Database dbs = await openDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'),            //join method comes from path package
         onCreate: (db,version) async { await db.execute('''
           CREATE TABLE users(
@@ -35,10 +42,10 @@ class DBprovider{
     final db = await database;
     final List<Map<String, dynamic>> users = await db.query(
         'users',
-        where: 'username = ?;',
+        where: 'Username = ?;',
         whereArgs: [username]);
 
-    if (users[0]['password'] == password)
+    if (users[0]['Password'] == password)
     {
       return "correct password";
     }
@@ -47,19 +54,19 @@ class DBprovider{
       return 'incorrect password';
     }
   }
-  newUser(username, businessName, emailAddress, password) async {
+  newUser(username, name, emailAddress, password) async {
     final db = await database;
     print(username + " " + password);
     var res = await db.rawInsert('''
     INSERT INTO users(
-      username,BusinessName,EmailAddress,password
+      Username,Name,EmailAddress,Password
     ) VALUES (?,?,?,?)
-    ''', [username,businessName,emailAddress, password]);
+    ''', [username, name, emailAddress, password]);
 
     return res;
   }
 
-  getUser() async{
+  getUser({String username}) async{
     final db =await database;
     // final List<Map<String, dynamic>> maps = await db.query("users");
 
@@ -70,8 +77,8 @@ class DBprovider{
 
     final List<Map<String, dynamic>> maps = await db.query(
         'users',
-        where: 'username = ?',
-        whereArgs: ['mohid']
+        where: 'Username = ?',
+        whereArgs: [username]
     );
     return maps;
 
