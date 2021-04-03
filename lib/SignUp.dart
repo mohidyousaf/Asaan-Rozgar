@@ -5,7 +5,7 @@ import 'SignIn.dart';
 // import 'package:asaan_rozgar/Widgets/long_circleBtt.dart';
 
 void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
@@ -83,7 +83,7 @@ class _signupState extends State<signup> {
                         TextField(
                           controller: FirstName,
                           decoration: InputDecoration(
-                              labelText: 'First Name',
+                              labelText: 'Username',
                               labelStyle: TextStyle(
                                   color: Colors.grey
                               ),
@@ -96,7 +96,7 @@ class _signupState extends State<signup> {
                         TextField(
                           controller: BusinessName,
                           decoration: InputDecoration(
-                              labelText: 'Business Name',
+                              labelText: 'Name',
                               labelStyle: TextStyle(
                                   color: Colors.grey
                               ),
