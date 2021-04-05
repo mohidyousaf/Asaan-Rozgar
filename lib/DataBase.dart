@@ -40,7 +40,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS company (
-              CompanyID	INTEGER,
+              CompanyID	INTEGER AUTOINCREMENT,
               Username	TEXT,
               CompanyName	Text,
               CompanyDescription	,
@@ -53,7 +53,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS accounts (
-              AccountID	INTEGER,
+              AccountID	INTEGER AUTOINCREMENT,
               CompanyID	INTEGER,
               AccountType	TEXT,
               AccountNo	TEXT,
@@ -64,13 +64,13 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS transactions (
-              TransactionID	INTEGER,
+              TransactionID	INTEGER AUTOINCREMENT,
               AccountID	INTEGER,
               PartyID	INTEGER,
               OrderID	INTEGER,
               AssetID	INTEGER,
-              LiabilityID	TEXT,
-              ExpenseID	TEXT,
+              LiabilityID	INTEGER,
+              ExpenseID	INTEGER,
               Amount	REAL,
               TransactionType	TEXT,
               Description	TEXT,
@@ -84,7 +84,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS parties (
-              PartyID	INTEGER,
+              PartyID	INTEGER AUTOINCREMENT,
               PartyType	TEXT,
               PartyName	TEXT,
               Description	TEXT,
@@ -97,7 +97,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS orders (
-              OrderID	INTEGER,
+              OrderID	INTEGER AUTOINCREMENT,
               PartyID	INTEGER,
               TotalPayable	REAL,
               TotalReceived	REAL,
@@ -107,7 +107,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS assets (
-              AssetID	INTEGER,
+              AssetID	INTEGER AUTOINCREMENT,
               CompanyID	INTEGER,
               Name	TEXT,
               Type	TEXT,
@@ -118,7 +118,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS liabilities (
-              LiabilityID	INTEGER,
+              LiabilityID	INTEGER AUTOINCREMENT,
               CompanyID	INTEGER,
               PartyID	INTEGER,
               BaseAmount	REAL,
@@ -135,7 +135,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS inventory (
-              ProductID	INTEGER,
+              ProductID	INTEGER AUTOINCREMENT,
               PartyID	INTEGER,
               ProductName	TEXT,
               ProductDescription	TEXT,
@@ -147,7 +147,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS purchases (
-              PurchaseID	INTEGER,
+              PurchaseID	INTEGER AUTOINCREMENT,
               ProductID	INTEGER,
               PurchasePrice	REAL,
               Quantity	INTEGER,
@@ -159,13 +159,14 @@ class DBprovider{
               OrderID	INTEGER,
               ProductID	INTEGER,
               Quantity	INTEGER,
+              Price REAL,
               FOREIGN KEY(ProductID) REFERENCES inventory(ProductID),
               FOREIGN KEY(OrderID) REFERENCES orders(OrderID),
-              PRIMARY KEY(OrderID)
+              PRIMARY KEY(OrderID, ProductID)
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS expenses (
-              ExpenseID	INTEGER,
+              ExpenseID	INTEGER AUTOINCREMENT,
               CompanyID	INTEGER,
               Type	TEXT,
               Description	TEXT,

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() => runApp(MaterialApp(home: MyApp()));
+void main() => runApp(MaterialApp(home: AddItem()));
 
-class MyApp extends StatelessWidget {
+class AddItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(255, 159, 10, 1.0),
         appBar: AppBar(
           elevation: 0,
+          toolbarHeight:  MediaQuery.of(context).size.height * .1,
           leading: IconButton(
             onPressed: () => {},
             icon: Icon(Icons.arrow_back_ios),
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.9,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 color: Color.fromRGBO(250, 250, 250, 1.0),
@@ -169,6 +170,7 @@ class MyApp extends StatelessWidget {
                         )
                       ],
                     )),
+                SizedBox(height: 40),
                 Container(
                   child: long_circleBtt("Proceed"),
                 )
@@ -199,7 +201,7 @@ Widget input_text_fields(String label) {
 
 Widget long_circleBtt(String label) {
   return Container(
-    height: 34.0,
+    height: 40.0,
     width: 200.0,
     child: Material(
       borderRadius: BorderRadius.circular(20.0),
