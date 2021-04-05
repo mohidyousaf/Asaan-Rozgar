@@ -16,6 +16,10 @@ class AddAssets extends StatefulWidget {
 }
 
 class _AddAssetsState extends State<AddAssets> {
+  TextEditingController Title = new TextEditingController();
+  TextEditingController Name = new TextEditingController();
+  TextEditingController AccountNo = new TextEditingController();
+  TextEditingController CurrentBal = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +51,7 @@ class _AddAssetsState extends State<AddAssets> {
                 child: Column(
                   children: <Widget>[
                     TextField(
-                      // controller: userEntry,
+                      controller: Title,
                       decoration: InputDecoration(
                           labelText: 'Title',
                           labelStyle: TextStyle(
@@ -60,7 +64,7 @@ class _AddAssetsState extends State<AddAssets> {
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      // controller: userEntry,
+                      controller: Name,
                       decoration: InputDecoration(
                           labelText: 'Name',
                           labelStyle: TextStyle(
@@ -73,7 +77,7 @@ class _AddAssetsState extends State<AddAssets> {
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      // controller: userEntry,
+                      controller: AccountNo,
                       decoration: InputDecoration(
                           labelText: 'Account Number',
                           labelStyle: TextStyle(
@@ -86,7 +90,7 @@ class _AddAssetsState extends State<AddAssets> {
                     ),
                     SizedBox(height: 10),
                     TextField(
-                      // controller: userEntry,
+                      controller: CurrentBal,
                       decoration: InputDecoration(
                           labelText: 'Current Balance',
                           labelStyle: TextStyle(
@@ -107,11 +111,8 @@ class _AddAssetsState extends State<AddAssets> {
                         color: Color.fromRGBO(11, 71, 109, 1.0),
                         elevation: 7.0,
                         child: TextButton(
-                          onPressed: () {
-                            // var temp = await DBprovider.db.login(userEntry.text.toString(), passEntry.text.toString());
-                            // setState(() {
-                            //   response = temp;
-                            // });
+                          onPressed: () async{
+                            var temp = await DBprovider.db.addAccount(Title.text.toString(), Name.text.toString(), AccountNo.text.toString(),CurrentBal.text.toString());
                           },
                           child: Center(
                             child: Text(
