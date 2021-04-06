@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
 
 
 void main() {
   // TestWidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
-      home: AddAssets()
+      home: AddEquities()
   ));
 }
 
-class AddAssets extends StatefulWidget {
+class AddEquities extends StatefulWidget {
   @override
-  _AddAssetsState createState() => _AddAssetsState();
+  _AddEquitiesState createState() => _AddEquitiesState();
 }
 
-class _AddAssetsState extends State<AddAssets> {
+class _AddEquitiesState extends State<AddEquities> {
   @override
   TextEditingController Name = new TextEditingController();
   TextEditingController Amount = new TextEditingController();
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -49,32 +49,9 @@ class _AddAssetsState extends State<AddAssets> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    TextField(
-                      controller: Name,
-                      decoration: InputDecoration(
-                          labelText: 'Type',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
+                    InputTextFields(label: 'Type',controller: Name),
                     SizedBox(height: 10),
-                    TextField(
-                      controller: Amount,
-                      decoration: InputDecoration(
-                          labelText: 'Amount',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
-
+                    InputTextFields(label: 'Amount', controller: Amount),
                     SizedBox(height: 40),
                     Container(
                       height: 40.0,
@@ -86,8 +63,9 @@ class _AddAssetsState extends State<AddAssets> {
                         elevation: 7.0,
                         child: TextButton(
                           onPressed: () async {
-                            var temp = await DBprovider.db.addAssets(Name.text.toString(), Amount.text.toString());
-                          },
+                            var temp = await DBprovider.db.addEquity(Name.text.toString(), Amount.text.toString());
+                            print(temp);
+                            },
                           child: Center(
                             child: Text(
                                 'Add Equity',

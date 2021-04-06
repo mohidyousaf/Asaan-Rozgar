@@ -21,9 +21,10 @@ Widget input_text_fields(String label,String hinttext){
 //SHIFFA STYLE
 class InputTextFields extends StatefulWidget {
 
-  InputTextFields({this.label,this.controller});
+  InputTextFields({this.label,this.controller, this.validateFunc});
   final String label;
   final TextEditingController controller;
+  final String Function({String text}) validateFunc;
 
   @override
   _InputTextFieldsState createState() => _InputTextFieldsState();
@@ -36,19 +37,15 @@ class _InputTextFieldsState extends State<InputTextFields> {
         controller: widget.controller,
         cursorColor: Colors.lightBlue,
         validator: (text) {
-            if (text.isEmpty){
-              return "field empty";
-            }
-            else{
-              return "";
-            }
+          return widget.validateFunc(text:text);
+
         },
         decoration: InputDecoration(
-          border: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          errorBorder: InputBorder.none,
-          disabledBorder: InputBorder.none,
+          // border: InputBorder.none,
+          // focusedBorder: InputBorder.none,
+          // enabledBorder: InputBorder.none,
+          // errorBorder: InputBorder.none,
+          // disabledBorder: InputBorder.none,
           hintText: '${widget.label}',
           hintStyle: GoogleFonts.lato(
               textStyle: TextStyle(

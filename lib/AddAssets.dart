@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
+import 'package:asaanrozgar/Widgets/textfield.dart';
+
 
 
 void main() {
@@ -50,57 +52,13 @@ class _AddAssetsState extends State<AddAssets> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    TextField(
-                      controller: Name,
-                      decoration: InputDecoration(
-                          labelText: 'Name',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
+                    InputTextFields(label: 'Name',controller: Name),
                     SizedBox(height: 10),
-                    TextField(
-                      controller: Description,
-                      decoration: InputDecoration(
-                          labelText: 'Description',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
+                    InputTextFields(label:'Description', controller: Description),
                     SizedBox(height: 10),
-                    TextField(
-                      controller: Type,
-                      decoration: InputDecoration(
-                          labelText: 'Type',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
+                    InputTextFields(label: 'Type', controller: Type),
                     SizedBox(height: 10),
-                    TextField(
-                      controller: Value,
-                      decoration: InputDecoration(
-                          labelText: 'Value',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
+                    InputTextFields(label:'Value', controller: Value),
                     SizedBox(height: 40),
                     Container(
                       height: 40.0,
@@ -113,7 +71,8 @@ class _AddAssetsState extends State<AddAssets> {
                         child: TextButton(
                           onPressed: () async {
                             var temp = await DBprovider.db.addAssets(Name.text.toString(), Description.text.toString(), Type.text.toString(), Value.text.toString());
-                          },
+                            print(temp);
+                            },
                           child: Center(
                             child: Text(
                                 'Login',

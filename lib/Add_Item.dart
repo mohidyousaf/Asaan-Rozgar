@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
+
 
 void main() => runApp(MaterialApp(home: AddItem()));
 
@@ -12,12 +14,12 @@ class AddItem extends StatefulWidget {
 class _AddItemState extends State<AddItem> {
   int val1 = 1;
   int val2 = 1;
-  TextEditingController ProductName = new TextEditingController();
-  TextEditingController PartnerName = new TextEditingController();
-  TextEditingController CategoryTag = new TextEditingController();
-  TextEditingController PurchasePrice = new TextEditingController();
-  TextEditingController SalePrice = new TextEditingController();
-  TextEditingController TaxRate = new TextEditingController();
+  TextEditingController productName = new TextEditingController();
+  TextEditingController partnerName = new TextEditingController();
+  TextEditingController categoryTag = new TextEditingController();
+  TextEditingController purchasePrice = new TextEditingController();
+  TextEditingController salePrice = new TextEditingController();
+  TextEditingController taxRate = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,7 @@ class _AddItemState extends State<AddItem> {
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: input_text_fields("Product Name", ProductName),
+                  child: InputTextFields(label:"Product Name", controller:productName),
                 ),
                 Container(
                   height: 35,
@@ -79,35 +81,35 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child:
-                      input_text_fields("Parnter Name (optional)", PartnerName),
+                    InputTextFields(label:"Partner Name (optional)", controller:partnerName),
                 ),
                 Container(
                   height: 35,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: input_text_fields("Category Tag", CategoryTag),
+                  child: InputTextFields(label:"Category Tag", controller:categoryTag),
                 ),
                 Container(
                   height: 35,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: input_text_fields("Purchase Price", PurchasePrice),
+                  child: InputTextFields(label:"Purchase Price", controller:purchasePrice),
                 ),
                 Container(
                   height: 35,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: input_text_fields("Sale Price", SalePrice),
+                  child: InputTextFields(label:"Sale Price", controller:salePrice),
                 ),
                 Container(
                   height: 35,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: input_text_fields("Tax Rate", TaxRate),
+                  child: InputTextFields(label:"Tax Rate", controller:taxRate),
                 ),
                 Container(
                     height: 35,
@@ -226,7 +228,9 @@ class _AddItemState extends State<AddItem> {
                     elevation: 7.0,
                     child: GestureDetector(
                       onTap: () async {
-                       var temp = await DBprovider.db.addItem(ProductName.text.toString(), PartnerName.text.toString(), CategoryTag.text.toString(), PurchasePrice.text.toString(),SalePrice.text.toString(),TaxRate.text.toString(),val1,val2);
+                        //TODO: have to change this to a class
+                       var temp = await DBprovider.db.addItem(productName.text.toString(), partnerName.text.toString(), categoryTag.text.toString(), purchasePrice.text.toString(),salePrice.text.toString(),taxRate.text.toString(),val1,val2);
+                       print(temp);
                       },
                       child: Center(
                         child: Text(
@@ -246,24 +250,5 @@ class _AddItemState extends State<AddItem> {
           ),
         ));
   }
-}
-
-Widget input_text_fields(String label, TextEditingController name) {
-  return TextField(
-      controller: name,
-      cursorColor: Colors.lightBlue,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        hintText: '$label',
-        hintStyle: GoogleFonts.lato(
-            textStyle: TextStyle(
-          color: Color.fromRGBO(60, 60, 67, 0.3),
-          fontSize: 14,
-        )),
-      ));
 }
 

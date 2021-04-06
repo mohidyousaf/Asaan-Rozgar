@@ -15,6 +15,22 @@ import 'package:asaanrozgar/main.dart';
 class AddAccounts extends StatefulWidget {
   @override
   _AddAccountsState createState() => _AddAccountsState();
+  String validateEmpty({String text}){
+    if (text.isEmpty){
+      return "field empty";
+    }
+    else{
+      return "";
+    }
+  }
+  String validateAccount({String text}){
+    if (text.isEmpty){
+      return "Invalid Account No";
+    }
+    else{
+      return "";
+    }
+  }
 }
 
 class _AddAccountsState extends State<AddAccounts> {
@@ -56,13 +72,13 @@ class _AddAccountsState extends State<AddAccounts> {
                   child: Column(
 
                     children: <Widget>[
-                      InputTextFields(label: 'Title', controller: Title,),
+                      InputTextFields(label: 'Title', controller: Title, validateFunc: widget.validateEmpty),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Name', controller: Name),
+                      InputTextFields(label: 'Name', controller: Name, validateFunc: widget.validateEmpty),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Account Number', controller: AccountNo),
+                      InputTextFields(label: 'Account Number', controller: AccountNo, validateFunc: widget.validateAccount),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Current Balance', controller: CurrentBal),
+                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: widget.validateEmpty),
                       SizedBox(height: 40),
                       Container(
                         height: 40.0,

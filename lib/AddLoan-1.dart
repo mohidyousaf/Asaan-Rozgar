@@ -6,16 +6,16 @@ import 'DataBase.dart';
 void main() {
   // TestWidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
-      home: AddAssets()
+      home: AddLoans()
   ));
 }
 
-class AddAssets extends StatefulWidget {
+class AddLoans extends StatefulWidget {
   @override
-  _AddAssetsState createState() => _AddAssetsState();
+  _AddLoansState createState() => _AddLoansState();
 }
 
-class _AddAssetsState extends State<AddAssets> {
+class _AddLoansState extends State<AddLoans> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

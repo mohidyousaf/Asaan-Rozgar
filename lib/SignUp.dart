@@ -4,25 +4,21 @@ import 'DataBase.dart';
 import 'SignIn.dart';
 // import 'package:asaan_rozgar/Widgets/long_circleBtt.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: signup()
-  ));
-}
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//
+//       home: SignUp()
+//   ));
+// }
 
-class signup extends StatefulWidget {
+class SignUp extends StatefulWidget {
   // This widget is the root of your application.
   @override
   _signupState createState() => _signupState();
 }
 
-class _signupState extends State<signup> {
+class _signupState extends State<SignUp> {
   TextEditingController FirstName = new TextEditingController();
   TextEditingController BusinessName = new TextEditingController();
   TextEditingController EmailAddress = new TextEditingController();
@@ -170,11 +166,7 @@ class _signupState extends State<signup> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .push(
-                                    MaterialPageRoute(
-                                        builder: (context)=> SignIn())
-                                  );
+                                  Navigator.pushNamed(context, '/signIn');
                                 },
                                 child: Text(
                                   'Login',

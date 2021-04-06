@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-void main() => runApp(MaterialApp(
-  home:MyApp(),
-));
+// void main() => runApp(MaterialApp(
+//   home:MyApp(),
+// ));
 
 class MyApp extends StatelessWidget {
   @override
