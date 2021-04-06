@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
+import 'package:asaanrozgar/Widgets/textfield.dart';
+import 'package:asaanrozgar/main.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: AddAssets()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: AddAccounts()
+//   ));
+// }
 
-class AddAssets extends StatefulWidget {
+class AddAccounts extends StatefulWidget {
   @override
-  _AddAssetsState createState() => _AddAssetsState();
+  _AddAccountsState createState() => _AddAccountsState();
 }
 
-class _AddAssetsState extends State<AddAssets> {
+class _AddAccountsState extends State<AddAccounts> {
   TextEditingController Title = new TextEditingController();
   TextEditingController Name = new TextEditingController();
   TextEditingController AccountNo = new TextEditingController();
   TextEditingController CurrentBal = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,87 +50,54 @@ class _AddAssetsState extends State<AddAssets> {
               padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
               color: Colors.white,
 
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                      controller: Title,
-                      decoration: InputDecoration(
-                          labelText: 'Title',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: Name,
-                      decoration: InputDecoration(
-                          labelText: 'Name',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: AccountNo,
-                      decoration: InputDecoration(
-                          labelText: 'Account Number',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    TextField(
-                      controller: CurrentBal,
-                      decoration: InputDecoration(
-                          labelText: 'Current Balance',
-                          labelStyle: TextStyle(
-                              color: Colors.grey
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey)
-                          )
-                      ),
-                    ),
-                    SizedBox(height: 40),
-                    Container(
-                      height: 40.0,
-                      width: 200.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.grey[900],
-                        color: Color.fromRGBO(11, 71, 109, 1.0),
-                        elevation: 7.0,
-                        child: TextButton(
-                          onPressed: () async{
-                            var temp = await DBprovider.db.addAccount(Title.text.toString(), Name.text.toString(), AccountNo.text.toString(),CurrentBal.text.toString());
-                          },
-                          child: Center(
-                            child: Text(
-                                'Add Account',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'lato'
-                                )
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+
+                    children: <Widget>[
+                      InputTextFields(label: 'Title', controller: Title,),
+                      SizedBox(height: 10),
+                      InputTextFields(label: 'Name', controller: Name),
+                      SizedBox(height: 10),
+                      InputTextFields(label: 'Account Number', controller: AccountNo),
+                      SizedBox(height: 10),
+                      InputTextFields(label: 'Current Balance', controller: CurrentBal),
+                      SizedBox(height: 40),
+                      Container(
+                        height: 40.0,
+                        width: 200.0,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20.0),
+                          shadowColor: Colors.grey[900],
+                          color: Color.fromRGBO(11, 71, 109, 1.0),
+                          elevation: 7.0,
+                          child: TextButton(
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                var temp = await DBprovider.db.addAccount(Title
+                                    .text.toString(),
+                                    Name.text.toString(),
+                                    AccountNo.text.toString(),
+                                    CurrentBal.text.toString());
+                                Navigator.pushNamed(context, '/home');
+                              }
+                            },
+                            child: Center(
+                              child: Text(
+                                  'Add Account',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'lato'
+                                  )
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
