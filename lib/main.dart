@@ -9,19 +9,23 @@ import 'package:asaanrozgar/AddAssets.dart';
 import 'package:asaanrozgar/AddEquity.dart';
 import 'package:asaanrozgar/AddLoan-1.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  var logged_in = false;
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('email');
+  // prefs.setString('email', 'adilaslamch@hotmail.com');
+  var email = prefs.getString('email');
+  print(email);
+
 
   runApp(MaterialApp(
       initialRoute: '/addAccount',
-
       routes: {
-        '/': (context) => logged_in ? MyApp() : SignUp(),
+        '/': (context) => email != null ? MyApp() : SignUp(),
         '/home': (context) => MyApp(),
         '/addItem': (context) => AddItem(),
         '/signIn': (context) => SignIn(),

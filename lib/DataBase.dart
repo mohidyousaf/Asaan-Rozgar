@@ -43,7 +43,7 @@ class DBprovider{
               CompanyID	INTEGER AUTOINCREMENT,
               Username	TEXT,
               CompanyName	Text,
-              CompanyDescription	,
+              CompanyDescription,
               TotalPayable	REAL,
               TotalReceivable	REAL,
               EmailAddress	TEXT,
@@ -239,6 +239,8 @@ class DBprovider{
   }
   addAccount(title, name, accountNo,currentBal)
   {
+
+
     return 'hello';
   }
   addAssets(name, description, type, value){
