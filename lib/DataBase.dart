@@ -174,6 +174,15 @@ class DBprovider{
               PRIMARY KEY(ExpenseID)
             );       
        ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS equity(
+              EquityID	INTEGER AUTOINCREMENT,
+              PartyID	INTEGER,
+              Type	TEXT,
+              Amount	REAL,
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              PRIMARY KEY(EquityID)
+            );       
+       ''');
         },
         version: 1
     );
@@ -224,4 +233,19 @@ class DBprovider{
     return maps;
 
   }
+  //TODO: BELOW DB FUNCTIONS
+  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2){
+    return 'hello';
+  }
+  addAccount(title, name, accountNo,currentBal)
+  {
+    return 'hello';
+  }
+  addAssets(name, description, type, value){
+    return name;
+  }
+  addEquity(name, amount){
+    return name;
+  }
+
 }
