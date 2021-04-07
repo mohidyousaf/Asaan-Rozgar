@@ -12,3 +12,12 @@ Widget Text_temp(label) {
     ),
   );
 }
+
+// Text('You will get',
+// style:TextStyle(
+// fontFamily: "Lato",
+// fontWeight: FontWeight.bold,
+// fontSize: 15.0,
+// color: Color.fromRGBO(46, 189, 133, 1.0),
+// ),
+// ),

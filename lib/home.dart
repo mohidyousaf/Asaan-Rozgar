@@ -31,7 +31,9 @@ class MyApp extends StatelessWidget {
 
         actions: <Widget>[IconButton(
           //TODO: MENU
-          onPressed: ()=>{},
+          onPressed: ()=>{
+            Navigator.pushNamed(context, '/menu')
+          },
         icon: Icon(Icons.menu),
       )
       ],
@@ -181,7 +183,40 @@ class Dashboard extends StatelessWidget {
 }
 
 // Sale + Expenses + month
-class Test extends StatelessWidget {
+class Test extends StatefulWidget {
+  @override
+  _TestState createState() => _TestState();
+}
+
+class _TestState extends State<Test> {
+  String curr = 'Mar';
+  List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
+
+  void changeMonth({type}){
+    String month;
+    int index = monthList.indexOf(curr);
+    if (type == 'inc'){
+      if (index >= monthList.length - 1){
+        month = monthList[0];
+      }
+      else{
+        month = monthList[ index + 1 ];
+      }
+    }
+    else if (type == 'dec'){
+      if (index <= 0){
+        month = monthList[monthList.length - 1];
+      }
+      else{
+        month = monthList[ index - 1 ];
+      }
+    }
+    print('hello' + month);
+    setState((){
+      curr = month;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,39 +224,48 @@ class Test extends StatelessWidget {
       width: 414,
       padding: EdgeInsets.symmetric(vertical:8.0),
       decoration: BoxDecoration(
-      // color: Colors.redAccent,   
+      // color: Colors.redAccent,
       ),
 
       child: Row(
-        
+
         children: [
           // Element#1
 
             Container(
               padding: EdgeInsets.only(bottom:30.0),
               child: Row(
-                
+
                   children: [
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios_rounded),
-                    color: Color.fromRGBO(136, 182, 211, 1), 
-                    onPressed: () {},
+                    color: Color.fromRGBO(136, 182, 211, 1),
+                    onPressed: () {
+                      changeMonth(type: 'dec');
+                      },
                     iconSize: 18,
                   ),
 
-                Text(
-                  'March',
-                  style: TextStyle(
-                        color: Color.fromRGBO(136, 182, 211, 1),
-                        fontFamily: "Lato",
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16,
-                         )
+                SizedBox(
+                  width: 35,
+                  child: Center(
+                    child: Text(
+                      curr,
+                      style: TextStyle(
+                            color: Color.fromRGBO(136, 182, 211, 1),
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                             )
+                      ),
                   ),
+                ),
                   IconButton(
                     icon: Icon(Icons.arrow_forward_ios_rounded),
-                    color: Color.fromRGBO(136, 182, 211, 1), 
-                    onPressed: () {},
+                    color: Color.fromRGBO(136, 182, 211, 1),
+                    onPressed: () {
+                      changeMonth(type: 'inc');
+                    },
                     iconSize: 18,
                   ),
                 ],
@@ -233,13 +277,13 @@ class Test extends StatelessWidget {
           //       vertical: 0,
           //       horizontal: 0,
           //     ),
-             
+
           //   ),
-           
+
           //  Element#2
           Column(
              crossAxisAlignment: CrossAxisAlignment.start ,
-             
+
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 2.0),
@@ -269,7 +313,7 @@ class Test extends StatelessWidget {
             ),
             ],),
               ),
-              
+
            Text(
               "Rs. 30000",
               style: TextStyle(
@@ -283,12 +327,12 @@ class Test extends StatelessWidget {
             ]
              ),
 
-          //Element#3 
+          //Element#3
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 25.0),
             child: Column(
                crossAxisAlignment: CrossAxisAlignment.start ,
-               
+
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 2.0),
@@ -305,7 +349,7 @@ class Test extends StatelessWidget {
                   ]
                   ),
                 ),
-                
+
              Text(
                 "Rs. 30000",
                 style: TextStyle(
@@ -319,7 +363,7 @@ class Test extends StatelessWidget {
               ]
                ),
           ),
-              
+
         ],
       )
     );
@@ -353,31 +397,28 @@ class _SegmentControlState extends State<SegmentControl> {
                    backgroundColor: Color.fromRGBO(118, 118, 128, 0.12),
                    children: <int, Widget>{
                      0: Text('Partners',
-                              
-                              style: TextStyle(
-                                        color: Color.fromRGBO(11, 71, 109, 1.0),
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        
-                                       )
-                              ),
-                     1: Text('Transactions',
-                     style: TextStyle(
-                                       color: Color.fromRGBO(11, 71, 109, 1.0),
-                                       fontFamily: "Lato",
-                                       fontWeight: FontWeight.bold,
-                                       fontSize: 14,
-                                      )
-                                     )
-                   },
+                         style: TextStyle(
+                            color: Color.fromRGBO(11, 71, 109, 1.0),
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
 
+                           )
+                        ),
+                     1: Text('Transactions',
+                         style: TextStyle(
+                           color: Color.fromRGBO(11, 71, 109, 1.0),
+                           fontFamily: "Lato",
+                           fontWeight: FontWeight.bold,
+                           fontSize: 14,
+                         )
+                       )
+                   },
                    onValueChanged: (v){
                      setState(() {
                        currentState = v;
                      });
                    },
-
                ),
                 ),
              ),
@@ -458,7 +499,7 @@ class _PartnersState extends State<Partners> {
                   ),
                   
                 ),
-                Divider(height: 1, thickness: 0.5, endIndent: 15,),
+              Divider(height: 1, thickness: 0.5, endIndent: 15,),
             ],
           ),
           
@@ -504,7 +545,52 @@ class _PartnersState extends State<Partners> {
                   ),
                   
                 ),
-                Divider(height: 1, thickness: 0.5, endIndent: 15,),
+              Divider(height: 1, thickness: 0.5, endIndent: 15,),
+            ],
+          ),
+          Column(
+            children: [
+              ListTile(
+                title: Text('Mohid',
+                  style:TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.normal,
+                    fontSize: 17.0,
+                    color: Color.fromRGBO(38, 51, 58, 1.0),
+                  ),
+                ),
+                subtitle: Text('13/12/2021',
+                  style:TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12.0,
+                    color: Color.fromRGBO(43, 59, 69, 0.7),
+                  ),),
+                trailing:
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('3000',
+                      style:TextStyle(
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        color: Color.fromRGBO(46, 189, 133, 1.0),
+                      ),
+                    ),
+                    Text('You will get',
+                      style:TextStyle(
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.0,
+                        color: Color.fromRGBO(46, 189, 133, 1.0),
+                      ),
+                    ),
+                  ],
+                ),
+
+              ),
+              Divider(height: 1, thickness: 0.5, endIndent: 15,),
             ],
           ),
         ],

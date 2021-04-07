@@ -4,7 +4,7 @@ import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
 
 
-void main() => runApp(MaterialApp(home: AddItem()));
+// void main() => runApp(MaterialApp(home: AddItem()));
 
 class AddItem extends StatefulWidget {
   @override

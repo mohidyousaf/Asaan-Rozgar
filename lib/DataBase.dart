@@ -16,7 +16,7 @@ class DBprovider{
     else
     {
       // delete = true only if database needs to be rebuilt from scratch
-      _database= await this.initDB(delete: true);
+      _database= await this.initDB(delete: false);
       print('returned');
       return _database;
     }
@@ -40,7 +40,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS company (
-              CompanyID	INTEGER AUTOINCREMENT,
+              CompanyID	INTEGER ,
               Username	TEXT,
               CompanyName	Text,
               CompanyDescription,
@@ -53,7 +53,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS accounts (
-              AccountID	INTEGER AUTOINCREMENT,
+              AccountID	INTEGER ,
               CompanyID	INTEGER,
               AccountType	TEXT,
               AccountNo	TEXT,
@@ -64,7 +64,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS transactions (
-              TransactionID	INTEGER AUTOINCREMENT,
+              TransactionID	INTEGER ,
               AccountID	INTEGER,
               PartyID	INTEGER,
               OrderID	INTEGER,
@@ -84,7 +84,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS parties (
-              PartyID	INTEGER AUTOINCREMENT,
+              PartyID	INTEGER ,
               PartyType	TEXT,
               PartyName	TEXT,
               Description	TEXT,
@@ -97,7 +97,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS orders (
-              OrderID	INTEGER AUTOINCREMENT,
+              OrderID	INTEGER ,
               PartyID	INTEGER,
               TotalPayable	REAL,
               TotalReceived	REAL,
@@ -107,7 +107,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS assets (
-              AssetID	INTEGER AUTOINCREMENT,
+              AssetID	INTEGER ,
               CompanyID	INTEGER,
               Name	TEXT,
               Type	TEXT,
@@ -118,7 +118,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS liabilities (
-              LiabilityID	INTEGER AUTOINCREMENT,
+              LiabilityID	INTEGER ,
               CompanyID	INTEGER,
               PartyID	INTEGER,
               BaseAmount	REAL,
@@ -135,7 +135,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS inventory (
-              ProductID	INTEGER AUTOINCREMENT,
+              ProductID	INTEGER ,
               PartyID	INTEGER,
               ProductName	TEXT,
               ProductDescription	TEXT,
@@ -147,7 +147,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS purchases (
-              PurchaseID	INTEGER AUTOINCREMENT,
+              PurchaseID	INTEGER ,
               ProductID	INTEGER,
               PurchasePrice	REAL,
               Quantity	INTEGER,
@@ -166,7 +166,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS expenses (
-              ExpenseID	INTEGER AUTOINCREMENT,
+              ExpenseID	INTEGER ,
               CompanyID	INTEGER,
               Type	TEXT,
               Description	TEXT,
@@ -175,7 +175,7 @@ class DBprovider{
             );       
        ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS equity(
-              EquityID	INTEGER AUTOINCREMENT,
+              EquityID INTEGER ,
               PartyID	INTEGER,
               Type	TEXT,
               Amount	REAL,
@@ -190,19 +190,22 @@ class DBprovider{
   }
   login(username, password) async {
     final db = await database;
+    String response = 'user not found';
     final List<Map<String, dynamic>> users = await db.query(
         'users',
         where: 'Username = ?;',
         whereArgs: [username]);
-
-    if (users[0]['Password'] == password)
-    {
-      return "correct password";
-    }
-    else
-    {
-      return 'incorrect password';
-    }
+    users.forEach((user) {
+      if (user['Password'] == password)
+      {
+        response = "correct password";
+      }
+      else
+      {
+        response =  'incorrect password';
+      }
+    });
+    return response;
   }
   newUser(username, name, emailAddress, password) async {
     final db = await database;

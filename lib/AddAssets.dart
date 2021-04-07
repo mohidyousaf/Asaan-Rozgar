@@ -5,12 +5,12 @@ import 'package:asaanrozgar/Widgets/textfield.dart';
 
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: AddAssets()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: AddAssets()
+//   ));
+// }
 
 class AddAssets extends StatefulWidget {
   @override

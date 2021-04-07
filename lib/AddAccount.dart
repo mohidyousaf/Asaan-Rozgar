@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
+import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:asaanrozgar/main.dart';
 
 
@@ -15,22 +16,8 @@ import 'package:asaanrozgar/main.dart';
 class AddAccounts extends StatefulWidget {
   @override
   _AddAccountsState createState() => _AddAccountsState();
-  String validateEmpty({String text}){
-    if (text.isEmpty){
-      return "field empty";
-    }
-    else{
-      return "";
-    }
-  }
-  String validateAccount({String text}){
-    if (text.isEmpty){
-      return "Invalid Account No";
-    }
-    else{
-      return "";
-    }
-  }
+
+
 }
 
 class _AddAccountsState extends State<AddAccounts> {
@@ -72,13 +59,13 @@ class _AddAccountsState extends State<AddAccounts> {
                   child: Column(
 
                     children: <Widget>[
-                      InputTextFields(label: 'Title', controller: Title, validateFunc: widget.validateEmpty),
+                      InputTextFields(label: 'Title', controller: Title, validateFunc: ValidationFunctions.validateEmpty),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Name', controller: Name, validateFunc: widget.validateEmpty),
+                      InputTextFields(label: 'Name', controller: Name, validateFunc: ValidationFunctions.validateEmpty),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Account Number', controller: AccountNo, validateFunc: widget.validateAccount),
+                      InputTextFields(label: 'Account Number', controller: AccountNo, validateFunc: ValidationFunctions.validateAccount),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: widget.validateEmpty),
+                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: ValidationFunctions.validateEmpty),
                       SizedBox(height: 40),
                       Container(
                         height: 40.0,

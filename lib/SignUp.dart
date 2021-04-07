@@ -1,8 +1,9 @@
+import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'SignIn.dart';
-// import 'package:asaan_rozgar/Widgets/long_circleBtt.dart';
+import 'package:asaanrozgar/Widgets/textfield.dart';
 
 // void main() {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,8 @@ class _signupState extends State<SignUp> {
   TextEditingController EmailAddress = new TextEditingController();
   TextEditingController Password = new TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+  AutovalidateMode autoValid = AutovalidateMode.disabled;
 
 
   @override
@@ -63,120 +66,93 @@ class _signupState extends State<SignUp> {
               ),
             ),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
-                //height: 547.0,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0)
-                    )
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                      children: <Widget>[
-                        TextField(
-                          controller: FirstName,
-                          decoration: InputDecoration(
-                              labelText: 'Username',
-                              labelStyle: TextStyle(
-                                  color: Colors.grey
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey)
-                              )
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-                        TextField(
-                          controller: BusinessName,
-                          decoration: InputDecoration(
-                              labelText: 'Name',
-                              labelStyle: TextStyle(
-                                  color: Colors.grey
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey)
-                              )
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-                        TextField(
-                          controller: EmailAddress,
-                          decoration: InputDecoration(
-                              labelText: 'Email Address',
-                              labelStyle: TextStyle(
-                                  color: Colors.grey
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey)
-                              )
-                          ),
-                        ),
-                        SizedBox(height: 20.0),
-                        TextField(
-                          controller: Password,
-                          decoration: InputDecoration(
-                              labelText: 'Password',
-                              labelStyle: TextStyle(
-                                  color: Colors.grey
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey)
-                              )
-                          ),
-                          obscureText: true,
-                        ),
-                        SizedBox(height: 50.0),
-                        Container(
-                            height: 40.0,
-                            width: 200.0,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(20.0),
-                              shadowColor: Colors.grey[900],
-                              color: Color.fromRGBO(11, 71, 109, 1.0),
-                              elevation: 7.0,
-                              child: TextButton(
-                                onPressed: () async{
-                                  var temp = await DBprovider.db.newUser(FirstName.text.toString(), BusinessName.text.toString(),EmailAddress.text.toString(),Password.text.toString());
-                                  SignIn();
-                                },
-                                child: Center(
-                                  child: Text(
-                                    'Let\'s Get Started',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+              child: Form(
+                autovalidateMode: autoValid,
+                key: _formKey,
+                child: Container(
+                  padding: EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
+                  //height: 547.0,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0)
+                      )
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                        children: <Widget>[
+                          InputTextFields(label: 'Username', controller:FirstName,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Name', controller:BusinessName,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Email Address', controller:EmailAddress,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Password', controller:Password,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 50.0),
+                          Container(
+                              height: 40.0,
+                              width: 200.0,
+                              child: Material(
+                                borderRadius: BorderRadius.circular(20.0),
+                                shadowColor: Colors.grey[900],
+                                color: Color.fromRGBO(11, 71, 109, 1.0),
+                                elevation: 7.0,
+                                child: TextButton(
+                                  onPressed: () async{
+                                    if (_formKey.currentState.validate()) {
+                                      var temp = await DBprovider.db.newUser(
+                                          FirstName.text.toString(), BusinessName.text.toString(),
+                                          EmailAddress.text.toString(), Password.text.toString());
+                                      Navigator.pushReplacementNamed(context, '/signIn');
+                                    }
+                                    else{
+                                      setState((){
+                                        autoValid = AutovalidateMode.always;
+                                      });
+                                      print('yoooooooooooo');
+                                    }
+                                  },
+                                  child: Center(
+                                    child: Text(
+                                      'Let\'s Get Started',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )),
-                        SizedBox(height: 20.0),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Already have an account?',
-                                style: TextStyle(
-                                    color: Colors.grey
+                              )),
+                          SizedBox(height: 20.0),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Already have an account?',
+                                  style: TextStyle(
+                                      color: Colors.grey
+                                  ),
                                 ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/signIn');
-                                },
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(color: Colors.blue[900]),
-                                ),
-                              )
-                            ],
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/signIn');
+                                  },
+                                  child: Text(
+                                    'Login',
+                                    style: TextStyle(color: Colors.blue[900]),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ]
+                        ]
+                    ),
                   ),
                 ),
               ),

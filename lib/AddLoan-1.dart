@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: AddLoans()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: AddLoans()
+//   ));
+// }
 
 class AddLoans extends StatefulWidget {
   @override

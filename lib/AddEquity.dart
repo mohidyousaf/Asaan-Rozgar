@@ -4,12 +4,12 @@ import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: AddEquities()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: AddEquities()
+//   ));
+// }
 
 class AddEquities extends StatefulWidget {
   @override

@@ -3,19 +3,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: AddAssets()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: AddLoans_2()
+//   ));
+// }
 
-class AddAssets extends StatefulWidget {
+class AddLoans_2 extends StatefulWidget {
   @override
-  _AddAssetsState createState() => _AddAssetsState();
+  _AddLoans_2State createState() => _AddLoans_2State();
 }
 
-class _AddAssetsState extends State<AddAssets> {
+class _AddLoans_2State extends State<AddLoans_2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

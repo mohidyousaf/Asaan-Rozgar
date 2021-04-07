@@ -36,6 +36,7 @@ class _InputTextFieldsState extends State<InputTextFields> {
     return TextFormField(
         controller: widget.controller,
         cursorColor: Colors.lightBlue,
+        obscureText: widget.label=='Password' ? true : false,
         validator: (text) {
           return widget.validateFunc(text:text);
 

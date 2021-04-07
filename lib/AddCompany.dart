@@ -5,12 +5,12 @@ import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'package:asaanrozgar/main.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: AddCompany()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: AddCompany()
+//   ));
+// }
 
 class AddCompany extends StatefulWidget {
   @override
