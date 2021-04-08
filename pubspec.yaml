@@ -35,12 +35,10 @@ dev_dependencies:
     sdk: flutter
   adaptive_action_sheet: ^2.0.0
   google_fonts: ^2.0.0
-#<<<<<<< HEAD
   material_floating_search_bar: ^0.3.3
-#=======
   shared_preferences: ^2.0.5
 
-#>>>>>>> 1b1075518544850f9555616efa3421e9308ca501
+>>>>>>> 1b1075518544850f9555616efa3421e9308ca501
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
