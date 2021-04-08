@@ -17,7 +17,6 @@ Widget input_text_fields(String label,String hinttext){
                     );
 }
 
-
 //SHIFFA STYLE
 class InputTextFields extends StatefulWidget {
 
