@@ -17,8 +17,8 @@ class _filter_listState extends State<filter_list> {
    @override
    void init_State(){
      super.initState();
-     selected_value=0;
-     dropdownvalue="";
+     selected_value = 0;
+     dropdownvalue = "";
    }
 
    void selected_button(int value){

@@ -44,12 +44,10 @@ Widget std_chinbar(int color_red,int color_green, int color_blue){
         );
 
 }
-
 Widget action_button (int color_red,int color_green, int color_blue) {
   return FloatingActionButton(
           backgroundColor: Color.fromRGBO(color_red, color_green, color_blue, 1.0),
           onPressed: () {},
           child: Icon(Icons.add,color: Colors.white),
           );
-
 }

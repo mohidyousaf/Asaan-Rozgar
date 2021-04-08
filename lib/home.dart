@@ -1,5 +1,7 @@
+import 'package:asaanrozgar/DataBase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 
 
 // void main() => runApp(MaterialApp(
@@ -39,25 +41,33 @@ class MyApp extends StatelessWidget {
       ],
     ),
     body: SingleChildScrollView(
-    child: Column(children: [
-      Dashboard(),
-      Test(),
-      Container(
-      height: MediaQuery.of(context).size.height * 0.7,
-      width: MediaQuery.of(context).size.width,
-      // margin: EdgeInsets.only(top: 200),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(26),
-        topRight: Radius.circular(26),
-      ),
-      ),
-      child: SegmentControl(),
+      child: Column(children: [
+        Dashboard(),
+        Test(),
+        Container(
+        height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width,
+        // margin: EdgeInsets.only(top: 200),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(26),
+          topRight: Radius.circular(26),
+        ),
+        ),
+          child: SegmentControl(),
     ),
     ],
     ),
     ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+        onPressed: (){},
+        child: Icon(Icons.add,color: Colors.white),
+      ),
+      bottomNavigationBar: std_chinbar(0,0,0),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
     );
   }
 }
@@ -380,7 +390,10 @@ class _SegmentControlState extends State<SegmentControl> {
   int currentState = 0;
   List<Map<String, String>> partnerList = [];
   void getList() async{
-
+    var temp = await DBprovider.db.getPartyList();
+    setState((){
+      partnerList = temp;
+    });
 
   }
   @override
@@ -388,7 +401,7 @@ class _SegmentControlState extends State<SegmentControl> {
     super.initState();
     getList();
   }
-  List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
+  // List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
   List<Map<String, String>> transactionList = [{'name':'Sale','amount':'30000'},{'name':'Purchase','amount':'5000'}];
 
   Widget segmentControl()

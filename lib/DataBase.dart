@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -300,4 +301,14 @@ class DBprovider{
 
   }
 
+  getPartyList() async{
+    final db = await database;
+    var res = await db.query('parties',
+    columns: ['PartyName', 'Receivable']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'name':element['PartyName'], 'amount':element['Receivable'].toString()});
+    });
+    return list;
+  }
 }
