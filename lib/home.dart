@@ -1,3 +1,4 @@
+import 'package:asaanrozgar/DataBase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -379,7 +380,10 @@ class _SegmentControlState extends State<SegmentControl> {
   int currentState = 0;
   List<Map<String, String>> partnerList = [];
   void getList() async{
-
+    var temp = await DBprovider.db.getPartyList();
+    setState((){
+      partnerList = temp;
+    });
 
   }
   @override
@@ -387,7 +391,7 @@ class _SegmentControlState extends State<SegmentControl> {
     super.initState();
     getList();
   }
-  List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
+  // List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
   List<Map<String, String>> transactionList = [{'name':'Sale','amount':'30000'},{'name':'Purchase','amount':'5000'}];
 
   Widget segmentControl()
