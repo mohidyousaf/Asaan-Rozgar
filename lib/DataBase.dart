@@ -252,5 +252,16 @@ class DBprovider{
   addEquity(name, amount){
     return name;
   }
+  addParty(partyType, partyName,partyDescription,emailAddress,contactNo,accountNo,payable,receivable) async{
+    final db = await database;
+    print(partyName);
+    var res = await db.rawInsert('''
+    INSERT INTO parties(
+      PartyType,PartyName,Description,EmailAddress, ContactNo, AccountNo, Receivable, Payable
+    ) VALUES (?,?,?,?,?,?,?,?)
+    ''', [partyType, partyName, partyDescription, emailAddress, contactNo, accountNo, receivable, payable]);
+
+    return res;
+  }
 
 }

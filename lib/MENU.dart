@@ -98,6 +98,7 @@ class _MenuState extends State<Menu> {
 
             RaisedButton.icon(
               onPressed: (){
+                Navigator.pushReplacementNamed(context, '/addParty');
               },
               icon: new Image.asset('assets/person.png'),
               label: Text(
@@ -204,7 +205,7 @@ class _MenuState extends State<Menu> {
               onPressed: () async{
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.remove('loggedIn');
-                Navigator.pushNamed(context, '/signIn');
+                Navigator.pushReplacementNamed(context, '/signIn');
               },
               icon: new Image.asset('assets/Plus.png',height: 12),
               label: Text(

@@ -235,7 +235,6 @@ class _TestState extends State<Test> {
             Container(
               padding: EdgeInsets.only(bottom:30.0),
               child: Row(
-
                   children: [
                   IconButton(
                     icon: Icon(Icons.arrow_back_ios_rounded),

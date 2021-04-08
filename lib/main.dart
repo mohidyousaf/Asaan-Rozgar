@@ -13,6 +13,8 @@ import 'package:asaanrozgar/MENU.dart';
 import 'package:asaanrozgar/AddCompany.dart';
 import 'package:asaanrozgar/CompanySetup.dart';
 import 'package:asaanrozgar/CompanySetup1.dart';
+import 'package:asaanrozgar/AddParty.dart';
+
 
 
 import 'package:google_fonts/google_fonts.dart';
@@ -37,6 +39,7 @@ void main() async{
         '/addItem': (context) => AddItem(),
         '/signIn': (context) => SignIn(),
         '/addAccount': (context) => AddAccounts(),
+        '/addParty': (context) => AddParty(),
         '/addEquity': (context) => AddEquities(),
         '/addAssets': (context) => AddAssets(),
         '/addLoan1': (context) => AddLoans(),
