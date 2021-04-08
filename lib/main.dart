@@ -14,7 +14,9 @@ import 'package:asaanrozgar/AddCompany.dart';
 import 'package:asaanrozgar/CompanySetup.dart';
 import 'package:asaanrozgar/CompanySetup1.dart';
 import 'package:asaanrozgar/AddParty.dart';
-
+import 'package:asaanrozgar/Purchase1.dart';
+import 'package:asaanrozgar/Purchase2.dart';
+import 'package:asaanrozgar/Purchase3.dart';
 
 
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +32,7 @@ void main() async{
 
 
   runApp(MaterialApp(
-      // initialRoute: '/addAccount',
+      initialRoute: '/purchase',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? MyApp() : SignUp(),
@@ -47,6 +49,9 @@ void main() async{
         '/addCompany': (context) => AddCompany(),
         '/setup1': (context) => company_setup(),
         '/setup2': (context) => company_setup1(),
+        '/purchase':(context)=> Purchase(),
+        '/purchase2':(context)=> Purchase2(),
+        '/purchase3':(context)=> Purchase3(),
 
       },
       theme: ThemeData(

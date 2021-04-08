@@ -51,8 +51,8 @@ class _SignInState extends State<SignIn> {
               // color: Colors.white,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40.0),
-                      topLeft: Radius.circular(40.0),
+                      topRight: Radius.circular(26.0),
+                      topLeft: Radius.circular(26.0),
                       ),
                   color: Colors.white),
 

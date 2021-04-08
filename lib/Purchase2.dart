@@ -1,19 +1,20 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-//import 'DataBase.dart';
+import 'DataBase.dart';
 
-void main() => runApp(MaterialApp(home: AddItem()));
+// void main() => runApp(MaterialApp(home: Purchase2()));
 
-class AddItem extends StatefulWidget {
+class Purchase2 extends StatefulWidget {
   @override
-  _AddItemState createState() => _AddItemState();
+  _Purchase2State createState() => _Purchase2State();
 }
 
-class _AddItemState extends State<AddItem> {
-  int balance = 990;
+class _Purchase2State extends State<Purchase2> {
+
+  Map data={};
+  String name;
   bool toGive = false;
-  String name = "Alina Anjum";
   int invoiceNo = 8;
   TextEditingController ProductName = new TextEditingController();
   TextEditingController PartnerName = new TextEditingController();
@@ -21,15 +22,65 @@ class _AddItemState extends State<AddItem> {
   TextEditingController PurchasePrice = new TextEditingController();
   TextEditingController SalePrice = new TextEditingController();
   TextEditingController TaxRate = new TextEditingController();
+  double receivable;
+  double payable;
+  String Balance_message='';
+  double balance;
+  List <Map<String,dynamic>> temp;
+
+  getData()async{
+    List <Map<String,dynamic>> temp2 =  await DBprovider.db.getData(name);
+   setState(() {
+     temp=temp2;
+     print('data is');
+     print(temp);
+     temp.forEach((user){
+       payable = user['Payable'];
+       receivable= user['Receivable'];
+       if (payable>receivable){
+         balance = payable - receivable;
+         Balance_message= "You'll Pay";
+       }
+       else{
+         balance = receivable - payable;
+         Balance_message= "You'll Get";
+       }
+       print('-----------');
+     });
+   });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("init");
+    // future that allows us to access context. function is called inside the future
+    // otherwise it would be skipped and args would return null
+    Future.delayed(Duration.zero, () {
+      getData();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      name = data['name'];
+    });
+
+    print(balance);
+    print(Balance_message);
+
     return Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .1,
           leading: IconButton(
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.pop(context)
+            },
             icon: Icon(Icons.arrow_back_ios),
           ),
           title: Text("Payment Details",
@@ -67,7 +118,7 @@ class _AddItemState extends State<AddItem> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name,
+                    Text(data['name'],
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w500,
@@ -98,7 +149,7 @@ class _AddItemState extends State<AddItem> {
                           children: [
                             Container(
                               child: (toGive == true)
-                                  ? Text("You'll Give",
+                                  ? Text(Balance_message,
                                       style: TextStyle(
                                         fontFamily: "Lato",
                                         fontWeight: FontWeight.w800,
@@ -133,85 +184,97 @@ class _AddItemState extends State<AddItem> {
                     topLeft: Radius.circular(26),
                     topRight: Radius.circular(26),
                   )),
-              child: Column(children: [
-                SizedBox(height: 25),
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Text("Invoice No:  ",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(107, 143, 165, 0.7),
-                        )),
-                    Text("$invoiceNo",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        )),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                    Text("Date: ",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(107, 143, 165, 0.7),
-                        )),
-                    Text("16/11/2000 @",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        )),
-                  ],
-                ),
-                 FlatButton(
-                   onPressed: () {},
-                   height: 30,
-                   minWidth: 200,
-                   child: Text('ADD ITEMS(OPTIONAL)',
-                   style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14.0,
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        )),
-                   color: Color.fromRGBO(136, 182, 211, 0.67)
-                 ),
-                 Text("Total"),
-                 TextField(),
-                 TextField(),
-                 Text("Payment Type"),
-                 Text("Cash v"),
-                 Row(
-                   children: [
-                     Column(
-                       children: [
-                         Text("Balance Due"),
-                         Text("Rs.0.00"),
-                       ],
-                     ),
-                     SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                     FlatButton(
-                   onPressed: () {},
-                   child: Text('SAVE',
-                   style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14.0,
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        )),
-                   color: Color.fromRGBO(136, 182, 211, 0.67)
-                 ),
-                   ]
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(13, 0, 0, 0),
+                child: Column(children: [
+                  SizedBox(height: 25),
+                  Row(
+                    children: [
+                      SizedBox(width: 20),
+                      Text("Invoice No:  ",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(107, 143, 165, 0.7),
+                          )),
+                      Text("$invoiceNo",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(11, 71, 109, 1.0),
+                          )),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                      Text("Date: ",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(107, 143, 165, 0.7),
+                          )),
+                      Text("16/11/2000 @",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(11, 71, 109, 1.0),
+                          )),
+                    ],
                   ),
 
-              ]),
+                   SizedBox(height: 20),
+                   FlatButton(
+                     onPressed: () {
+                       Navigator.pushNamed(context, '/purchase3');
+                     },
+                     height: 30,
+                     minWidth: 200,
+                     child: Text('ADD ITEMS(OPTIONAL)',
+                     style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                            color: Color.fromRGBO(11, 71, 109, 1.0),
+                          )),
+                     color: Color.fromRGBO(136, 182, 211, 0.67)
+                   ),
+                   Align(
+                     alignment: Alignment.centerLeft,
+                     child: Text(
+                         "Total",
+                     ),
+                   ),
+                   TextField(),
+                   TextField(),
+                   Text("Payment Type"),
+                   Text("Cash v"),
+                   Row(
+                     children: [
+                       Column(
+                         children: [
+                           Text("Balance Due"),
+                           Text("Rs.0.00"),
+                         ],
+                       ),
+                       SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                       FlatButton(
+                     onPressed: () {},
+                     child: Text('NEXT',
+                     style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14.0,
+                            color: Color.fromRGBO(11, 71, 109, 1.0),
+                          )),
+                     color: Color.fromRGBO(136, 182, 211, 0.67)
+                   ),
+                     ]
+                    ),
+
+                ]),
+              ),
             )),
           ],
         ));

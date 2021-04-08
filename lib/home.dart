@@ -89,6 +89,7 @@ class Dashboard extends StatelessWidget {
                 // child: Text()
                 children: [
                   RichText(
+
                       text: TextSpan(
                           style:TextStyle(
                             color: Color.fromRGBO(46,189,133,1),

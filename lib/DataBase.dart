@@ -237,8 +237,16 @@ class DBprovider{
 
   }
   //TODO: BELOW DB FUNCTIONS
-  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2){
-    return 'hello';
+  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2)async{
+    final db = await database;
+    print(productName);
+    var res = await db.rawInsert('''
+    INSERT INTO inventory(
+      PartyID,ProductName,ProductDescription,ProductPicture,TaxRate,SalePrice
+    ) VALUES (?,?,?,?,?,?,?,?)
+    ''', [productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2]);
+
+    return res;
   }
   addAccount(title, name, accountNo,currentBal)
   {
@@ -262,6 +270,34 @@ class DBprovider{
     ''', [partyType, partyName, partyDescription, emailAddress, contactNo, accountNo, receivable, payable]);
 
     return res;
+  }
+
+  getParties() async{
+    final db =await database;
+    final List<Map<String, dynamic>> parties = await db.rawQuery('''
+        SELECT * FROM parties;
+      ''');
+    print(parties);
+
+    List <String> temp = [];
+    parties.forEach((party){
+      temp.add(party['PartyName']);
+    });
+
+    return temp;
+
+  }
+
+  getData(name) async{
+
+    final db =await database;
+
+    final List<Map<String, dynamic>> parties = await db.rawQuery('''
+        SELECT * FROM parties WHERE PartyName= ?;
+      ''',[name]);
+
+    return parties;
+
   }
 
 }

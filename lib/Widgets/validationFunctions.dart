@@ -16,6 +16,17 @@ class ValidationFunctions {
       return null;
     }
   }
+
+  static String validateEmail({String text}){
+    if (text.isEmpty){
+      return "field empty";
+    }
+    else{
+      return null;
+    }
+  }
 }
+
+// validatefunction : ValidationFunctions.validateAccount
 
 
