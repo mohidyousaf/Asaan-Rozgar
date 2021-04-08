@@ -16,6 +16,15 @@ class ValidationFunctions{
       return null;
     }
   }
+
+  static String validateEmail({String text}){
+    if (text != 'dfsfsd'){
+      return 'error message';
+    }
+    else{
+      return null;
+    }
+  }
 }
 
 

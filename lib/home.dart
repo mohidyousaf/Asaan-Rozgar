@@ -1,6 +1,7 @@
 import 'package:asaanrozgar/DataBase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 
 
 // void main() => runApp(MaterialApp(
@@ -40,25 +41,33 @@ class MyApp extends StatelessWidget {
       ],
     ),
     body: SingleChildScrollView(
-    child: Column(children: [
-      Dashboard(),
-      Test(),
-      Container(
-      height: MediaQuery.of(context).size.height * 0.7,
-      width: MediaQuery.of(context).size.width,
-      // margin: EdgeInsets.only(top: 200),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(26),
-        topRight: Radius.circular(26),
-      ),
-      ),
-      child: SegmentControl(),
+      child: Column(children: [
+        Dashboard(),
+        Test(),
+        Container(
+        height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width,
+        // margin: EdgeInsets.only(top: 200),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(26),
+          topRight: Radius.circular(26),
+        ),
+        ),
+          child: SegmentControl(),
     ),
     ],
     ),
     ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+        onPressed: (){},
+        child: Icon(Icons.add,color: Colors.white),
+      ),
+      bottomNavigationBar: std_chinbar(0,0,0),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
     );
   }
 }

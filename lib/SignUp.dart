@@ -74,7 +74,7 @@ class _signupState extends State<SignUp> {
                     child: Column(
                         children: <Widget>[
                           InputTextFields(label: 'Username', controller:FirstName,
-                              validateFunc: ValidationFunctions.validateEmpty),
+                              validateFunc: ValidationFunctions.validateEmail),
                           SizedBox(height: 20.0),
                           InputTextFields(label: 'Name', controller:BusinessName,
                               validateFunc: ValidationFunctions.validateEmpty),

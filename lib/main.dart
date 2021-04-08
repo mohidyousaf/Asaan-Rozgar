@@ -27,8 +27,6 @@ void main() async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedIn = prefs.getString('loggedIn');
   print(loggedIn);
-
-
   runApp(MaterialApp(
       // initialRoute: '/addAccount',
       debugShowCheckedModeBanner:false,
