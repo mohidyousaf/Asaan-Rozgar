@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:asaanrozgar/Widgets/long_circleBtt.dart';
+import 'package:asaanrozgar/Widgets/buttons.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: company_setup()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       theme: ThemeData(
+//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+//         accentColor: Colors.white,
+//         textTheme: GoogleFonts.latoTextTheme(),
+//       ),
+//       home: company_setup()
+//   ));
+// }
 
 class company_setup extends StatefulWidget {
   @override

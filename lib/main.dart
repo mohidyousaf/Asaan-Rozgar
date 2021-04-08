@@ -1,90 +1,60 @@
 import 'package:flutter/material.dart';
-import 'DataBase.dart';
+// import 'DataBase.dart';
+import 'package:asaanrozgar/home.dart';
+import 'package:asaanrozgar/SignUp.dart';
+import 'package:asaanrozgar/Add_Item.dart';
+import 'package:asaanrozgar/SignIn.dart';
+import 'package:asaanrozgar/AddAccount.dart';
+import 'package:asaanrozgar/AddAssets.dart';
+import 'package:asaanrozgar/AddEquity.dart';
+import 'package:asaanrozgar/AddLoan-1.dart';
+import 'package:asaanrozgar/AddLoan-2.dart';
+import 'package:asaanrozgar/MENU.dart';
+import 'package:asaanrozgar/AddCompany.dart';
+import 'package:asaanrozgar/CompanySetup.dart';
+import 'package:asaanrozgar/CompanySetup1.dart';
+import 'package:asaanrozgar/AddParty.dart';
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
+
+
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  // List<Map<String, dynamic>> users = DBprovider.db.getUser();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var loggedIn = prefs.getString('loggedIn');
+  print(loggedIn);
+
 
   runApp(MaterialApp(
-      home: Home()
+      // initialRoute: '/addAccount',
+      debugShowCheckedModeBanner:false,
+      routes: {
+        '/': (context) => loggedIn != null ? MyApp() : SignUp(),
+        '/home': (context) => MyApp(),
+        '/menu': (context) => Menu(),
+        '/addItem': (context) => AddItem(),
+        '/signIn': (context) => SignIn(),
+        '/addAccount': (context) => AddAccounts(),
+        '/addParty': (context) => AddParty(),
+        '/addEquity': (context) => AddEquities(),
+        '/addAssets': (context) => AddAssets(),
+        '/addLoan1': (context) => AddLoans(),
+        '/addLoan2': (context) => AddLoans_2(),
+        '/addCompany': (context) => AddCompany(),
+        '/setup1': (context) => company_setup(),
+        '/setup2': (context) => company_setup1(),
+
+      },
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+          accentColor: Colors.white,
+          textTheme: GoogleFonts.latoTextTheme(),
+  ),
+
   ));
-}
-
-
-
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-
-  String response = "";
-  TextEditingController userEntry = new TextEditingController();
-  TextEditingController passEntry = new TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Asaan Rozgaar'),
-        centerTitle: true,
-        backgroundColor: Colors.cyan.shade900,
-      ),
-      body: Center(
-        child:Column(
-          children: <Widget>[
-            TextField(
-              controller: userEntry,
-              textAlign: TextAlign.left,
-              style:TextStyle(
-                fontSize: 40,
-              ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'username',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            TextField(
-              controller: passEntry,
-              obscureText: true,
-              textAlign: TextAlign.left,
-              style:TextStyle(
-                fontSize: 40,
-              ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'password',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            Text(response,
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 2,
-                color: Colors.grey[600],
-
-              ),
-            ),
-          ],
-        ),
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async{
-          var temp = await DBprovider.db.login(userEntry.text.toString(), passEntry.text.toString());
-          setState(() {
-            response = temp;
-          });
-
-
-        },
-        backgroundColor: Colors.cyan.shade900,
-      ),
-    );
-  }
 }
 

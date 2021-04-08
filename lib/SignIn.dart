@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: SignIn()
-  ));
-}
+import 'package:shared_preferences/shared_preferences.dart';
+
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       theme: ThemeData(
+//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+//         accentColor: Colors.white,
+//         textTheme: GoogleFonts.latoTextTheme(),
+//       ),
+//       home: SignIn()
+//   ));
+// }
 
 class SignIn extends StatefulWidget {
   @override
@@ -97,9 +99,18 @@ class _SignInState extends State<SignIn> {
                         child: TextButton(
                           onPressed: () async{
                             var temp = await DBprovider.db.login(userEntry.text.toString(), passEntry.text.toString());
-                            setState(() {
-                              response = temp;
-                            });
+                            print(temp);
+                            if (temp == 'incorrect password' || temp == 'user not found'){
+                              setState(() {
+                                response = temp;
+                              });
+                            }
+                            else{
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.setString('loggedIn', 'Yes');
+                              Navigator.pushReplacementNamed(context, '/home');
+                            }
+
                           },
                           child: Center(
                             child: Text(

@@ -16,7 +16,7 @@ class DBprovider{
     else
     {
       // delete = true only if database needs to be rebuilt from scratch
-      _database= await this.initDB(delete: true);
+      _database= await this.initDB(delete: false);
       print('returned');
       return _database;
     }
@@ -40,10 +40,10 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS company (
-              CompanyID	INTEGER,
+              CompanyID	INTEGER ,
               Username	TEXT,
               CompanyName	Text,
-              CompanyDescription	,
+              CompanyDescription,
               TotalPayable	REAL,
               TotalReceivable	REAL,
               EmailAddress	TEXT,
@@ -53,7 +53,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS accounts (
-              AccountID	INTEGER,
+              AccountID	INTEGER ,
               CompanyID	INTEGER,
               AccountType	TEXT,
               AccountNo	TEXT,
@@ -64,13 +64,13 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS transactions (
-              TransactionID	INTEGER,
+              TransactionID	INTEGER ,
               AccountID	INTEGER,
               PartyID	INTEGER,
               OrderID	INTEGER,
               AssetID	INTEGER,
-              LiabilityID	TEXT,
-              ExpenseID	TEXT,
+              LiabilityID	INTEGER,
+              ExpenseID	INTEGER,
               Amount	REAL,
               TransactionType	TEXT,
               Description	TEXT,
@@ -84,7 +84,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS parties (
-              PartyID	INTEGER,
+              PartyID	INTEGER ,
               PartyType	TEXT,
               PartyName	TEXT,
               Description	TEXT,
@@ -97,7 +97,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS orders (
-              OrderID	INTEGER,
+              OrderID	INTEGER ,
               PartyID	INTEGER,
               TotalPayable	REAL,
               TotalReceived	REAL,
@@ -107,7 +107,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS assets (
-              AssetID	INTEGER,
+              AssetID	INTEGER ,
               CompanyID	INTEGER,
               Name	TEXT,
               Type	TEXT,
@@ -118,7 +118,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS liabilities (
-              LiabilityID	INTEGER,
+              LiabilityID	INTEGER ,
               CompanyID	INTEGER,
               PartyID	INTEGER,
               BaseAmount	REAL,
@@ -135,7 +135,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS inventory (
-              ProductID	INTEGER,
+              ProductID	INTEGER ,
               PartyID	INTEGER,
               ProductName	TEXT,
               ProductDescription	TEXT,
@@ -147,7 +147,7 @@ class DBprovider{
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS purchases (
-              PurchaseID	INTEGER,
+              PurchaseID	INTEGER ,
               ProductID	INTEGER,
               PurchasePrice	REAL,
               Quantity	INTEGER,
@@ -159,18 +159,28 @@ class DBprovider{
               OrderID	INTEGER,
               ProductID	INTEGER,
               Quantity	INTEGER,
+              Price REAL,
               FOREIGN KEY(ProductID) REFERENCES inventory(ProductID),
               FOREIGN KEY(OrderID) REFERENCES orders(OrderID),
-              PRIMARY KEY(OrderID)
+              PRIMARY KEY(OrderID, ProductID)
             );
             ''');
       await db.execute('''CREATE TABLE IF NOT EXISTS expenses (
-              ExpenseID	INTEGER,
+              ExpenseID	INTEGER ,
               CompanyID	INTEGER,
               Type	TEXT,
               Description	TEXT,
               FOREIGN KEY(CompanyID) REFERENCES companies(CompanyID),
               PRIMARY KEY(ExpenseID)
+            );       
+       ''');
+      await db.execute('''CREATE TABLE IF NOT EXISTS equity(
+              EquityID INTEGER ,
+              PartyID	INTEGER,
+              Type	TEXT,
+              Amount	REAL,
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              PRIMARY KEY(EquityID)
             );       
        ''');
         },
@@ -180,19 +190,22 @@ class DBprovider{
   }
   login(username, password) async {
     final db = await database;
+    String response = 'user not found';
     final List<Map<String, dynamic>> users = await db.query(
         'users',
         where: 'Username = ?;',
         whereArgs: [username]);
-
-    if (users[0]['Password'] == password)
-    {
-      return "correct password";
-    }
-    else
-    {
-      return 'incorrect password';
-    }
+    users.forEach((user) {
+      if (user['Password'] == password)
+      {
+        response = "correct password";
+      }
+      else
+      {
+        response =  'incorrect password';
+      }
+    });
+    return response;
   }
   newUser(username, name, emailAddress, password) async {
     final db = await database;
@@ -223,4 +236,32 @@ class DBprovider{
     return maps;
 
   }
+  //TODO: BELOW DB FUNCTIONS
+  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2){
+    return 'hello';
+  }
+  addAccount(title, name, accountNo,currentBal)
+  {
+
+
+    return 'hello';
+  }
+  addAssets(name, description, type, value){
+    return name;
+  }
+  addEquity(name, amount){
+    return name;
+  }
+  addParty(partyType, partyName,partyDescription,emailAddress,contactNo,accountNo,payable,receivable) async{
+    final db = await database;
+    print(partyName);
+    var res = await db.rawInsert('''
+    INSERT INTO parties(
+      PartyType,PartyName,Description,EmailAddress, ContactNo, AccountNo, Receivable, Payable
+    ) VALUES (?,?,?,?,?,?,?,?)
+    ''', [partyType, partyName, partyDescription, emailAddress, contactNo, accountNo, receivable, payable]);
+
+    return res;
+  }
+
 }

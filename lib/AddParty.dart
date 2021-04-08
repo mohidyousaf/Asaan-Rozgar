@@ -4,17 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 
-class SignUp extends StatefulWidget {
+class AddParty extends StatefulWidget {
   // This widget is the root of your application.
   @override
-  _signupState createState() => _signupState();
+  _AddPartyState createState() => _AddPartyState();
 }
+class _AddPartyState extends State<AddParty> {
+  TextEditingController partyType = new TextEditingController();
+  TextEditingController partyName = new TextEditingController();
+  TextEditingController partyDescription = new TextEditingController();
+  TextEditingController emailAddress = new TextEditingController();
+  TextEditingController contactNo = new TextEditingController();
+  TextEditingController accountNo = new TextEditingController();
+  TextEditingController payable = new TextEditingController();
+  TextEditingController receivable = new TextEditingController();
 
-class _signupState extends State<SignUp> {
-  TextEditingController FirstName = new TextEditingController();
-  TextEditingController BusinessName = new TextEditingController();
-  TextEditingController EmailAddress = new TextEditingController();
-  TextEditingController Password = new TextEditingController();
+
 
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode autoValid = AutovalidateMode.disabled;
@@ -49,7 +54,7 @@ class _signupState extends State<SignUp> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Create Account',
+                    'Add Party',
                     style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Colors.white)),
                   ),
                   Image.asset('assets/Frame 7.png')
@@ -73,18 +78,31 @@ class _signupState extends State<SignUp> {
                   child: SingleChildScrollView(
                     child: Column(
                         children: <Widget>[
-                          InputTextFields(label: 'Username', controller:FirstName,
+                          InputTextFields(label: 'Party Type', controller:partyType,
                               validateFunc: ValidationFunctions.validateEmpty),
                           SizedBox(height: 20.0),
-                          InputTextFields(label: 'Name', controller:BusinessName,
+                          InputTextFields(label: 'Party Name', controller:partyName,
                               validateFunc: ValidationFunctions.validateEmpty),
                           SizedBox(height: 20.0),
-                          InputTextFields(label: 'Email Address', controller:EmailAddress,
+                          InputTextFields(label: 'Party Description', controller:partyDescription,
                               validateFunc: ValidationFunctions.validateEmpty),
                           SizedBox(height: 20.0),
-                          InputTextFields(label: 'Password', controller:Password,
+                          InputTextFields(label: 'Email Address', controller:emailAddress,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Contact No', controller:contactNo,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Account No', controller:accountNo,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Payables', controller:payable,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          SizedBox(height: 20.0),
+                          InputTextFields(label: 'Receivables', controller:receivable,
                               validateFunc: ValidationFunctions.validateEmpty),
                           SizedBox(height: 50.0),
+
                           Container(
                               height: 40.0,
                               width: 200.0,
@@ -96,10 +114,17 @@ class _signupState extends State<SignUp> {
                                 child: TextButton(
                                   onPressed: () async{
                                     if (_formKey.currentState.validate()) {
-                                      var temp = await DBprovider.db.newUser(
-                                          FirstName.text.toString(), BusinessName.text.toString(),
-                                          EmailAddress.text.toString(), Password.text.toString());
-                                      Navigator.pushReplacementNamed(context, '/signIn');
+                                      var temp = await DBprovider.db.addParty(
+                                          partyType.text.toString(),
+                                          partyName.text.toString(),
+                                          partyDescription.text.toString(),
+                                          emailAddress.text.toString(),
+                                          contactNo.text.toString(),
+                                          accountNo.text.toString(),
+                                          payable.text.toString(),
+                                          receivable.text.toString());
+                                    print(temp);
+                                    Navigator.pushReplacementNamed(context, '/home');
                                     }
                                     else{
                                       setState((){
@@ -110,7 +135,7 @@ class _signupState extends State<SignUp> {
                                   },
                                   child: Center(
                                     child: Text(
-                                      'Let\'s Get Started',
+                                      'Add Party',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -119,29 +144,7 @@ class _signupState extends State<SignUp> {
                                   ),
                                 ),
                               )),
-                          SizedBox(height: 20.0),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'Already have an account?',
-                                  style: TextStyle(
-                                      color: Colors.grey
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/signIn');
-                                  },
-                                  child: Text(
-                                    'Login',
-                                    style: TextStyle(color: Colors.blue[900]),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                          SizedBox(height: 50.0),
                         ]
                     ),
                   ),

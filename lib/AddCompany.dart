@@ -2,29 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
-import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:asaanrozgar/main.dart';
 
 
 // void main() {
 //   // TestWidgetsFlutterBinding.ensureInitialized();
 //   runApp(MaterialApp(
-//       home: AddAccounts()
+//       home: AddCompany()
 //   ));
 // }
 
-class AddAccounts extends StatefulWidget {
+class AddCompany extends StatefulWidget {
   @override
   _AddAccountsState createState() => _AddAccountsState();
-
-
 }
 
-class _AddAccountsState extends State<AddAccounts> {
-  TextEditingController Title = new TextEditingController();
-  TextEditingController Name = new TextEditingController();
-  TextEditingController AccountNo = new TextEditingController();
-  TextEditingController CurrentBal = new TextEditingController();
+class _AddAccountsState extends State<AddCompany> {
+  TextEditingController CompanyName = new TextEditingController();
+  TextEditingController CompanyDescription = new TextEditingController();
+  TextEditingController TotalPayable = new TextEditingController();
+  TextEditingController TotalReceivable = new TextEditingController();
+  TextEditingController EmailAddress = new TextEditingController();
+  TextEditingController CompanyNo = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class _AddAccountsState extends State<AddAccounts> {
           SizedBox(height:50),
           Center(
             child: Text(
-              'Add Account',
+              'Add Company',
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -59,13 +58,17 @@ class _AddAccountsState extends State<AddAccounts> {
                   child: Column(
 
                     children: <Widget>[
-                      InputTextFields(label: 'Title', controller: Title, validateFunc: ValidationFunctions.validateEmpty),
+                      InputTextFields(label: 'Company Name', controller: CompanyName,),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Name', controller: Name, validateFunc: ValidationFunctions.validateEmpty),
+                      InputTextFields(label: 'Company Description', controller: CompanyDescription),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Account Number', controller: AccountNo, validateFunc: ValidationFunctions.validateAccount),
+                      InputTextFields(label: 'Total Payable', controller: TotalPayable),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: ValidationFunctions.validateEmpty),
+                      InputTextFields(label: 'Total Receivable', controller: TotalReceivable),
+                      SizedBox(height: 10),
+                      InputTextFields(label: 'Email Address', controller: EmailAddress),
+                      SizedBox(height: 10),
+                      InputTextFields(label: 'Company No.', controller: CompanyNo),
                       SizedBox(height: 40),
                       Container(
                         height: 40.0,
@@ -77,18 +80,20 @@ class _AddAccountsState extends State<AddAccounts> {
                           elevation: 7.0,
                           child: TextButton(
                             onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                var temp = await DBprovider.db.addAccount(Title
-                                    .text.toString(),
-                                    Name.text.toString(),
-                                    AccountNo.text.toString(),
-                                    CurrentBal.text.toString());
-                                Navigator.pushNamed(context, '/home');
-                              }
+                              // if (_formKey.currentState.validate()) {
+                              //   var temp = await DBprovider.db.addAccount(
+                              //       CompanyName.text.toString(),
+                              //       CompanyDescription.text.toString(),
+                              //       TotalPayable.text.toString(),
+                              //       TotalReceivable.text.toString(),
+                              //       EmailAddress.text.toString(),
+                              //       CompanyNo.text.toString());
+                              //   Navigator.pushNamed(context, '/home');
+                              // }
                             },
                             child: Center(
                               child: Text(
-                                  'Add Account',
+                                  'Add Company',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
