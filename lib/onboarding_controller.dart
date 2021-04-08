@@ -1,4 +1,4 @@
-import 'package:sampleproject/onboarding_info.dart';
+import 'package:asaanrozgar/onboarding_info.dart';
 
 class OnboardingController {
   List <OnboardingInfo> onboardingScreens = [

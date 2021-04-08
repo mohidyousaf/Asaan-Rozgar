@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sampleproject/onboarding_controller.dart';
+import 'package:asaanrozgar/onboarding_controller.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
 void main() {
