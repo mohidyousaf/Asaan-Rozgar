@@ -377,6 +377,18 @@ class SegmentControl extends StatefulWidget {
 
 class _SegmentControlState extends State<SegmentControl> {
   int currentState = 0;
+  List<Map<String, String>> partnerList = [];
+  void getList() async{
+
+
+  }
+  @override
+  void initState(){
+    super.initState();
+    getList();
+  }
+  List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
+  List<Map<String, String>> transactionList = [{'name':'Sale','amount':'30000'},{'name':'Purchase','amount':'5000'}];
 
   Widget segmentControl()
   {
@@ -421,7 +433,7 @@ class _SegmentControlState extends State<SegmentControl> {
                ),
                 ),
              ),
-             currentState == 0 ? Partners() : Transactions(),
+             currentState == 0 ? Partners(list:partnerList) : Transactions(list:transactionList),
            ],
          ),
         
@@ -439,183 +451,76 @@ class _SegmentControlState extends State<SegmentControl> {
   }
 }
 
-
-// Widget: List
-class Partners extends StatefulWidget {
+class Partners extends StatelessWidget {
+  const Partners({this.list});
+  final List<Map<String, String>> list;
   @override
-  _PartnersState createState() => _PartnersState();
+  Widget build(BuildContext context) {
+    return Column(
+        children: list.map((item) => ListItem(name:item['name'], amount:item['amount'])).toList()
+    );
+  }
 }
 
-class _PartnersState extends State<Partners> {
+class Transactions extends StatelessWidget {
+  const Transactions({this.list});
+  final List<Map<String, String>> list;
   @override
-
   Widget build(BuildContext context) {
-    //final items = ['Horse', 'Cow', 'Camel', 'Sheep', 'Goat'];
-    // Define Class Partner Here
-    return Container(
-      child: 
-      Column(
+    return Column(
+        children: list.map((item) => ListItem(name:item['name'], amount:item['amount'])).toList()
+    );
+  }
+}
+
+class ListItem extends StatelessWidget {
+
+  const ListItem({this.name, this.amount});
+  final name;
+  final amount;
+  @override
+  Widget build(BuildContext context) {
+    return  Column(
         children: [
-          Column(
-            children: [
-              ListTile(
-                  title: Text('Mohid',
-                  style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.normal,
-                    fontSize: 17.0,
-                    color: Color.fromRGBO(38, 51, 58, 1.0),
+            ListTile(
+              title: Text(name,
+              style:TextStyle(
+                  fontFamily: "Lato",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17.0,
+                  color: Color.fromRGBO(38, 51, 58, 1.0),
                   ),
-                  ),
-                  subtitle: Text('13/12/2021',
-                  style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(43, 59, 69, 0.7),
-                  ),),
-                  trailing: 
+              ),
+              subtitle: Text(''),
+              trailing:
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('3000',
-                            style:TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                              color: Color.fromRGBO(46, 189, 133, 1.0),
-                            ),
-                            ),
-                      Text('You will get',
-                            style:TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                              color: Color.fromRGBO(46, 189, 133, 1.0),
-                            ),
-                            ),
-                    ],
-                  ),
-                  
-                ),
-              Divider(height: 1, thickness: 0.5, endIndent: 15,),
-            ],
-          ),
-          
-          Column(
-            children: [
-              ListTile(
-                  title: Text('Mohid',
-                  style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.normal,
-                    fontSize: 17.0,
-                    color: Color.fromRGBO(38, 51, 58, 1.0),
-                  ),
-                  ),
-                  subtitle: Text('13/12/2021',
-                  style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(43, 59, 69, 0.7),
-                  ),),
-                  trailing: 
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('3000',
-                            style:TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                              color: Color.fromRGBO(46, 189, 133, 1.0),
-                            ),
-                            ),
-                      Text('You will get',
-                            style:TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                              color: Color.fromRGBO(46, 189, 133, 1.0),
-                            ),
-                            ),
-                    ],
-                  ),
-                  
-                ),
-              Divider(height: 1, thickness: 0.5, endIndent: 15,),
-            ],
-          ),
-          Column(
-            children: [
-              ListTile(
-                title: Text('Mohid',
-                  style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.normal,
-                    fontSize: 17.0,
-                    color: Color.fromRGBO(38, 51, 58, 1.0),
-                  ),
-                ),
-                subtitle: Text('13/12/2021',
-                  style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.0,
-                    color: Color.fromRGBO(43, 59, 69, 0.7),
-                  ),),
-                trailing:
-                Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('3000',
+                      Text(amount,
                       style:TextStyle(
-                        fontFamily: "Lato",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                        color: Color.fromRGBO(46, 189, 133, 1.0),
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Color.fromRGBO(46, 189, 133, 1.0),
+                          ),
                       ),
-                    ),
-                    Text('You will get',
+                      Text('You will get',
                       style:TextStyle(
-                        fontFamily: "Lato",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15.0,
-                        color: Color.fromRGBO(46, 189, 133, 1.0),
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.0,
+                          color: Color.fromRGBO(46, 189, 133, 1.0),
+                          ),
                       ),
-                    ),
                   ],
-                ),
+                  ),
 
-              ),
-              Divider(height: 1, thickness: 0.5, endIndent: 15,),
+            ),
+            Divider(height: 1, thickness: 0.5, endIndent: 15,),
             ],
-          ),
-        ],
-      )
     );
   }
 }
 
-//Transactions
 
-class Transactions extends StatefulWidget {
-  @override
-  _TransactionsState createState() => _TransactionsState();
-}
 
-class _TransactionsState extends State<Transactions> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      
-    );
-  }
-}
-
-class Partner {
-  String name;
-  double netAmount;
-  Partner({this.name, this.netAmount});
-}

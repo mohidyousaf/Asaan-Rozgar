@@ -1,5 +1,5 @@
 
-class ValidationFunctions {
+class ValidationFunctions{
   static String validateAccount({String text}){
     if (text.isEmpty){
       return "Invalid Account No";
@@ -17,5 +17,7 @@ class ValidationFunctions {
     }
   }
 }
+
+
 
 
