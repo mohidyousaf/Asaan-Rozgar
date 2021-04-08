@@ -78,7 +78,7 @@ class _company_setupState extends State<company_setup1> {
                       SizedBox(height: textfield_gap),
                       input_text_fields('Notes Payable/loans (Rs.)',''),
                       SizedBox(height: button_gap),
-                      long_circleBtt('Save'),
+                      long_circleBtt('Save',color_Red,color_Green,color_Blue),
                       // Container(
                       //   height: longBtt_height,
                       //   width: longBtt_width,
