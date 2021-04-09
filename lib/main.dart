@@ -1,3 +1,4 @@
+import 'package:asaanrozgar/onboarding.dart';
 import 'package:flutter/material.dart';
 // import 'DataBase.dart';
 import 'package:asaanrozgar/home.dart';
@@ -17,8 +18,6 @@ import 'package:asaanrozgar/AddParty.dart';
 import 'package:asaanrozgar/Purchase1.dart';
 import 'package:asaanrozgar/Purchase2.dart';
 import 'package:asaanrozgar/Purchase3.dart';
-
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,13 +27,18 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedIn = prefs.getString('loggedIn');
+  prefs.setString('onBoarding','Done');
+
+  var onBoarding = prefs.getString('onBoarding');
+
   print(loggedIn);
   runApp(MaterialApp(
-      initialRoute: '/purchase',
+      initialRoute: '/home',
       debugShowCheckedModeBanner:false,
       routes: {
-        '/': (context) => loggedIn != null ? MyApp() : SignUp(),
+        '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
         '/home': (context) => MyApp(),
+        '/onBoarding': (context) => Onboarding(),
         '/menu': (context) => Menu(),
         '/addItem': (context) => AddItem(),
         '/signIn': (context) => SignIn(),

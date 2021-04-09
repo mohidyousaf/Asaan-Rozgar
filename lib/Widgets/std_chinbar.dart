@@ -23,6 +23,7 @@ Widget std_chinbar(int color_red,int color_green, int color_blue){
                 )
               ],
               ),
+              
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[

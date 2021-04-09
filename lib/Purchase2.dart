@@ -1,7 +1,10 @@
 import 'dart:ffi';
 
+import 'package:asaanrozgar/Add_Item.dart';
 import 'package:flutter/material.dart';
 import 'DataBase.dart';
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
+import 'package:asaanrozgar/itemCard.dart';
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
 
@@ -12,6 +15,11 @@ class Purchase2 extends StatefulWidget {
 
 class _Purchase2State extends State<Purchase2> {
   // data for items added
+
+  List<addItem> objects=[
+    addItem(itemName:'Lays', price:10 , quantity:20, image:'Image1'),
+    addItem(itemName:'Cheetos', price:30 , quantity:2, image:'Image2'),
+  ];
 
   List<String> itemName = ['Lays', 'Cheetos'];
   List<int> price = [10, 30];
@@ -174,7 +182,7 @@ class _Purchase2State extends State<Purchase2> {
             ),
             SizedBox(height: 15),
             Container(
-              height: MediaQuery.of(context).size.height * .66,
+              height: MediaQuery.of(context).size.height * .7,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -229,176 +237,11 @@ class _Purchase2State extends State<Purchase2> {
                               SizedBox(height: 20),
                               Column(
                                   children:
-                                      List.generate(itemName.length, (index) {
-                                return Row(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.04,
-                                    ),
-                                    Text(image[index].toString()),
-                                    SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.04),
-                                    Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text((index + 1).toString(),
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 18.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 1.0),
-                                                        )),
-                                                    Text(". ",
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 18.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 1.0),
-                                                        )),
-                                                    Text(
-                                                        itemName[index]
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 18.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 1.0),
-                                                        )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("Item Subtotal",
-                                                    style: TextStyle(
-                                                      fontFamily: "Lato",
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 12.0,
-                                                      color: Color.fromRGBO(
-                                                          38, 51, 58, 0.6),
-                                                    )),
-                                              ],
-                                            ),
-                                            SizedBox(height: 20),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.25),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                        (quantity[index] *
-                                                                price[index])
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 18.0,
-                                                          color: Color.fromRGBO(
-                                                              11, 71, 109, 1.0),
-                                                        )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                        (quantity[index])
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 0.6),
-                                                        )),
-                                                    Text(" x Rs. ",
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 0.6),
-                                                        )),
-                                                    Text(
-                                                        (price[index])
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 0.6),
-                                                        )),
-                                                    Text(" = ",
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 0.6),
-                                                        )),
-                                                    Text(
-                                                        (quantity[index] *
-                                                                price[index])
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                          fontFamily: "Lato",
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12.0,
-                                                          color: Color.fromRGBO(
-                                                              38, 51, 58, 0.6),
-                                                        )),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 20),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              })),
+                                      objects.map((sub) => itemCard(
+                                        obj : sub
+                                      )
+                              ).toList()
+                              ),
                             ],
                           ),
                   ),
