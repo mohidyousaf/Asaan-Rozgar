@@ -17,8 +17,6 @@ import 'package:asaanrozgar/AddParty.dart';
 import 'package:asaanrozgar/Purchase1.dart';
 import 'package:asaanrozgar/Purchase2.dart';
 import 'package:asaanrozgar/Purchase3.dart';
-
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,9 +26,10 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedIn = prefs.getString('loggedIn');
+  var signedUp = prefs.getString('SignedUp');
   print(loggedIn);
   runApp(MaterialApp(
-      initialRoute: '/purchase',
+      // initialRoute: '/purchase',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? MyApp() : SignUp(),
