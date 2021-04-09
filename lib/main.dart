@@ -18,6 +18,7 @@ import 'package:asaanrozgar/AddParty.dart';
 import 'package:asaanrozgar/Purchase1.dart';
 import 'package:asaanrozgar/Purchase2.dart';
 import 'package:asaanrozgar/Purchase3.dart';
+import 'package:asaanrozgar/Purchase4.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,7 +34,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      initialRoute: '/home',
+      initialRoute: '/purchase4',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -54,6 +55,7 @@ void main() async{
         '/purchase':(context)=> Purchase(),
         '/purchase2':(context)=> Purchase2(),
         '/purchase3':(context)=> Purchase3(),
+        '/purchase4':(context)=> Purchase4(),
 
       },
       theme: ThemeData(

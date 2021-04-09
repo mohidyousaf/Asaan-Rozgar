@@ -3,6 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 
+class cart extends StatelessWidget {
+  final itemList obj1;
+  cart({this.obj1});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FlatButton(
+                          onPressed: () {},
+                          height: 50,
+                          minWidth: 300,
+                          child: Row(children: [
+                          Text( obj1.image.toString(),
+                          style: TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0,
+                          color: Color.fromRGBO(136, 182, 211, 0.67)
+                        )),
+                          SizedBox(width: 15,),
+                          Text( obj1.itemName.toString(),
+                          style: TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20.0,
+                        )),
+                        ],), 
+                          ),
+      ],
+    );
+  }
+}
+
 class itemCard extends StatelessWidget {
 
   final addItem obj;
