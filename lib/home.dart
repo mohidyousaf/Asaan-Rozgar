@@ -62,7 +62,9 @@ class MyApp extends StatelessWidget {
     ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pushReplacementNamed(context, '/addItem');
+        },
         child: Icon(Icons.add,color: Colors.white),
       ),
       bottomNavigationBar: std_chinbar(0,0,0),

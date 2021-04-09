@@ -108,8 +108,12 @@ class _SignInState extends State<SignIn> {
                             else{
                               SharedPreferences prefs = await SharedPreferences.getInstance();
                               prefs.setString('loggedIn', 'Yes');
-                              Navigator.pushReplacementNamed(context, '/home');
-                            }
+                              var onBoarding = prefs.getString('onBoarding');
+                              onBoarding != null ?
+                                  Navigator.pushReplacementNamed(context, '/home'):
+                                  Navigator.pushReplacementNamed(context, '/onBoarding');
+
+                          }
 
                           },
                           child: Center(
