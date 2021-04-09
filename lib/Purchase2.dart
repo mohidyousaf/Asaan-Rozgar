@@ -11,43 +11,45 @@ class Purchase2 extends StatefulWidget {
 }
 
 class _Purchase2State extends State<Purchase2> {
+  // data for items added
 
-  Map data={};
+  List<String> itemName = ['Lays', 'Cheetos'];
+  List<int> price = [10, 30];
+  List<int> quantity = [20, 2];
+  List<String> image = ['Image1', 'Image2'];
+
+  Map data = {};
   String name;
   bool toGive = false;
   int invoiceNo = 8;
-  TextEditingController ProductName = new TextEditingController();
-  TextEditingController PartnerName = new TextEditingController();
-  TextEditingController CategoryTag = new TextEditingController();
-  TextEditingController PurchasePrice = new TextEditingController();
-  TextEditingController SalePrice = new TextEditingController();
-  TextEditingController TaxRate = new TextEditingController();
+//  TextEditingController ProductName = new TextEditingController();
   double receivable;
   double payable;
-  String Balance_message='';
+  String Balance_message = '';
   double balance;
-  List <Map<String,dynamic>> temp;
+  List<Map<String, dynamic>> temp;
 
-  getData()async{
-    List <Map<String,dynamic>> temp2 =  await DBprovider.db.getData(name);
-   setState(() {
-     temp=temp2;
-     print('data is');
-     print(temp);
-     temp.forEach((user){
-       payable = user['Payable'];
-       receivable= user['Receivable'];
-       if (payable>receivable){
-         balance = payable - receivable;
-         Balance_message= "You'll Pay";
-       }
-       else{
-         balance = receivable - payable;
-         Balance_message= "You'll Get";
-       }
-       print('-----------');
-     });
-   });
+  getData() async {
+    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
+    setState(() {
+      temp = temp2;
+      print('data is');
+      print(temp);
+      temp.forEach((user) {
+        payable = user['Payable'];
+        receivable = user['Receivable'];
+        if (payable > receivable) {
+          balance = payable - receivable;
+          Balance_message = "You'll Pay";
+          toGive = true;
+        } else {
+          balance = receivable - payable;
+          Balance_message = "You'll Get";
+          toGive = false;
+        }
+        print('-----------');
+      });
+    });
   }
 
   @override
@@ -61,10 +63,8 @@ class _Purchase2State extends State<Purchase2> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     data = ModalRoute.of(context).settings.arguments;
     setState(() {
       name = data['name'];
@@ -78,9 +78,7 @@ class _Purchase2State extends State<Purchase2> {
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .1,
           leading: IconButton(
-            onPressed: () => {
-              Navigator.pop(context)
-            },
+            onPressed: () => {Navigator.pop(context)},
             icon: Icon(Icons.arrow_back_ios),
           ),
           title: Text("Payment Details",
@@ -98,7 +96,8 @@ class _Purchase2State extends State<Purchase2> {
             )
           ],
         ),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +155,7 @@ class _Purchase2State extends State<Purchase2> {
                                         fontSize: 12.0,
                                         color: Color.fromRGBO(245, 70, 93, 1.0),
                                       ))
-                                  : Text("You'll Get",
+                                  : Text(Balance_message,
                                       style: TextStyle(
                                         fontFamily: "Lato",
                                         fontWeight: FontWeight.w800,
@@ -174,9 +173,8 @@ class _Purchase2State extends State<Purchase2> {
               ],
             ),
             SizedBox(height: 15),
-            SingleChildScrollView(
-                child: Container(
-              height: MediaQuery.of(context).size.height * .6531,
+            Container(
+              height: MediaQuery.of(context).size.height * .66,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -190,7 +188,7 @@ class _Purchase2State extends State<Purchase2> {
                   SizedBox(height: 25),
                   Row(
                     children: [
-                      SizedBox(width: 20),
+                      SizedBox(width: 15),
                       Text("Invoice No:  ",
                           style: TextStyle(
                             fontFamily: "Lato",
@@ -202,7 +200,7 @@ class _Purchase2State extends State<Purchase2> {
                           style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontSize: 12.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
@@ -217,67 +215,241 @@ class _Purchase2State extends State<Purchase2> {
                       Text("16/11/2000 @",
                           style: TextStyle(
                             fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontSize: 12.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
                     ],
                   ),
-
-                   SizedBox(height: 20),
-                   FlatButton(
-                     onPressed: () {
-                       Navigator.pushNamed(context, '/purchase3');
-                     },
-                     height: 30,
-                     minWidth: 200,
-                     child: Text('ADD ITEMS(OPTIONAL)',
-                     style: TextStyle(
+                  Container(
+                    child: (itemName == [])
+                        ? SizedBox(height: 20)
+                        : Column(
+                            children: [
+                              SizedBox(height: 20),
+                              Column(
+                                  children:
+                                      List.generate(itemName.length, (index) {
+                                return Row(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.04,
+                                    ),
+                                    Text(image[index].toString()),
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.04),
+                                    Row(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text((index + 1).toString(),
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 18.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 1.0),
+                                                        )),
+                                                    Text(". ",
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 18.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 1.0),
+                                                        )),
+                                                    Text(
+                                                        itemName[index]
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 18.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 1.0),
+                                                        )),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("Item Subtotal",
+                                                    style: TextStyle(
+                                                      fontFamily: "Lato",
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12.0,
+                                                      color: Color.fromRGBO(
+                                                          38, 51, 58, 0.6),
+                                                    )),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.25),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        (quantity[index] *
+                                                                price[index])
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 18.0,
+                                                          color: Color.fromRGBO(
+                                                              11, 71, 109, 1.0),
+                                                        )),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                        (quantity[index])
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 0.6),
+                                                        )),
+                                                    Text(" x Rs. ",
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 0.6),
+                                                        )),
+                                                    Text(
+                                                        (price[index])
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 0.6),
+                                                        )),
+                                                    Text(" = ",
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 0.6),
+                                                        )),
+                                                    Text(
+                                                        (quantity[index] *
+                                                                price[index])
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontFamily: "Lato",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 12.0,
+                                                          color: Color.fromRGBO(
+                                                              38, 51, 58, 0.6),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 20),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              })),
+                            ],
+                          ),
+                  ),
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/purchase3');
+                      },
+                      height: 30,
+                      minWidth: 200,
+                      child: Text('ADD ITEMS(OPTIONAL)',
+                          style: TextStyle(
                             fontFamily: "Lato",
                             fontWeight: FontWeight.normal,
                             fontSize: 14.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
-                     color: Color.fromRGBO(136, 182, 211, 0.67)
-                   ),
-                   Align(
-                     alignment: Alignment.centerLeft,
-                     child: Text(
-                         "Total",
-                     ),
-                   ),
-                   TextField(),
-                   TextField(),
-                   Text("Payment Type"),
-                   Text("Cash v"),
-                   Row(
-                     children: [
-                       Column(
-                         children: [
-                           Text("Balance Due"),
-                           Text("Rs.0.00"),
-                         ],
-                       ),
-                       SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                       FlatButton(
-                     onPressed: () {},
-                     child: Text('NEXT',
-                     style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14.0,
-                            color: Color.fromRGBO(11, 71, 109, 1.0),
-                          )),
-                     color: Color.fromRGBO(136, 182, 211, 0.67)
-                   ),
-                     ]
+                      color: Color.fromRGBO(136, 182, 211, 0.67)),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Total",
                     ),
-
+                  ),
+                  TextField(),
+                  TextField(),
+                  Text("Payment Type"),
+                  Text("Cash v"),
+                  Row(children: [
+                    Column(
+                      children: [
+                        Text("Balance Due"),
+                        Text("Rs.0.00"),
+                      ],
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                    FlatButton(
+                        onPressed: () {},
+                        child: Text('NEXT',
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                        color: Color.fromRGBO(136, 182, 211, 0.67)),
+                  ]),
                 ]),
               ),
-            )),
+            ),
           ],
-        ));
+        )));
   }
 }
 
@@ -299,3 +471,4 @@ class _Purchase2State extends State<Purchase2> {
 //         )),
 //       ));
 // }
+
