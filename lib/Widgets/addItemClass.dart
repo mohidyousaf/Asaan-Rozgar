@@ -18,3 +18,17 @@ class addItem extends StatelessWidget {
   }
 }
 
+
+class itemList extends StatelessWidget {
+
+  final String itemName;
+  final String image;
+
+  itemList({this.itemName,this.image});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
