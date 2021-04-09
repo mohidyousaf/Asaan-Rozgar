@@ -75,6 +75,7 @@ class DBprovider{
               Amount	REAL,
               TransactionType	TEXT,
               Description	TEXT,
+              Date TEXT,
               PRIMARY KEY(TransactionID),
               FOREIGN KEY(AccountID) REFERENCES accounts(AccountID),
               FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
@@ -249,7 +250,7 @@ class DBprovider{
     'parties',
     columns: ['PartyID'],
     where: 'PartyName = ?',
-        whereArgs: [partnerName])).forEach((element) {
+        whereArgs: [partnerName])).forEach((element){
       partyID = element['PartyID'];
     });
     var res = await db.rawInsert('''
@@ -271,17 +272,72 @@ class DBprovider{
     ) VALUES (?,?,?)
     ''', [productID, purchasePrice, quantity]);
 
+    // addOrder(productList, partyName, amount, received, type)
+
 
     return [partyID,productID];
   }
-  addPurchase(productList, purchaseList, quantityList, amount){
+  // productList is supposed to be a class with three attributes name, quantity and price.
+  // this should be passed whenever the function is called
+  addOrder(productList, partyName, amount, received, type) async{
+    final db = await database;
+    int partyID;
+    var list = (await db.query(
+        'parties',
+        columns: ['PartyID'],
+        where: 'PartyName = ?',
+        whereArgs: [partyName])).forEach((element){
+      partyID = element['PartyID'];
+    });
+    var order = await db.rawInsert('''
+      INSERT INTO orders(
+        PartyID, TotalPayable, TotalReceived, OrderType
+        ) VALUES (?,?,?,?)
+    ''',[partyID, amount, received, type]);
+
+      int orderID;
+      var list2 = (await db.rawQuery('SELECT last_insert_rowid()')).forEach((element) {
+        orderID = element['last_insert_rowid()'];
+      });
+      var productID;
+      productList.forEach((product) async{
+        var l = (await db.query(
+            'inventory',
+            columns: ['ProductID'],
+            where: 'ProductName = ?',
+            whereArgs: [product.name])).forEach((element) {
+          productID = element['ProductID'];
+        });
+        await db.rawInsert('''
+        INSERT INTO orderGoods(
+          OrderID, ProductID, Quantity, Price
+          ) VALUES (?,?,?,?)
+      ''',[orderID, productID, product.quantity, product.price]);
+    });
+    await db.rawInsert('''
+        INSERT INTO transactions(
+          OrderID, Amount, Type
+          ) VALUES (?,?,?)
+      ''',[orderID, amount, type]);
+  }
+  addTransaction() async{
 
   }
-  addAccount(title, name, accountNo,currentBal)
-  {
-
-
-    return 'hello';
+  addAccount(companyName, title, bankName, accountNo,currentBal)async {
+    final db = await database;
+    int companyID;
+    var IDquery = (await db.query(
+        'companies',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [companyName])).forEach((element) {
+      companyID = element['ProductID'];
+    });
+    var res2 = await db.rawInsert('''
+    INSERT INTO accounts(
+      CompanyID, AccountType, AccountNo, BankName, Balance
+    ) VALUES (?,?,?,?,?)
+    ''', [companyID, title, accountNo, bankName, currentBal]);
   }
   addAssets(name, description, type, value){
     return name;
