@@ -270,7 +270,7 @@ class DBprovider{
       ProductID,PurchasePrice,Quantity
     ) VALUES (?,?,?)
     ''', [productID, purchasePrice, quantity]);
-
+    print('Added');
 
     return [partyID,productID];
   }
@@ -339,4 +339,24 @@ class DBprovider{
     });
     return list;
   }
+
+  getItemList(name) async{
+
+    final db =await database;
+    int partyID;
+    var list = (await db.query(
+        'parties',
+        columns: ['PartyID'],
+        where: 'PartyName = ?',
+        whereArgs: [name])).forEach((element) {
+      partyID = element['PartyID'];
+    });
+    final List<Map<String, dynamic>> parties = await db.rawQuery('''
+        SELECT * FROM inventory WHERE PartyID= ?;
+      ''',[partyID]);
+
+    return parties;
+
+  }
+
 }
