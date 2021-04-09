@@ -18,8 +18,6 @@ import 'package:asaanrozgar/AddParty.dart';
 import 'package:asaanrozgar/Purchase1.dart';
 import 'package:asaanrozgar/Purchase2.dart';
 import 'package:asaanrozgar/Purchase3.dart';
-
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,7 +1,10 @@
 import 'dart:ffi';
 
+import 'package:asaanrozgar/Add_Item.dart';
 import 'package:flutter/material.dart';
 import 'DataBase.dart';
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
+import 'package:asaanrozgar/itemCard.dart';
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
 
@@ -11,43 +14,50 @@ class Purchase2 extends StatefulWidget {
 }
 
 class _Purchase2State extends State<Purchase2> {
+  // data for items added
 
-  Map data={};
+  List<addItem> objects=[
+    addItem(itemName:'Lays', price:10 , quantity:20, image:'Image1'),
+    addItem(itemName:'Cheetos', price:30 , quantity:2, image:'Image2'),
+  ];
+
+  List<String> itemName = ['Lays', 'Cheetos'];
+  List<int> price = [10, 30];
+  List<int> quantity = [20, 2];
+  List<String> image = ['Image1', 'Image2'];
+
+  Map data = {};
   String name;
   bool toGive = false;
   int invoiceNo = 8;
-  TextEditingController ProductName = new TextEditingController();
-  TextEditingController PartnerName = new TextEditingController();
-  TextEditingController CategoryTag = new TextEditingController();
-  TextEditingController PurchasePrice = new TextEditingController();
-  TextEditingController SalePrice = new TextEditingController();
-  TextEditingController TaxRate = new TextEditingController();
+//  TextEditingController ProductName = new TextEditingController();
   double receivable;
   double payable;
-  String Balance_message='';
+  String Balance_message = '';
   double balance;
-  List <Map<String,dynamic>> temp;
+  List<Map<String, dynamic>> temp;
 
-  getData()async{
-    List <Map<String,dynamic>> temp2 =  await DBprovider.db.getData(name);
-   setState(() {
-     temp=temp2;
-     print('data is');
-     print(temp);
-     temp.forEach((user){
-       payable = user['Payable'];
-       receivable= user['Receivable'];
-       if (payable>receivable){
-         balance = payable - receivable;
-         Balance_message= "You'll Pay";
-       }
-       else{
-         balance = receivable - payable;
-         Balance_message= "You'll Get";
-       }
-       print('-----------');
-     });
-   });
+  getData() async {
+    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
+    setState(() {
+      temp = temp2;
+      print('data is');
+      print(temp);
+      temp.forEach((user) {
+        payable = user['Payable'];
+        receivable = user['Receivable'];
+        if (payable > receivable) {
+          balance = payable - receivable;
+          Balance_message = "You'll Pay";
+          toGive = true;
+        } else {
+          balance = receivable - payable;
+          Balance_message = "You'll Get";
+          toGive = false;
+        }
+        print('-----------');
+      });
+    });
   }
 
   @override
@@ -61,10 +71,8 @@ class _Purchase2State extends State<Purchase2> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     data = ModalRoute.of(context).settings.arguments;
     setState(() {
       name = data['name'];
@@ -78,9 +86,7 @@ class _Purchase2State extends State<Purchase2> {
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .1,
           leading: IconButton(
-            onPressed: () => {
-              Navigator.pop(context)
-            },
+            onPressed: () => {Navigator.pop(context)},
             icon: Icon(Icons.arrow_back_ios),
           ),
           title: Text("Payment Details",
@@ -98,7 +104,8 @@ class _Purchase2State extends State<Purchase2> {
             )
           ],
         ),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +163,7 @@ class _Purchase2State extends State<Purchase2> {
                                         fontSize: 12.0,
                                         color: Color.fromRGBO(245, 70, 93, 1.0),
                                       ))
-                                  : Text("You'll Get",
+                                  : Text(Balance_message,
                                       style: TextStyle(
                                         fontFamily: "Lato",
                                         fontWeight: FontWeight.w800,
@@ -174,9 +181,8 @@ class _Purchase2State extends State<Purchase2> {
               ],
             ),
             SizedBox(height: 15),
-            SingleChildScrollView(
-                child: Container(
-              height: MediaQuery.of(context).size.height * .6531,
+            Container(
+              height: MediaQuery.of(context).size.height * .7,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -190,7 +196,7 @@ class _Purchase2State extends State<Purchase2> {
                   SizedBox(height: 25),
                   Row(
                     children: [
-                      SizedBox(width: 20),
+                      SizedBox(width: 15),
                       Text("Invoice No:  ",
                           style: TextStyle(
                             fontFamily: "Lato",
@@ -202,7 +208,7 @@ class _Purchase2State extends State<Purchase2> {
                           style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontSize: 12.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
@@ -217,67 +223,76 @@ class _Purchase2State extends State<Purchase2> {
                       Text("16/11/2000 @",
                           style: TextStyle(
                             fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                             fontSize: 12.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
                     ],
                   ),
-
-                   SizedBox(height: 20),
-                   FlatButton(
-                     onPressed: () {
-                       Navigator.pushNamed(context, '/purchase3');
-                     },
-                     height: 30,
-                     minWidth: 200,
-                     child: Text('ADD ITEMS(OPTIONAL)',
-                     style: TextStyle(
+                  Container(
+                    child: (itemName == [])
+                        ? SizedBox(height: 20)
+                        : Column(
+                            children: [
+                              SizedBox(height: 20),
+                              Column(
+                                  children:
+                                      objects.map((sub) => itemCard(
+                                        obj : sub
+                                      )
+                              ).toList()
+                              ),
+                            ],
+                          ),
+                  ),
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/purchase3');
+                      },
+                      height: 30,
+                      minWidth: 200,
+                      child: Text('ADD ITEMS(OPTIONAL)',
+                          style: TextStyle(
                             fontFamily: "Lato",
                             fontWeight: FontWeight.normal,
                             fontSize: 14.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
-                     color: Color.fromRGBO(136, 182, 211, 0.67)
-                   ),
-                   Align(
-                     alignment: Alignment.centerLeft,
-                     child: Text(
-                         "Total",
-                     ),
-                   ),
-                   TextField(),
-                   TextField(),
-                   Text("Payment Type"),
-                   Text("Cash v"),
-                   Row(
-                     children: [
-                       Column(
-                         children: [
-                           Text("Balance Due"),
-                           Text("Rs.0.00"),
-                         ],
-                       ),
-                       SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                       FlatButton(
-                     onPressed: () {},
-                     child: Text('NEXT',
-                     style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14.0,
-                            color: Color.fromRGBO(11, 71, 109, 1.0),
-                          )),
-                     color: Color.fromRGBO(136, 182, 211, 0.67)
-                   ),
-                     ]
+                      color: Color.fromRGBO(136, 182, 211, 0.67)),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Total",
                     ),
-
+                  ),
+                  TextField(),
+                  TextField(),
+                  Text("Payment Type"),
+                  Text("Cash v"),
+                  Row(children: [
+                    Column(
+                      children: [
+                        Text("Balance Due"),
+                        Text("Rs.0.00"),
+                      ],
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                    FlatButton(
+                        onPressed: () {},
+                        child: Text('NEXT',
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                        color: Color.fromRGBO(136, 182, 211, 0.67)),
+                  ]),
                 ]),
               ),
-            )),
+            ),
           ],
-        ));
+        )));
   }
 }
 
@@ -299,3 +314,4 @@ class _Purchase2State extends State<Purchase2> {
 //         )),
 //       ));
 // }
+
