@@ -143,6 +143,8 @@ class DBprovider{
               ProductPicture	TEXT,
               TaxRate	REAL,
               SalePrice	REAL,
+              MinStock	INTEGER,
+
               FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
               PRIMARY KEY(ProductID)
             );
@@ -238,16 +240,42 @@ class DBprovider{
 
   }
   //TODO: BELOW DB FUNCTIONS
-  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2)async{
+  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,quantity,minStock)async{
     final db = await database;
     print(productName);
+    //partyID
+    int partyID;
+    var list = (await db.query(
+    'parties',
+    columns: ['PartyID'],
+    where: 'PartyName = ?',
+        whereArgs: [partnerName])).forEach((element) {
+      partyID = element['PartyID'];
+    });
     var res = await db.rawInsert('''
     INSERT INTO inventory(
-      PartyID,ProductName,ProductDescription,ProductPicture,TaxRate,SalePrice
-    ) VALUES (?,?,?,?,?,?,?,?)
-    ''', [productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2]);
+      PartyID,ProductName,ProductDescription,SalePrice,TaxRate,MinStock
+    ) VALUES (?,?,?,?,?,?)
+    ''', [partyID, productName, categoryTag, salePrice, taxRate, minStock]);
+    int productID;
+    var product = (await db.query(
+        'inventory',
+        columns: ['ProductID'],
+        where: 'ProductName = ?',
+        whereArgs: [productName])).forEach((element) {
+      productID = element['ProductID'];
+    });
+    var res2 = await db.rawInsert('''
+    INSERT INTO purchases(
+      ProductID,PurchasePrice,Quantity
+    ) VALUES (?,?,?)
+    ''', [productID, purchasePrice, quantity]);
 
-    return res;
+
+    return [partyID,productID];
+  }
+  addPurchase(productList, purchaseList, quantityList, amount){
+
   }
   addAccount(title, name, accountNo,currentBal)
   {

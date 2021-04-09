@@ -12,8 +12,8 @@ class AddItem extends StatefulWidget {
 }
 
 class _AddItemState extends State<AddItem> {
-  int val1 = 1;
-  int val2 = 1;
+  int quantity = 1;
+  int minStock = 1;
   TextEditingController productName = new TextEditingController();
   TextEditingController partnerName = new TextEditingController();
   TextEditingController categoryTag = new TextEditingController();
@@ -28,7 +28,9 @@ class _AddItemState extends State<AddItem> {
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .1,
           leading: IconButton(
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.pop(context)
+            },
             icon: Icon(Icons.arrow_back_ios),
           ),
           title: Text("Add Item",
@@ -133,9 +135,9 @@ class _AddItemState extends State<AddItem> {
                                   width: 20,
                                   child: IconButton(
                                       onPressed: () {
-                                        if (val1 != 1) {
+                                        if (quantity != 1) {
                                           setState(() {
-                                            val1 = val1 - 1;
+                                            quantity = quantity - 1;
                                           });
                                         }
                                       },
@@ -144,7 +146,7 @@ class _AddItemState extends State<AddItem> {
                                 ),
                                 Container(height: 15, child: VerticalDivider()),
                                 SizedBox(width: 5),
-                                Text("$val1"),
+                                Text("$quantity"),
                                 SizedBox(width: 5),
                                 Container(height: 15, child: VerticalDivider()),
                                 Container(
@@ -152,7 +154,7 @@ class _AddItemState extends State<AddItem> {
                                   child: IconButton(
                                     onPressed: () {
                                           setState(() {
-                                            val1 = val1 + 1;
+                                            quantity = quantity + 1;
                                           });
                                     },
                                     iconSize: 10,
@@ -186,9 +188,9 @@ class _AddItemState extends State<AddItem> {
                                   width: 20,
                                   child: IconButton(
                                       onPressed: () {
-                                        if (val2 != 1) {
+                                        if (minStock != 1) {
                                           setState(() {
-                                            val2 = val2 - 1;
+                                            minStock = minStock - 1;
                                           });
                                         }
                                       },
@@ -197,7 +199,7 @@ class _AddItemState extends State<AddItem> {
                                 ),
                                 Container(height: 15, child: VerticalDivider()),
                                 SizedBox(width: 5),
-                                Text("$val2"),
+                                Text("$minStock"),
                                 SizedBox(width: 5),
                                 Container(height: 15, child: VerticalDivider()),
                                 Container(
@@ -205,7 +207,7 @@ class _AddItemState extends State<AddItem> {
                                   child: IconButton(
                                     onPressed: () {
                                         setState(() {
-                                          val2 = val2 + 1;
+                                          minStock = minStock + 1;
                                         });
                                     },
                                     iconSize: 10,
@@ -229,7 +231,15 @@ class _AddItemState extends State<AddItem> {
                     child: GestureDetector(
                       onTap: () async {
                         //TODO: have to change this to a class
-                       var temp = await DBprovider.db.addItem(productName.text.toString(), partnerName.text.toString(), categoryTag.text.toString(), purchasePrice.text.toString(),salePrice.text.toString(),taxRate.text.toString(),val1,val2);
+                       var temp = await DBprovider.db.addItem(
+                           productName.text.toString(),
+                           partnerName.text.toString(),
+                           categoryTag.text.toString(),
+                           purchasePrice.text.toString(),
+                           salePrice.text.toString(),
+                           taxRate.text.toString(),
+                           quantity,
+                           minStock);
                        print(temp);
                       },
                       child: Center(
