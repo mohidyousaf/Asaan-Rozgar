@@ -29,7 +29,7 @@ void main() async{
   var signedUp = prefs.getString('SignedUp');
   print(loggedIn);
   runApp(MaterialApp(
-      // initialRoute: '/purchase',
+      initialRoute: '/addItem',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? MyApp() : SignUp(),
