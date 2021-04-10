@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
@@ -45,105 +47,164 @@ class _Purchase3State extends State<Purchase3> {
                 width: MediaQuery.of(context).size.width * 0.55,
                 color: Color.fromRGBO(52, 199, 89, 1.0),
               ),],),
-          Container(
-              child: Column(
-                children: [
-                  Center(
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            SizedBox(height: 15),
-                            Text(
-                                "Please Enter detail of your purchase below so that we",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11.0,
-                                )),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                                "will update your account reccords accordingly",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11.0,
-                                  ))
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          ],
+              SizedBox(height: 20,),
+              Center(
+                child: Column(
+                  children: [
+                    Text("Please Enter detail of your purchase below so that we",
+                    style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.normal,
+                    fontSize: 12.0,
+                    )),
+                    Text("will update your account reccords accordingly",
+                    style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.normal,
+                    fontSize: 12.0,
+                    )),
+                  ],
                 ),
-            ),
-            SizedBox(height: 30,),
-            Row(
-              children: [
-                SizedBox(width: 30,),
-                Text(image,
-                  style: TextStyle(
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.normal,
-                  fontSize: 20.0,
-                  color: Color.fromRGBO(107, 143, 165, 0.7),
-                )),
-                SizedBox(width: 10,),
-                Text(name,
+              ),
+              SizedBox(height: 30,),
+              Row(
+                children: [
+                  SizedBox(width: 40,),
+                  Text("Image1",
                   style: TextStyle(
                   fontFamily: "Lato",
                   fontWeight: FontWeight.w500,
-                  fontSize: 24.0,
-                )),
+                  fontSize: 14.0,
+                  color: Colors.black54,
+                  )),
+                  SizedBox(width: 20,),
+                  Text("Lays",
+                  style: TextStyle(
+                  fontFamily: "Lato",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20.0,
+                  color: Colors.black,
+                  )),
                 ],
-            ),
-            Text("Purchase Price",
-                style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.w500,
-                fontSize: 24.0,
-                )),
-            Text("Purchase Price",
-                style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.w500,
-                fontSize: 24.0,
-                )),
-            Row(
+              ),
+              SizedBox(height: 20,),
+              Row(
                 children: [
-                  Text("Rs. ",
-                    style: TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 24.0,
-                    )),
-                  TextField(
-                    decoration: InputDecoration(
-                    labelText: 'Purchase Price',
-                    hintStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
-                    labelStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey)
-                    )),
+                  SizedBox(width: 20,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20,),
+                      Text("Purchase Price:",
+                          style: TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                          color: Colors.black54,
+                        )),
+                      Row(
+                        children: [
+                          Text("Rs.",
+                          style: TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                          color: Colors.black54,
+                        )),
+                          SizedBox(width: 10,),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: TextField(
+                              decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20,),
+                      Text("Quantity:",
+                      style: TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14.0,
+                          color: Colors.black54,
+                        )),
+                      Row(
+                        children: [
+                          SizedBox(width: 32,),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: TextField(
+                              decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey),
+                              ),
+                            ),
+                            ),),
+                          ],
+                        ),
+                    ],
                   ),
-                  ],
-                ),
-        ]));
+                ],
+              ),
+              SizedBox(height: 20,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 20,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                          Text("Sub Total:",
+                          style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                          SizedBox(height: 5,),
+                          Text("Rs. 500",
+                          style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {},
+                      height: 30,
+                      minWidth: 90,
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                      child: Text('SAVE',
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10.0,
+                            color: Colors.white
+                          )),
+                      color: Color.fromRGBO(11, 71, 109, 1.0)),
+                      SizedBox(width: 50,),
+                ],
+              )
+
+                  ]));
   }
 }
 
-
-Widget input_text_fields(String label){
-  return TextField(
-                      decoration: InputDecoration(
-                        labelText: '$label',
-                        hintStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
-                        labelStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey)
-                        )
-                      ),
-                    );
-}
