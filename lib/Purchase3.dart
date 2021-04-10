@@ -3,6 +3,8 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
+
 
 class Purchase3 extends StatefulWidget {
   @override
@@ -11,9 +13,22 @@ class Purchase3 extends StatefulWidget {
 
 class _Purchase3State extends State<Purchase3> {
   String image = "Image1";
-  String name = "Lays";
+  String name ;
+  itemList temp;
+  TextEditingController price = new TextEditingController();
+  TextEditingController quantity = new TextEditingController();
+
+  Map data = {};
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      temp = data['obj'];
+      print('obj is');
+      name=temp.itemName;
+
+    });
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -78,7 +93,7 @@ class _Purchase3State extends State<Purchase3> {
                   color: Colors.black54,
                   )),
                   SizedBox(width: 20,),
-                  Text("Lays",
+                  Text(name,
                   style: TextStyle(
                   fontFamily: "Lato",
                   fontWeight: FontWeight.w500,
@@ -115,6 +130,7 @@ class _Purchase3State extends State<Purchase3> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: TextField(
+                              controller: price,
                               decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
@@ -141,6 +157,7 @@ class _Purchase3State extends State<Purchase3> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: TextField(
+                              controller: quantity,
                               decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
@@ -187,7 +204,14 @@ class _Purchase3State extends State<Purchase3> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        int temp1 =int.parse(price.text);
+                        int temp2 =int.parse(quantity.text);
+
+                        // Navigator.pushNamed(context, '/purchase2', arguments: {
+                        //   'obj': addItem(itemName:name, price:temp1 , quantity:temp2, image:'Image1'),
+                        // } );
+                      },
                       height: 30,
                       minWidth: 90,
                       shape: RoundedRectangleBorder(

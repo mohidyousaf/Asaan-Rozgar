@@ -5,14 +5,15 @@ import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 class cart extends StatelessWidget {
   final itemList obj1;
-  cart({this.obj1});
+  final Function pass;
+  cart({this.obj1,this.pass});
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FlatButton(
-                          onPressed: () {},
+                          onPressed:pass,
                           height: 50,
                           minWidth: 300,
                           child: Row(children: [
