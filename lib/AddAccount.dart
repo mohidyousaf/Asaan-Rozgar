@@ -78,8 +78,9 @@ class _AddAccountsState extends State<AddAccounts> {
                           child: TextButton(
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
-                                var temp = await DBprovider.db.addAccount(Title
-                                    .text.toString(),
+                                var temp = await DBprovider.db.addAccount(
+                                    'AsaanRozgaar',
+                                    Title.text.toString(),
                                     Name.text.toString(),
                                     AccountNo.text.toString(),
                                     CurrentBal.text.toString());

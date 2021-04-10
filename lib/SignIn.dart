@@ -51,8 +51,8 @@ class _SignInState extends State<SignIn> {
               // color: Colors.white,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40.0),
-                      topLeft: Radius.circular(40.0),
+                      topRight: Radius.circular(26.0),
+                      topLeft: Radius.circular(26.0),
                       ),
                   color: Colors.white),
 
@@ -108,8 +108,12 @@ class _SignInState extends State<SignIn> {
                             else{
                               SharedPreferences prefs = await SharedPreferences.getInstance();
                               prefs.setString('loggedIn', 'Yes');
-                              Navigator.pushReplacementNamed(context, '/home');
-                            }
+                              var onBoarding = prefs.getString('onBoarding');
+                              onBoarding != null ?
+                                  Navigator.pushReplacementNamed(context, '/home'):
+                                  Navigator.pushReplacementNamed(context, '/onBoarding');
+
+                          }
 
                           },
                           child: Center(

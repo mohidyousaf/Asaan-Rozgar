@@ -1,25 +1,36 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'DataBase.dart';
+import 'package:asaanrozgar/Widgets/PartyNames.dart';
+import 'DataBase.dart';
 
-void main() => runApp(MaterialApp(home: AddItem()));
 
-class AddItem extends StatefulWidget {
+class Purchase extends StatefulWidget {
   @override
-  _AddItemState createState() => _AddItemState();
+  _PurchaseState createState() => _PurchaseState();
 }
 
-class _AddItemState extends State<AddItem> {
-  
-  List <String> names = [
-    "Shiffa Ur Rehman",
-    "Mohid Yousaf",
-    "Fida Hussain",
-    "Roshan Aziz",
-    "Adil Aslam"
-  ];
+class _PurchaseState extends State<Purchase> {
+
+  List <String> names = [];
+
+  getParty() async{
+    var temp2 = await DBprovider.db.getParties();
+    setState((){
+      names = temp2;
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    print("hi");
+    getParty();
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,62 +73,15 @@ class _AddItemState extends State<AddItem> {
                 children: [
                   SizedBox(height: 30,),
                   Column(
-                      children: names.map((name) {
-                      return 
-                        Column(
-                          children: [
-                            Container(
-                                child: FlatButton(
-                                        onPressed: () {},
-                                        child: Row(
-                                          children: [
-                                            SizedBox(width: 20),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 5),
-                                                Text(name),
-                                                SizedBox(height: 5),
-                                                Container(
-                                                  height: 2,
-                                                  width: MediaQuery.of(context).size.width * 0.8,
-                                                  color: Color.fromRGBO( 230, 231, 231, 1.0),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ), 
-                                 ),
-                          ],
-                        );
-                    }).toList(),
-                        
-                        // Container(
-                        //   height: 40.0,
-                        //   width: 200.0,
-                        //   child: Material(
-                        //     borderRadius: BorderRadius.circular(20.0),
-                        //     shadowColor: Colors.grey[900],
-                        //     color: Color.fromRGBO(255, 159, 10, 1.0),
-                        //     elevation: 7.0,
-                        //     child: GestureDetector(
-                        //       onTap: () async {
-                        //       // var temp = await DBprovider.db.addItem(ProductName.text.toString(), PartnerName.text.toString(), CategoryTag.text.toString(), PurchasePrice.text.toString(),SalePrice.text.toString(),TaxRate.text.toString(),val1,val2);
-                        //       },
-                        //       child: Center(
-                        //         child: Text(
-                        //           'Proceed',
-                        //           style: TextStyle(
-                        //           fontFamily: "Lato",
-                        //           fontSize: 16.0,
-                        //           color: Colors.white,
-                        //         ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
+                      children: names.map((name) => PartyNAme(
+                          name:name,
+                          pass: (){
+                            Navigator.pushNamed(context, '/purchase2', arguments: {
+                              'name': name,
+                            } );
+                          }
+
+                      )).toList(),
                     ),
                 ],
               ),

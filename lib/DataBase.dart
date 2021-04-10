@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -74,6 +75,7 @@ class DBprovider{
               Amount	REAL,
               TransactionType	TEXT,
               Description	TEXT,
+              Date TEXT,
               PRIMARY KEY(TransactionID),
               FOREIGN KEY(AccountID) REFERENCES accounts(AccountID),
               FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
@@ -142,6 +144,8 @@ class DBprovider{
               ProductPicture	TEXT,
               TaxRate	REAL,
               SalePrice	REAL,
+              MinStock	INTEGER,
+
               FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
               PRIMARY KEY(ProductID)
             );
@@ -237,14 +241,101 @@ class DBprovider{
 
   }
   //TODO: BELOW DB FUNCTIONS
-  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,val1,val2){
-    return 'hello';
+  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,quantity,minStock)async{
+    final db = await database;
+    print(productName);
+    //partyID
+    int partyID;
+    var list = (await db.query(
+    'parties',
+    columns: ['PartyID'],
+    where: 'PartyName = ?',
+        whereArgs: [partnerName])).forEach((element){
+      partyID = element['PartyID'];
+    });
+    var res = await db.rawInsert('''
+    INSERT INTO inventory(
+      PartyID,ProductName,ProductDescription,SalePrice,TaxRate,MinStock
+    ) VALUES (?,?,?,?,?,?)
+    ''', [partyID, productName, categoryTag, salePrice, taxRate, minStock]);
+    int productID;
+    var product = (await db.query(
+        'inventory',
+        columns: ['ProductID'],
+        where: 'ProductName = ?',
+        whereArgs: [productName])).forEach((element) {
+      productID = element['ProductID'];
+    });
+    var res2 = await db.rawInsert('''
+    INSERT INTO purchases(
+      ProductID,PurchasePrice,Quantity
+    ) VALUES (?,?,?)
+    ''', [productID, purchasePrice, quantity]);
+    print('Added');
+
+    return [partyID,productID];
   }
-  addAccount(title, name, accountNo,currentBal)
-  {
+  // productList is supposed to be a class with three attributes name, quantity and price.
+  // this should be passed whenever the function is called
+  addOrder(productList, partyName, amount, received, type) async{
+    final db = await database;
+    int partyID;
+    var list = (await db.query(
+        'parties',
+        columns: ['PartyID'],
+        where: 'PartyName = ?',
+        whereArgs: [partyName])).forEach((element){
+      partyID = element['PartyID'];
+    });
+    var order = await db.rawInsert('''
+      INSERT INTO orders(
+        PartyID, TotalPayable, TotalReceived, OrderType
+        ) VALUES (?,?,?,?)
+    ''',[partyID, amount, received, type]);
 
+      int orderID;
+      var list2 = (await db.rawQuery('SELECT last_insert_rowid()')).forEach((element) {
+        orderID = element['last_insert_rowid()'];
+      });
+      var productID;
+      productList.forEach((product) async{
+        var l = (await db.query(
+            'inventory',
+            columns: ['ProductID'],
+            where: 'ProductName = ?',
+            whereArgs: [product.name])).forEach((element) {
+          productID = element['ProductID'];
+        });
+        await db.rawInsert('''
+        INSERT INTO orderGoods(
+          OrderID, ProductID, Quantity, Price
+          ) VALUES (?,?,?,?)
+      ''',[orderID, productID, product.quantity, product.price]);
+    });
+    await db.rawInsert('''
+        INSERT INTO transactions(
+          OrderID, Amount, Type
+          ) VALUES (?,?,?)
+      ''',[orderID, amount, type]);
+  }
+  addTransaction() async{
 
-    return 'hello';
+  }
+  addAccount(companyName, title, bankName, accountNo,currentBal)async {
+    final db = await database;
+    int companyID;
+    var IDquery = (await db.query(
+        'companies',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [companyName])).forEach((element) {
+      companyID = element['ProductID'];
+    });
+    var res2 = await db.rawInsert('''
+    INSERT INTO accounts(
+      CompanyID, AccountType, AccountNo, BankName, Balance
+    ) VALUES (?,?,?,?,?)
+    ''', [companyID, title, accountNo, bankName, currentBal]);
   }
   addAssets(name, description, type, value){
     return name;
@@ -262,6 +353,64 @@ class DBprovider{
     ''', [partyType, partyName, partyDescription, emailAddress, contactNo, accountNo, receivable, payable]);
 
     return res;
+  }
+
+  getParties() async{
+    final db =await database;
+    final List<Map<String, dynamic>> parties = await db.rawQuery('''
+        SELECT * FROM parties;
+      ''');
+    print(parties);
+
+    List <String> temp = [];
+    parties.forEach((party){
+      temp.add(party['PartyName']);
+    });
+
+    return temp;
+
+  }
+
+  getData(name) async{
+
+    final db =await database;
+
+    final List<Map<String, dynamic>> parties = await db.rawQuery('''
+        SELECT * FROM parties WHERE PartyName= ?;
+      ''',[name]);
+
+    return parties;
+
+  }
+
+  getPartyList() async{
+    final db = await database;
+    var res = await db.query('parties',
+    columns: ['PartyName', 'Receivable']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'name':element['PartyName'], 'amount':element['Receivable'].toString()});
+    });
+    return list;
+  }
+
+  getItemList(name) async{
+
+    final db =await database;
+    int partyID;
+    var list = (await db.query(
+        'parties',
+        columns: ['PartyID'],
+        where: 'PartyName = ?',
+        whereArgs: [name])).forEach((element) {
+      partyID = element['PartyID'];
+    });
+    final List<Map<String, dynamic>> parties = await db.rawQuery('''
+        SELECT * FROM inventory WHERE PartyID= ?;
+      ''',[partyID]);
+
+    return parties;
+
   }
 
 }
