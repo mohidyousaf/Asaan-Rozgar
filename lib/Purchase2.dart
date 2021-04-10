@@ -16,10 +16,11 @@ class Purchase2 extends StatefulWidget {
 class _Purchase2State extends State<Purchase2> {
   // data for items added
 
-  List<addItem> objects=[
-    addItem(itemName:'Lays', price:10 , quantity:20, image:'Image1'),
-    addItem(itemName:'Cheetos', price:30 , quantity:2, image:'Image2'),
-  ];
+  // List<addItem> objects = [
+  //   addItem(itemName: 'Lays', price: 10, quantity: 20, image: 'Image1'),
+  //   addItem(itemName: 'Cheetos', price: 30, quantity: 2, image: 'Image2'),
+  // ];
+  List<addItem> objects = [];
 
   List<String> itemName = ['Lays', 'Cheetos'];
   List<int> price = [10, 30];
@@ -30,6 +31,7 @@ class _Purchase2State extends State<Purchase2> {
   String name;
   bool toGive = false;
   int invoiceNo = 8;
+  int _value = 1;
 //  TextEditingController ProductName = new TextEditingController();
   double receivable;
   double payable;
@@ -156,21 +158,35 @@ class _Purchase2State extends State<Purchase2> {
                           children: [
                             Container(
                               child: (toGive == true)
-                                  ? Text(Balance_message,
-                                      style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 12.0,
-                                        color: Color.fromRGBO(245, 70, 93, 1.0),
-                                      ))
-                                  : Text(Balance_message,
-                                      style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 12.0,
-                                        color:
-                                            Color.fromRGBO(46, 189, 133, 1.0),
-                                      )),
+                                  ? Row(
+                                    children: [
+                                      Text(Balance_message,
+                                          style: TextStyle(
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 12.0,
+                                            color: Color.fromRGBO(245, 70, 93, 1.0),
+                                          )),
+                                          Icon(Icons.arrow_upward,
+                                          size: 14,
+                                          color: Color.fromRGBO(245, 70, 93, 1.0))
+                                    ],
+                                  )
+                                  : Row(
+                                    children: [
+                                      Text(Balance_message,
+                                          style: TextStyle(
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 12.0,
+                                            color:
+                                                Color.fromRGBO(46, 189,133, 1.0),
+                                          )),
+                                          Icon(Icons.arrow_downward,
+                                          size: 14,
+                                          color: Color.fromRGBO(46,189, 133, 1.0),),
+                                    ],
+                                  ),
                             ),
                           ],
                         ),
@@ -196,7 +212,7 @@ class _Purchase2State extends State<Purchase2> {
                   SizedBox(height: 25),
                   Row(
                     children: [
-                      SizedBox(width: 15),
+                      SizedBox(width: 10),
                       Text("Invoice No:  ",
                           style: TextStyle(
                             fontFamily: "Lato",
@@ -212,7 +228,7 @@ class _Purchase2State extends State<Purchase2> {
                             fontSize: 12.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.36),
                       Text("Date: ",
                           style: TextStyle(
                             fontFamily: "Lato",
@@ -220,13 +236,21 @@ class _Purchase2State extends State<Purchase2> {
                             fontSize: 12.0,
                             color: Color.fromRGBO(107, 143, 165, 0.7),
                           )),
-                      Text("16/11/2000 @",
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.0,
-                            color: Color.fromRGBO(11, 71, 109, 1.0),
-                          )),
+                      Row(
+                        children: [
+                          Text("16/11/2000",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0,
+                                color: Color.fromRGBO(11, 71, 109, 1.0),
+                              )),
+                              SizedBox(width: 3,),
+                              Icon(Icons.calendar_today_rounded,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                              size: 15,)
+                        ],
+                      ),
                     ],
                   ),
                   Container(
@@ -236,58 +260,195 @@ class _Purchase2State extends State<Purchase2> {
                             children: [
                               SizedBox(height: 20),
                               Column(
-                                  children:
-                                      objects.map((sub) => itemCard(
-                                        obj : sub
-                                      )
-                              ).toList()
-                              ),
+                                  children: objects
+                                      .map((sub) => itemCard(obj: sub))
+                                      .toList()),
                             ],
                           ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   FlatButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/purchase3');
                       },
-                      height: 30,
-                      minWidth: 200,
-                      child: Text('ADD ITEMS(OPTIONAL)',
+                      height: 35,
+                      minWidth: 250,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text('ADD ITEMS (OPTIONAL)',
                           style: TextStyle(
                             fontFamily: "Lato",
                             fontWeight: FontWeight.normal,
-                            fontSize: 14.0,
+                            fontSize: 10.0,
                             color: Color.fromRGBO(11, 71, 109, 1.0),
                           )),
                       color: Color.fromRGBO(136, 182, 211, 0.67)),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Total",
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("Total:",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          )),
+                      Row(
+                        children: [
+                          Text("Rs.",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: Colors.black54,
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("Paid:",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          )),
+                      Row(
+                        children: [
+                          Text("Rs.",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: Colors.black54,
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("Payment Type",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          )),
+                      SizedBox(
+                        height: 10,
+                      ),
+                          Row(
+                            children: [
+                              SizedBox(width: 10,),
+                              Container(
+                                child: DropdownButton(
+                                    value: _value,
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: Text("Cash"),
+                                        value: 1,
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text("Bank"),
+                                        value: 2,
+                                      ),
+                                    ],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _value = value;
+                                      });
+                                    }),
+                              ),
+                            ],
+                          ),
+                    ],
                   ),
-                  TextField(),
-                  TextField(),
-                  Text("Payment Type"),
-                  Text("Cash v"),
-                  Row(children: [
-                    Column(
-                      children: [
-                        Text("Balance Due"),
-                        Text("Rs.0.00"),
-                      ],
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                    FlatButton(
-                        onPressed: () {},
-                        child: Text('NEXT',
-                            style: TextStyle(
+                  SizedBox(height: 17,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 20,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                          Text("Sub Total:",
+                          style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.w500,
                               fontSize: 14.0,
                               color: Color.fromRGBO(11, 71, 109, 1.0),
                             )),
-                        color: Color.fromRGBO(136, 182, 211, 0.67)),
-                  ]),
+                          SizedBox(height: 5,),
+                          Text("Rs. 0.00",
+                          style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                    ],
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width*0.3,),
+                  Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () {},
+                      height: 30,
+                      minWidth: 90,
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                      child: Text('SAVE',
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10.0,
+                            color: Colors.white
+                          )),
+                      color: Color.fromRGBO(11, 71, 109, 1.0)),
+                      SizedBox(width: 50,),
+                ],
+              )
+                ],
+              ),
                 ]),
               ),
             ),
@@ -314,4 +475,3 @@ class _Purchase2State extends State<Purchase2> {
 //         )),
 //       ));
 // }
-
