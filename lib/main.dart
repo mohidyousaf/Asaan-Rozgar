@@ -35,7 +35,11 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
+<<<<<<< HEAD
       initialRoute: '/additem2',
+=======
+      initialRoute: '/purchase',
+>>>>>>> f5a07ae5d187e0eedb7297b128f27acb92434ac7
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),

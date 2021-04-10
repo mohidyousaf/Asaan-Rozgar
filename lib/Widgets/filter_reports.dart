@@ -23,7 +23,7 @@ Widget filter_reports(BuildContext context){
                                       Icons.filter_alt_outlined,
                                       semanticLabel: 'Filter',
                                       ), 
-                                    onPressed: () {inventory_filter(context);},
+                                    onPressed: () {},
                                     ),
                                     Text(
                                       'Filter',

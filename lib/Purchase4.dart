@@ -13,13 +13,44 @@ class Purchase4 extends StatefulWidget {
 
 class _Purchase4State extends State<Purchase4> {
 
-  List<itemList> objects=[
-  itemList(itemName:'Lays', image:'Image1'),
-  itemList(itemName:'Cheetos', image:'Image2'),
-  ];
+  itemList tm;
+  List<itemList> objects=[];
+  Map data ={};
+  String name;
+  List<Map<String, dynamic>> temp1;
+
+  getItemList()async{
+    List<Map<String, dynamic>> temp2 = await DBprovider.db.getItemList(name);
+    setState(() {
+      temp1= temp2;
+      print(temp1);
+      temp1.forEach((element) {
+        objects.add(itemList(itemName:element['ProductName'], image:'Image'));
+      });
+    });
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    print("init");
+    // future that allows us to access context. function is called inside the future
+    // otherwise it would be skipped and args would return null
+    Future.delayed(Duration.zero, () {
+      getItemList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      name = data['name'];
+      // tm = data['obj'];
+
+    });
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -63,7 +94,13 @@ class _Purchase4State extends State<Purchase4> {
                     Column(
                         children:
                             objects.map((sub) => cart(
-                              obj1 : sub
+                              obj1 : sub,
+                                pass: (){
+                                  Navigator.pushNamed(context, '/purchase3', arguments: {
+                                    'obj': sub,
+                                  } );
+                                }
+
                             )
                     ).toList()
                     ),

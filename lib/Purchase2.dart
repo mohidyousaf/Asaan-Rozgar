@@ -271,7 +271,7 @@ class _Purchase2State extends State<Purchase2> {
                   ),
                   FlatButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/purchase3');
+                        Navigator.pushNamed(context, '/purchase4',arguments: {'name': data['name']});
                       },
                       height: 35,
                       minWidth: 250,
