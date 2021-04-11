@@ -53,8 +53,8 @@ class _expensesState extends State<expenses> {
     double slider_height=phone_height*0.0417;
     return Scaffold(
       backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-      appBar: std_appbar('Expenses', color_Red, color_Green, color_Blue),
-      bottomNavigationBar: std_chinbar(11, 71, 109),
+      appBar: std_appbar(context, 'Expenses', color_Red, color_Green, color_Blue),
+      bottomNavigationBar: std_chinbar(context, 11, 71, 109),
       floatingActionButton:  FloatingActionButton(
           backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
           onPressed: (){},
@@ -77,10 +77,10 @@ class _expensesState extends State<expenses> {
                       children: [
                         filter_reports(context),
                         expenses_head(context),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height *0.8,
-                          child: expenses_lis(items: Inventory.getinventory())
-                        )
+                        // SizedBox(
+                        //   height: MediaQuery.of(context).size.height *0.8,
+                        //   child: expenses_lis(items: Inventory.getinventory())
+                        // )
                       ],
                       ),
                   )

@@ -35,7 +35,9 @@ class _PurchaseState extends State<Purchase> {
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .08,
           leading: IconButton(
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.pop(context)
+            },
             icon: Icon(Icons.arrow_back_ios),
           ),
           title: Text("Choose Party",
