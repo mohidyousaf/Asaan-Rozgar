@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'package:asaanrozgar/Purchase_invoice.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Add_Item.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _PurchaseControllerState extends State<PurchaseController> {
   }
   @override
   Widget build(BuildContext context) {
-    return (curr == 'catalog') ? Purchase4(func:changeScreen):(curr=='cart' ? Purchase2(func:changeScreen):Purchase3(func:changeScreen, object:obj)) ;
+    return (curr == 'catalog') ? Purchase4(func:changeScreen):(curr=='cart' ? Purchase2(func:changeScreen):(curr=='invoice' ? Purchase_invoice(func:changeScreen):Purchase3(func:changeScreen, object:obj))) ;
   }
 }
 
@@ -462,7 +463,9 @@ class _Purchase2State extends State<Purchase2> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        widget.func(screenName:'invoice');
+                      },
                       height: 30,
                       minWidth: 90,
                       shape: RoundedRectangleBorder(

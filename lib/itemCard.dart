@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 class invoice_list extends StatelessWidget {
-  final invoice obj2;
+  final addItem obj2;
   invoice_list({this.obj2});
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
                 Text(obj2.itemName,
                   style: TextStyle(
@@ -16,7 +17,7 @@ class invoice_list extends StatelessWidget {
                     fontSize: 13.0,
                     color: Colors.black,
                   )),
-              SizedBox(width: MediaQuery.of(context).size.width*0.3,),
+              SizedBox(width: obj2.itemName.length>5 ? 100:110),
               Text(obj2.quantity.toString(),
                   style: TextStyle(
                     fontFamily: "Lato",
@@ -24,7 +25,7 @@ class invoice_list extends StatelessWidget {
                     fontSize: 13.0,
                     color: Colors.black,
                   )),
-              SizedBox(width: MediaQuery.of(context).size.width*0.25,),
+            SizedBox(width: obj2.quantity>100 ? 100:100),
                   Text(obj2.price.toString(),
                   style: TextStyle(
                     fontFamily: "Lato",

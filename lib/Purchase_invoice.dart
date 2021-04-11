@@ -1,14 +1,18 @@
 import 'dart:ffi';
-
+import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Add_Item.dart';
 import 'package:flutter/material.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
+import 'package:asaanrozgar/Purchase2.dart';
+
 
 void main() => runApp(MaterialApp(home: Purchase_invoice()));
 
 class Purchase_invoice extends StatefulWidget {
+  final Function func;
+  Purchase_invoice({this.func});
   @override
   _Purchase_invoiceState createState() => _Purchase_invoiceState();
 }
@@ -16,10 +20,7 @@ class Purchase_invoice extends StatefulWidget {
 class _Purchase_invoiceState extends State<Purchase_invoice> {
   // data for items added
 
-  List<invoice> objects = [
-    invoice(itemName: 'Lays', price: 10, quantity: 20),
-    invoice(itemName: 'Cheetos', price: 30, quantity: 2),
-  ];
+  List<addItem> objects = [];
  // List<addItem> objects = [];
 
   List<String> itemName = ['Lays', 'Cheetos'];
@@ -28,7 +29,7 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
   List<String> image = ['Image1', 'Image2'];
 
   Map data = {};
-  String name = "Alina Anjum";
+  String name ;
   bool toGive = false;
   int invoiceNo = 8;
   int _value = 1;
@@ -37,48 +38,19 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
   double payable = 2000;
   String Balance_message = "You will get";
   double balance = 200;
+  double salesTax= 0;
+  double invoiceTotal=0;
   List<Map<String, dynamic>> temp;
 
-  // getData() async {
-  //   List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
-  //   setState(() {
-  //     temp = temp2;
-  //     print('data is');
-  //     print(temp);
-  //     temp.forEach((user) {
-  //       payable = user['Payable'];
-  //       receivable = user['Receivable'];
-  //       if (payable > receivable) {
-  //         balance = payable - receivable;
-  //         Balance_message = "You'll Pay";
-  //         toGive = true;
-  //       } else {
-  //         balance = receivable - payable;
-  //         Balance_message = "You'll Get";
-  //         toGive = false;
-  //       }
-  //       print('-----------');
-  //     });
-  //   });
-  // }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   print("init");
-  //   // future that allows us to access context. function is called inside the future
-  //   // otherwise it would be skipped and args would return null
-  //   Future.delayed(Duration.zero, () {
-  //     getData();
-  //   });
-  // }
+
 
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
-    // setState(() {
-    //   name = data['name'];
-    // });
+    setState(() {
+      name = data['name'];
+    });
 
     print(balance);
     print(Balance_message);
@@ -286,8 +258,15 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                         ],
                       ),
                       SizedBox(height: 10,),
-                      Column(
-                        children: objects.map((sub) => invoice_list(obj2: sub)).toList()),
+
+                      Consumer<CartModel>(
+                        builder: (context,cart,child){
+                          objects= cart.cartList;
+                          return   Column(
+                              children: objects.map((sub) => invoice_list(obj2: sub)).toList()
+                          );
+                        },
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -299,6 +278,8 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                       SizedBox(
                         height: 20,
                       ),
+
+
                       Text("Subtotal",
                           style: TextStyle(
                             fontFamily: "Lato",
@@ -309,13 +290,19 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                           SizedBox(height: 5,),
                       Row(
                         children: [
-                          Text("Rs. 220",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16.0,
-                                color: Colors.black,
-                              )),
+
+                          Consumer<CartModel>(
+                            builder: (context,cart,child){
+                              return Text(cart.totalPrice.toString(),
+                                  style: TextStyle(
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16.0,
+                                    color: Colors.black,
+                                  ));
+                            },
+                          )
+
                         ],
                       ),
                       SizedBox(
@@ -339,7 +326,7 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                           SizedBox(height: 5,),
                       Row(
                         children: [
-                          Text("Rs. 40",
+                          Text(salesTax.toString(),
                               style: TextStyle(
                                 fontFamily: "Lato",
                                 fontWeight: FontWeight.w500,
@@ -371,13 +358,18 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                               SizedBox(height: 5,),
                           Row(
                             children: [
-                              Text("Rs. 260",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 24.0,
-                                    color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  )),
+                              Consumer<CartModel>(
+                                builder: (context,cart,child){
+                                  return Text(cart.totalPrice.toString(),
+                                      style: TextStyle(
+                                        fontFamily: "Lato",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24.0,
+                                        color: Color.fromRGBO(11, 71, 109, 1.0),
+                                      ));
+                                },
+                              )
+
                             ],
                           ),
                           SizedBox(
