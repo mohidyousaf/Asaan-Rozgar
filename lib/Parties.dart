@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:asaanrozgar/dashboard.dart';
 
@@ -12,17 +14,40 @@ import 'Widgets/std_chinbar.dart';
 // ));
 
 class Parties extends StatelessWidget{
-  final name = "Afaq Wholesaler";
+  final name = "Afaq Wholesaler.";
+  
   @override
   Widget build(BuildContext context){
+    double width = MediaQuery.of(context).size.width;
     return 
     Scaffold(
         backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
-          onPressed: (){},
-          child: Icon(Icons.add, color: Colors.white),
-        ),
+        
+        //Updated FAB
+        floatingActionButton: std_FAB(109, 11, 93, Icon(Icons.person), "Add Party", width*0.45, width*0.1),
+        
+        // SpeedDial(
+        //   child: Icon(Icons.add),
+        //   overlayColor: Colors.black,
+        //   overlayOpacity: 0.5,
+        //   marginRight: MediaQuery.of(context).size.width*0.45,
+        //   marginBottom: MediaQuery.of(context).size.width*0.1,
+        //   backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
+        //   children: [
+        //     SpeedDialChild(
+        //         child: Icon(Icons.filter_alt_outlined),
+        //         label: "Add Party",
+        //         backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
+        //     )
+        //   ],
+        // ),
+
+        //Need to Remove
+        // FloatingActionButton(
+        //   backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
+        //   onPressed: (){},
+        //   child: Icon(Icons.add, color: Colors.white),
+        // ),
         bottomNavigationBar: std_chinbar(0, 0, 0),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
