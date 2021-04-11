@@ -201,6 +201,33 @@ class drawer extends StatelessWidget {
                    );
                 },
               ),
+//Sign Out
+               ListTile(
+                leading: Image.asset('assets/Plus.png'),
+                title: Text(
+                'Sign out',
+                style: TextStyle(
+                  fontFamily: 'lato',
+                  fontSize: 16,
+                  // fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(11, 71, 109, 1.0),
+                ),
+              ),
+                onTap: ()
+                 async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove('loggedIn');
+                Navigator.pushReplacementNamed(context, '/signIn');
+                 },
+              
+                      )
+          ]),
+                   );
+               
+              
+
+
+
 
     //Dropdown... fix later
       // DropdownButton(
@@ -217,9 +244,7 @@ class drawer extends StatelessWidget {
       // ).toList(),
 
       // ),
-          ]
-          ),
-      );
+        
 
   }
 }
