@@ -30,20 +30,25 @@ class _AddAccountsState extends State<AddAccounts> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
+
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor:Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios,color:Color.fromRGBO(11, 71, 109, 1.0)),
+        ),
+        title: Text(
+            'Add Account',
+            style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Color.fromRGBO(11, 71, 109, 1.0)))),
+      ),
       body: Column(
         children: <Widget>[
           SizedBox(height:50),
-          Center(
-            child: Text(
-              'Add Account',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'lato',
-                  color: Colors.black87
-              ),
-            ),
-          ),
+
 
           SizedBox(height: 30),
           Image.asset('assets/Frame 8.png'),

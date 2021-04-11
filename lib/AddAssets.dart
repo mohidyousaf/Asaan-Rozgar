@@ -26,21 +26,26 @@ class _AddAssetsState extends State<AddAssets> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
+
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor:Color.fromRGBO(11, 71, 109, 1.0),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
+        title: Text(
+          'Add Assets',
+          style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Colors.white)),
+        ),
+      ),
+
       body: Column(
         children: <Widget>[
           SizedBox(height:50),
-          Center(
-            child: Text(
-              'Add Assets',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'lato',
-                  color: Colors.black87
-              ),
-            ),
-          ),
-
           SizedBox(height: 30),
           Image.asset('assets/asset.png'),
           SizedBox(height: 30),
