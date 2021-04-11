@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/dashboard.dart';
+import 'package:asaanrozgar/drawer.dart';
 
 
 // void main() => runApp(MaterialApp(
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: drawer(),
       backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
       appBar: AppBar(
         elevation: 0,
@@ -35,14 +37,14 @@ class MyApp extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
 
-        actions: <Widget>[IconButton(
-          //TODO: MENU
-          onPressed: ()=>{
-            Navigator.pushNamed(context, '/menu')
-          },
-        icon: Icon(Icons.menu),
-      )
-      ],
+      //   actions: <Widget>[IconButton(
+      //     //TODO: MENU
+      //     onPressed: ()=>{
+      //       // Navigator.pushNamed(context, '/menu')
+      //     },
+      //   icon: Icon(Icons.menu),
+      // )
+      // ],
     ),
     body: SingleChildScrollView(
       child: Column(children: [

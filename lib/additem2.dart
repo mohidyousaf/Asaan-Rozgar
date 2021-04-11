@@ -402,6 +402,7 @@ class _additem2State extends State<additem2> {
                             data['salePrice'],
                             data['taxRate'],
                             data['minStock']);
+                        Navigator.popUntil(context,ModalRoute.withName('/home'));
                         print(temp);
                       },
                       height: 30,

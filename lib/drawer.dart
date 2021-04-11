@@ -13,6 +13,8 @@ import './AddEquity.dart';
 import './AddAccount.dart';
 import './AddAssets.dart';
 import './Parties.dart';
+import 'package:asaanrozgar/Transactions.dart';
+import 'package:asaanrozgar/AddLoan-1.dart';
 
 class drawer extends StatelessWidget {
   @override
@@ -68,7 +70,7 @@ class drawer extends StatelessWidget {
                   Navigator.push(
                     context, 
                     MaterialPageRoute(
-                      builder: (BuildContext context) => AddItem()
+                      builder: (BuildContext context) => transactions()
                       )
                    );
                 },
@@ -154,7 +156,7 @@ class drawer extends StatelessWidget {
                   Navigator.push(
                     context, 
                     MaterialPageRoute(
-                      builder: (BuildContext context) => null,
+                      builder: (BuildContext context) => AddLoans(),
                       )
                    );
                 },

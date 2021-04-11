@@ -15,7 +15,7 @@ import 'Widgets/std_chinbar.dart';
 
 class Parties extends StatelessWidget{
   final name = "Afaq Wholesaler.";
-  List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.person), route: '/')];
+  List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.person), route: '/addParty')];
   @override
   Widget build(BuildContext context){
     // double width = MediaQuery.of(context).size.width;
@@ -54,6 +54,7 @@ class Parties extends StatelessWidget{
         body: Column(
         children:[
           std_appbar(context, name, 109, 11, 93),
+
           Dashboard(),
           SizedBox(height:3),
          Container(
