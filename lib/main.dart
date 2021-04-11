@@ -19,6 +19,7 @@ import 'package:asaanrozgar/Purchase1.dart';
 import 'package:asaanrozgar/Purchase2.dart';
 import 'package:asaanrozgar/Purchase3.dart';
 import 'package:asaanrozgar/Purchase4.dart';
+import 'package:asaanrozgar/Purchase_invoice.dart';
 import 'package:asaanrozgar/additem2.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,11 +36,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-<<<<<<< HEAD
-      initialRoute: '/additem2',
-=======
-      initialRoute: '/purchase',
->>>>>>> f5a07ae5d187e0eedb7297b128f27acb92434ac7
+      initialRoute: '/purchase_invoice',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -61,6 +58,7 @@ void main() async{
         '/purchase2':(context)=> Purchase2(),
         '/purchase3':(context)=> Purchase3(),
         '/purchase4':(context)=> Purchase4(),
+        '/purchase_invoice':(context)=> Purchase_invoice(),
         '/additem2':(context)=> additem2(),
 
       },

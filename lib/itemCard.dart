@@ -1,45 +1,82 @@
-
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
+class invoice_list extends StatelessWidget {
+  final invoice obj2;
+  invoice_list({this.obj2});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+          children: [
+                Text(obj2.itemName,
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.0,
+                    color: Colors.black,
+                  )),
+              SizedBox(width: MediaQuery.of(context).size.width*0.3,),
+              Text(obj2.quantity.toString(),
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.0,
+                    color: Colors.black,
+                  )),
+              SizedBox(width: MediaQuery.of(context).size.width*0.25,),
+                  Text(obj2.price.toString(),
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13.0,
+                    color: Colors.black,
+                  )),
+          ],
+        ),
+    );
+  }
+}
 
 class cart extends StatelessWidget {
   final itemList obj1;
   final Function pass;
-  cart({this.obj1,this.pass});
+  cart({this.obj1, this.pass});
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         FlatButton(
-                          onPressed:pass,
-                          height: 50,
-                          minWidth: 300,
-                          child: Row(children: [
-                          Text( obj1.image.toString(),
-                          style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.0,
-                          color: Color.fromRGBO(136, 182, 211, 0.67)
-                        )),
-                          SizedBox(width: 15,),
-                          Text( obj1.itemName.toString(),
-                          style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 20.0,
-                        )),
-                        ],), 
-                          ),
+          onPressed: pass,
+          height: 50,
+          minWidth: 300,
+          child: Row(
+            children: [
+              Text(obj1.image.toString(),
+                  style: TextStyle(
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.0,
+                      color: Color.fromRGBO(136, 182, 211, 0.67))),
+              SizedBox(
+                width: 15,
+              ),
+              Text(obj1.itemName.toString(),
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20.0,
+                  )),
+            ],
+          ),
+        ),
       ],
     );
   }
 }
 
 class itemCard extends StatelessWidget {
-
   final addItem obj;
   itemCard({this.obj});
 
@@ -48,23 +85,17 @@ class itemCard extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          width: MediaQuery.of(context).size.width *
-              0.04,
+          width: MediaQuery.of(context).size.width * 0.04,
         ),
         Text(obj.image.toString()),
-        SizedBox(
-            width:
-            MediaQuery.of(context).size.width *
-                0.04),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.04),
         Row(
           children: [
             Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -74,28 +105,21 @@ class itemCard extends StatelessWidget {
                               // fontWeight:
                               // FontWeight.w600,
                               fontSize: 18.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 1.0),
+                              color: Color.fromRGBO(38, 51, 58, 1.0),
                             )),
                         Text(" ",
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 1.0),
+                              color: Color.fromRGBO(38, 51, 58, 1.0),
                             )),
-                        Text(
-                            obj.itemName
-                                .toString(),
+                        Text(obj.itemName.toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 1.0),
+                              color: Color.fromRGBO(38, 51, 58, 1.0),
                             )),
                       ],
                     ),
@@ -105,43 +129,30 @@ class itemCard extends StatelessWidget {
                     Text("Item Subtotal",
                         style: TextStyle(
                           fontFamily: "Lato",
-                          fontWeight:
-                          FontWeight.w600,
+                          fontWeight: FontWeight.w600,
                           fontSize: 12.0,
-                          color: Color.fromRGBO(
-                              38, 51, 58, 0.6),
+                          color: Color.fromRGBO(38, 51, 58, 0.6),
                         )),
                   ],
                 ),
                 SizedBox(height: 20),
               ],
             ),
-            SizedBox(
-                width: MediaQuery.of(context)
-                    .size
-                    .width *
-                    0.25),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.25),
             Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Row(
                       children: [
-                        Text(
-                            (obj.quantity *
-                                obj.price)
-                                .toString(),
+                        Text((obj.quantity * obj.price).toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 18.0,
-                              color: Color.fromRGBO(
-                                  11, 71, 109, 1.0),
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
                             )),
                       ],
                     ),
@@ -150,57 +161,40 @@ class itemCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Text(
-                            (obj.quantity)
-                                .toString(),
+                        Text((obj.quantity).toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 12.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 0.6),
+                              color: Color.fromRGBO(38, 51, 58, 0.6),
                             )),
                         Text(" x Rs. ",
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 12.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 0.6),
+                              color: Color.fromRGBO(38, 51, 58, 0.6),
                             )),
-                        Text(
-                            (obj.price)
-                                .toString(),
+                        Text((obj.price).toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 12.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 0.6),
+                              color: Color.fromRGBO(38, 51, 58, 0.6),
                             )),
                         Text(" = ",
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 12.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 0.6),
+                              color: Color.fromRGBO(38, 51, 58, 0.6),
                             )),
-                        Text(
-                            (obj.quantity *
-                                obj.price)
-                                .toString(),
+                        Text((obj.quantity * obj.price).toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 12.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 0.6),
+                              color: Color.fromRGBO(38, 51, 58, 0.6),
                             )),
                       ],
                     ),
@@ -212,6 +206,7 @@ class itemCard extends StatelessWidget {
           ],
         ),
       ],
-    );;
+    );
+    ;
   }
 }
