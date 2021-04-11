@@ -25,7 +25,7 @@ class invoice_list extends StatelessWidget {
                     fontSize: 13.0,
                     color: Colors.black,
                   )),
-            SizedBox(width: obj2.quantity>100 ? 100:100),
+            SizedBox(width: obj2.quantity<100 ? 128:120),
                   Text(obj2.price.toString(),
                   style: TextStyle(
                     fontFamily: "Lato",

@@ -52,7 +52,7 @@ class _transactionsState extends State<transactions> {
     double longBtt_height = phone_height* 0.051;
     double image_height=  phone_height * 0.20;
     double image_width = phone_width *0.5;
-    double textfield_gap = phone_height *0.0125; 
+    double textfield_gap = phone_height *0.0125;
     double button_gap = phone_height *0.063;
     double divider_width = phone_width * 0.8;
     double slider_width=phone_width*0.834;
@@ -169,7 +169,7 @@ class _transactionsState extends State<transactions> {
                         //     ):Text('')
                         //   ]
                         // ),
-                       
+
                         //sale_purchase_head(context),
                         //inventory_lis(items: Inventory.getinventory())
                       ],
@@ -177,7 +177,7 @@ class _transactionsState extends State<transactions> {
                   )
                 )
                 )
-              
+
             ],
             ),
 

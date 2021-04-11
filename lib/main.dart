@@ -22,6 +22,9 @@ import 'package:asaanrozgar/Purchase4.dart';
 import 'package:asaanrozgar/Purchase_invoice.dart';
 import 'package:asaanrozgar/additem2.dart';
 import 'package:asaanrozgar/Inventory.dart';
+import 'package:asaanrozgar/Sale1.dart';
+import 'package:asaanrozgar/Sale2.dart';
+
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,7 +66,8 @@ void main() async{
         '/purchase_invoice':(context)=> Purchase_invoice(),
         '/inventory':(context) => inventory(),
         '/addItem2':(context)=> additem2(),
-
+        '/sale':(context)=> Sale(),
+        '/sale2':(context)=> SaleMain(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),

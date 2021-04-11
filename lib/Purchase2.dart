@@ -301,7 +301,7 @@ class _Purchase2State extends State<Purchase2> {
                             children: [
                               SizedBox(height: 20),
                               Container(
-                                height: (objects.length > 3)? 150.0 :((objects.length)*50.0),
+                                height: (objects.length > 2)? 100.0 :((objects.length)*50.0),
                                 child: SingleChildScrollView(
                                   child: Column(
                                       children: objects
