@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-Widget std_chinbar(int color_red,int color_green, int color_blue){
+Widget std_chinbar(context, int color_red,int color_green, int color_blue){
   return BottomAppBar(
         color: Colors.white ,
         child: Row(
@@ -31,7 +31,9 @@ Widget std_chinbar(int color_red,int color_green, int color_blue){
                  color: Color.fromRGBO(11, 71, 109, 1.0),
                  iconSize: 24.0,
                  icon: Icon(Icons.business_center_outlined),
-                onPressed: () {}
+                onPressed: () {
+                   Navigator.pushNamed(context, '/inventory');
+                }
                 ),
                 Text(
                    'Inventory',

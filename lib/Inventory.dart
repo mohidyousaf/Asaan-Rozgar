@@ -51,7 +51,7 @@ class _inventoryState extends State<inventory> {
       create: (context) => InventoryModel(),
       child: Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
-        appBar: std_appbar('Inventory', color_Red, color_Green, color_Blue),
+        appBar: std_appbar(context, 'Inventory', color_Red, color_Green, color_Blue),
         // appBar: AppBar(
         //   elevation: 0,
         //   backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
@@ -119,7 +119,7 @@ class _inventoryState extends State<inventory> {
             },
             child: Icon(Icons.add,color: Colors.white),
             ),
-            bottomNavigationBar: std_chinbar(color_Red,color_Green,color_Blue),
+            bottomNavigationBar: std_chinbar(context, color_Red,color_Green,color_Blue),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Column(
           //TODO: NEED TO IMPLEMENT SEARCH BAR

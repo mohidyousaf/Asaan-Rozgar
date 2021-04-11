@@ -15,16 +15,16 @@ import 'Widgets/std_chinbar.dart';
 
 class Parties extends StatelessWidget{
   final name = "Afaq Wholesaler.";
-  
+  List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.person), route: '/')];
   @override
   Widget build(BuildContext context){
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
     return 
     Scaffold(
         backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
         
         //Updated FAB
-        floatingActionButton: std_FAB(109, 11, 93, Icon(Icons.person), "Add Party", width*0.45, width*0.1),
+        floatingActionButton: std_FAB(Colors.black, 109, 11, 93, buttons, context),
         
         // SpeedDial(
         //   child: Icon(Icons.add),
@@ -48,12 +48,12 @@ class Parties extends StatelessWidget{
         //   onPressed: (){},
         //   child: Icon(Icons.add, color: Colors.white),
         // ),
-        bottomNavigationBar: std_chinbar(0, 0, 0),
+        bottomNavigationBar: std_chinbar(context, 0, 0, 0),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
         body: Column(
         children:[
-          std_appbar(name, 109, 11, 93),
+          std_appbar(context, name, 109, 11, 93),
           Dashboard(),
           SizedBox(height:3),
          Container(

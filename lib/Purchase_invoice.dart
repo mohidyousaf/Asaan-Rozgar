@@ -412,7 +412,9 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                   ),
                   SizedBox(height: 30,),
                   FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.popUntil(context,ModalRoute.withName('/home'));
+                      },
                       height: 30,
                       minWidth: 90,
                       shape: RoundedRectangleBorder(

@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import 'DataBase.dart';
 
 
-class Purchase extends StatefulWidget {
+class Sale extends StatefulWidget {
   @override
-  _PurchaseState createState() => _PurchaseState();
+  _SaleState createState() => _SaleState();
 }
 
-class _PurchaseState extends State<Purchase> {
+class _SaleState extends State<Sale> {
   List <String> names = [];
 
   getParty() async{
@@ -35,9 +35,7 @@ class _PurchaseState extends State<Purchase> {
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .08,
           leading: IconButton(
-            onPressed: () => {
-              Navigator.pop(context)
-            },
+            onPressed: () => {},
             icon: Icon(Icons.arrow_back_ios),
           ),
           title: Text("Choose Party",
@@ -72,19 +70,19 @@ class _PurchaseState extends State<Purchase> {
                 children: [
                   SizedBox(height: 30,),
                   Column(
-                      children: names.map((name) => PartyNAme(
-                          name:name,
-                          pass: (){
-                            Navigator.pushNamed(context, '/purchase2', arguments: {
-                              'name': name,
-                            } );
-                          }
+                    children: names.map((name) => PartyNAme(
+                        name:name,
+                        pass: (){
+                          Navigator.pushNamed(context, '/sale2', arguments: {
+                            'name': name,
+                          } );
+                        }
 
-                      )).toList(),
-                    ),
+                    )).toList(),
+                  ),
                 ],
               ),
-              ),
+            ),
           ],
         ) );
   }

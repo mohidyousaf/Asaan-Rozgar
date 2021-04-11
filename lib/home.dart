@@ -1,4 +1,5 @@
 import 'package:asaanrozgar/DataBase.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
@@ -10,6 +11,8 @@ import 'package:asaanrozgar/dashboard.dart';
 // ));
 
 class MyApp extends StatelessWidget {
+  final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
+                                      ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,14 +64,9 @@ class MyApp extends StatelessWidget {
     ],
     ),
     ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-        onPressed: (){
-          Navigator.pushReplacementNamed(context, '/addItem');
-        },
-        child: Icon(Icons.add,color: Colors.white),
-      ),
-      bottomNavigationBar: std_chinbar(0,0,0),
+      floatingActionButton:
+      std_FAB(Colors.white, 11, 71, 109, buttons, context),
+      bottomNavigationBar: std_chinbar(context, 0,0,0),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
     );
