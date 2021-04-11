@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
+import 'package:asaanrozgar/Components/orderItem.dart';
 
 
 // void main() => runApp(MaterialApp(home: AddItem()));
@@ -231,14 +232,16 @@ class _AddItemState extends State<AddItem> {
                     child: GestureDetector(
                       onTap: () async {
                         //TODO: have to change this to a class
+                        List<OrderItem> order = [new OrderItem(
+                            name: productName.text.toString(),
+                            price: double.parse(purchasePrice.text.toString()),
+                            quantity: quantity)];
                        var temp = await DBprovider.db.addItem(
-                           productName.text.toString(),
+                           order,
                            partnerName.text.toString(),
                            categoryTag.text.toString(),
-                           purchasePrice.text.toString(),
                            salePrice.text.toString(),
                            taxRate.text.toString(),
-                           quantity,
                            minStock);
                        print(temp);
                       },

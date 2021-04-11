@@ -40,10 +40,11 @@ dev_dependencies:
   google_fonts: ^2.0.0
   material_floating_search_bar: ^0.3.3
   shared_preferences: ^2.0.5
-<<<<<<< HEAD
+  provider: ^4.3.3
+#<<<<<<< HEAD
   table_calendar: ^3.0.0
-=======
->>>>>>> a82ec51af5accdbad8fa0ee9c45da29583ebb82e
+#=======
+#>>>>>>> a82ec51af5accdbad8fa0ee9c45da29583ebb82e
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

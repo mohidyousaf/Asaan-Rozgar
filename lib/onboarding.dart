@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:asaanrozgar/onboarding_controller.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-
-      home: Onboarding(),
-  ));
-}
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//
+//       home: Onboarding(),
+//   ));
+// }
 
 final control = OnboardingController();
 class Onboarding extends StatelessWidget {

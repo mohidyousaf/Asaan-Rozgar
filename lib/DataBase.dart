@@ -241,37 +241,41 @@ class DBprovider{
 
   }
   //TODO: BELOW DB FUNCTIONS
-  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,quantity,minStock)async{
+  addItem(products, partnerName, categoryTag, salePrice,taxRate, minStock)async{
     final db = await database;
-    print(productName);
-    //partyID
     int partyID;
-    var list = (await db.query(
-    'parties',
-    columns: ['PartyID'],
-    where: 'PartyName = ?',
-        whereArgs: [partnerName])).forEach((element){
+    int productID;
+    products.forEach((product) async{
+      print( '${product.name}, ${product.price}, ${product.quantity}');
+      //partyID
+      var list = (await db.query(
+      'parties',
+      columns: ['PartyID'],
+      where: 'PartyName = ?',
+          whereArgs: [partnerName])).forEach((element){
       partyID = element['PartyID'];
-    });
-    var res = await db.rawInsert('''
-    INSERT INTO inventory(
+      });
+      var res = await db.rawInsert('''
+      INSERT INTO inventory(
       PartyID,ProductName,ProductDescription,SalePrice,TaxRate,MinStock
     ) VALUES (?,?,?,?,?,?)
-    ''', [partyID, productName, categoryTag, salePrice, taxRate, minStock]);
-    int productID;
-    var product = (await db.query(
-        'inventory',
-        columns: ['ProductID'],
-        where: 'ProductName = ?',
-        whereArgs: [productName])).forEach((element) {
+    ''', [partyID, product.name, categoryTag, salePrice, taxRate, minStock]);
+      var productQuery = (await db.query(
+      'inventory',
+      columns: ['ProductID'],
+      where: 'ProductName = ?',
+      whereArgs: [product.name])).forEach((element) {
       productID = element['ProductID'];
-    });
-    var res2 = await db.rawInsert('''
+      });
+      var res2 = await db.rawInsert('''
     INSERT INTO purchases(
       ProductID,PurchasePrice,Quantity
     ) VALUES (?,?,?)
-    ''', [productID, purchasePrice, quantity]);
-    print('Added');
+    ''', [productID, product.price, product.quantity]);
+      print('Added');
+    });
+    addOrder(products, partnerName, 2000, 1000, 'purchase');
+
 
     return [partyID,productID];
   }
@@ -314,7 +318,7 @@ class DBprovider{
     });
     await db.rawInsert('''
         INSERT INTO transactions(
-          OrderID, Amount, Type
+          OrderID, Amount, TransactionType
           ) VALUES (?,?,?)
       ''',[orderID, amount, type]);
   }

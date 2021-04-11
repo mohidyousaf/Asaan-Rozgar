@@ -115,7 +115,7 @@ class _additem2State extends State<additem2> {
                 Container(
                   height: 4,
                   width: MediaQuery.of(context).size.width * 0.55,
-                  color: Color.fromRGBO(52, 199, 89, 1.0),
+                  color: Colors.blue[500],
                 ),
               ],
             ),

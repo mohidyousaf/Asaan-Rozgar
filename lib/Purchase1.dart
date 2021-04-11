@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/PartyNames.dart';
+import 'package:provider/provider.dart';
 import 'DataBase.dart';
 
 
@@ -11,7 +12,6 @@ class Purchase extends StatefulWidget {
 }
 
 class _PurchaseState extends State<Purchase> {
-
   List <String> names = [];
 
   getParty() async{
@@ -28,9 +28,6 @@ class _PurchaseState extends State<Purchase> {
     getParty();
 
   }
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

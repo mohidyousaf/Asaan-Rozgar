@@ -35,11 +35,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-<<<<<<< HEAD
-      initialRoute: '/additem2',
-=======
       initialRoute: '/purchase',
->>>>>>> f5a07ae5d187e0eedb7297b128f27acb92434ac7
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -58,10 +54,10 @@ void main() async{
         '/setup1': (context) => company_setup(),
         '/setup2': (context) => company_setup1(),
         '/purchase':(context)=> Purchase(),
-        '/purchase2':(context)=> Purchase2(),
+        '/purchase2':(context)=> PurchaseMain(),
         '/purchase3':(context)=> Purchase3(),
         '/purchase4':(context)=> Purchase4(),
-        '/additem2':(context)=> additem2(),
+        '/addItem2':(context)=> additem2(),
 
       },
       theme: ThemeData(

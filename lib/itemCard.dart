@@ -73,7 +73,7 @@ class itemCard extends StatelessWidget {
                               fontFamily: "Lato",
                               // fontWeight:
                               // FontWeight.w600,
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               color: Color.fromRGBO(
                                   38, 51, 58, 1.0),
                             )),
@@ -82,7 +82,7 @@ class itemCard extends StatelessWidget {
                               fontFamily: "Lato",
                               fontWeight:
                               FontWeight.w600,
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               color: Color.fromRGBO(
                                   38, 51, 58, 1.0),
                             )),
@@ -93,7 +93,7 @@ class itemCard extends StatelessWidget {
                               fontFamily: "Lato",
                               fontWeight:
                               FontWeight.w600,
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               color: Color.fromRGBO(
                                   38, 51, 58, 1.0),
                             )),
@@ -139,7 +139,7 @@ class itemCard extends StatelessWidget {
                               fontFamily: "Lato",
                               fontWeight:
                               FontWeight.w600,
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               color: Color.fromRGBO(
                                   11, 71, 109, 1.0),
                             )),
