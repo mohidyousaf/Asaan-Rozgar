@@ -1,3 +1,4 @@
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
@@ -232,18 +233,28 @@ class _AddItemState extends State<AddItem> {
                     child: GestureDetector(
                       onTap: () async {
                         //TODO: have to change this to a class
-                        List<OrderItem> order = [new OrderItem(
-                            name: productName.text.toString(),
-                            price: double.parse(purchasePrice.text.toString()),
-                            quantity: quantity)];
-                       var temp = await DBprovider.db.addItem(
-                           order,
-                           partnerName.text.toString(),
-                           categoryTag.text.toString(),
-                           salePrice.text.toString(),
-                           taxRate.text.toString(),
-                           minStock);
-                       print(temp);
+                        List<addItem> order = [new addItem(
+                            itemName: productName.text.toString(),
+                            price: int.parse(purchasePrice.text.toString()),
+                            quantity: quantity,
+                            image: 'img',)];
+                        Navigator.pushNamed(context, '/addItem2',
+                        arguments: {
+                          'obj':order,
+                          'partyName':partnerName.text.toString(),
+                            'tag':categoryTag.text.toString(),
+                            'salePrice':salePrice.text.toString(),
+                            'taxRate':taxRate.text.toString(),
+                            'minStock':minStock}
+                            );
+                       // var temp = await DBprovider.db.addItem(
+                       //     order,
+                       //     partnerName.text.toString(),
+                       //     categoryTag.text.toString(),
+                       //     salePrice.text.toString(),
+                       //     taxRate.text.toString(),
+                       //     minStock);
+                       // print(temp);
                       },
                       child: Center(
                         child: Text(

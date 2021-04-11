@@ -40,7 +40,7 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 // }
 
 class inventory_lis extends StatelessWidget {
-  final List <Inventory> items;
+  final List <InventoryItem> items;
   inventory_lis({this.items});
   
   @override
@@ -95,7 +95,7 @@ class inventory_lis extends StatelessWidget {
                                   ),
                                   Text(
                                     //The Price of the item is being displayed here so change variable accordingly
-                                  '${item.Price}',
+                                  '${item.price}',
                                    style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
                               ),
                                 ],

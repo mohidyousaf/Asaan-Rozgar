@@ -88,7 +88,8 @@ class itemCard extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.04,
         ),
-        Text(obj.image.toString()),
+        Text('img'),
+        // Image(image: AssetImage('assets/Plus.png'),height: 50.0,width: 50.0,),
         SizedBox(width: MediaQuery.of(context).size.width * 0.04),
         Row(
           children: [

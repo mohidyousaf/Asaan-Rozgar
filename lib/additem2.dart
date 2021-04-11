@@ -28,57 +28,61 @@ class _additem2State extends State<additem2> {
   List<String> image = ['Image1', 'Image2'];
 
   Map data = {};
-  String name = "Ahmad";
+  List<addItem> objects = [];
+  String name;
   bool toGive = false;
   int invoiceNo = 8;
   int _value = 1;
+  double total = 0;
 //  TextEditingController ProductName = new TextEditingController();
-  double receivable = 100;
-  double payable = 900;
-  String Balance_message = "You'll get";
-  double balance = 200;
+  double receivable;
+  double payable;
+  String Balance_message;
+  double balance;
   List<Map<String, dynamic>> temp;
+  double get totalPrice => objects.fold(0, (total, item) => total + (item.quantity*item.price));
 
-  // getData() async {
-  //   List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
-  //   setState(() {
-  //     temp = temp2;
-  //     print('data is');
-  //     print(temp);
-  //     temp.forEach((user) {
-  //       payable = user['Payable'];
-  //       receivable = user['Receivable'];
-  //       if (payable > receivable) {
-  //         balance = payable - receivable;
-  //         Balance_message = "You'll Pay";
-  //         toGive = true;
-  //       } else {
-  //         balance = receivable - payable;
-  //         Balance_message = "You'll Get";
-  //         toGive = false;
-  //       }
-  //       print('-----------');
-  //     });
-  //   });
-  // }
+  getData() async {
+    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
+    setState(() {
+      temp = temp2;
+      print('data is');
+      print(temp2);
+      temp2.forEach((user) {
+        payable = user['Payable'];
+        receivable = user['Receivable'];
+        if (payable > receivable) {
+          balance = payable - receivable;
+          Balance_message = "You'll Pay";
+          toGive = true;
+        } else {
+          balance = receivable - payable;
+          Balance_message = "You'll Get";
+          toGive = false;
+        }
+        print('-----------');
+      });
+    });
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   print("init");
-  //   // future that allows us to access context. function is called inside the future
-  //   // otherwise it would be skipped and args would return null
-  //   Future.delayed(Duration.zero, () {
-  //     getData();
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    print("init");
+    // future that allows us to access context. function is called inside the future
+    // otherwise it would be skipped and args would return null
+    Future.delayed(Duration.zero, () {
+      getData();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
-    // setState(() {
-    //   name = data['name'];
-    // });
+    setState(() {
+      name = data['partyName'];
+      objects = data['obj'];
+    });
 
     print(balance);
     print(Balance_message);
@@ -264,45 +268,26 @@ class _additem2State extends State<additem2> {
                     height: 10,
                   ),
                   Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Container(
+                        height: (objects.length > 3)? 150.0 :((objects.length)*50.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                              children: objects
+                                  .map((sub) => itemCard(obj: sub))
+                                  .toList()),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text("Total:",
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0,
-                            color: Colors.black54,
-                          )),
-                      Row(
-                        children: [
-                          Text("Rs.",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
-                                color: Colors.black54,
-                              )),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+
                       SizedBox(
                         height: 20,
                       ),
@@ -395,7 +380,7 @@ class _additem2State extends State<additem2> {
                               color: Color.fromRGBO(11, 71, 109, 1.0),
                             )),
                           SizedBox(height: 5,),
-                          Text("Rs. 0.00",
+                          Text("Rs. $totalPrice",
                           style: TextStyle(
                               fontFamily: "Lato",
                               fontWeight: FontWeight.w500,
@@ -409,7 +394,16 @@ class _additem2State extends State<additem2> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FlatButton(
-                      onPressed: () {},
+                      onPressed: () async{
+                        var temp = await DBprovider.db.addItem(
+                            data['obj'],
+                            data['partyName'],
+                            data['tag'],
+                            data['salePrice'],
+                            data['taxRate'],
+                            data['minStock']);
+                        print(temp);
+                      },
                       height: 30,
                       minWidth: 90,
                       shape: RoundedRectangleBorder(

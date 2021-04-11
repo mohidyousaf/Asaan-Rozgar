@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:asaanrozgar/Widgets/temp.dart';
+
 
 
 class DBprovider{
@@ -246,7 +248,7 @@ class DBprovider{
     int partyID;
     int productID;
     products.forEach((product) async{
-      print( '${product.name}, ${product.price}, ${product.quantity}');
+      print( '${product.itemName}, ${product.price}, ${product.quantity}');
       //partyID
       var list = (await db.query(
       'parties',
@@ -259,12 +261,12 @@ class DBprovider{
       INSERT INTO inventory(
       PartyID,ProductName,ProductDescription,SalePrice,TaxRate,MinStock
     ) VALUES (?,?,?,?,?,?)
-    ''', [partyID, product.name, categoryTag, salePrice, taxRate, minStock]);
+    ''', [partyID, product.itemName, categoryTag, salePrice, taxRate, minStock]);
       var productQuery = (await db.query(
       'inventory',
       columns: ['ProductID'],
       where: 'ProductName = ?',
-      whereArgs: [product.name])).forEach((element) {
+      whereArgs: [product.itemName])).forEach((element) {
       productID = element['ProductID'];
       });
       var res2 = await db.rawInsert('''
@@ -279,7 +281,7 @@ class DBprovider{
 
     return [partyID,productID];
   }
-  // productList is supposed to be a class with three attributes name, quantity and price.
+  // productList is supposed to be a class with three attributes itemName, quantity and price.
   // this should be passed whenever the function is called
   addOrder(productList, partyName, amount, received, type) async{
     final db = await database;
@@ -307,7 +309,7 @@ class DBprovider{
             'inventory',
             columns: ['ProductID'],
             where: 'ProductName = ?',
-            whereArgs: [product.name])).forEach((element) {
+            whereArgs: [product.itemName])).forEach((element) {
           productID = element['ProductID'];
         });
         await db.rawInsert('''
@@ -414,6 +416,24 @@ class DBprovider{
       ''',[partyID]);
 
     return parties;
+
+  }
+  getInventory() async{
+
+    final db =await database;
+    List<InventoryItem> items = [];
+    final List<Map<String, dynamic>> list = await db.rawQuery('''
+        SELECT * FROM inventory
+      ''');
+    list.forEach((element) {
+      items.add(new InventoryItem(
+          name: element['ProductName'],
+          price: element['SalePrice'].toInt(),
+          quantity: 40,
+          value: 100));
+    });
+
+    return items;
 
   }
 

@@ -40,7 +40,7 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 // }
 
 class sale_purchase_lis extends StatelessWidget {
-  final List <Inventory> items;
+  final List <InventoryItem> items;
   sale_purchase_lis({this.items});
   
   @override
@@ -93,7 +93,7 @@ class sale_purchase_lis extends StatelessWidget {
 
 
 class expenses_lis extends StatelessWidget {
-  final List <Inventory> items;
+  final List <InventoryItem> items;
   expenses_lis({this.items});
   
   @override
