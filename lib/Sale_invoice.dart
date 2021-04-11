@@ -413,7 +413,7 @@ class _Sale_invoiceState extends State<Sale_invoice> {
                       SizedBox(height: 30,),
                       FlatButton(
                           onPressed: () {
-                            Navigator.popUntil(context,ModalRoute.withName('/home'));
+                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                           },
                           height: 30,
                           minWidth: 90,
