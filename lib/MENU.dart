@@ -10,12 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-// void main() {
-//   // TestWidgetsFlutterBinding.ensureInitialized();
-//   runApp(MaterialApp(
-//       home: Menu()
-//   ));
-// }
+void main() {
+  // TestWidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+      home: Menu()
+  ));
+}
 
 class Menu extends StatefulWidget {
   @override
