@@ -11,7 +11,7 @@ import 'package:asaanrozgar/dashboard.dart';
 // ));
 
 class MyApp extends StatelessWidget {
-  final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase'),
+  final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
                                       ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
   @override
   Widget build(BuildContext context) {
