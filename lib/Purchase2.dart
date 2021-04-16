@@ -498,24 +498,7 @@ class _Purchase2State extends State<Purchase2> {
   }
 }
 
-// Widget input_text_fields(String label, TextEditingController name) {
-//   return TextField(
-//       controller: name,
-//       cursorColor: Colors.lightBlue,
-//       decoration: InputDecoration(
-//         border: InputBorder.none,
-//         focusedBorder: InputBorder.none,
-//         enabledBorder: InputBorder.none,
-//         errorBorder: InputBorder.none,
-//         disabledBorder: InputBorder.none,
-//         hintText: '$label',
-//         hintStyle: GoogleFonts.lato(
-//             textStyle: TextStyle(
-//           color: Color.fromRGBO(60, 60, 67, 0.3),
-//           fontSize: 14,
-//         )),
-//       ));
-// }
+
 
 class CartModel extends ChangeNotifier{
   List<addItem> cartList = [];
@@ -525,5 +508,22 @@ class CartModel extends ChangeNotifier{
   }
    double get totalPrice =>
      cartList.fold(0, (total, current) => total + (current.quantity*current.price));
+
+}
+
+class BalanceModel extends ChangeNotifier{
+  Double balance;
+  get currentBalance => balance;
+
+  BalanceModel(){
+    var initFuture = initializeBalance();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  initializeBalance() async{
+    balance = await DBprovider.db.getBalance();
+  }
+
 
 }

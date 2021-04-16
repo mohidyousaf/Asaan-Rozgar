@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'package:asaanrozgar/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // void main() {
@@ -100,6 +101,9 @@ class _AddAccountsState extends State<AddCompany> {
                                     TotalReceivable.text.toString(),
                                     EmailAddress.text.toString(),
                                     CompanyNo.text.toString());
+
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setString('companyName', CompanyName.text.toString());
                                 Navigator.pushNamed(context, '/check', arguments: {
                                   'companyName': CompanyName.text.toString()
                                 });

@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -473,4 +474,26 @@ class DBprovider{
       ''',[balance,companyID]);
   }
 
+  getBalance()async{
+    final db= await database;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [name])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+
+    var temp = await db.rawQuery('''
+        SELECT Balance
+        FROM  accounts
+        WHERE CompanyID=?
+      ''',[companyID]);
+
+    return temp.map((element)=> element['Balance']);
+
+  }
 }
