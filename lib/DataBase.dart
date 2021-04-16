@@ -19,14 +19,14 @@ class DBprovider{
     else
     {
       // delete = true only if database needs to be rebuilt from scratch
-      _database= await this.initDB(delete: false);
+      _database= await this.initDB(delete: true);
       print('returned');
       return _database;
     }
 
   }
 
-  initDB({delete: false}) async{
+  initDB({delete: true}) async{
     print(await getDatabasesPath());
     if (delete) {
       await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
@@ -327,22 +327,36 @@ class DBprovider{
   addTransaction() async{
 
   }
-  addAccount(companyName, title, bankName, accountNo,currentBal)async {
+  addAccount(companyName, type, bankName, accountNo,currentBal)async {
     final db = await database;
     int companyID;
     var IDquery = (await db.query(
-        'companies',
+        'company',
         columns: ['companyID'],
         where: 'companyName = ?',
         whereArgs: [companyName])).forEach((element) {
-      companyID = element['ProductID'];
+      companyID = element['CompanyID'];
     });
     var res2 = await db.rawInsert('''
     INSERT INTO accounts(
       CompanyID, AccountType, AccountNo, BankName, Balance
     ) VALUES (?,?,?,?,?)
-    ''', [companyID, title, accountNo, bankName, currentBal]);
+    ''', [companyID,type, accountNo, bankName, currentBal]);
   }
+
+  addCompany(username, companyName, description, payable, receivable ,email, companyNumber)async {
+    final db = await database;
+
+    var res2 = await db.rawInsert('''
+    INSERT INTO company(
+      Username, CompanyName,CompanyDescription,TotalPayable,TotalReceivable,EmailAddress,CompanyNo
+    ) VALUES (?,?,?,?,?,?,?)
+    ''', [username, companyName, description, payable, receivable ,email, companyNumber]);
+
+    return res2;
+  }
+
+
   addAssets(name, description, type, value){
     return name;
   }
@@ -435,6 +449,28 @@ class DBprovider{
 
     return items;
 
+  }
+
+  updateBalance(name,balance)async{
+    final db =await database;
+    print(name);
+
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [name])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+
+    print("company id is");
+    print(companyID);
+    var temp = await db.rawQuery('''
+        UPDATE accounts
+        SET Balance= ?
+        WHERE CompanyID=?
+      ''',[balance,companyID]);
   }
 
 }

@@ -2,32 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
-import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:asaanrozgar/main.dart';
 
 
 // void main() {
 //   // TestWidgetsFlutterBinding.ensureInitialized();
 //   runApp(MaterialApp(
-//       home: AddAccounts()
+//       home: Check()
 //   ));
 // }
 
-class AddAccounts extends StatefulWidget {
+class Check extends StatefulWidget {
   @override
-  _AddAccountsState createState() => _AddAccountsState();
-
-
+  _CheckState createState() => _CheckState();
 }
 
-class _AddAccountsState extends State<AddAccounts> {
-  TextEditingController Title = new TextEditingController();
-  TextEditingController Name = new TextEditingController();
-  TextEditingController AccountNo = new TextEditingController();
-  TextEditingController CurrentBal = new TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  Map data={};
+class _CheckState extends State<Check> {
+  TextEditingController CompanyName = new TextEditingController();
+  TextEditingController CompanyDescription = new TextEditingController();
+  TextEditingController TotalPayable = new TextEditingController();
+  TextEditingController TotalReceivable = new TextEditingController();
+  TextEditingController EmailAddress = new TextEditingController();
+  TextEditingController CompanyNo = new TextEditingController();
   String name;
+  Map data={};
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
@@ -36,7 +35,6 @@ class _AddAccountsState extends State<AddAccounts> {
     });
     return Scaffold(
       backgroundColor: Colors.grey[50],
-
       appBar: AppBar(
         elevation: 0,
         backgroundColor:Colors.white,
@@ -48,19 +46,19 @@ class _AddAccountsState extends State<AddAccounts> {
           icon: Icon(Icons.arrow_back_ios,color:Color.fromRGBO(11, 71, 109, 1.0)),
         ),
         title: Text(
-            'Add Account',
+            'Add Details',
             style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Color.fromRGBO(11, 71, 109, 1.0)))),
       ),
       body: Column(
         children: <Widget>[
-          SizedBox(height:50),
+
           SizedBox(height: 30),
-          Image.asset('assets/Frame 8.png'),
-          SizedBox(height: 30),
+          Center(child: Image.asset('assets/Frame 8.png')),
+          SizedBox(height: 60),
           Expanded(
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
-              color: Colors.white,
+              // color: Colors.white,
 
               child: Form(
                 key: _formKey,
@@ -68,14 +66,7 @@ class _AddAccountsState extends State<AddAccounts> {
                   child: Column(
 
                     children: <Widget>[
-                      InputTextFields(label: 'Account Type', controller: Title, validateFunc: ValidationFunctions.validateEmpty),
-                      SizedBox(height: 10),
-                      InputTextFields(label: 'Bank Name', controller: Name, validateFunc: ValidationFunctions.validateEmpty),
-                      SizedBox(height: 10),
-                      InputTextFields(label: 'Account Number', controller: AccountNo, validateFunc: ValidationFunctions.validateAccount),
-                      SizedBox(height: 10),
-                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: ValidationFunctions.validateEmpty),
-                      SizedBox(height: 40),
+
                       Container(
                         height: 40.0,
                         width: 200.0,
@@ -85,20 +76,48 @@ class _AddAccountsState extends State<AddAccounts> {
                           color: Color.fromRGBO(11, 71, 109, 1.0),
                           elevation: 7.0,
                           child: TextButton(
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                var temp = await DBprovider.db.addAccount(
-                                    name,
-                                    Title.text.toString(),
-                                    Name.text.toString(),
-                                    AccountNo.text.toString(),
-                                    CurrentBal.text.toString());
-                                Navigator.pushNamed(context, '/signIn');
-                              }
+                            onPressed: ()  {
+                              Navigator.pushNamed(context,'/addAccount',arguments: {
+                                'companyName': name
+                              });
                             },
                             child: Center(
                               child: Text(
                                   'Add Account',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'lato'
+                                  )
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        height: 40.0,
+                        width: 200.0,
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20.0),
+                          shadowColor: Colors.grey[900],
+                          color: Color.fromRGBO(11, 71, 109, 1.0),
+                          elevation: 7.0,
+                          child: TextButton(
+                            onPressed: ()  async{
+                              var temp = await DBprovider.db.addAccount(
+                                  name,
+                                  "Default",
+                                  "None",
+                                  "None",
+                                  0);
+                              Navigator.pushNamed(context,'/balance',arguments: {
+                                'companyName':name
+                              });
+                            },
+                            child: Center(
+                              child: Text(
+                                  'Skip',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,

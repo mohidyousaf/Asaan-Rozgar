@@ -24,9 +24,17 @@ class _AddAccountsState extends State<AddCompany> {
   TextEditingController TotalReceivable = new TextEditingController();
   TextEditingController EmailAddress = new TextEditingController();
   TextEditingController CompanyNo = new TextEditingController();
+  Map data={};
+  String name;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      name = data['name'];
+    });
+
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -84,16 +92,17 @@ class _AddAccountsState extends State<AddCompany> {
                           elevation: 7.0,
                           child: TextButton(
                             onPressed: () async {
-                              // if (_formKey.currentState.validate()) {
-                              //   var temp = await DBprovider.db.addAccount(
-                              //       CompanyName.text.toString(),
-                              //       CompanyDescription.text.toString(),
-                              //       TotalPayable.text.toString(),
-                              //       TotalReceivable.text.toString(),
-                              //       EmailAddress.text.toString(),
-                              //       CompanyNo.text.toString());
-                              //   Navigator.pushNamed(context, '/home');
-                              // }
+                                var temp = await DBprovider.db.addCompany(
+                                    name,
+                                    CompanyName.text.toString(),
+                                    CompanyDescription.text.toString(),
+                                    TotalPayable.text.toString(),
+                                    TotalReceivable.text.toString(),
+                                    EmailAddress.text.toString(),
+                                    CompanyNo.text.toString());
+                                Navigator.pushNamed(context, '/check', arguments: {
+                                  'companyName': CompanyName.text.toString()
+                                });
                             },
                             child: Center(
                               child: Text(

@@ -448,13 +448,18 @@ class _Purchase2State extends State<Purchase2> {
                           color: Color.fromRGBO(11, 71, 109, 1.0),
                         )),
                       SizedBox(height: 5,),
-                      Text("Rs. 0.00",
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20.0,
-                            color: Color.fromRGBO(11, 71, 109, 1.0),
-                          )),
+
+                      Consumer<CartModel>(
+                        builder: (context,cart,child){
+                          return Text(cart.totalPrice.toString(),
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20.0,
+                                color: Color.fromRGBO(11, 71, 109, 1.0),
+                              ));
+                        },
+                      )
                     ],
                   ),
 
