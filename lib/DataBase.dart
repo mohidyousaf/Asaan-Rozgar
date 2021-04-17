@@ -278,18 +278,29 @@ class DBprovider{
     ''', [productID, product.price, product.quantity]);
       print('Added');
     });
-    addOrder(products, partnerName, 2000, 1000, 'purchase');
+    addOrder('default',products, partnerName, 2000, 1000, 'purchase');
 
 
     return [partyID,productID];
   }
   // productList is supposed to be a class with three attributes itemName, quantity and price.
   // this should be passed whenever the function is called
-  addOrder(productList, partyName, amount, received, type) async{
+  addOrder(companyName,productList, partyName, amount, received, type) async{
     final db = await database;
     int partyID;
     double receivable;
     var payable;
+    double companyBalance;
+    int companyID;
+
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
+    temp.forEach((element) {
+      companyBalance = element['Balance'];
+    });
+
+
+
+    print('before company balance: $companyBalance');
     var list = (await db.query(
         'parties',
         columns: ['PartyID', 'Receivable', 'Payable'],
@@ -340,6 +351,7 @@ class DBprovider{
         SET Receivable = ?
         WHERE PartyID=?
       ''',[newReceivable,partyID]);
+      updateBalance(companyName, companyBalance+double.parse(received));
     }
     else {
       newPayable += balance;
@@ -348,7 +360,12 @@ class DBprovider{
         SET Payable = ?
         WHERE PartyID=?
       ''',[newPayable,partyID]);
+      updateBalance(companyName, companyBalance- double.parse(received));
     }
+
+    // var temp2= getBalance();
+    // var updated = temp2['Balance'];
+    // print('update company  balance is: $updated');
 
     }
   addTransaction() async{
@@ -500,6 +517,7 @@ class DBprovider{
       ''',[balance,companyID]);
   }
 
+  //TODO: change the name as it is giving everything of account not only balance
   getBalance()async{
     final db= await database;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -513,13 +531,11 @@ class DBprovider{
       companyID = element['CompanyID'];
     });
 
-    var temp = await db.rawQuery('''
-        SELECT Balance
-        FROM  accounts
-        WHERE CompanyID=?
+
+    final List<Map<String, dynamic>> temp = await db.rawQuery('''
+        SELECT * FROM  accounts WHERE CompanyID=?;
       ''',[companyID]);
 
-    return temp.map((element)=> element['Balance']);
-
+    return temp;
   }
 }

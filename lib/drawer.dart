@@ -26,17 +26,31 @@ class drawer extends StatefulWidget {
 
 class _drawerState extends State<drawer> {
   var companyName = "";
+  double companyBalance;
   getName() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       companyName = prefs.getString('companyName');
     });
   }
+
+  getBalance()async{
+
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
+    temp.forEach((element) {
+      setState(() {
+        companyBalance = element['Balance'];
+      });
+    });
+  }
+
+
   @override
   initState(){
     super.initState();
     Future.delayed(Duration.zero, () {
       getName();
+      getBalance();
     });
   }
 
@@ -77,7 +91,38 @@ class _drawerState extends State<drawer> {
 
               ),
 
+            ListTile(
+              leading: Text('Balance',
+              style: TextStyle(
+                fontFamily: 'lato',
+                fontSize: 22,
+                // fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(11, 71, 109, 1.0),
+              ),
+
+              ),
+              title: Text(companyBalance.toString(),
+                style: TextStyle(
+                  fontFamily: 'lato',
+                  fontSize: 22,
+                  // fontWeight: FontWeight.bold,
+                  color: Colors.green[800],
+                ),
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => transactions()
+                    )
+                );
+              },
+            ),
+
+
 // Transaction
+
               ListTile(
                 leading: Image.asset('assets/user2.png'),
                 title: Text("Transaction",

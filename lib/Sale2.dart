@@ -8,6 +8,7 @@ import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/Sale3.dart';
 import 'package:asaanrozgar/Sale4.dart';
 import 'package:asaanrozgar/Sale_invoice.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
@@ -68,6 +69,7 @@ class _Sale2State extends State<Sale2> {
   bool toGive = false;
   int invoiceNo = 8;
   int _value = 1;
+  TextEditingController amountReceived = new TextEditingController();
 //  TextEditingController ProductName = new TextEditingController();
   double receivable;
   double payable;
@@ -98,6 +100,16 @@ class _Sale2State extends State<Sale2> {
     });
   }
 
+  var companyName = "";
+  getName() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      companyName = prefs.getString('companyName');
+    });
+  }
+
+
+
   @override
   void initState() {
     super.initState();
@@ -106,6 +118,7 @@ class _Sale2State extends State<Sale2> {
     // otherwise it would be skipped and args would return null
     Future.delayed(Duration.zero, () {
       getData();
+      getName();
     });
   }
 
@@ -381,6 +394,7 @@ class _Sale2State extends State<Sale2> {
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.7,
                                     child: TextField(
+                                      controller:amountReceived,
                                       decoration: InputDecoration(
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(color: Colors.grey),
@@ -462,23 +476,34 @@ class _Sale2State extends State<Sale2> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  FlatButton(
-                                      onPressed: () {
-                                        widget.func(screenName:'invoice');
-                                      },
-                                      height: 30,
-                                      minWidth: 90,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5)),
-                                      child: Text('SAVE',
-                                          style: TextStyle(
-                                              fontFamily: "Lato",
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 10.0,
-                                              color: Colors.white
-                                          )),
-                                      color: Color.fromRGBO(11, 71, 109, 1.0)),
-                                  SizedBox(width: 50,),
+                                  Consumer<CartModel>(
+                                      builder:(context, cart, child) {
+                                        objects = cart.cartList;
+                                        return FlatButton(
+                                            onPressed: () {
+                                              print(amountReceived.text.toString());
+                                              DBprovider.db.addOrder(
+                                                  companyName ,
+                                                  objects,
+                                                  name,
+                                                  cart.totalPrice.toString(),
+                                                  amountReceived.text.toString(),
+                                                  'sale');
+                                              widget.func(screenName: 'invoice');
+                                            },
+                                            height: 30,
+                                            minWidth: 90,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(5)),
+                                            child: Text('SAVE',
+                                                style: TextStyle(
+                                                    fontFamily: "Lato",
+                                                    fontWeight: FontWeight.normal,
+                                                    fontSize: 10.0,
+                                                    color: Colors.white
+                                                )),
+                                            color: Color.fromRGBO(11, 71, 109, 1.0));
+                                      }),
                                 ],
                               )
                             ],

@@ -8,6 +8,7 @@ import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/Purchase3.dart';
 import 'package:asaanrozgar/Purchase4.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
@@ -23,6 +24,7 @@ class PurchaseMain extends StatelessWidget {
 }
 
 class PurchaseController extends StatefulWidget {
+
   @override
   _PurchaseControllerState createState() => _PurchaseControllerState();
 }
@@ -36,6 +38,9 @@ class _PurchaseControllerState extends State<PurchaseController> {
       obj = object;
     });
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return (curr == 'catalog') ? Purchase4(func:changeScreen):(curr=='cart' ? Purchase2(func:changeScreen):(curr=='invoice' ? Purchase_invoice(func:changeScreen):Purchase3(func:changeScreen, object:obj))) ;
@@ -45,6 +50,8 @@ class _PurchaseControllerState extends State<PurchaseController> {
 class Purchase2 extends StatefulWidget {
   Purchase2({this.func});
   Function func;
+
+
   @override
   _Purchase2State createState() => _Purchase2State();
 }
@@ -100,6 +107,15 @@ class _Purchase2State extends State<Purchase2> {
     });
   }
 
+  var companyName = "";
+  getName() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      companyName = prefs.getString('companyName');
+    });
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -108,6 +124,7 @@ class _Purchase2State extends State<Purchase2> {
     // otherwise it would be skipped and args would return null
     Future.delayed(Duration.zero, () {
       getData();
+      getName();
     });
   }
 
@@ -476,6 +493,7 @@ class _Purchase2State extends State<Purchase2> {
                           onPressed: () {
                             print(amountReceived.text.toString());
                             DBprovider.db.addOrder(
+                                companyName ,
                                 objects,
                                 name,
                                 cart.totalPrice.toString(),
@@ -523,19 +541,19 @@ class CartModel extends ChangeNotifier{
 
 }
 
-class BalanceModel extends ChangeNotifier{
-  Double balance;
-  get currentBalance => balance;
-
-  BalanceModel(){
-    var initFuture = initializeBalance();
-    initFuture.then((voidVal){
-      notifyListeners();
-    });
-  }
-  initializeBalance() async{
-    balance = await DBprovider.db.getBalance();
-  }
-
-
-}
+// class BalanceModel extends ChangeNotifier{
+//   Double balance;
+//   get currentBalance => balance;
+//
+//   BalanceModel(){
+//     var initFuture = initializeBalance();
+//     initFuture.then((voidVal){
+//       notifyListeners();
+//     });
+//   }
+//   initializeBalance() async{
+//     balance = await DBprovider.db.getBalance();
+//   }
+//
+//
+// }
