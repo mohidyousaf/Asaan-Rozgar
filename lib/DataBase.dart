@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -20,14 +21,14 @@ class DBprovider{
     else
     {
       // delete = true only if database needs to be rebuilt from scratch
-      _database= await this.initDB(delete: true);
+      _database= await this.initDB(delete: false);
       print('returned');
       return _database;
     }
 
   }
 
-  initDB({delete: true}) async{
+  initDB({delete: false}) async{
     print(await getDatabasesPath());
     if (delete) {
       await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
@@ -287,12 +288,16 @@ class DBprovider{
   addOrder(productList, partyName, amount, received, type) async{
     final db = await database;
     int partyID;
+    double receivable;
+    var payable;
     var list = (await db.query(
         'parties',
-        columns: ['PartyID'],
+        columns: ['PartyID', 'Receivable', 'Payable'],
         where: 'PartyName = ?',
         whereArgs: [partyName])).forEach((element){
       partyID = element['PartyID'];
+      receivable = element['Receivable'];
+      payable = element['Payable'];
     });
     var order = await db.rawInsert('''
       INSERT INTO orders(
@@ -324,7 +329,28 @@ class DBprovider{
           OrderID, Amount, TransactionType
           ) VALUES (?,?,?)
       ''',[orderID, amount, type]);
-  }
+    print('receivable :$receivable, amount: $amount, received: $received');
+    double newReceivable = receivable;
+    double newPayable = payable;
+    var balance = (double.parse(amount) - double.parse(received));
+    if (type == 'sale') {
+      newReceivable += balance;
+      await db.rawQuery('''
+       UPDATE parties
+        SET Receivable = ?
+        WHERE PartyID=?
+      ''',[newReceivable,partyID]);
+    }
+    else {
+      newPayable += balance;
+      await db.rawQuery('''
+       UPDATE parties
+        SET Payable = ?
+        WHERE PartyID=?
+      ''',[newPayable,partyID]);
+    }
+
+    }
   addTransaction() async{
 
   }

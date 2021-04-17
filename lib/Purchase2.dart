@@ -68,6 +68,8 @@ class _Purchase2State extends State<Purchase2> {
   bool toGive = false;
   int invoiceNo = 8;
   int _value = 1;
+  TextEditingController amountReceived = new TextEditingController();
+
 //  TextEditingController ProductName = new TextEditingController();
   double receivable;
   double payable;
@@ -118,7 +120,6 @@ class _Purchase2State extends State<Purchase2> {
 
     print(balance);
     print(Balance_message);
-
     return Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
         appBar: AppBar(
@@ -381,6 +382,7 @@ class _Purchase2State extends State<Purchase2> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: TextField(
+                              controller:amountReceived,
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
@@ -467,24 +469,34 @@ class _Purchase2State extends State<Purchase2> {
                   Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  FlatButton(
-                      onPressed: () {
-                        widget.func(screenName:'invoice');
-                      },
-                      height: 30,
-                      minWidth: 90,
-                      shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                      child: Text('SAVE',
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
-                            fontSize: 10.0,
-                            color: Colors.white
-                          )),
-                      color: Color.fromRGBO(11, 71, 109, 1.0)),
-                      SizedBox(width: 50,),
-                ],
+                    Consumer<CartModel>(
+                    builder:(context, cart, child) {
+                      objects = cart.cartList;
+                      return FlatButton(
+                          onPressed: () {
+                            print(amountReceived.text.toString());
+                            DBprovider.db.addOrder(
+                                objects,
+                                name,
+                                cart.totalPrice.toString(),
+                                amountReceived.text.toString(),
+                                'purchase');
+                            widget.func(screenName: 'invoice');
+                          },
+                          height: 30,
+                          minWidth: 90,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text('SAVE',
+                              style: TextStyle(
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 10.0,
+                                  color: Colors.white
+                              )),
+                          color: Color.fromRGBO(11, 71, 109, 1.0));
+                    }),
+    ],
           )
                 ],
           ),

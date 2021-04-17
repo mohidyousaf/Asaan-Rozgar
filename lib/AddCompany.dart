@@ -44,7 +44,7 @@ class _AddAccountsState extends State<AddCompany> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back_ios,color:Color.fromRGBO(11, 71, 109, 1.0)),
         ),

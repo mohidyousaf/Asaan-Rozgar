@@ -16,7 +16,30 @@ import './Parties.dart';
 import 'package:asaanrozgar/Transactions.dart';
 import 'package:asaanrozgar/AddLoan-1.dart';
 
-class drawer extends StatelessWidget {
+class drawer extends StatefulWidget {
+  drawer({this.companyName});
+  final companyName;
+
+  @override
+  _drawerState createState() => _drawerState();
+}
+
+class _drawerState extends State<drawer> {
+  var companyName = "";
+  getName() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      companyName = prefs.getString('companyName');
+    });
+  }
+  @override
+  initState(){
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      getName();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Drawer(
@@ -26,7 +49,7 @@ class drawer extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Color.fromRGBO(11, 71, 109, 1.0),
               ),
-              accountName: Text("Ali Store",
+              accountName: Text(companyName,
               style: TextStyle(
                   fontFamily: 'lato',
                   fontSize: 20,
@@ -51,7 +74,7 @@ class drawer extends StatelessWidget {
 
                     ),
                // image:AssetImage('assets/photo.png'),
-              
+
               ),
 
 // Transaction
@@ -68,7 +91,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => transactions()
                       )
@@ -90,7 +113,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => null,
                       )
@@ -111,7 +134,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => Parties()
                       )
@@ -133,7 +156,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => AddAssets()
                       )
@@ -154,7 +177,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => AddLoans(),
                       )
@@ -175,7 +198,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => AddAccounts()
                       )
@@ -196,7 +219,7 @@ class drawer extends StatelessWidget {
                 onTap: (){
                   Navigator.of(context).pop();
                   Navigator.push(
-                    context, 
+                    context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => AddEquities()
                       )
@@ -221,12 +244,12 @@ class drawer extends StatelessWidget {
                 prefs.remove('loggedIn');
                 Navigator.pushReplacementNamed(context, '/signIn');
                  },
-              
+
                       )
           ]),
                    );
-               
-              
+
+
 
 
 
@@ -246,7 +269,7 @@ class drawer extends StatelessWidget {
       // ).toList(),
 
       // ),
-        
+
 
   }
 }

@@ -413,6 +413,7 @@ class _Purchase_invoiceState extends State<Purchase_invoice> {
                   SizedBox(height: 30,),
                   FlatButton(
                       onPressed: () {
+                        // DBprovider.db.addOrder(productList, partyName, amount, received, type)
                         Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                       },
                       height: 30,

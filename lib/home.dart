@@ -14,6 +14,7 @@ import 'package:asaanrozgar/drawer.dart';
 class MyApp extends StatelessWidget {
   final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
                                       ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           // TODO: back routing
-          onPressed: ()=>{},
+          onPressed: ()=>{
+          },
         icon: Icon(Icons.arrow_back_ios),
         ),
         title: Text("Home",
@@ -421,5 +423,16 @@ class ListItem extends StatelessWidget {
   }
 }
 
+class HomeModel extends ChangeNotifier{
 
+  HomeModel(){
+    var initFuture = initializeScreen();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  initializeScreen() async{
+
+  }
+}
 
