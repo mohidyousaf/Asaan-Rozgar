@@ -5,17 +5,16 @@ import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'package:asaanrozgar/main.dart';
 import 'package:asaanrozgar/Widgets/buttons.dart';
 import 'package:asaanrozgar/Widgets/text.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      home: Menu()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       home: Menu()
+//   ));
+// }
 
 class Menu extends StatefulWidget {
   @override
@@ -206,7 +205,7 @@ class _MenuState extends State<Menu> {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.remove('loggedIn');
                 Navigator.pushReplacementNamed(context, '/signIn');
-              },
+              },  
               icon: new Image.asset('assets/Plus.png',height: 12),
               label: Text(
                 'Sign out',

@@ -7,6 +7,7 @@ import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Purchase2.dart';
 
+// void main() => runApp(MaterialApp(home: Purchase3()));
 
 
 class Purchase3 extends StatefulWidget {
