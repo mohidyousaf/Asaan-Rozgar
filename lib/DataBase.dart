@@ -6,7 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/intl.dart';
+import 'package:asaanrozgar/Widgets/SaleExpense.dart';
 
 
 class DBprovider{
@@ -278,7 +279,7 @@ class DBprovider{
     ''', [productID, product.price, product.quantity]);
       print('Added');
     });
-    addOrder('default',products, partnerName, 2000, 1000, 'purchase');
+    addOrder('default',products, partnerName, '2000', '1000', 'purchase');
 
 
     return [partyID,productID];
@@ -297,8 +298,6 @@ class DBprovider{
     temp.forEach((element) {
       companyBalance = element['Balance'];
     });
-
-
 
     print('before company balance: $companyBalance');
     var list = (await db.query(
@@ -335,11 +334,13 @@ class DBprovider{
           ) VALUES (?,?,?,?)
       ''',[orderID, productID, product.quantity, product.price]);
     });
+      DateTime now = DateTime.now();
+      String date = DateFormat('yMd').format(now);// 28/03/2020
     await db.rawInsert('''
         INSERT INTO transactions(
-          OrderID, Amount, TransactionType
-          ) VALUES (?,?,?)
-      ''',[orderID, amount, type]);
+          OrderID, Amount, TransactionType, Date
+          ) VALUES (?,?,?,?)
+      ''',[orderID, amount, type, date]);
     print('receivable :$receivable, amount: $amount, received: $received');
     double newReceivable = receivable;
     double newPayable = payable;
@@ -457,7 +458,18 @@ class DBprovider{
     });
     return list;
   }
-
+  getTransactionList() async{
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'type':element['TransactionType'],
+                'amount':element['Amount'].toString(),
+                'date':element['Date']});
+    });
+    return list;
+  }
   getItemList(name) async{
 
     final db =await database;
@@ -537,5 +549,44 @@ class DBprovider{
       ''',[companyID]);
 
     return temp;
+  }
+
+  getCompanyData(companyName)async{
+    final db= await database;
+    Map details = {};
+    var query = (await db.query(
+        'company',
+        columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+        where: 'CompanyName = ?',
+        whereArgs: [companyName])).forEach((element) {
+            print(element);
+            details['CompanyID'] = element['CompanyID'];
+            details['Payable'] = element['TotalPayable'];
+            details['Receivable'] = element['TotalReceivable'];
+    });
+    return details;
+  }
+  getTransactions() async{
+    List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
+    Map<String, SaleExpense> list = {};
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    res.forEach((element) {
+      var inputFormat = DateFormat("MM/dd/yyyy");
+      var date = element['Date'];
+      var tempDate = inputFormat.parse(date);
+      if (list[monthList[tempDate.month - 1]]== null){
+        list[monthList[tempDate.month - 1]] = new SaleExpense();
+      }
+      if (element['TransactionType']== 'sale'){
+        list[monthList[tempDate.month - 1]].sale +=  element['Amount'];
+      }
+      else{
+        list[monthList[tempDate.month - 1]].expense +=  element['Amount'];
+      }
+
+    });
+    return list;
   }
 }
