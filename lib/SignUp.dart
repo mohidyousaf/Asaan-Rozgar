@@ -99,7 +99,11 @@ class _signupState extends State<SignUp> {
                                       var temp = await DBprovider.db.newUser(
                                           FirstName.text.toString(), BusinessName.text.toString(),
                                           EmailAddress.text.toString(), Password.text.toString());
-                                      Navigator.pushReplacementNamed(context, '/signIn');
+                                      Navigator.pushReplacementNamed(context, '/addCompany', arguments:
+                                      {
+                                        'name': FirstName.text.toString()
+                                      }
+                                      );
                                     }
                                     else{
                                       setState((){

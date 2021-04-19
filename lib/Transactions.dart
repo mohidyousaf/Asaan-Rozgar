@@ -52,15 +52,15 @@ class _transactionsState extends State<transactions> {
     double longBtt_height = phone_height* 0.051;
     double image_height=  phone_height * 0.20;
     double image_width = phone_width *0.5;
-    double textfield_gap = phone_height *0.0125; 
+    double textfield_gap = phone_height *0.0125;
     double button_gap = phone_height *0.063;
     double divider_width = phone_width * 0.8;
     double slider_width=phone_width*0.834;
     double slider_height=phone_height*0.0417;
     return Scaffold(
       backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-      appBar: std_appbar('Transactions', color_Red, color_Green, color_Blue),
-      bottomNavigationBar: std_chinbar(color_Red, color_Green, color_Blue),
+      appBar: std_appbar(context, 'Transactions', color_Red, color_Green, color_Blue),
+      bottomNavigationBar: std_chinbar(context, color_Red, color_Green, color_Blue),
       floatingActionButton:  FloatingActionButton(
           backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
           onPressed: (){},
@@ -135,41 +135,41 @@ class _transactionsState extends State<transactions> {
                                       child: Column(
                       children: [
                          filter_reports(context),
-                        Stack(
-                          children: <Widget>[
-                            currentState==0?
-                            Column(
-                              children: [
-                                sale_purchase_head(context),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *0.8,
-                                  child: sale_purchase_lis(items: Inventory.getinventory())
-                                )
-                              ],
-                            ):Text(''),
-                            currentState==1?
-                            Column(
-                              children: [
-                                expenses_head(context),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *0.8,
-                                  child: expenses_lis(items: Inventory.getinventory())
-                                )
-                              ],
-                            ):Text(''),
-                            currentState==2?
-                            Column(
-                              children: [
-                                sale_purchase_head(context),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *0.8,
-                                  child: sale_purchase_lis(items: Inventory.getinventory())
-                                )
-                              ],
-                            ):Text('')
-                          ]
-                        ),
-                       
+                        // Stack(
+                        //   children: <Widget>[
+                        //     currentState==0?
+                        //     Column(
+                        //       children: [
+                        //         sale_purchase_head(context),
+                        //         SizedBox(
+                        //           height: MediaQuery.of(context).size.height *0.8,
+                        //           child: sale_purchase_lis(items: Inventory.getinventory())
+                        //         )
+                        //       ],
+                        //     ):Text(''),
+                        //     currentState==1?
+                        //     Column(
+                        //       children: [
+                        //         expenses_head(context),
+                        //         SizedBox(
+                        //           height: MediaQuery.of(context).size.height *0.8,
+                        //           child: expenses_lis(items: Inventory.getinventory())
+                        //         )
+                        //       ],
+                        //     ):Text(''),
+                        //     currentState==2?
+                        //     Column(
+                        //       children: [
+                        //         sale_purchase_head(context),
+                        //         SizedBox(
+                        //           height: MediaQuery.of(context).size.height *0.8,
+                        //           child: sale_purchase_lis(items: Inventory.getinventory())
+                        //         )
+                        //       ],
+                        //     ):Text('')
+                        //   ]
+                        // ),
+
                         //sale_purchase_head(context),
                         //inventory_lis(items: Inventory.getinventory())
                       ],
@@ -177,7 +177,7 @@ class _transactionsState extends State<transactions> {
                   )
                 )
                 )
-              
+
             ],
             ),
 

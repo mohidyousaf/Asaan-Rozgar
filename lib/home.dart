@@ -1,8 +1,12 @@
 import 'package:asaanrozgar/DataBase.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/dashboard.dart';
+import 'package:asaanrozgar/drawer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 
 // void main() => runApp(MaterialApp(
@@ -10,67 +14,70 @@ import 'package:asaanrozgar/dashboard.dart';
 // ));
 
 class MyApp extends StatelessWidget {
+  final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
+                                      ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          // TODO: back routing
-          onPressed: ()=>{},
-        icon: Icon(Icons.arrow_back_ios),
-        ),
-        title: Text("Home",
-        style:TextStyle(
-          fontFamily: "Lato",
-          fontWeight: FontWeight.bold,
-          fontSize: 24.0,
-
-        )
-        ),
-        centerTitle: true,
+    return ChangeNotifierProvider(
+      create: (context) => HomeModel(),
+      child: Scaffold(
+        endDrawer: drawer(),
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+            // TODO: back routing
+            onPressed: ()=>{
+            },
+          icon: Icon(Icons.arrow_back_ios),
+          ),
+          title: Text("Home",
+          style:TextStyle(
+            fontFamily: "Lato",
+            fontWeight: FontWeight.bold,
+            fontSize: 24.0,
 
-        actions: <Widget>[IconButton(
-          //TODO: MENU
-          onPressed: ()=>{
-            Navigator.pushNamed(context, '/menu')
-          },
-        icon: Icon(Icons.menu),
-      )
-      ],
-    ),
-    body: SingleChildScrollView(
-      child: Column(children: [
+          )
+          ),
+          centerTitle: true,
+          backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+
+        //   actions: <Widget>[IconButton(
+        //     //TODO: MENU
+        //     onPressed: ()=>{
+        //       // Navigator.pushNamed(context, '/menu')
+        //     },
+        //   icon: Icon(Icons.menu),
+        // )
+        // ],
+      ),
+      body: Column(children: [
         Dashboard(),
         Test(),
-        Container(
-        height: MediaQuery.of(context).size.height * 0.7,
-        width: MediaQuery.of(context).size.width,
-        // margin: EdgeInsets.only(top: 200),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(26),
-          topRight: Radius.circular(26),
-        ),
-        ),
-          child: SegmentControl(),
-    ),
-    ],
-    ),
-    ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-        onPressed: (){
-          Navigator.pushReplacementNamed(context, '/addItem');
-        },
-        child: Icon(Icons.add,color: Colors.white),
+        Expanded(
+          child: Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          width: MediaQuery.of(context).size.width,
+          // margin: EdgeInsets.only(top: 200),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(26),
+            topRight: Radius.circular(26),
+          ),
+          ),
+            child: SegmentControl(),
       ),
-      bottomNavigationBar: std_chinbar(0,0,0),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        ),
+      ],
+      ),
+        floatingActionButton:
+        std_FAB(Colors.white, 11, 71, 109, buttons, context),
+        bottomNavigationBar: std_chinbar(context, 0,0,0),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
+      ),
     );
   }
 }
@@ -85,9 +92,15 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  String curr = 'Mar';
   List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
+  String curr = 'Jan';
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    curr = monthList[DateTime.now().month - 1];
+  }
   void changeMonth({type}){
     String month;
     int index = monthList.indexOf(curr);
@@ -209,15 +222,19 @@ class _TestState extends State<Test> {
             ],),
               ),
 
-           Text(
-              "Rs. 30000",
-              style: TextStyle(
-                        color: Color.fromRGBO(136, 182, 211, 1),
-                        fontFamily: "Lato",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                         ),
-            ),
+              Consumer<HomeModel>(
+                builder: (context, home, child){
+                  return Text('Rs. ${home.sales ==  null ?
+                  '0': home.sales(curr).ceil().toString()}'
+                    ,
+                    style: TextStyle(
+                      color: Color.fromRGBO(136, 182, 211, 1),
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  );
+                },)
 
             ]
              ),
@@ -245,15 +262,19 @@ class _TestState extends State<Test> {
                   ),
                 ),
 
-             Text(
-                "Rs. 30000",
-                style: TextStyle(
-                          color: Color.fromRGBO(136, 182, 211, 1),
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                           ),
-              ),
+             Consumer<HomeModel>(
+               builder: (context, home, child){
+                   return Text('Rs. ${home.expenses ==  null ?
+                   '0': home.expenses(curr).ceil().toString()}'
+                   ,
+                   style: TextStyle(
+                       color: Color.fromRGBO(136, 182, 211, 1),
+                       fontFamily: "Lato",
+                       fontWeight: FontWeight.bold,
+                       fontSize: 20,
+                   ),
+                   );
+             },)
 
               ]
                ),
@@ -274,10 +295,13 @@ class SegmentControl extends StatefulWidget {
 class _SegmentControlState extends State<SegmentControl> {
   int currentState = 0;
   List<Map<String, String>> partnerList = [];
+  List<Map<String, String>> transactionList = [];
   void getList() async{
     var temp = await DBprovider.db.getPartyList();
+    var temp2 = await DBprovider.db.getTransactionList();
     setState((){
       partnerList = temp;
+      transactionList = temp2;
     });
 
   }
@@ -287,7 +311,6 @@ class _SegmentControlState extends State<SegmentControl> {
     getList();
   }
   // List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
-  List<Map<String, String>> transactionList = [{'name':'Sale','amount':'30000'},{'name':'Purchase','amount':'5000'}];
 
   Widget segmentControl()
   {
@@ -295,9 +318,9 @@ class _SegmentControlState extends State<SegmentControl> {
       width: 200,
       // margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.01,MediaQuery.of(context).size.width*0.001,MediaQuery.of(context).size.width*0.1,MediaQuery.of(context).size.height*0.6),
       // padding: EdgeInsets.all(8.0),
-      child: 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      child:
+        SingleChildScrollView(
+          child:Column(
            children: [
              Center(
                 child: Container(
@@ -335,9 +358,10 @@ class _SegmentControlState extends State<SegmentControl> {
              currentState == 0 ? Partners(list:partnerList) : Transactions(list:transactionList),
            ],
          ),
-        
-      
-      
+        ),
+
+
+
     );
   }
 
@@ -366,17 +390,23 @@ class Transactions extends StatelessWidget {
   final List<Map<String, String>> list;
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: list.map((item) => ListItem(name:item['name'], amount:item['amount'])).toList()
+    return SingleChildScrollView(
+      child: Column(
+          children: list.map((item) => ListItem(
+            name:item['type'],
+            amount:item['amount'],
+            date:item['date'],)).toList()
+      ),
     );
   }
 }
 
 class ListItem extends StatelessWidget {
 
-  const ListItem({this.name, this.amount});
+  const ListItem({this.name, this.amount, this.date});
   final name;
   final amount;
+  final date;
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -390,7 +420,7 @@ class ListItem extends StatelessWidget {
                   color: Color.fromRGBO(38, 51, 58, 1.0),
                   ),
               ),
-              subtitle: Text(''),
+              subtitle: Text(date == null ? '':date),
               trailing:
                   Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -421,5 +451,31 @@ class ListItem extends StatelessWidget {
   }
 }
 
-
+class HomeModel extends ChangeNotifier{
+  var receivable;
+  var payable;
+  var saleExpenses;
+  get receivables => receivable;
+  get payables => payable;
+  sales(month) => saleExpenses == null ?
+                    0: (saleExpenses[month]==null ?
+                    0:saleExpenses[month].sale);
+  expenses(month) => saleExpenses == null ?
+                      0: (saleExpenses[month]==null ?
+                      0:saleExpenses[month].expense);
+  HomeModel(){
+    var initFuture = initializeScreen();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  initializeScreen() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    var details = await DBprovider.db.getCompanyData(name);
+    saleExpenses = await DBprovider.db.getTransactions();
+    receivable = details['Receivable'];
+    payable = details['Payable'];
+  }
+}
 

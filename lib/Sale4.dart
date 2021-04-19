@@ -6,14 +6,14 @@ import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
 
-class Purchase4 extends StatefulWidget {
-  Purchase4({this.func});
+class Sale4 extends StatefulWidget {
+  Sale4({this.func});
   Function func;
   @override
-  _Purchase4State createState() => _Purchase4State();
+  _Sale4State createState() => _Sale4State();
 }
 
-class _Purchase4State extends State<Purchase4> {
+class _Sale4State extends State<Sale4> {
 
   itemList tm;
   List<itemList> objects=[];
@@ -77,60 +77,60 @@ class _Purchase4State extends State<Purchase4> {
           ],
         ),
         body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      height: 4,
-                      width: MediaQuery.of(context).size.width * 0.55,
-                      color: Color.fromRGBO(52, 199, 89, 1.0),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                  child: Center(child: FlatButton(
-                    // have to change this to support state
-                      onPressed: () {
-                        widget.func(screenName:'cart');
-                        // Navigator.pushNamed(context, '/purchase4',arguments: {'name': data['name']});
-                      },
-                      height: 30,
-                      minWidth: 200,
-                      child: Text('Go To Cart',
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
-                            fontSize: 14.0,
-                            color: Color.fromRGBO(11, 71, 109, 1.0),
-                          )),
-                      color: Color.fromRGBO(136, 182, 211, 0.67))),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(width: 20,),
-                    Column(
-                        children:
-                            objects.map((sub) => cart(
-                              obj1 : sub,
-                                pass: (){
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                    height: 4,
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    color: Color.fromRGBO(52, 199, 89, 1.0),
+                  ),
+                ],
+              ),
+              Container(
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                color: Color.fromRGBO(11, 71, 109, 1.0),
+                child: Center(child: FlatButton(
+                  // have to change this to support state
+                    onPressed: () {
+                      widget.func(screenName:'cart');
+                      // Navigator.pushNamed(context, '/Sale4',arguments: {'name': data['name']});
+                    },
+                    height: 30,
+                    minWidth: 200,
+                    child: Text('Go To Cart',
+                        style: TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.normal,
+                          fontSize: 14.0,
+                          color: Color.fromRGBO(11, 71, 109, 1.0),
+                        )),
+                    color: Color.fromRGBO(136, 182, 211, 0.67))),
+              ),
+              SizedBox(height: 20),
+              Row(
+                //crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 20,),
+                  Column(
+                      children:
+                      objects.map((sub) => cart(
+                          obj1 : sub,
+                          pass: (){
 
-                                  widget.func(screenName:'details', object:sub);
-                                }
+                            widget.func(screenName:'details', object:sub);
+                          }
 
-                            )
-                    ).toList()
-                    ),
-                  ],
-                ),
-              ],
-            ),
-    ));
+                      )
+                      ).toList()
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
 

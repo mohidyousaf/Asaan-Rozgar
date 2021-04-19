@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 
+
 class AddParty extends StatefulWidget {
   // This widget is the root of your application.
   @override
@@ -38,9 +39,29 @@ class _AddPartyState extends State<AddParty> {
       home: Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
 
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor:Color.fromRGBO(11, 71, 109, 1.0),
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios),
+          ),
+          title: Text(
+            'Add Party',
+            style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Colors.white)),
+          ),
+          ),
+
         body: Column(
           children: <Widget>[
+
+
+
             Container(
+
               padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 20.0),
               height: 250,
               width: 420,
@@ -53,10 +74,7 @@ class _AddPartyState extends State<AddParty> {
               ),
               child: Column(
                 children: <Widget>[
-                  Text(
-                    'Add Party',
-                    style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Colors.white)),
-                  ),
+
                   Image.asset('assets/Frame 7.png')
                 ],
               ),

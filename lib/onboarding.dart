@@ -2,14 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/onboarding_controller.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import './home.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
 
-      home: Onboarding(),
-  ));
-}
+//       home: Onboarding(),
+//   ));
+// }
 
 final control = OnboardingController();
 class Onboarding extends StatelessWidget {
@@ -58,7 +59,31 @@ class Onboarding extends StatelessWidget {
                               activeColor: Color.fromRGBO(11, 71, 109, 1),
 ),
 ),
+          SizedBox(height: 15,),
+          index ==3?  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => MyApp()
+                       )
+                   );
+                    },
+                    height: 50,
+                    minWidth: 130,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Text('Let\'s Get Started',
+                        style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16.0,
+                            color: Colors.white
+                        )),
+                    color: Color.fromRGBO(11, 71, 109, 1.0)):Container(),
             ],
+          
           )
         );
       }

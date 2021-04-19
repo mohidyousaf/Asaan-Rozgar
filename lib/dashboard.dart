@@ -1,5 +1,7 @@
+import 'package:asaanrozgar/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class Dashboard extends StatelessWidget {
@@ -28,7 +30,6 @@ class Dashboard extends StatelessWidget {
                 // child: Text()
                 children: [
                   RichText(
-
                       text: TextSpan(
                           style:TextStyle(
                             color: Color.fromRGBO(46,189,133,1),
@@ -45,42 +46,40 @@ class Dashboard extends StatelessWidget {
                                 )
                             ),
                             TextSpan(
-                              text: "You will Get",
+                              text: "To Get",
                             ),
-
-
                           ]
                       )
-
                   ),
 
-                  Text(
-                    "Rs. 40,000",
-                    style: TextStyle(
+                  Consumer<HomeModel>(
+                    builder:(context, home, child){
+                      return Text('Rs ${home.receivables == null ? '':home.receivables.ceil().toString()}',
+                      style: TextStyle(
                       color: Color.fromRGBO(46,189,133,1),
                       fontFamily: "Lato",
                       fontWeight: FontWeight.bold,
                       fontSize: 27.0,
-                    ),
-                  )
+                      ),
+                      );
+                    }),
+    ],
+    ),
+    ),
 
-                ],
-              ),
-            ),
+    SizedBox(width: 10),
+    VerticalDivider(thickness: 1),
+    SizedBox(width: 10),
 
-            SizedBox(width: 10),
-            VerticalDivider(thickness: 1),
-            SizedBox(width: 10),
-
-            Expanded(
-              flex: 1,
-              child: Column(
-                // child: Text()
-                children: [
+    Expanded(
+    flex: 1,
+    child: Column(
+    // child: Text()
+    children: [
                   RichText(
-                      text: TextSpan(
-                          style:TextStyle(
-                            color: Color.fromRGBO(245,70,93,1),
+                  text: TextSpan(
+                  style:TextStyle(
+                  color: Color.fromRGBO(245,70,93,1),
                             fontFamily: "Lato",
                             fontWeight: FontWeight.bold,
                             fontSize: 17.0,
@@ -94,23 +93,24 @@ class Dashboard extends StatelessWidget {
                                 )
                             ),
                             TextSpan(
-                              text: "You will Get",
+                              text: "To Give",
                             ),
 
 
                           ]
                       )
-
                   ),
-                  Text(
-                    "Rs. 50,000",
-                    style: TextStyle(
-                      color: Color.fromRGBO(245,70,93,1),
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 27.0,
-                    ),
-                  )
+                  Consumer<HomeModel>(
+                      builder:(context, home, child){
+                        return Text('Rs ${home.payables == null ? '0':home.payables.ceil().toString()}',
+                          style: TextStyle(
+                            color: Color.fromRGBO(245,70,93,1),
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27.0,
+                          ),
+                        );
+                      }),
 
                 ],
               ),

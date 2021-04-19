@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'package:asaanrozgar/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // void main() {
@@ -24,25 +25,37 @@ class _AddAccountsState extends State<AddCompany> {
   TextEditingController TotalReceivable = new TextEditingController();
   TextEditingController EmailAddress = new TextEditingController();
   TextEditingController CompanyNo = new TextEditingController();
+  Map data={};
+  String name;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      name = data['name'];
+    });
+
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor:Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            // Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios,color:Color.fromRGBO(11, 71, 109, 1.0)),
+        ),
+        title: Text(
+            'Add Company',
+            style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Color.fromRGBO(11, 71, 109, 1.0)))),
+      ),
       body: Column(
         children: <Widget>[
           SizedBox(height:50),
-          Center(
-            child: Text(
-              'Add Company',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'lato',
-                  color: Colors.black87
-              ),
-            ),
-          ),
+
 
           SizedBox(height: 30),
           Image.asset('assets/Frame 8.png'),
@@ -80,16 +93,20 @@ class _AddAccountsState extends State<AddCompany> {
                           elevation: 7.0,
                           child: TextButton(
                             onPressed: () async {
-                              // if (_formKey.currentState.validate()) {
-                              //   var temp = await DBprovider.db.addAccount(
-                              //       CompanyName.text.toString(),
-                              //       CompanyDescription.text.toString(),
-                              //       TotalPayable.text.toString(),
-                              //       TotalReceivable.text.toString(),
-                              //       EmailAddress.text.toString(),
-                              //       CompanyNo.text.toString());
-                              //   Navigator.pushNamed(context, '/home');
-                              // }
+                                var temp = await DBprovider.db.addCompany(
+                                    name,
+                                    CompanyName.text.toString(),
+                                    CompanyDescription.text.toString(),
+                                    TotalPayable.text.toString(),
+                                    TotalReceivable.text.toString(),
+                                    EmailAddress.text.toString(),
+                                    CompanyNo.text.toString());
+
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setString('companyName', CompanyName.text.toString());
+                                Navigator.pushNamed(context, '/check', arguments: {
+                                  'companyName': CompanyName.text.toString()
+                                });
                             },
                             child: Center(
                               child: Text(

@@ -1,8 +1,13 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:asaanrozgar/Widgets/temp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
+import 'package:asaanrozgar/Widgets/SaleExpense.dart';
 
 
 class DBprovider{
@@ -241,51 +246,68 @@ class DBprovider{
 
   }
   //TODO: BELOW DB FUNCTIONS
-  addItem(productName, partnerName, categoryTag, purchasePrice,salePrice,taxRate,quantity,minStock)async{
+  addItem(products, partnerName, categoryTag, salePrice,taxRate, minStock)async{
     final db = await database;
-    print(productName);
-    //partyID
     int partyID;
-    var list = (await db.query(
-    'parties',
-    columns: ['PartyID'],
-    where: 'PartyName = ?',
-        whereArgs: [partnerName])).forEach((element){
+    int productID;
+    products.forEach((product) async{
+      print( '${product.itemName}, ${product.price}, ${product.quantity}');
+      //partyID
+      var list = (await db.query(
+      'parties',
+      columns: ['PartyID'],
+      where: 'PartyName = ?',
+          whereArgs: [partnerName])).forEach((element){
       partyID = element['PartyID'];
-    });
-    var res = await db.rawInsert('''
-    INSERT INTO inventory(
+      });
+      var res = await db.rawInsert('''
+      INSERT INTO inventory(
       PartyID,ProductName,ProductDescription,SalePrice,TaxRate,MinStock
     ) VALUES (?,?,?,?,?,?)
-    ''', [partyID, productName, categoryTag, salePrice, taxRate, minStock]);
-    int productID;
-    var product = (await db.query(
-        'inventory',
-        columns: ['ProductID'],
-        where: 'ProductName = ?',
-        whereArgs: [productName])).forEach((element) {
+    ''', [partyID, product.itemName, categoryTag, salePrice, taxRate, minStock]);
+      var productQuery = (await db.query(
+      'inventory',
+      columns: ['ProductID'],
+      where: 'ProductName = ?',
+      whereArgs: [product.itemName])).forEach((element) {
       productID = element['ProductID'];
-    });
-    var res2 = await db.rawInsert('''
+      });
+      var res2 = await db.rawInsert('''
     INSERT INTO purchases(
       ProductID,PurchasePrice,Quantity
     ) VALUES (?,?,?)
-    ''', [productID, purchasePrice, quantity]);
-    print('Added');
+    ''', [productID, product.price, product.quantity]);
+      print('Added');
+    });
+    addOrder('default',products, partnerName, '2000', '1000', 'purchase');
+
 
     return [partyID,productID];
   }
-  // productList is supposed to be a class with three attributes name, quantity and price.
+  // productList is supposed to be a class with three attributes itemName, quantity and price.
   // this should be passed whenever the function is called
-  addOrder(productList, partyName, amount, received, type) async{
+  addOrder(companyName,productList, partyName, amount, received, type) async{
     final db = await database;
     int partyID;
+    double receivable;
+    var payable;
+    double companyBalance;
+    int companyID;
+
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
+    temp.forEach((element) {
+      companyBalance = element['Balance'];
+    });
+
+    print('before company balance: $companyBalance');
     var list = (await db.query(
         'parties',
-        columns: ['PartyID'],
+        columns: ['PartyID', 'Receivable', 'Payable'],
         where: 'PartyName = ?',
         whereArgs: [partyName])).forEach((element){
       partyID = element['PartyID'];
+      receivable = element['Receivable'];
+      payable = element['Payable'];
     });
     var order = await db.rawInsert('''
       INSERT INTO orders(
@@ -303,7 +325,7 @@ class DBprovider{
             'inventory',
             columns: ['ProductID'],
             where: 'ProductName = ?',
-            whereArgs: [product.name])).forEach((element) {
+            whereArgs: [product.itemName])).forEach((element) {
           productID = element['ProductID'];
         });
         await db.rawInsert('''
@@ -312,31 +334,74 @@ class DBprovider{
           ) VALUES (?,?,?,?)
       ''',[orderID, productID, product.quantity, product.price]);
     });
+      DateTime now = DateTime.now();
+      String date = DateFormat('yMd').format(now);// 28/03/2020
     await db.rawInsert('''
         INSERT INTO transactions(
-          OrderID, Amount, Type
-          ) VALUES (?,?,?)
-      ''',[orderID, amount, type]);
-  }
+          OrderID, Amount, TransactionType, Date
+          ) VALUES (?,?,?,?)
+      ''',[orderID, amount, type, date]);
+    print('receivable :$receivable, amount: $amount, received: $received');
+    double newReceivable = receivable;
+    double newPayable = payable;
+    var balance = (double.parse(amount) - double.parse(received));
+    if (type == 'sale') {
+      newReceivable += balance;
+      await db.rawQuery('''
+       UPDATE parties
+        SET Receivable = ?
+        WHERE PartyID=?
+      ''',[newReceivable,partyID]);
+      updateBalance(companyName, companyBalance+double.parse(received));
+    }
+    else {
+      newPayable += balance;
+      await db.rawQuery('''
+       UPDATE parties
+        SET Payable = ?
+        WHERE PartyID=?
+      ''',[newPayable,partyID]);
+      updateBalance(companyName, companyBalance- double.parse(received));
+    }
+
+    // var temp2= getBalance();
+    // var updated = temp2['Balance'];
+    // print('update company  balance is: $updated');
+
+    }
   addTransaction() async{
 
   }
-  addAccount(companyName, title, bankName, accountNo,currentBal)async {
+  addAccount(companyName, type, bankName, accountNo,currentBal)async {
     final db = await database;
     int companyID;
     var IDquery = (await db.query(
-        'companies',
+        'company',
         columns: ['companyID'],
         where: 'companyName = ?',
         whereArgs: [companyName])).forEach((element) {
-      companyID = element['ProductID'];
+      companyID = element['CompanyID'];
     });
     var res2 = await db.rawInsert('''
     INSERT INTO accounts(
       CompanyID, AccountType, AccountNo, BankName, Balance
     ) VALUES (?,?,?,?,?)
-    ''', [companyID, title, accountNo, bankName, currentBal]);
+    ''', [companyID,type, accountNo, bankName, currentBal]);
   }
+
+  addCompany(username, companyName, description, payable, receivable ,email, companyNumber)async {
+    final db = await database;
+
+    var res2 = await db.rawInsert('''
+    INSERT INTO company(
+      Username, CompanyName,CompanyDescription,TotalPayable,TotalReceivable,EmailAddress,CompanyNo
+    ) VALUES (?,?,?,?,?,?,?)
+    ''', [username, companyName, description, payable, receivable ,email, companyNumber]);
+
+    return res2;
+  }
+
+
   addAssets(name, description, type, value){
     return name;
   }
@@ -393,7 +458,18 @@ class DBprovider{
     });
     return list;
   }
-
+  getTransactionList() async{
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'type':element['TransactionType'],
+                'amount':element['Amount'].toString(),
+                'date':element['Date']});
+    });
+    return list;
+  }
   getItemList(name) async{
 
     final db =await database;
@@ -412,5 +488,105 @@ class DBprovider{
     return parties;
 
   }
+  getInventory() async{
 
+    final db =await database;
+    List<InventoryItem> items = [];
+    final List<Map<String, dynamic>> list = await db.rawQuery('''
+        SELECT * FROM inventory
+      ''');
+    list.forEach((element) {
+      items.add(new InventoryItem(
+          name: element['ProductName'],
+          price: element['SalePrice'].toInt(),
+          quantity: 40,
+          value: 100));
+    });
+
+    return items;
+
+  }
+
+  updateBalance(name,balance)async{
+    final db =await database;
+    print(name);
+
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [name])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+
+    print("company id is");
+    print(companyID);
+    var temp = await db.rawQuery('''
+        UPDATE accounts
+        SET Balance= ?
+        WHERE CompanyID=?
+      ''',[balance,companyID]);
+  }
+
+  //TODO: change the name as it is giving everything of account not only balance
+  getBalance()async{
+    final db= await database;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [name])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+
+
+    final List<Map<String, dynamic>> temp = await db.rawQuery('''
+        SELECT * FROM  accounts WHERE CompanyID=?;
+      ''',[companyID]);
+
+    return temp;
+  }
+
+  getCompanyData(companyName)async{
+    final db= await database;
+    Map details = {};
+    var query = (await db.query(
+        'company',
+        columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+        where: 'CompanyName = ?',
+        whereArgs: [companyName])).forEach((element) {
+            print(element);
+            details['CompanyID'] = element['CompanyID'];
+            details['Payable'] = element['TotalPayable'];
+            details['Receivable'] = element['TotalReceivable'];
+    });
+    return details;
+  }
+  getTransactions() async{
+    List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
+    Map<String, SaleExpense> list = {};
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    res.forEach((element) {
+      var inputFormat = DateFormat("MM/dd/yyyy");
+      var date = element['Date'];
+      var tempDate = inputFormat.parse(date);
+      if (list[monthList[tempDate.month - 1]]== null){
+        list[monthList[tempDate.month - 1]] = new SaleExpense();
+      }
+      if (element['TransactionType']== 'sale'){
+        list[monthList[tempDate.month - 1]].sale +=  element['Amount'];
+      }
+      else{
+        list[monthList[tempDate.month - 1]].expense +=  element['Amount'];
+      }
+
+    });
+    return list;
+  }
 }

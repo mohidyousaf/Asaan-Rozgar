@@ -1,11 +1,27 @@
-
-class Inventory{
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:asaanrozgar/DataBase.dart';
+class InventoryItem{
   final String name;
-  final int Price;
+  final int price;
   final int quantity;
   final int value;
-  Inventory({this.name,this.Price,this.quantity,this.value});
+  InventoryItem({this.name,this.price,this.quantity,this.value});
 
+}
+class InventoryModel extends ChangeNotifier{
+  List<InventoryItem> items = [];
+  get getItems => items;
+  InventoryModel(){
+    var initFuture = initializeCart();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  initializeCart() async{
+    items = await DBprovider.db.getInventory();
+
+<<<<<<< HEAD
  static List<Inventory> getinventory (){
    List<Inventory> items = List<Inventory>();
    items.add(Inventory(name: "Lays",Price: 40, quantity: 50, value: 200));
@@ -22,3 +38,7 @@ class Inventory{
  }
 }
 
+=======
+  }
+}
+>>>>>>> 1b8227582bfe35c5ef61cd487142122549001327

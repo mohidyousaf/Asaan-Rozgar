@@ -11,21 +11,23 @@ import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
+import 'package:provider/provider.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: inventory()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       theme: ThemeData(
+//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+//         accentColor: Colors.white,
+//         textTheme: GoogleFonts.latoTextTheme(),
+//       ),
+//       home: inventory()
+//   ));
+// }
 
 class inventory extends StatefulWidget {
+
   @override
   _inventoryState createState() => _inventoryState();
 }
@@ -45,108 +47,112 @@ class _inventoryState extends State<inventory> {
     double textfield_gap = phone_height *0.0125; 
     double button_gap = phone_height *0.063;
     double divider_width = phone_width * 0.8; 
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
-      appBar: std_appbar('Inventory', color_Red, color_Green, color_Blue),
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
-      //   title: Text(
-      //     'Inventory',
-      //     style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white)),
-      //   ),
-      //   leading: IconButton(
-      //     onPressed: () {},
-      //     icon: Icon(Icons.arrow_back_ios),
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {} ,
-      //       icon: Icon(Icons.menu),
-      //       )
-      //   ],
-      //   ),
-      // bottomNavigationBar: BottomAppBar(
-      //   color: Colors.white ,
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //     children: [
-      //       Column(
-      //         mainAxisSize: MainAxisSize.min,
-      //         children: [
-      //          IconButton(
-      //            color: Color.fromRGBO(11, 71, 109, 1.0),
-      //            iconSize: 24.0,
-      //            icon: Icon(Icons.add_chart),
-      //           onPressed: () {}
-      //           ),
-      //           Padding(
-      //             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-      //             child: Text(
-      //                'Report',
-      //                style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
-      //             ),
-      //           )
-      //         ],
-      //         ),
-      //           Column(
-      //             mainAxisSize: MainAxisSize.min,
-      //             children: <Widget>[
-      //               IconButton(
-      //            color: Color.fromRGBO(11, 71, 109, 1.0),
-      //            iconSize: 24.0,
-      //            icon: Icon(Icons.business_center_outlined),
-      //           onPressed: () {}
-      //           ),
-      //           Text(
-      //              'Inventory',
-      //              style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
-      //           )
+    return ChangeNotifierProvider(
+      create: (context) => InventoryModel(),
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
+        appBar: std_appbar(context, 'Inventory', color_Red, color_Green, color_Blue),
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
+        //   title: Text(
+        //     'Inventory',
+        //     style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white)),
+        //   ),
+        //   leading: IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(Icons.arrow_back_ios),
+        //   ),
+        //   actions: [
+        //     IconButton(
+        //       onPressed: () {} ,
+        //       icon: Icon(Icons.menu),
+        //       )
+        //   ],
+        //   ),
+        // bottomNavigationBar: BottomAppBar(
+        //   color: Colors.white ,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //     children: [
+        //       Column(
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [
+        //          IconButton(
+        //            color: Color.fromRGBO(11, 71, 109, 1.0),
+        //            iconSize: 24.0,
+        //            icon: Icon(Icons.add_chart),
+        //           onPressed: () {}
+        //           ),
+        //           Padding(
+        //             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
+        //             child: Text(
+        //                'Report',
+        //                style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
+        //             ),
+        //           )
+        //         ],
+        //         ),
+        //           Column(
+        //             mainAxisSize: MainAxisSize.min,
+        //             children: <Widget>[
+        //               IconButton(
+        //            color: Color.fromRGBO(11, 71, 109, 1.0),
+        //            iconSize: 24.0,
+        //            icon: Icon(Icons.business_center_outlined),
+        //           onPressed: () {}
+        //           ),
+        //           Text(
+        //              'Inventory',
+        //              style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
+        //           )
 
-      //             ],
-      //           )
-      //     ],
-      //   )
-      //   ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-          onPressed: (){},
-          child: Icon(Icons.add,color: Colors.white),
-          ),
-          bottomNavigationBar: std_chinbar(color_Red,color_Green,color_Blue),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: Column(
-        children: [
-          Container(
-            child: Text(
-              'Search bar to be implemented',
+        //             ],
+        //           )
+        //     ],
+        //   )
+        //   ),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
+            onPressed: (){
+              Navigator.pushNamed(context, '/addItem');
+            },
+            child: Icon(Icons.add,color: Colors.white),
             ),
-          ),
-          Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(22.0),
-                          topRight: Radius.circular(22.0)
-                        )
+            bottomNavigationBar: std_chinbar(context, color_Red,color_Green,color_Blue),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: Column(
+          //TODO: NEED TO IMPLEMENT SEARCH BAR
+          children: [
+            Expanded(
+                child: Container(
+                    decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(22.0),
+                    topRight: Radius.circular(22.0)
+                  )
+                ),
+                 child: Column(
+                    children: [
+                      filter_reports(context),
+                      Expanded(
+                        child: SizedBox(
+                            child:Consumer<InventoryModel>(
+                            builder: (context, items, child) {
+                              return inventory_lis(
+                items: items.getItems);
+                            }),
+                        ),
                       ),
-              child: SingleChildScrollView(
-                              child: Column(
-                  children: [
-                    filter_reports(context),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height *0.8,
-                      child: inventory_lis(items: Inventory.getinventory())
-                      )
-                  ],
-                  ),
+                    ],
+                    ),
               ),
-            ),
-          )
-        ],
-        ),
-      
+            )
+          ],
+          ),
+
+      ),
     );
   }
 }

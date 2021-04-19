@@ -20,21 +20,24 @@ class _AddLoans_2State extends State<AddLoans_2> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor:Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios,color:Color.fromRGBO(11, 71, 109, 1.0)),
+        ),
+        title: Text(
+            'Add Loans',
+            style: GoogleFonts.lato(textStyle: TextStyle(fontSize: 26.0,color: Color.fromRGBO(11, 71, 109, 1.0)))),
+      ),
       body: Column(
+
         children: <Widget>[
           SizedBox(height:50),
-          Center(
-            child: Text(
-              'Add Loan',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'lato',
-                  color: Colors.black87
-              ),
-            ),
-          ),
-
           SizedBox(height: 30),
           Image.asset('assets/loan.png'),
           SizedBox(height: 30),
@@ -101,6 +104,7 @@ class _AddLoans_2State extends State<AddLoans_2> {
                             // setState(() {
                             //   response = temp;
                             // });
+                            // Navigator.pop(context);
                           },
                           child: Center(
                             child: Text(
