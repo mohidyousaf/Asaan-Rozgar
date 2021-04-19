@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 
 
 class Dashboard extends StatelessWidget {
+  Dashboard({this.type});
+  var type;
   @override
-
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -54,12 +55,12 @@ class Dashboard extends StatelessWidget {
 
                   Consumer<HomeModel>(
                     builder:(context, home, child){
-                      return Text('Rs ${home.receivables == null ? '':home.receivables.ceil().toString()}',
+                      return Text('Rs ${home.receivables == null ? '0':home.receivables.ceil().toString()}',
                       style: TextStyle(
                       color: Color.fromRGBO(46,189,133,1),
                       fontFamily: "Lato",
                       fontWeight: FontWeight.bold,
-                      fontSize: 27.0,
+                      fontSize: home.receivables == null ? 27.0 :home.receivables > 9999999 ? 22.0 : home.receivables > 99999 ? 24.0 : 27.0,
                       ),
                       );
                     }),
@@ -107,7 +108,7 @@ class Dashboard extends StatelessWidget {
                             color: Color.fromRGBO(245,70,93,1),
                             fontFamily: "Lato",
                             fontWeight: FontWeight.bold,
-                            fontSize: 27.0,
+                            fontSize: home.payables == null ? 27.0 : home.payables > 9999999.0 ? 22.0 : home.payables > 99999 ? 24.0 : 27.0,
                           ),
                         );
                       }),

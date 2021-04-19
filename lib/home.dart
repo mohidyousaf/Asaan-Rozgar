@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => HomeModel(),
+      create: (context) => HomeModel(type:'home'),
       child: Scaffold(
         endDrawer: drawer(),
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
@@ -409,49 +409,57 @@ class ListItem extends StatelessWidget {
   final date;
   @override
   Widget build(BuildContext context) {
-    return  Column(
-        children: [
-            ListTile(
-              title: Text(name,
-              style:TextStyle(
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.normal,
-                  fontSize: 17.0,
-                  color: Color.fromRGBO(38, 51, 58, 1.0),
-                  ),
-              ),
-              subtitle: Text(date == null ? '':date),
-              trailing:
-                  Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                      Text(amount,
-                      style:TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          color: Color.fromRGBO(46, 189, 133, 1.0),
-                          ),
-                      ),
-                      Text('You will get',
-                      style:TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Color.fromRGBO(46, 189, 133, 1.0),
-                          ),
-                      ),
-                  ],
-                  ),
+    return  TextButton(
+      onPressed: ()=> {
+        Navigator.pushNamed(context, '/party', arguments:
+        {'name': name})
+      },
+      child: Column(
+          children: [
+              ListTile(
+                title: Text(name,
+                style:TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.normal,
+                    fontSize: 17.0,
+                    color: Color.fromRGBO(38, 51, 58, 1.0),
+                    ),
+                ),
+                subtitle: Text(date == null ? '':date),
+                trailing:
+                    Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                        Text(amount,
+                        style:TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: Color.fromRGBO(46, 189, 133, 1.0),
+                            ),
+                        ),
+                        Text('You will get',
+                        style:TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.0,
+                            color: Color.fromRGBO(46, 189, 133, 1.0),
+                            ),
+                        ),
+                    ],
+                    ),
 
-            ),
-            Divider(height: 1, thickness: 0.5, endIndent: 15,),
-            ],
+              ),
+              Divider(height: 1, thickness: 0.5, endIndent: 15,),
+              ],
+      ),
     );
   }
 }
 
 class HomeModel extends ChangeNotifier{
+  var name;
+  var type;
   var receivable;
   var payable;
   var saleExpenses;
@@ -463,11 +471,20 @@ class HomeModel extends ChangeNotifier{
   expenses(month) => saleExpenses == null ?
                       0: (saleExpenses[month]==null ?
                       0:saleExpenses[month].expense);
-  HomeModel(){
-    var initFuture = initializeScreen();
-    initFuture.then((voidVal){
-      notifyListeners();
-    });
+  HomeModel({this.type, this.name}){
+    if (type == 'home'){
+      var initFuture = initializeScreen();
+      initFuture.then((voidVal){
+        notifyListeners();
+      });
+    }
+    else if (type == 'party'){
+      var initFuture = initializePartyScreen(name);
+      initFuture.then((voidVal){
+        notifyListeners();
+      });
+    }
+
   }
   initializeScreen() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -476,6 +493,12 @@ class HomeModel extends ChangeNotifier{
     saleExpenses = await DBprovider.db.getTransactions();
     receivable = details['Receivable'];
     payable = details['Payable'];
+  }
+  initializePartyScreen(name) async{
+    var partyDetails = await DBprovider.db.getData(name);
+    receivable = partyDetails['Receivable'];
+    payable = partyDetails['Payable'];
+    notifyListeners();
   }
 }
 

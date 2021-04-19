@@ -82,17 +82,16 @@ class _Purchase2State extends State<Purchase2> {
   double payable;
   String Balance_message = '';
   double balance;
-  List<Map<String, dynamic>> temp;
+  Map<String, dynamic> temp;
 
   getData() async {
-    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
+    Map<String, dynamic> temp2 = await DBprovider.db.getData(name);
     setState(() {
       temp = temp2;
       print('data is');
       print(temp);
-      temp.forEach((user) {
-        payable = user['Payable'];
-        receivable = user['Receivable'];
+        payable = temp['Payable'];
+        receivable = temp['Receivable'];
         if (payable > receivable) {
           balance = payable - receivable;
           Balance_message = "You'll Pay";
@@ -104,7 +103,6 @@ class _Purchase2State extends State<Purchase2> {
         }
         print('-----------');
       });
-    });
   }
 
   var companyName = "";
