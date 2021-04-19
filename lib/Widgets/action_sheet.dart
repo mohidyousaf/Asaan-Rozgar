@@ -17,6 +17,7 @@ class _filter_listState extends State<filter_list> {
    int selected_value;
    String dropdownvalue;
    var temp = ['Temp1','Temp2','Temp3','Temp4','Temp5','Temp6','Temp7','Temp8'];
+   var selected_range=RangeValues(0, 10000);
    @override
    void init_State(){
      super.initState();
@@ -32,6 +33,12 @@ class _filter_listState extends State<filter_list> {
    void selected_drop(String value){
      setState(() {
        dropdownvalue=value;
+     });
+   }
+
+   void price_range(RangeValues values){
+     setState(() {
+       selected_range=values;
      });
    }
   @override
@@ -251,7 +258,42 @@ class _filter_listState extends State<filter_list> {
                   )
                 ):Text(''),
                 selected_value==4?
-                Text('$box_height'):Text(''),
+                Column(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Price Range',
+                      style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16.0,)),
+                      ),
+                    Container(
+                      width: box_width,
+                      height: box_height,
+                      // decoration: ShapeDecoration(
+                      //   color: Colors.grey[100],
+                      //   shape: RoundedRectangleBorder(
+                      //     side: BorderSide(style: BorderStyle.solid),
+                      //     borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      //   ) 
+                      // ),
+                      child: RangeSlider(
+                        values: selected_range,
+                        min: 0,
+                        max: 100000,
+                        divisions: 10,
+                        activeColor: Color.fromRGBO(11, 71, 109, 1.0),
+                        //inactiveColor: Colors.red,
+                        labels: RangeLabels(
+                          selected_range.start.toString(),
+                          selected_range.end.toString()
+                          ),
+                        onChanged: (RangeValues values){
+                          price_range(values);
+                        }
+                      //Text('Hello',
+                        ),
+                    ),
+                  ],
+                ):Text(''),
                 selected_value==5?
                 Text(''):Text('')
               ]
