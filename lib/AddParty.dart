@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 
+void main() => runApp(MaterialApp(
+  home: AddParty(),
+));
 
 class AddParty extends StatefulWidget {
   // This widget is the root of your application.
@@ -24,11 +27,25 @@ class _AddPartyState extends State<AddParty> {
 
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode autoValid = AutovalidateMode.disabled;
-
+  String selected_drop;
+  var balance=['None','Paid','Unpaid'];
+  @override
+  void initState(){
+    super.initState();
+    selected_drop=balance[0];
+  }
+  void select_dropdown(String val){
+    setState(() {
+      selected_drop=val;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
+    double phone_width=MediaQuery.of(context).size.width;
+    double phone_height=MediaQuery.of(context).size.height;
+    double box_width=phone_width*0.541;
+    double box_height=phone_height*0.044;
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
@@ -96,8 +113,8 @@ class _AddPartyState extends State<AddParty> {
                   child: SingleChildScrollView(
                     child: Column(
                         children: <Widget>[
-                          InputTextFields(label: 'Party Type', controller:partyType,
-                              validateFunc: ValidationFunctions.validateEmpty),
+                          // InputTextFields(label: 'Party Type', controller:partyType,
+                          //     validateFunc: ValidationFunctions.validateEmpty),
                           SizedBox(height: 20.0),
                           InputTextFields(label: 'Party Name', controller:partyName,
                               validateFunc: ValidationFunctions.validateEmpty),
@@ -114,11 +131,71 @@ class _AddPartyState extends State<AddParty> {
                           InputTextFields(label: 'Account No', controller:accountNo,
                               validateFunc: ValidationFunctions.validateEmpty),
                           SizedBox(height: 20.0),
-                          InputTextFields(label: 'Payables', controller:payable,
+                          // InputTextFields(label: 'Payables', controller:payable,
+                          //     validateFunc: ValidationFunctions.validateEmpty),
+                          // SizedBox(height: 20.0),
+                          // InputTextFields(label: 'Receivables', controller:receivable,
+                          //     validateFunc: ValidationFunctions.validateEmpty),
+                          // InputTextFields(label: 'Receivables', controller:receivable,
+                          //     validateFunc: ValidationFunctions.validateEmpty),
+                          //     SizedBox(height: 20.0),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                            width: MediaQuery.of(context).size.width * 0.39,
+                            child: InputTextFields(label: 'Account Payables', controller:receivable,
                               validateFunc: ValidationFunctions.validateEmpty),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.39,
+                            child: InputTextFields(label: 'Account Recievable', controller:receivable,
+                              validateFunc: ValidationFunctions.validateEmpty),
+                          ),
+                            ]
+                          ),
                           SizedBox(height: 20.0),
-                          InputTextFields(label: 'Receivables', controller:receivable,
-                              validateFunc: ValidationFunctions.validateEmpty),
+                          Column(
+                            children: <Widget>[
+                              Text(
+                         'Party Type',
+                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,fontSize: 16.0,)),
+                       ),
+                       SizedBox(height: 5.0),
+                DropdownButtonHideUnderline(
+                                              child: Container(
+                                                width: box_width,
+                                                height: box_height,
+                                                decoration: ShapeDecoration(
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(style: BorderStyle.solid),
+                                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                                    ) 
+                                                  ),
+                           child: DropdownButton<String>(
+                             value: selected_drop,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Type of Party',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                              items: balance.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String value){
+                               select_dropdown(value);
+                             },
+                           ),
+                         ),
+                       ),
+                            ],
+                          ),
+
                           SizedBox(height: 50.0),
 
                           Container(

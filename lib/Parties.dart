@@ -8,10 +8,11 @@ import 'package:asaanrozgar/dashboard.dart';
 
 import 'Widgets/std_appbar.dart';
 import 'Widgets/std_chinbar.dart';
+import 'package:asaanrozgar/Widgets/filter_info.dart';
 
-// void main() => runApp(MaterialApp(
-//   home: Parties(),
-// ));
+void main() => runApp(MaterialApp(
+  home: Parties(),
+));
 
 class Parties extends StatelessWidget{
   final name = "Afaq Wholesaler.";
@@ -24,13 +25,14 @@ class Parties extends StatelessWidget{
         backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
         
         //Updated FAB
+        appBar: std_appbar(context, name, 109,11,93),
         floatingActionButton: std_FAB(Colors.white, 109, 11, 93, buttons, context),
         bottomNavigationBar: std_chinbar(context, 0, 0, 0),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
         body: Column(
         children:[
-          std_appbar(context, name, 109, 11, 93),
+          //std_appbar(context, name, 109, 11, 93),
 
           Dashboard(),
           SizedBox(height:3),
@@ -50,49 +52,51 @@ class Parties extends StatelessWidget{
             padding: const EdgeInsets.only(top: 10.0),
             child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 30,
-                             child: IconButton(
-                          icon: Icon(
-                          Icons.filter_alt_outlined,
-                          semanticLabel: 'Filter',
-                        ),
-                          onPressed: (){},
-                           ),
-                      ),
+              filter_info(context),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Column(
+              //       children: [
+              //         SizedBox(
+              //           height: 30,
+              //                child: IconButton(
+              //             icon: Icon(
+              //             Icons.filter_alt_outlined,
+              //             semanticLabel: 'Filter',
+              //           ),
+              //             onPressed: (){},
+              //              ),
+              //         ),
 
-                          Text(
-                       'Filter',
-                       style: TextStyle(
-                                          color: Color.fromRGBO(0, 0, 0, 1.0),
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 14,
+              //             Text(
+              //          'Filter',
+              //          style: TextStyle(
+              //                             color: Color.fromRGBO(0, 0, 0, 1.0),
+              //                             fontFamily: "Lato",
+              //                             fontWeight: FontWeight.normal,
+              //                             fontSize: 14,
                                           
-                                         )//GoogleFonts.lato(textStyle:TextStyle(color: Colors.black)),
-                     ),
+              //                            )//GoogleFonts.lato(textStyle:TextStyle(color: Colors.black)),
+              //        ),
 
-                    ],
-                  ),
+              //       ],
+              //     ),
                     
-                     IconButton(
-                    icon: Icon(
-                    Icons.info_outline,
-                    color: Colors.blue,
-                  ),
-                    onPressed: (){},
-                     ),
+              //        IconButton(
+              //       icon: Icon(
+              //       Icons.info_outline,
+              //       color: Colors.blue,
+              //     ),
+              //       onPressed: (){},
+              //        ),
 
-                ],
-              ),
+              //   ],
+              // ),
               SizedBox(height:10),
               Column(
                 children: [
+
                   ListTile(
                       title: Text('Order001',
                       style:TextStyle(
@@ -133,7 +137,7 @@ class Parties extends StatelessWidget{
                       ),
                       
                     ),
-                    Divider(height: 1, thickness: 0.5, endIndent: 15,),
+                    Divider(height: 1, thickness: 0.5,indent:15 , endIndent: 15,),
                 ],
               ),  
       ]    

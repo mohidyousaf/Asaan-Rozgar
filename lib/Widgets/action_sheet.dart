@@ -7,6 +7,11 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/cupertino.dart';
 
 
+//filter flows:
+//inventory_filter() -> filter_list
+//expenses_filter() -> expense_filters -> calendar_sheet() -> calendar
+//sale_purchase_filter() -> sale_purchase_filters -> calendar_sheet() -> calendar
+//party_filter() -> party_filters_display -> calendar_sheet() -> calendar
 
 class filter_list extends StatefulWidget {
   @override
@@ -308,69 +313,72 @@ class _filter_listState extends State<filter_list> {
 void inventory_filter(context){
   int filter_options=0;
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context){
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22.0),
-                topRight: Radius.circular(22.0)
-              ),
-              color: Colors.white
-              ),
-            child: Column(
-              children: [
-                Divider(
-                  indent: 165,
-                  endIndent: 180,
-                  thickness: 5.0,
-                  color: Colors.grey,
+          return SingleChildScrollView(
+                      child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(22.0),
+                  topRight: Radius.circular(22.0)
                 ),
-                Row(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                   Padding(
-                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                     child: IconButton(
-                       icon: Icon(Icons.close),
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        }
-                        ),
-                   ),
-                      Text(
-                        'Filters',
-                        style: GoogleFonts.lato(textStyle: TextStyle(
-                          color: Color.fromRGBO(11, 71, 109, 1.0)),
-                          fontSize: 24.0,
-                          ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                        child: TextButton(
-                          onPressed: () {},
-                           child: Text(
-                             'Reset',
-                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                           )),
-                      )
-                  ]
-                  ),
+                color: Colors.white
+                ),
+              child: Column(
+                children: [
                   Divider(
+                    indent: 165,
+                    endIndent: 180,
+                    thickness: 5.0,
                     color: Colors.grey,
-                    indent: 24,
-                    endIndent: 24,
                   ),
-                  filter_list(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
-                    child: long_circleBtt('Apply',255,159,10),
-                  )
+                  Row(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                     Padding(
+                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                       child: IconButton(
+                         icon: Icon(Icons.close),
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          }
+                          ),
+                     ),
+                        Text(
+                          'Filters',
+                          style: GoogleFonts.lato(textStyle: TextStyle(
+                            color: Color.fromRGBO(11, 71, 109, 1.0)),
+                            fontSize: 24.0,
+                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                          child: TextButton(
+                            onPressed: () {},
+                             child: Text(
+                               'Reset',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                             )),
+                        )
+                    ]
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      indent: 24,
+                      endIndent: 24,
+                    ),
+                    filter_list(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 20.0),
+                      child: long_circleBtt('Apply',255,159,10),
+                    )
 
-              ],
-              ),
+                ],
+                ),
+            ),
           );
       }
     );
@@ -465,7 +473,7 @@ class _expense_filtersState extends State<expense_filters> {
                   child: FlatButton.icon(
                     padding: EdgeInsets.only(left: 310.0),
                     onPressed: (){
-                      calendar_sheet(context);
+                      calendar_sheet(context,12,109,109);
                     },
                     icon: Icon(
                       Icons.calendar_today_outlined,
@@ -489,82 +497,85 @@ class _expense_filtersState extends State<expense_filters> {
 void expenses_filter(context){
   int filter_options=0;
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context){
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22.0),
-                topRight: Radius.circular(22.0)
-              ),
-              color: Colors.white
-              ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                                  child: Divider(
-                    indent: 165,
-                    endIndent: 180,
-                    thickness: 5.0,
-                    color: Colors.grey,
-                  ),
+          return SingleChildScrollView(
+                      child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(22.0),
+                  topRight: Radius.circular(22.0)
                 ),
-                Row(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                   Padding(
-                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                     child: IconButton(
-                       icon: Icon(Icons.close),
-                        onPressed: (){
-                          Navigator.of(context).pop();
-                        }
-                        ),
-                   ),
-                      Align(
-                        alignment: Alignment.center,
-                                              child: Text(
-                          'Filters',
-                          style: GoogleFonts.lato(textStyle: TextStyle(
-                            color: Color.fromRGBO(11, 71, 109, 1.0)),
-                            fontSize: 24.0,
-                            ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                        child: TextButton(
-                          onPressed: () {},
-                           child: Text(
-                             'Reset',
-                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                           )),
-                      )
-                  ]
+                color: Colors.white
+                ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                                    child: Divider(
+                      indent: 165,
+                      endIndent: 180,
+                      thickness: 5.0,
+                      color: Colors.grey,
+                    ),
                   ),
-                  Divider(
-                    color: Colors.grey,
-                    indent: 24,
-                    endIndent: 24,
-                  ),
-                  //filter_list(),
-                  expense_filters(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 120.0, 0.0, 0.0),
-                    child: long_circleBtt('Apply',12,109,109),
-                  )
+                  Row(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                     Padding(
+                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                       child: IconButton(
+                         icon: Icon(Icons.close),
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          }
+                          ),
+                     ),
+                        Align(
+                          alignment: Alignment.center,
+                                                child: Text(
+                            'Filters',
+                            style: GoogleFonts.lato(textStyle: TextStyle(
+                              color: Color.fromRGBO(11, 71, 109, 1.0)),
+                              fontSize: 24.0,
+                              ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                          child: TextButton(
+                            onPressed: () {},
+                             child: Text(
+                               'Reset',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                             )),
+                        )
+                    ]
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      indent: 24,
+                      endIndent: 24,
+                    ),
+                    //filter_list(),
+                    expense_filters(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 120.0, 0.0, 20.0),
+                      child: long_circleBtt('Apply',12,109,109),
+                    )
 
-              ],
-              ),
+                ],
+                ),
+            ),
           );
       }
     );
 }
 
-void calendar_sheet(context){
+void calendar_sheet(context,int color_red,int color_green,int color_blue){
   int filter_options=0;
     showModalBottomSheet(
       isScrollControlled: true,
@@ -631,7 +642,7 @@ void calendar_sheet(context){
                     //SizedBox(height: 20.0),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20.0),
-                      child: long_circleBtt('Confirm',12,109,109),
+                      child: long_circleBtt('Confirm',color_red,color_green,color_blue),
                     )
                     
 
@@ -684,7 +695,7 @@ class _calendarState extends State<calendar> {
           Column(
             children: [
               Container(
-                height: slider_height,
+                //height: 300,
                 width: slider_width,
                 child: CupertinoSlidingSegmentedControl(
                          groupValue: currentState,
@@ -748,7 +759,7 @@ class _calendarState extends State<calendar> {
                 leftChevronPadding: EdgeInsets.only(left: 100.0),
                 rightChevronPadding: EdgeInsets.only(right: 100.0)
               ),
-              rowHeight: 35.0,
+              rowHeight: phone_width*0.086,
               firstDay: DateTime.utc(2010, 10, 16),
               lastDay: DateTime.utc(2030, 3, 14),
               focusedDay: DateTime.now(),
@@ -827,6 +838,26 @@ class _calendarState extends State<calendar> {
                              ),
                            ),
                          ),
+                         SizedBox(height:30.0),
+                          Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Text(
+                    'Year',
+                    style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,fontSize: 16.0,fontWeight: FontWeight.bold)),
+                    ),
+                    Container(
+                      width: box_width,
+                      height: box_height,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Type your input here',
+                          labelStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,))
+                        ),
+                      ),
+                    )
+                ],)
                 ],
               ), 
             ],
@@ -840,79 +871,81 @@ class _calendarState extends State<calendar> {
 void sale_purchase_filter(context){
   int filter_options=0;
     showModalBottomSheet(
-     // isScrollControlled: true,
+      isScrollControlled: true,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context){
-          return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(22.0),
-                  topRight: Radius.circular(22.0)
-                ),
-                color: Colors.white
-                ),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                                    child: Divider(
-                      indent: 165,
-                      endIndent: 180,
-                      thickness: 5.0,
-                      color: Colors.grey,
-                    ),
+          return SingleChildScrollView(
+                      child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(22.0),
+                    topRight: Radius.circular(22.0)
                   ),
-                  Row(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                     Padding(
-                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                       child: IconButton(
-                         icon: Icon(Icons.close),
-                          onPressed: (){
-                            Navigator.of(context).pop();
-                          }
-                          ),
-                     ),
-                        Align(
-                          alignment: Alignment.center,
-                                                child: Text(
-                            'Filters',
-                            style: GoogleFonts.lato(textStyle: TextStyle(
-                              color: Color.fromRGBO(11, 71, 109, 1.0)),
-                              fontSize: 24.0,
-                              ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                          child: TextButton(
-                            onPressed: () {},
-                             child: Text(
-                               'Reset',
-                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                             )),
-                        )
-                    ]
+                  color: Colors.white
+                  ),
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                                      child: Divider(
+                        indent: 165,
+                        endIndent: 180,
+                        thickness: 5.0,
+                        color: Colors.grey,
+                      ),
                     ),
-                    Divider(
-                      color: Colors.grey,
-                      indent: 24,
-                      endIndent: 24,
-                    ),
-                    //filter_list(),
-                    //expense_filters(),
-                    sale_purchase_filters(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
-                      child: long_circleBtt('Apply',12,109,109),
-                    )
+                    Row(
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                       Padding(
+                         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                         child: IconButton(
+                           icon: Icon(Icons.close),
+                            onPressed: (){
+                              Navigator.of(context).pop();
+                            }
+                            ),
+                       ),
+                          Align(
+                            alignment: Alignment.center,
+                                                  child: Text(
+                              'Filters',
+                              style: GoogleFonts.lato(textStyle: TextStyle(
+                                color: Color.fromRGBO(11, 71, 109, 1.0)),
+                                fontSize: 24.0,
+                                ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                            child: TextButton(
+                              onPressed: () {},
+                               child: Text(
+                                 'Reset',
+                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                               )),
+                          )
+                      ]
+                      ),
+                      Divider(
+                        color: Colors.grey,
+                        indent: 24,
+                        endIndent: 24,
+                      ),
+                      //filter_list(),
+                      //expense_filters(),
+                      sale_purchase_filters(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 20.0),
+                        child: long_circleBtt('Apply',11,71,109),
+                      )
 
-                ],
-                ),
-            );
+                  ],
+                  ),
+              ),
+          );
       }
     );
 }
@@ -1063,7 +1096,7 @@ class _sale_purchase_filtersState extends State<sale_purchase_filters> {
                   child: FlatButton.icon(
                     padding: EdgeInsets.only(left: 310.0),
                     onPressed: (){
-                      calendar_sheet(context);
+                      calendar_sheet(context,11,71,109);
                     },
                     icon: Icon(
                       Icons.calendar_today_outlined,
@@ -1076,6 +1109,235 @@ class _sale_purchase_filtersState extends State<sale_purchase_filters> {
               ),
 
       ]
+    );
+  }
+}
+
+void party_filter(context){
+  int filter_options=0;
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context){
+          return SingleChildScrollView(
+                      child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(22.0),
+                  topRight: Radius.circular(22.0)
+                ),
+                color: Colors.white
+                ),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                                    child: Divider(
+                      indent: 165,
+                      endIndent: 180,
+                      thickness: 5.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Row(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                     Padding(
+                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                       child: IconButton(
+                         icon: Icon(Icons.close),
+                          onPressed: (){
+                            Navigator.of(context).pop();
+                          }
+                          ),
+                     ),
+                        Align(
+                          alignment: Alignment.center,
+                                                child: Text(
+                            'Filters',
+                            style: GoogleFonts.lato(textStyle: TextStyle(
+                              color: Color.fromRGBO(11, 71, 109, 1.0)),
+                              fontSize: 24.0,
+                              ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                          child: TextButton(
+                            onPressed: () {},
+                             child: Text(
+                               'Reset',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                             )),
+                        )
+                    ]
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      indent: 24,
+                      endIndent: 24,
+                    ),
+                    //filter_list(),
+                   // expense_filters(),
+                   party_filters_display(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 20.0),
+                      child: long_circleBtt('Apply',109,11,93),
+                    )
+
+                ],
+                ),
+            ),
+          );
+      }
+    );
+}
+
+
+class party_filters_display extends StatefulWidget {
+  @override
+  _party_filters_displayState createState() => _party_filters_displayState();
+}
+
+class _party_filters_displayState extends State<party_filters_display> {
+  String selected_drop;
+  var balance=['None','Paid','Unpaid'];
+  @override
+  void initState(){
+    super.initState();
+    selected_drop=balance[0];
+  }
+  void select_dropdown(String val){
+    setState(() {
+      selected_drop=val;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    double phone_width=MediaQuery.of(context).size.width;
+    double phone_height=MediaQuery.of(context).size.height;
+    double box_width=phone_width*0.857;
+    double box_height=phone_height*0.0527;
+    return SingleChildScrollView(
+          child: Column(
+          children: [
+                Container(
+                    width: box_width,
+                    //height: box_height,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                       Text(
+                         'Balance',
+                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16.0,)),
+                       ),
+                       //SizedBox(height: 50.0,),
+                       DropdownButtonHideUnderline(
+                                              child: Container(
+                                                width: box_width,
+                                                height: box_height,
+                                                decoration: ShapeDecoration(
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(style: BorderStyle.solid),
+                                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                                    ) 
+                                                  ),
+                           child: DropdownButton<String>(
+                             value: selected_drop,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Type of Balance',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                              items: balance.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String value){
+                               select_dropdown(value);
+                             },
+                           ),
+                         ),
+                       ),
+                      
+                      SizedBox(height: 30.0,),
+                      Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Date',
+                    style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black),fontWeight: FontWeight.bold,fontSize: 16.0),
+                  ),
+                  Container(
+                    width: box_width,
+                    height: box_height,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(style: BorderStyle.solid),
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      )
+                    ),
+                    child: FlatButton.icon(
+                      padding: EdgeInsets.only(left: 310.0),
+                      onPressed: (){
+                        calendar_sheet(context,109,11,93);
+                      },
+                      icon: Icon(
+                        Icons.calendar_today_outlined,
+                        color: Color.fromRGBO(11, 71, 109, 1.0),
+                        ),
+                      label: Text(''),
+                      ),
+                  )
+                ],
+                ),
+                SizedBox(height: 30.0,),
+                Text(
+                         'Type',
+                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16.0,)),
+                       ),
+                DropdownButtonHideUnderline(
+                                              child: Container(
+                                                width: box_width,
+                                                height: box_height,
+                                                decoration: ShapeDecoration(
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(style: BorderStyle.solid),
+                                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                                    ) 
+                                                  ),
+                           child: DropdownButton<String>(
+                             value: selected_drop,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Type of Party',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                              items: balance.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String value){
+                               select_dropdown(value);
+                             },
+                           ),
+                         ),
+                       ),
+
+                      ],
+                    )
+                  )
+             
+        ],),
     );
   }
 }

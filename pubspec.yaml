@@ -36,7 +36,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   adaptive_action_sheet: ^2.0.0
-  flutter_speed_dial: ^3.0.5
   google_fonts: ^2.0.0
   material_floating_search_bar: ^0.3.3
   shared_preferences: ^2.0.5
@@ -44,7 +43,6 @@ dev_dependencies:
   provider: ^4.3.3
   flutter_speed_dial: ^1.2.1
 #<<<<<<< HEAD
-  table_calendar: ^3.0.0
 #=======
 #>>>>>>> a82ec51af5accdbad8fa0ee9c45da29583ebb82e
 

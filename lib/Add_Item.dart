@@ -35,6 +35,7 @@ class _AddItemState extends State<AddItem> {
             },
             icon: Icon(Icons.arrow_back_ios),
           ),
+          elevation: 0,
           title: Text("Add Item",
               style: TextStyle(
                 fontFamily: "Lato",
