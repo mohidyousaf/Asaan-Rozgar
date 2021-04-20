@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/action_sheet.dart';
 import 'package:asaanrozgar/Parties_info.dart';
+import 'package:asaanrozgar/main.dart';
 
-Widget filter_info(BuildContext context){
+Widget filter_info(context){
   return Container(
                       child: Column(
                         children: [
@@ -44,7 +45,9 @@ Widget filter_info(BuildContext context){
                                       color: Colors.blue,
                                       semanticLabel: 'Info',
                                       ), 
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/inventory');
+                                    },
                                     ),
                                     Text(
                                       ' '

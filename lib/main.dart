@@ -1,3 +1,5 @@
+//import 'dart:js';
+
 import 'package:asaanrozgar/onboarding.dart';
 import 'package:flutter/material.dart';
 // import 'DataBase.dart';
@@ -26,6 +28,8 @@ import 'package:asaanrozgar/Sale1.dart';
 import 'package:asaanrozgar/Sale2.dart';
 import 'package:asaanrozgar/AfterAddingCompany.dart';
 import 'package:asaanrozgar/Balance.dart';
+import 'package:asaanrozgar/Parties.dart';
+import 'package:asaanrozgar/Parties_info.dart';
 
 
 import 'package:google_fonts/google_fonts.dart';
@@ -55,6 +59,7 @@ void main() async{
         '/signIn': (context) => SignIn(),
         '/addAccount': (context) => AddAccounts(),
         '/addParty': (context) => AddParty(),
+        '/party': (context) => Parties(),
         '/addEquity': (context) => AddEquities(),
         '/addAssets': (context) => AddAssets(),
         '/addLoan1': (context) => AddLoans(),
@@ -73,6 +78,7 @@ void main() async{
         '/sale2':(context)=> SaleMain(),
         '/check':(context)=> Check(),
         '/balance':(context)=> Balance(),
+        '/parties_info': (context) => parties_info(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),

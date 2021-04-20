@@ -293,6 +293,17 @@ class DBprovider{
     var payable;
     double companyBalance;
     int companyID;
+    var totalPayable;
+    var totalReceivable;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+        where: 'CompanyName = ?',
+        whereArgs: [companyName])).forEach((element) {
+      companyID = element['CompanyID'];
+      totalReceivable = element['TotalReceivable'];
+      totalPayable = element['TotalPayable'];
+    });
 
     List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
     temp.forEach((element) {
@@ -333,6 +344,13 @@ class DBprovider{
           OrderID, ProductID, Quantity, Price
           ) VALUES (?,?,?,?)
       ''',[orderID, productID, product.quantity, product.price]);
+        if (type == 'purchase'){
+          var res2 = await db.rawInsert('''
+          INSERT INTO purchases(
+            ProductID,PurchasePrice,Quantity
+          ) VALUES (?,?,?)
+          ''', [productID, product.price, product.quantity]);
+        }
     });
       DateTime now = DateTime.now();
       String date = DateFormat('yMd').format(now);// 28/03/2020
@@ -347,20 +365,32 @@ class DBprovider{
     var balance = (double.parse(amount) - double.parse(received));
     if (type == 'sale') {
       newReceivable += balance;
+      totalReceivable += balance;
       await db.rawQuery('''
        UPDATE parties
         SET Receivable = ?
         WHERE PartyID=?
       ''',[newReceivable,partyID]);
+      await db.rawQuery('''
+       UPDATE company
+        SET TotalReceivable = ?
+        WHERE CompanyID=?
+      ''',[totalReceivable,companyID]);
       updateBalance(companyName, companyBalance+double.parse(received));
     }
     else {
       newPayable += balance;
+      totalPayable += balance;
       await db.rawQuery('''
        UPDATE parties
         SET Payable = ?
         WHERE PartyID=?
       ''',[newPayable,partyID]);
+      await db.rawQuery('''
+       UPDATE company
+        SET TotalPayable = ?
+        WHERE CompanyID=?
+      ''',[totalPayable,companyID]);
       updateBalance(companyName, companyBalance- double.parse(received));
     }
 
@@ -401,7 +431,6 @@ class DBprovider{
     return res2;
   }
 
-
   addAssets(name, description, type, value){
     return name;
   }
@@ -409,14 +438,34 @@ class DBprovider{
     return name;
   }
   addParty(partyType, partyName,partyDescription,emailAddress,contactNo,accountNo,payable,receivable) async{
+
     final db = await database;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    int companyID;
+    var receivables;
+    var payables;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+        where: 'CompanyName = ?',
+        whereArgs: [name])).forEach((element) {
+        companyID = element['CompanyID'];
+        receivables = element['TotalReceivable'];
+        payables = element['TotalPayable'];
+    });
     print(partyName);
     var res = await db.rawInsert('''
     INSERT INTO parties(
       PartyType,PartyName,Description,EmailAddress, ContactNo, AccountNo, Receivable, Payable
     ) VALUES (?,?,?,?,?,?,?,?)
-    ''', [partyType, partyName, partyDescription, emailAddress, contactNo, accountNo, receivable, payable]);
-
+    ''', [partyType, partyName, partyDescription, emailAddress, contactNo, accountNo, double.parse(receivable), double.parse(payable)]);
+    var tempQuery = await db.rawQuery('''
+        UPDATE company
+        SET TotalReceivable = ?,
+            TotalPayable = ?
+        WHERE CompanyID=?
+      ''',[receivables + double.parse(receivable),payables + double.parse(payable), companyID]);
     return res;
   }
 
@@ -439,12 +488,12 @@ class DBprovider{
   getData(name) async{
 
     final db =await database;
-
+    var party;
     final List<Map<String, dynamic>> parties = await db.rawQuery('''
         SELECT * FROM parties WHERE PartyName= ?;
       ''',[name]);
-
-    return parties;
+    parties.forEach((element) =>{party = element});
+    return party;
 
   }
 
@@ -495,12 +544,27 @@ class DBprovider{
     final List<Map<String, dynamic>> list = await db.rawQuery('''
         SELECT * FROM inventory
       ''');
-    list.forEach((element) {
+    list.forEach((element) async{
+      var quantity = 0;
+      var price = 0.0;
+      var value = 0.0;
+      var q = 0;
+      var query = await db.rawQuery('''
+      SELECT * FROM purchases
+      WHERE ProductID = ?
+      ''', [element['ProductID']]);
+      query.forEach((purchaseElement) {
+        q = purchaseElement['Quantity'];
+        quantity += q;
+        price = purchaseElement['PurchasePrice'];
+        value += (q * price);
+
+      });
       items.add(new InventoryItem(
           name: element['ProductName'],
           price: element['SalePrice'].toInt(),
-          quantity: 40,
-          value: 100));
+          quantity: quantity.toInt(),
+          value: value.toInt()));
     });
 
     return items;
