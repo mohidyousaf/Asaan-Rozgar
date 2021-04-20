@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:asaanrozgar/Add_Item.dart';
+import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:flutter/material.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
@@ -15,20 +16,15 @@ class Sale4 extends StatefulWidget {
 
 class _Sale4State extends State<Sale4> {
 
-  itemList tm;
-  List<itemList> objects=[];
   Map data ={};
   String name;
-  List<Map<String, dynamic>> temp1;
+  List<InventoryItem> objects = [];
 
   getItemList()async{
-    List<Map<String, dynamic>> temp2 = await DBprovider.db.getItemList(name);
+    //TODO: Get total quantity from database
+    List<InventoryItem> temp2 = await DBprovider.db.getItemList(name);
     setState(() {
-      temp1= temp2;
-      print(temp1);
-      temp1.forEach((element) {
-        objects.add(itemList(itemName:element['ProductName'], image:'Image'));
-      });
+      objects= temp2;
     });
   }
 
@@ -50,7 +46,6 @@ class _Sale4State extends State<Sale4> {
     data = ModalRoute.of(context).settings.arguments;
     setState(() {
       name = data['name'];
-      // tm = data['obj'];
 
     });
     return Scaffold(

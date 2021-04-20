@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/DataBase.dart';
 class InventoryItem{
+  final image;
   final String name;
   final int price;
   final int quantity;
   final int value;
-  InventoryItem({this.name,this.price,this.quantity,this.value});
+  InventoryItem({this.name,this.price,this.quantity,this.value, this.image});
 
 }
 

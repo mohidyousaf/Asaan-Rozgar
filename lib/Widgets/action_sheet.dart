@@ -1284,7 +1284,7 @@ class _party_filters_displayState extends State<party_filters_display> {
                       )
                     ),
                     child: FlatButton.icon(
-                      padding: EdgeInsets.only(left: 310.0),
+                      padding: EdgeInsets.only(left: 300.0),
                       onPressed: (){
                         calendar_sheet(context,109,11,93);
                       },

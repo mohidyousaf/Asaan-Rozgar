@@ -351,6 +351,39 @@ class DBprovider{
           ) VALUES (?,?,?)
           ''', [productID, product.price, product.quantity]);
         }
+        if (type == 'sale'){
+          var res3 = await db.rawQuery('''
+          SELECT * FROM purchases
+          WHERE ProductID = ?
+          ''', [productID]);
+          var quantity = 0;
+          var purchaseID;
+          var productQuantity = product.quantity;
+
+          bool finish = false;
+          for (final element in res3){
+            quantity = element['Quantity'];
+            purchaseID = element['PurchaseID'];
+            if (quantity > 0){
+              if (quantity < productQuantity){
+                productQuantity -= quantity;
+                quantity = 0;
+              }
+              else{
+                quantity -= productQuantity;
+                finish = true;
+              }
+              var query = db.rawQuery('''
+              UPDATE purchases
+              SET Quantity = ?
+              WHERE PurchaseID = ?
+              ''', [quantity, purchaseID]);
+              if (finish) {
+                break;
+              }
+            }
+          }
+        }
     });
       DateTime now = DateTime.now();
       String date = DateFormat('yMd').format(now);// 28/03/2020
@@ -533,6 +566,33 @@ class DBprovider{
     final List<Map<String, dynamic>> parties = await db.rawQuery('''
         SELECT * FROM inventory WHERE PartyID= ?;
       ''',[partyID]);
+    List<InventoryItem> items = [];
+    parties.forEach((element) async{
+      var quantity = 0;
+      var price = 0.0;
+      var value = 0.0;
+      var q = 0;
+      var query = await db.rawQuery('''
+      SELECT * FROM purchases
+      WHERE ProductID = ?
+      ''', [element['ProductID']]);
+      query.forEach((purchaseElement) {
+        q = purchaseElement['Quantity'];
+        quantity += q;
+        price = purchaseElement['PurchasePrice'];
+        value += (q * price);
+
+      });
+      items.add(new InventoryItem(
+        //TODO: add image in db
+          image: 'image',
+          name: element['ProductName'],
+          price: element['SalePrice'].toInt(),
+          quantity: quantity.toInt(),
+          value: value.toInt()));
+    });
+
+    return items;
 
     return parties;
 
@@ -606,7 +666,6 @@ class DBprovider{
         whereArgs: [name])).forEach((element) {
       companyID = element['CompanyID'];
     });
-
 
     final List<Map<String, dynamic>> temp = await db.rawQuery('''
         SELECT * FROM  accounts WHERE CompanyID=?;
