@@ -29,6 +29,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   #<<<<<<< HEAD
   dots_indicator: ^0.0.5+1
+  
+
   #=======
   sqflite: null
 #>>>>>>> a42d47e11cc0480ce178ae4babeec406c9a340eb
@@ -42,6 +44,7 @@ dev_dependencies:
   shared_preferences: ^2.0.5
   provider: ^4.3.3
   flutter_speed_dial: ^1.2.1
+
 #<<<<<<< HEAD
   table_calendar: ^3.0.0
 #=======
