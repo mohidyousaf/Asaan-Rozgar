@@ -9,6 +9,7 @@ class InventoryItem{
   InventoryItem({this.name,this.price,this.quantity,this.value});
 
 }
+
 class InventoryModel extends ChangeNotifier{
   List<InventoryItem> items = [];
   get getItems => items;
@@ -20,6 +21,8 @@ class InventoryModel extends ChangeNotifier{
   }
   initializeCart() async{
     items = await DBprovider.db.getInventory();
+
+
 
   }
 }

@@ -8,7 +8,7 @@ Widget std_appbar(context, String label,int color_redval,int color_greenval,int 
         centerTitle: true,
         title: Text(
           '$label',
-          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white)),
+          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white), fontSize: 24.0),
         ),
         leading: IconButton(
           onPressed: () {

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/action_sheet.dart';
+import 'package:asaanrozgar/Parties_info.dart';
+import 'package:asaanrozgar/main.dart';
 
-Widget filter_reports(BuildContext context){
+Widget filter_info(context){
   return Container(
                       child: Column(
                         children: [
@@ -23,7 +25,7 @@ Widget filter_reports(BuildContext context){
                                       Icons.filter_alt_outlined,
                                       semanticLabel: 'Filter',
                                       ), 
-                                    onPressed: () {},
+                                    onPressed: () {party_filter(context);},
                                     ),
                                     Text(
                                       'Filter',
@@ -39,15 +41,16 @@ Widget filter_reports(BuildContext context){
                                   IconButton(
                                     alignment: Alignment.center,
                                     icon: Icon(
-                                      Icons.print_outlined,
-                                      semanticLabel: 'Report',
+                                      Icons.info_outline,
+                                      color: Colors.blue,
+                                      semanticLabel: 'Info',
                                       ), 
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/inventory');
+                                    },
                                     ),
                                     Text(
-                                      'Report',
-                                      //textAlign: Alignment()
-                                      style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                                      ' '
                                     )
                                 ],
                               ),
@@ -56,8 +59,8 @@ Widget filter_reports(BuildContext context){
                           ),
                           Divider(
                            // height: 50.0,
-                            indent: 33.0,
-                            endIndent: 33.0,
+                            indent: 15.0,
+                            endIndent: 15.0,
                             //thickness: 1.0,
                             color: Colors.grey,
                           )

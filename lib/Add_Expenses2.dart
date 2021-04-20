@@ -9,9 +9,21 @@ import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/Purchase3.dart';
 import 'package:asaanrozgar/Purchase4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
+void main() {
+  // TestWidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+        accentColor: Colors.white,
+        textTheme: GoogleFonts.latoTextTheme(),
+      ),
+      home: PurchaseMain()
+  ));
+}
 
 //Create Notifier Provider
 class PurchaseMain extends StatelessWidget {
@@ -82,16 +94,17 @@ class _Purchase2State extends State<Purchase2> {
   double payable;
   String Balance_message = '';
   double balance;
-  Map<String, dynamic> temp;
+  List<Map<String, dynamic>> temp;
 
   getData() async {
-    Map<String, dynamic> temp2 = await DBprovider.db.getData(name);
+    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
     setState(() {
       temp = temp2;
       print('data is');
       print(temp);
-        payable = temp['Payable'];
-        receivable = temp['Receivable'];
+      temp.forEach((user) {
+        payable = user['Payable'];
+        receivable = user['Receivable'];
         if (payable > receivable) {
           balance = payable - receivable;
           Balance_message = "You'll Pay";
@@ -103,6 +116,7 @@ class _Purchase2State extends State<Purchase2> {
         }
         print('-----------');
       });
+    });
   }
 
   var companyName = "";

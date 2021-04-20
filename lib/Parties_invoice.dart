@@ -6,7 +6,7 @@ import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
 
-// void main() => runApp(MaterialApp(home: Sale_invoice()));
+void main() => runApp(MaterialApp(home: Sale_invoice()));
 
 class Sale_invoice extends StatefulWidget {
   @override

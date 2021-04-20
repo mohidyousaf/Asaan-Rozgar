@@ -7,7 +7,7 @@ import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 //import 'DataBase.dart';
 
-// void main() => runApp(MaterialApp(home: PaymentDetail()));
+void main() => runApp(MaterialApp(home: PaymentDetail()));
 
 class PaymentDetail extends StatefulWidget {
   
@@ -32,27 +32,28 @@ List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.pe
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * .1,
-          leading: IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-          title: Text("Order No. 234",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              )),
-          centerTitle: true,
-          backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.menu),
-            )
-          ],
-        ),
+        appBar: std_appbar(context, 'Order No. 234', 109, 11, 93),
+        // appBar: AppBar(
+        //   toolbarHeight: MediaQuery.of(context).size.height * .1,
+        //   leading: IconButton(
+        //     onPressed: () => {},
+        //     icon: Icon(Icons.arrow_back_ios),
+        //   ),
+        //   title: Text("Order No. 234",
+        //       style: TextStyle(
+        //         fontFamily: "Lato",
+        //         fontWeight: FontWeight.bold,
+        //         fontSize: 24.0,
+        //       )),
+        //   centerTitle: true,
+        //   backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
+        //   actions: <Widget>[
+        //     IconButton(
+        //       onPressed: () => {},
+        //       icon: Icon(Icons.menu),
+        //     )
+        //   ],
+        // ),
 
         floatingActionButton:
         std_FAB(Colors.white, 109, 11, 93, buttons, context),
@@ -135,146 +136,150 @@ List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.pe
               ],
             ),
             SizedBox(height: 15),
-            SingleChildScrollView(
-                child: Container(
-              height: MediaQuery.of(context).size.height * .6531,
+           // SingleChildScrollView(
+                 Expanded(
+                                  child: Container(
+              //height: MediaQuery.of(context).size.height * .6531,
+              //height: 493,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(26),
-                    topRight: Radius.circular(26),
-                  )),
-              child: Column(children: [
-                SizedBox(height: 25),
-                Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Text("Invoice No:  ",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(107, 143, 165, 0.7),
-                        )),
-                    Text("$invoiceNo",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        )),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-                    Text("Date: ",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(107, 143, 165, 0.7),
-                        )),
-                    Text("16/11/2000",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        )),
-                  ],
-                ),
-                  // SizedBox(height:10),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextField(
-                    decoration: InputDecoration(
-                        labelText: "Name",
-                        prefixText: "Rs.",
-                    )
-                ),
-                  ),
-                  // SizedBox(height:10),
-                 Padding(
-                   padding: const EdgeInsets.all(16.0),
-                   child: TextField(
-                    decoration: InputDecoration(
-                        labelText: "Recieved",
-                        prefixText: "Rs.",
-                    )
-                ),
-                 ),
-                
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                      child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(26),
+                      topRight: Radius.circular(26),
+                    )),
+              child: SingleChildScrollView(
+                              child: Column(children: [
+                    SizedBox(height: 25),
+                    Row(
                       children: [
-                        new DropdownButton<String>(
-                          hint: Text("Payment Method"),
-                          items: <String>['Cash', 'Bank'].map((String value) {
-                          return new DropdownMenuItem<String>(
-                                value: value,
-                                child: new Text(value),
-                                );
-                                }).toList(),
-                                onChanged: (_) {},
-                                ),
+                        SizedBox(width: 20),
+                        Text("Invoice No:  ",
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(107, 143, 165, 0.7),
+                            )),
+                        Text("$invoiceNo",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                        SizedBox(width: MediaQuery.of(context).size.width * 0.4),
+                        Text("Date: ",
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(107, 143, 165, 0.7),
+                            )),
+                        Text("16/11/2000",
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
                       ],
                     ),
-                  ),
-                ),
-               
-                // Last Button And columns
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children:[ 
-                     Column(
-                       children: [
-                         Text("Balance Due",
-                         style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                              )
-                         ),
-                         SizedBox(height:8),
-                         Text("Rs.0.00",
-                         style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                              )
-                         ),
-                       ],
+                       SizedBox(height:MediaQuery.of(context).size.height * 0.071),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextField(
+                        decoration: InputDecoration(
+                            labelText: "Name",
+                            prefixText: "Rs.",
+                        )
                     ),
-                    FlatButton(
-                    onPressed: () {
+                      ),
+                      // SizedBox(height:10),
+                     Padding(
+                       padding: const EdgeInsets.all(16.0),
+                       child: TextField(
+                        decoration: InputDecoration(
+                            labelText: "Recieved",
+                            prefixText: "Rs.",
+                        )
+                    ),
+                     ),
+                    SizedBox(height: 20.0,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                          child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            new DropdownButton<String>(
+                              hint: Text("Payment Method"),
+                              items: <String>['Cash', 'Bank'].map((String value) {
+                              return new DropdownMenuItem<String>(
+                                    value: value,
+                                    child: new Text(value),
+                                    );
+                                    }).toList(),
+                                    onChanged: (_) {},
+                                    ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Last Button And columns
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 70),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       children:[ 
+                         Column(
+                           children: [
+                             Text("Balance Due",
+                             style: TextStyle(
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.0,
+                                      color: Color.fromRGBO(11, 71, 109, 1.0),
+                                  )
+                             ),
+                             SizedBox(height:8),
+                             Text("Rs.0.00",
+                             style: TextStyle(
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 24.0,
+                                      color: Color.fromRGBO(11, 71, 109, 1.0),
+                                  )
+                             ),
+                           ],
+                        ),
+                        FlatButton(
+                        onPressed: () {
 
-                    },
-                    height: 40,
-                    minWidth: 90,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text('NEXT',
-                        style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13.0,
-                            color: Colors.white
-                        )),
-                    color: Color.fromRGBO(11, 71, 109, 1.0))
-                   ]
-                  ),
-                )
-              ]
+                        },
+                        height: 40,
+                        minWidth: 90,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text('NEXT',
+                            style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.normal,
+                                fontSize: 13.0,
+                                color: Colors.white
+                            )),
+                        color: Color.fromRGBO(11, 71, 109, 1.0))
+                       ]
+                      ),
+                    )
+                ]
+                ),
               ),
-            )
             ),
+                )
+           // ),
           ],
         )
         );
