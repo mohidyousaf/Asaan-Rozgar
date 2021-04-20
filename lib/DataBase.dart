@@ -246,12 +246,13 @@ class DBprovider{
 
   }
   //TODO: BELOW DB FUNCTIONS
-  addItem(products, partnerName, categoryTag, salePrice,taxRate, minStock)async{
+  addItem(products, partnerName, categoryTag, salePrice,taxRate, minStock, total, received)async{
     final db = await database;
     int partyID;
     int productID;
     products.forEach((product) async{
       print( '${product.itemName}, ${product.price}, ${product.quantity}');
+
       //partyID
       var list = (await db.query(
       'parties',
@@ -260,26 +261,35 @@ class DBprovider{
           whereArgs: [partnerName])).forEach((element){
       partyID = element['PartyID'];
       });
+
+      //adding in inventory
       var res = await db.rawInsert('''
       INSERT INTO inventory(
       PartyID,ProductName,ProductDescription,SalePrice,TaxRate,MinStock
     ) VALUES (?,?,?,?,?,?)
     ''', [partyID, product.itemName, categoryTag, salePrice, taxRate, minStock]);
-      var productQuery = (await db.query(
-      'inventory',
-      columns: ['ProductID'],
-      where: 'ProductName = ?',
-      whereArgs: [product.itemName])).forEach((element) {
-      productID = element['ProductID'];
-      });
-      var res2 = await db.rawInsert('''
-    INSERT INTO purchases(
-      ProductID,PurchasePrice,Quantity
-    ) VALUES (?,?,?)
-    ''', [productID, product.price, product.quantity]);
-      print('Added');
+
+      //productID
+      // var productQuery = (await db.query(
+      // 'inventory',
+      // columns: ['ProductID'],
+      // where: 'ProductName = ?',
+      // whereArgs: [product.itemName])).forEach((element) {
+      // productID = element['ProductID'];
+      // });
+
+      //adding in purchase
+    //   var res2 = await db.rawInsert('''
+    // INSERT INTO purchases(
+    //   ProductID,PurchasePrice,Quantity
+    // ) VALUES (?,?,?)
+    // ''', [productID, product.price, product.quantity]);
+    //   print('Added');
     });
-    addOrder('default',products, partnerName, '2000', '1000', 'purchase');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    var s= await DBprovider.db.addOrder(name,products, partnerName, total, received,'purchase');
 
 
     return [partyID,productID];

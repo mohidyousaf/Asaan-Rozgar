@@ -15,6 +15,7 @@ import './AddAssets.dart';
 import './Parties.dart';
 import 'package:asaanrozgar/Transactions.dart';
 import 'package:asaanrozgar/AddLoan-1.dart';
+import 'package:asaanrozgar/AddParty.dart';
 
 class drawer extends StatefulWidget {
   drawer({this.companyName});
@@ -181,7 +182,7 @@ class _drawerState extends State<drawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => Parties()
+                      builder: (BuildContext context) => AddParty()
                       )
                    );
                 },

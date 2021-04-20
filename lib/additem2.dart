@@ -22,10 +22,6 @@ class _additem2State extends State<additem2> {
   // ];
   //List<addItem> objects = [];
 
-  List<String> itemName = ['Lays', 'Cheetos'];
-  List<int> price = [10, 30];
-  List<int> quantity = [20, 2];
-  List<String> image = ['Image1', 'Image2'];
 
   Map data = {};
   List<addItem> objects = [];
@@ -39,29 +35,28 @@ class _additem2State extends State<additem2> {
   double payable;
   String Balance_message;
   double balance;
-  List<Map<String, dynamic>> temp;
+  var temp;
+  TextEditingController amountReceived = new TextEditingController();
   double get totalPrice => objects.fold(0, (total, item) => total + (item.quantity*item.price));
 
   getData() async {
-    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
+    var temp2 = await DBprovider.db.getData(name);
     setState(() {
       temp = temp2;
       print('data is');
-      print(temp2);
-      temp2.forEach((user) {
-        payable = user['Payable'];
-        receivable = user['Receivable'];
-        if (payable > receivable) {
-          balance = payable - receivable;
-          Balance_message = "You'll Pay";
-          toGive = true;
-        } else {
-          balance = receivable - payable;
-          Balance_message = "You'll Get";
-          toGive = false;
-        }
-        print('-----------');
-      });
+      print(temp);
+      payable = temp['Payable'];
+      receivable = temp['Receivable'];
+      if (payable > receivable) {
+        balance = payable - receivable;
+        Balance_message = "You'll Pay";
+        toGive = true;
+      } else {
+        balance = receivable - payable;
+        Balance_message = "You'll Get";
+        toGive = false;
+      }
+      print('-----------');
     });
   }
 
@@ -313,6 +308,7 @@ class _additem2State extends State<additem2> {
                           Container(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: TextField(
+                              controller:amountReceived,
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
@@ -365,7 +361,7 @@ class _additem2State extends State<additem2> {
                     ],
                   ),
                   SizedBox(height: 17,),
-              Row(
+                   Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 20,),
@@ -401,8 +397,11 @@ class _additem2State extends State<additem2> {
                             data['tag'],
                             data['salePrice'],
                             data['taxRate'],
-                            data['minStock']);
-                        Navigator.popUntil(context,ModalRoute.withName('/home'));
+                            data['minStock'],
+                            totalPrice.toString(),
+                            amountReceived.text.toString())
+                        ;
+                        Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                         print(temp);
                       },
                       height: 30,

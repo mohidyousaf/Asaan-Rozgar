@@ -17,13 +17,14 @@ class InventoryModel extends ChangeNotifier{
   InventoryModel(){
     var initFuture = initializeCart();
     initFuture.then((voidVal){
+      print('here');
       notifyListeners();
     });
   }
   initializeCart() async{
     items = await DBprovider.db.getInventory();
-
-
-
+    print(items);
   }
+
+
 }

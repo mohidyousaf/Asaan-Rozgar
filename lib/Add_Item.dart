@@ -231,8 +231,8 @@ class _AddItemState extends State<AddItem> {
                     shadowColor: Colors.grey[900],
                     color: Color.fromRGBO(255, 159, 10, 1.0),
                     elevation: 7.0,
-                    child: GestureDetector(
-                      onTap: () async {
+                    child: TextButton(
+                      onPressed: () async {
                         //TODO: have to change this to a class
                         List<addItem> order = [new addItem(
                             itemName: productName.text.toString(),
