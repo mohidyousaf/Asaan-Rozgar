@@ -15,7 +15,9 @@ Widget std_chinbar(context, int color_red,int color_green, int color_blue){
                  color: Color.fromRGBO(11, 71, 109, 1.0),
                  iconSize: 24.0,
                  icon: Icon(Icons.add_chart),
-                onPressed: () {}
+                onPressed: () {
+                  Navigator.pushNamed(context, '/reportsHome');
+                }
                 ),
                 Text(
                    'Report',

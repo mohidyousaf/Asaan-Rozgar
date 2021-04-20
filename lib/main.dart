@@ -30,6 +30,7 @@ import 'package:asaanrozgar/AfterAddingCompany.dart';
 import 'package:asaanrozgar/Balance.dart';
 import 'package:asaanrozgar/Parties.dart';
 import 'package:asaanrozgar/Parties_info.dart';
+import 'package:asaanrozgar/ReportsMenu.dart';
 
 
 import 'package:google_fonts/google_fonts.dart';
@@ -79,6 +80,7 @@ void main() async{
         '/check':(context)=> Check(),
         '/balance':(context)=> Balance(),
         '/parties_info': (context) => parties_info(),
+        '/reportsHome': (context) => ReportsMenu(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
