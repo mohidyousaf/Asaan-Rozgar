@@ -133,7 +133,7 @@ class _additem2State extends State<additem2> {
                     //       fontSize: 16.0,
                     //       color: Colors.white,
                     //     )),
-                        Text(name,
+                        Text(name == null ? '' : name,
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w500,
@@ -150,7 +150,7 @@ class _additem2State extends State<additem2> {
                           fontSize: 12.0,
                           color: Colors.white
                         )),
-                    Text("Rs. $balance",
+                    Text("Rs. ${balance == null ? '0':balance}",
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w800,
@@ -180,7 +180,7 @@ class _additem2State extends State<additem2> {
                                   )
                                   : Row(
                                     children: [
-                                      Text(Balance_message,
+                                      Text(Balance_message == null ? '': Balance_message,
                                           style: TextStyle(
                                             fontFamily: "Lato",
                                             fontWeight: FontWeight.w800,
@@ -376,7 +376,7 @@ class _additem2State extends State<additem2> {
                               color: Color.fromRGBO(11, 71, 109, 1.0),
                             )),
                           SizedBox(height: 5,),
-                          Text("Rs. $totalPrice",
+                          Text("Rs. ${totalPrice == null ? '0': totalPrice}",
                           style: TextStyle(
                               fontFamily: "Lato",
                               fontWeight: FontWeight.w500,
