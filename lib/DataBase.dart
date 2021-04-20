@@ -577,7 +577,7 @@ class DBprovider{
         SELECT * FROM inventory WHERE PartyID= ?;
       ''',[partyID]);
     List<InventoryItem> items = [];
-    parties.forEach((element) async{
+    await Future.wait(parties.map((element) async{
       var quantity = 0;
       var price = 0.0;
       var value = 0.0;
@@ -600,7 +600,7 @@ class DBprovider{
           price: element['SalePrice'].toInt(),
           quantity: quantity.toInt(),
           value: value.toInt()));
-    });
+    }));
 
     return items;
 
@@ -614,15 +614,15 @@ class DBprovider{
     final List<Map<String, dynamic>> list = await db.rawQuery('''
         SELECT * FROM inventory
       ''');
-    list.forEach((element) async{
+    await Future.wait(list.map((element) async{
       var quantity = 0;
       var price = 0.0;
       var value = 0.0;
       var q = 0;
-      var query = await db.rawQuery('''
-      SELECT * FROM purchases
-      WHERE ProductID = ?
-      ''', [element['ProductID']]);
+      var query = await db.query(
+      'purchases',
+      where: 'ProductID = ?',
+      whereArgs:[element['ProductID']]);
       query.forEach((purchaseElement) {
         q = purchaseElement['Quantity'];
         quantity += q;
@@ -635,8 +635,8 @@ class DBprovider{
           price: element['SalePrice'].toInt(),
           quantity: quantity.toInt(),
           value: value.toInt()));
-    });
-
+    }));
+    print('db print $items');
     return items;
 
   }

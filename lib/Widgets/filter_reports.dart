@@ -10,49 +10,33 @@ Widget filter_reports(BuildContext context){
                       child: Column(
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                            children: <Widget>[
+                             Container(
+                               alignment: Alignment.bottomCenter ,
+                               child: TextButton(
+                                   onPressed: () {inventory_filter(context);},
+                                   child: Column(
+                                     mainAxisSize: MainAxisSize.min,
+                                     children: [
+                                        Icon(Icons.filter_alt_outlined, semanticLabel: 'Filter', color: Color.fromRGBO(11, 71, 109, 1.0)),
+                                        Text('Filter',
+                                          style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),)
+                                     ],
+                                   )),
+                             ),
                             Container(
-                              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.657, 0.0, 0.0, 0.0),
-                              alignment: Alignment.bottomCenter ,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,                
-                                children: [
-                                  IconButton(
-                                    alignment: Alignment.center,
-                                    icon: Icon(
-                                      Icons.filter_alt_outlined,
-                                      semanticLabel: 'Filter',
-                                      ), 
-                                    onPressed: () {},
-                                    ),
-                                    Text(
-                                      'Filter',
-                                      //textAlign: Alignment()
-                                      style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                                    )
-                                ],
-                                ),
-                            ),
-                            Container(
-                              child: Column(
-                                children: <Widget> [
-                                  IconButton(
-                                    alignment: Alignment.center,
-                                    icon: Icon(
-                                      Icons.print_outlined,
-                                      semanticLabel: 'Report',
-                                      ), 
-                                    onPressed: () {},
-                                    ),
-                                    Text(
-                                      'Report',
-                                      //textAlign: Alignment()
-                                      style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                                    )
-                                ],
-                              ),
-                            )
-                           ],
+                              margin: const EdgeInsets.only(left:5.0, right: 25.0),
+                              child: TextButton(
+                                      child: Column(
+                                      children: [
+                                        Icon(Icons.print_outlined, semanticLabel: 'Report',color: Color.fromRGBO(11, 71, 109, 1.0),),
+                                      Text('Report',style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),)
+                                      ],
+                                      ),
+                                      )
+                                   )
+                           ]
                           ),
                           Divider(
                            // height: 50.0,

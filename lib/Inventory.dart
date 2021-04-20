@@ -1,7 +1,6 @@
 //import 'package:asaanrozgar/Widgets/searchbar.dart';
 import 'package:asaanrozgar/Widgets/filter_reports.dart';
 import 'package:asaanrozgar/Widgets/inventory_list.dart';
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/long_circleBtt.dart';
@@ -37,7 +36,6 @@ class _inventoryState extends State<inventory> {
     double textfield_gap = phone_height *0.0125; 
     double button_gap = phone_height *0.063;
     double divider_width = phone_width * 0.8;
-    var  _suggestion= new TextEditingController();
     List<ChildButton> buttons = [ChildButton(label: 'Add Item', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/addItem')];
     return ChangeNotifierProvider(
       create: (context) => InventoryModel(),
@@ -50,65 +48,29 @@ class _inventoryState extends State<inventory> {
         body: Column(
           //TODO: NEED TO IMPLEMENT SEARCH BAR
           children: [
-            SizedBox(height: 30,),
-            Container(
-              width: 350,
-              height: 50,
-              // color: Colors.white,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
               child: Consumer<InventoryModel>(
-                builder: (context,items,child){
-                  var lis= items.getItems;
-                  var temp=[];
-                  lis.forEach((element)=>{
-                    temp.add(element.name)
-                  });
-                  print(temp);
-                  return AutoCompleteTextField(
-                      controller: _suggestion,
-                      suggestions:  temp,
-                      clearOnSubmit: false,
-                      style: TextStyle(color: Colors.black, fontSize: 16.0),
+                  builder:(context, inventory, child){
+                    return TextField(
+                      onChanged: (text){
+                        inventory.searchItems(text);
+                      },
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0)
-                          )
+                        suffixIcon: Icon(Icons.search),
+                        contentPadding: EdgeInsets.fromLTRB(20,3,20,3),
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Search',
+                        hintStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              const Radius.circular(16.0),)
+                        ),
                       ),
-                      itemFilter: (item,query){
-                        return item.toLowerCase().startsWith(query.toLowerCase());
-                      },
-
-                      itemSorter: (a,b){
-                          return a.compareTo(b);
-                      },
-
-                      itemSubmitted: (item){
-                          _suggestion.text= item;
-                      },
-
-                      itemBuilder: (context,item){
-                          return Container(
-                            padding: EdgeInsets.all(20.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  item,
-                                  style: TextStyle(color: Colors.black),
-                                )
-                              ],
-                            ),
-                          );
-                      },
-
-                  );
-                },
-              ),
+                    );
+                  })
             ),
-
-            SizedBox(height: 30,),
             Expanded(
                 child: Container(
                     decoration: BoxDecoration(
