@@ -2,7 +2,7 @@ import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 import './Widgets/std_appbar.dart';
-import 'pieChart.dart';
+import 'Widgets/pieChart.dart';
 
 
 // void main() {
