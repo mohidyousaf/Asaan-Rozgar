@@ -30,6 +30,7 @@ import 'package:asaanrozgar/AfterAddingCompany.dart';
 import 'package:asaanrozgar/Balance.dart';
 import 'package:asaanrozgar/Parties.dart';
 import 'package:asaanrozgar/Parties_info.dart';
+import 'package:asaanrozgar/report_test.dart';
 
 
 import 'package:google_fonts/google_fonts.dart';
@@ -48,7 +49,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      // initialRoute: '/check',
+      initialRoute: '/linegraph',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -79,6 +80,7 @@ void main() async{
         '/check':(context)=> Check(),
         '/balance':(context)=> Balance(),
         '/parties_info': (context) => parties_info(),
+        '/linegraph' :(context) => Reports1(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
