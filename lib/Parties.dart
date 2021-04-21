@@ -31,7 +31,7 @@ class _PartiesState extends State<Parties> {
     setState((){
       name = data['name'];
     });
-    // double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
     return
     ChangeNotifierProvider(
       create: (context) => HomeModel(type:'party', name:name),

@@ -9,6 +9,7 @@ import 'package:asaanrozgar/Sale3.dart';
 import 'package:asaanrozgar/Sale4.dart';
 import 'package:asaanrozgar/Sale_invoice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:asaanrozgar/Widgets/temp.dart';
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
@@ -30,7 +31,7 @@ class SaleController extends StatefulWidget {
 
 class _SaleControllerState extends State<SaleController> {
   String curr = 'cart';
-  itemList obj;
+  InventoryItem obj;
   changeScreen({screenName, object}){
     setState((){
       curr = screenName;
@@ -39,7 +40,7 @@ class _SaleControllerState extends State<SaleController> {
   }
   @override
   Widget build(BuildContext context) {
-    return (curr == 'catalog') ? Sale4(func:changeScreen):(curr=='cart' ? Sale2(func:changeScreen):(curr=='invoice' ? Sale_invoice(func:changeScreen):Sale3(func:changeScreen, object:obj))) ;
+    return (curr == 'catalog') ? Sale4(func:changeScreen):(curr=='cart' ? Sale2(func:changeScreen):(curr=='invoice' ? Sale_invoice(func:changeScreen):Sale3(func:changeScreen, object:obj)));
   }
 }
 
@@ -75,17 +76,16 @@ class _Sale2State extends State<Sale2> {
   double payable;
   String Balance_message = '';
   double balance;
-  List<Map<String, dynamic>> temp;
+  var temp;
 
   getData() async {
-    List<Map<String, dynamic>> temp2 = await DBprovider.db.getData(name);
+    var temp2 = await DBprovider.db.getData(name);
     setState(() {
       temp = temp2;
       print('data is');
       print(temp);
-      temp.forEach((user) {
-        payable = user['Payable'];
-        receivable = user['Receivable'];
+        payable = temp['Payable'];
+        receivable = temp['Receivable'];
         if (payable > receivable) {
           balance = payable - receivable;
           Balance_message = "You'll Pay";
@@ -97,7 +97,6 @@ class _Sale2State extends State<Sale2> {
         }
         print('-----------');
       });
-    });
   }
 
   var companyName = "";

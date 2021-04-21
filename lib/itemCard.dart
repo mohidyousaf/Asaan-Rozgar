@@ -1,3 +1,4 @@
+import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
@@ -40,7 +41,7 @@ class invoice_list extends StatelessWidget {
 }
 
 class cart extends StatelessWidget {
-  final itemList obj1;
+  final InventoryItem obj1;
   final Function pass;
   cart({this.obj1, this.pass});
   @override
@@ -63,7 +64,16 @@ class cart extends StatelessWidget {
               SizedBox(
                 width: 15,
               ),
-              Text(obj1.itemName.toString(),
+              Text(obj1.name.toString(),
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20.0,
+                  )),
+              SizedBox(
+                width: 15,
+              ),
+              Text(obj1.quantity.toString(),
                   style: TextStyle(
                     fontFamily: "Lato",
                     fontWeight: FontWeight.w500,

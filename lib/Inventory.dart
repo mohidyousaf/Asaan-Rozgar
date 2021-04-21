@@ -12,19 +12,8 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:provider/provider.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
 
-
-// void main() {
-//   // TestWidgetsFlutterBinding.ensureInitialized();
-//   runApp(MaterialApp(
-//       theme: ThemeData(
-//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-//         accentColor: Colors.white,
-//         textTheme: GoogleFonts.latoTextTheme(),
-//       ),
-//       home: inventory()
-//   ));
-// }
 
 class inventory extends StatefulWidget {
 
@@ -46,84 +35,42 @@ class _inventoryState extends State<inventory> {
     double image_width = phone_width *0.5;
     double textfield_gap = phone_height *0.0125; 
     double button_gap = phone_height *0.063;
-    double divider_width = phone_width * 0.8; 
+    double divider_width = phone_width * 0.8;
+    List<ChildButton> buttons = [ChildButton(label: 'Add Item', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/addItem')];
     return ChangeNotifierProvider(
       create: (context) => InventoryModel(),
       child: Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
         appBar: std_appbar(context, 'Inventory', color_Red, color_Green, color_Blue),
-        // appBar: AppBar(
-        //   elevation: 0,
-        //   backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
-        //   title: Text(
-        //     'Inventory',
-        //     style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.white)),
-        //   ),
-        //   leading: IconButton(
-        //     onPressed: () {},
-        //     icon: Icon(Icons.arrow_back_ios),
-        //   ),
-        //   actions: [
-        //     IconButton(
-        //       onPressed: () {} ,
-        //       icon: Icon(Icons.menu),
-        //       )
-        //   ],
-        //   ),
-        // bottomNavigationBar: BottomAppBar(
-        //   color: Colors.white ,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //     children: [
-        //       Column(
-        //         mainAxisSize: MainAxisSize.min,
-        //         children: [
-        //          IconButton(
-        //            color: Color.fromRGBO(11, 71, 109, 1.0),
-        //            iconSize: 24.0,
-        //            icon: Icon(Icons.add_chart),
-        //           onPressed: () {}
-        //           ),
-        //           Padding(
-        //             padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
-        //             child: Text(
-        //                'Report',
-        //                style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
-        //             ),
-        //           )
-        //         ],
-        //         ),
-        //           Column(
-        //             mainAxisSize: MainAxisSize.min,
-        //             children: <Widget>[
-        //               IconButton(
-        //            color: Color.fromRGBO(11, 71, 109, 1.0),
-        //            iconSize: 24.0,
-        //            icon: Icon(Icons.business_center_outlined),
-        //           onPressed: () {}
-        //           ),
-        //           Text(
-        //              'Inventory',
-        //              style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
-        //           )
-
-        //             ],
-        //           )
-        //     ],
-        //   )
-        //   ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-            onPressed: (){
-              Navigator.pushNamed(context, '/addItem');
-            },
-            child: Icon(Icons.add,color: Colors.white),
-            ),
+          floatingActionButton: std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
             bottomNavigationBar: std_chinbar(context, color_Red,color_Green,color_Blue),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Column(
           //TODO: NEED TO IMPLEMENT SEARCH BAR
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
+              child: Consumer<InventoryModel>(
+                  builder:(context, inventory, child){
+                    return TextField(
+                      onChanged: (text){
+                        inventory.searchItems(text);
+                      },
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.search),
+                        contentPadding: EdgeInsets.fromLTRB(20,3,20,3),
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Search',
+                        hintStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              const Radius.circular(16.0),)
+                        ),
+                      ),
+                    );
+                  })
+            ),
             Expanded(
                 child: Container(
                     decoration: BoxDecoration(
@@ -140,8 +87,7 @@ class _inventoryState extends State<inventory> {
                         child: SizedBox(
                             child:Consumer<InventoryModel>(
                             builder: (context, items, child) {
-                              return inventory_lis(
-                items: items.getItems);
+                              return inventory_lis(items: items.getItems);
                             }),
                         ),
                       ),

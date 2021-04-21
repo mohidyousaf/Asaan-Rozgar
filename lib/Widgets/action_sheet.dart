@@ -996,34 +996,35 @@ class _sale_purchase_filtersState extends State<sale_purchase_filters> {
                      ),
                      //SizedBox(height: 50.0,),
                      DropdownButtonHideUnderline(
-                                            child: Container(
-                                              width: box_width,
-                                              height: box_height,
-                                              decoration: ShapeDecoration(
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(style: BorderStyle.solid),
-                                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                                  ) 
-                                                ),
-                         child: DropdownButton<String>(
-                           value: dropdownCategory,
-                           icon: const Icon(Icons.arrow_drop_down),
-                           style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
-                           hint: Text(
-                             ' Select Category Tag',
-                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                      child: ButtonTheme(
+                        alignedDropdown: true,
+                        child: Container(
+                          decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                // side: BorderSide(style: BorderStyle.solid),
+                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                              ) 
+                            ),
+                           child: DropdownButton<String>(
+                             value: dropdownCategory,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Category Tag',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                             items: temp.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String newvalue){
+                               selected_Category(newvalue);
+                             },
                            ),
-                           items: temp.map((String dropDownStringItem){
-                             return DropdownMenuItem<String>(
-                               value: dropDownStringItem,
-                               child: Text(dropDownStringItem),
-                              );
-                           }).toList(),
-                           onChanged: (String newvalue){
-                             selected_Category(newvalue);
-                           },
                          ),
-                       ),
+                      ),
                      )
 
                     ],
@@ -1284,7 +1285,7 @@ class _party_filters_displayState extends State<party_filters_display> {
                       )
                     ),
                     child: FlatButton.icon(
-                      padding: EdgeInsets.only(left: 310.0),
+                      padding: EdgeInsets.only(left: 300.0),
                       onPressed: (){
                         calendar_sheet(context,109,11,93);
                       },
