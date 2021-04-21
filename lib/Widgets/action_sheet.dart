@@ -471,7 +471,7 @@ class _expense_filtersState extends State<expense_filters> {
                     )
                   ),
                   child: FlatButton.icon(
-                    padding: EdgeInsets.only(left: 310.0),
+                    padding: EdgeInsets.only(left: 300.0),
                     onPressed: (){
                       calendar_sheet(context,12,109,109);
                     },
@@ -1094,7 +1094,7 @@ class _sale_purchase_filtersState extends State<sale_purchase_filters> {
                     )
                   ),
                   child: FlatButton.icon(
-                    padding: EdgeInsets.only(left: 310.0),
+                    padding: EdgeInsets.only(left: 300.0),
                     onPressed: (){
                       calendar_sheet(context,11,71,109);
                     },
@@ -1284,7 +1284,7 @@ class _party_filters_displayState extends State<party_filters_display> {
                       )
                     ),
                     child: FlatButton.icon(
-                      padding: EdgeInsets.only(left: 310.0),
+                      padding: EdgeInsets.only(left: 300.0),
                       onPressed: (){
                         calendar_sheet(context,109,11,93);
                       },
