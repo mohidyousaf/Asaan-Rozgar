@@ -30,9 +30,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   #<<<<<<< HEAD
   dots_indicator: ^0.0.5+1
+<<<<<<< HEAD
+=======
   pie_chart: ^4.0.1
   percent_indicator: "^2.1.7+2"
  
+>>>>>>> b71bbc4865cafebf890f3aa70c762da4466030bb
 
   #=======
   sqflite: null
@@ -48,6 +51,7 @@ dev_dependencies:
   table_calendar: ^3.0.0
   provider: ^4.3.3
   flutter_speed_dial: ^1.2.1
+  charts_flutter: ^0.10.0
 
 #<<<<<<< HEAD
 #=======
@@ -57,7 +61,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
