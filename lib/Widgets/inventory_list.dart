@@ -4,41 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 
 
-
-
-// class inventory_list extends StatefulWidget {
-//   final List <Inventory> itemlist;
-
-//   const inventory_list({Key key, this.itemlist}) : super(key: key);
-
-//   @override
-//   _inventory_listState createState() => _inventory_listState();
-// }
-
-// class _inventory_listState extends State<inventory_list> {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.separated(
-//       separatorBuilder: (context,index){
-//         return Divider(
-//           color: Colors.grey,
-//         );
-//       },
-      
-//       itemCount: widget.itemlist.length,
-//       itemBuilder: (context,index){
-//         return Text(
-//           'Inventory',
-//         );
-//       }
-
-
-      
-//     );
-//   }
-// }
-
 class inventory_lis extends StatelessWidget {
   final List <InventoryItem> items;
   inventory_lis({this.items});

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'package:asaanrozgar/Purchase_invoice.dart';
+import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Add_Item.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class PurchaseController extends StatefulWidget {
 
 class _PurchaseControllerState extends State<PurchaseController> {
   String curr = 'cart';
-  itemList obj;
+  InventoryItem obj;
   changeScreen({screenName, object}){
     setState((){
       curr = screenName;

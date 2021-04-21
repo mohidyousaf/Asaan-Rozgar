@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
+  autocomplete_textfield:
+    dependency: "direct main"
+    description:
+      name: autocomplete_textfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -44,7 +51,11 @@ packages:
     source: hosted
     version: "0.10.0"
   charts_flutter:
+<<<<<<< HEAD
     dependency: "direct dev"
+=======
+    dependency: "direct main"
+>>>>>>> b71bbc4865cafebf890f3aa70c762da4466030bb
     description:
       name: charts_flutter
       url: "https://pub.dartlang.org"
@@ -247,6 +258,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.0"
+  pie_chart:
+    dependency: "direct main"
+    description:
+      name: pie_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   platform:
     dependency: transitive
     description:

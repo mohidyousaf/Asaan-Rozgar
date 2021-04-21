@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
@@ -13,7 +14,7 @@ import 'package:asaanrozgar/Purchase2.dart';
 class Purchase3 extends StatefulWidget {
   Purchase3({this.func, this.object});
   Function func;
-  itemList object;
+  InventoryItem object;
 
   @override
   _Purchase3State createState() => _Purchase3State();
@@ -30,7 +31,7 @@ class _Purchase3State extends State<Purchase3> {
   Widget build(BuildContext context) {
 
     setState(() {
-      name=widget.object.itemName;
+      name=widget.object.name;
     });
     return Scaffold(
         backgroundColor: Colors.white,

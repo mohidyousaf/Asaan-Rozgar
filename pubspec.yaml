@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  autocomplete_textfield: ^1.7.3
   flutter:
     sdk: flutter
 
@@ -29,9 +30,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   #<<<<<<< HEAD
   dots_indicator: ^0.0.5+1
+<<<<<<< HEAD
+=======
+  pie_chart: ^4.0.1
+ 
+>>>>>>> b71bbc4865cafebf890f3aa70c762da4466030bb
 
   #=======
   sqflite: null
+  charts_flutter: ^0.10.0
 #>>>>>>> a42d47e11cc0480ce178ae4babeec406c9a340eb
 dev_dependencies:
   flutter_test:

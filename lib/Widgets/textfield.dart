@@ -20,15 +20,15 @@ Widget input_text_fields(String label,String hinttext){
 //SHIFFA STYLE
 class InputTextFields extends StatefulWidget {
 
-  InputTextFields({this.label,this.controller, this.validateFunc});
+  InputTextFields({this.label,this.controller, this.validateFunc, this.arg});
   final String label;
   final TextEditingController controller;
-  final String Function({String text}) validateFunc;
+  final String Function({String text,int args}) validateFunc;
+  final arg;
 
   @override
   _InputTextFieldsState createState() => _InputTextFieldsState();
 }
-
 class _InputTextFieldsState extends State<InputTextFields> {
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _InputTextFieldsState extends State<InputTextFields> {
         cursorColor: Colors.lightBlue,
         obscureText: widget.label=='Password' ? true : false,
         validator: (text) {
-          return widget.validateFunc(text:text);
+          return widget.validateFunc(text:text, args:widget.arg);
 
         },
         decoration: InputDecoration(
