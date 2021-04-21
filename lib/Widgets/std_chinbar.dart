@@ -6,43 +6,35 @@ Widget std_chinbar(context, int color_red,int color_green, int color_blue){
   return BottomAppBar(
         color: Colors.white ,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-               IconButton(
-                 color: Color.fromRGBO(11, 71, 109, 1.0),
-                 iconSize: 24.0,
-                 icon: Icon(Icons.add_chart),
-                onPressed: () {}
-                ),
-                Text(
-                   'Report',
-                   style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
-                )
-              ],
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                  child:Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.add_chart, color: Color.fromRGBO(11, 71, 109, 1.0), size: 24.0,),
+                      Text('Report', style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0)))),
+                    ],
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/reportsHome');
+                  }
               ),
-              
-                Column(
+              TextButton(
+                child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                 color: Color.fromRGBO(11, 71, 109, 1.0),
-                 iconSize: 24.0,
-                 icon: Icon(Icons.business_center_outlined),
-                onPressed: () {
-                   Navigator.pushNamed(context, '/inventory');
-                }
-                ),
-                Text(
-                   'Inventory',
-                   style:  GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
-                )
-
+                  children: [
+                    Icon(Icons.business_center_outlined, size: 24.0,color: Color.fromRGBO(11, 71, 109, 1.0),),
+                    Text('Inventory', style:
+                    GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0))),
+                    ),
                   ],
-                )
-          ],
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/inventory');
+                },
+              ),
+            ]
         )
         );
 

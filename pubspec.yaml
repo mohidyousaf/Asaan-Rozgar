@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  autocomplete_textfield: ^1.7.3
   flutter:
     sdk: flutter
 
@@ -29,8 +30,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   #<<<<<<< HEAD
   dots_indicator: ^0.0.5+1
+  pie_chart: ^4.0.1
+ 
+
   #=======
   sqflite: null
+  charts_flutter: ^0.10.0
 #>>>>>>> a42d47e11cc0480ce178ae4babeec406c9a340eb
 dev_dependencies:
   flutter_test:
@@ -42,6 +47,8 @@ dev_dependencies:
   table_calendar: ^3.0.0
   provider: ^4.3.3
   flutter_speed_dial: ^1.2.1
+  charts_flutter: ^0.10.0
+
 #<<<<<<< HEAD
 #=======
 #>>>>>>> a82ec51af5accdbad8fa0ee9c45da29583ebb82e
@@ -50,7 +57,6 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

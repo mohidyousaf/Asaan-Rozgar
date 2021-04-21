@@ -29,8 +29,9 @@ class addItem extends StatelessWidget {
 class itemList extends StatelessWidget {
   final String itemName;
   final String image;
+  final int quantity;
 
-  itemList({this.itemName, this.image});
+  itemList({this.itemName, this.image, this.quantity});
 
   @override
   Widget build(BuildContext context) {

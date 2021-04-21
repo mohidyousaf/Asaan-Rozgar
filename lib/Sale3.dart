@@ -1,4 +1,6 @@
 import 'dart:ffi';
+import 'package:asaanrozgar/Widgets/temp.dart';
+import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
@@ -11,7 +13,7 @@ import 'package:asaanrozgar/Sale2.dart';
 class Sale3 extends StatefulWidget {
   Sale3({this.func, this.object});
   Function func;
-  itemList object;
+  InventoryItem object;
 
   @override
   _Sale3State createState() => _Sale3State();
@@ -23,12 +25,14 @@ class _Sale3State extends State<Sale3> {
   int total;
   TextEditingController price = new TextEditingController();
   TextEditingController quantity = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  AutovalidateMode autoValid = AutovalidateMode.disabled;
 
   @override
   Widget build(BuildContext context) {
 
     setState(() {
-      name=widget.object.itemName;
+      name=widget.object.name;
     });
     return Scaffold(
         backgroundColor: Colors.white,
@@ -108,76 +112,88 @@ class _Sale3State extends State<Sale3> {
                 Row(
                   children: [
                     SizedBox(width: 20,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20,),
-                        Text("Purchase Price:",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
-                              color: Colors.black54,
-                            )),
-                        Row(
-                          children: [
-                            Text("Rs.",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14.0,
-                                  color: Colors.black54,
-                                )),
-                            SizedBox(width: 10,),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: TextField(
-                                controller: price,
-                                decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
+                    Form(
+                      autovalidateMode: autoValid,
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 20,),
+                          Text("Purchase Price:",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: Colors.black54,
+                              )),
+                          Row(
+                            children: [
+                              Text("Rs.",
+                                  style: TextStyle(
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.0,
+                                    color: Colors.black54,
+                                  )),
+                              SizedBox(width: 10,),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: TextFormField(
+                                  controller: price,
+                                  decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20,),
-                        Text("Quantity:",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
-                              color: Colors.black54,
-                            )),
-                        Row(
-                          children: [
-                            SizedBox(width: 32,),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: TextField(
-                                onChanged: (quantity){
-                                  setState(() {
-                                    total = int.parse(quantity) *  int.parse(price.text);
-                                  });
-                                },
+                            ],
+                          ),
+                          SizedBox(height: 20,),
+                          Text("Quantity:",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: Colors.black54,
+                              )),
+                          Row(
+                            children: [
+                              SizedBox(width: 32,),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                child: TextFormField(
+                                  onChanged: (quantity){
+                                    try{
+                                      setState(() {
+                                        total = int.parse(quantity) *
+                                            int.parse(price.text);
+                                      });
+                                    }
+                                    catch(e){
 
-                                controller: quantity,
-                                decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
+                                    }
+                                  },
+                                  validator: (text){
+                                    return ValidationFunctions.validateQuantity(text: text, args:widget.object.quantity);
+                                  },
+                                  controller: quantity,
+                                  decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.grey),
+                                    ),
                                   ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
-                              ),),
-                          ],
-                        ),
-                      ],
+                                ),),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -213,19 +229,26 @@ class _Sale3State extends State<Sale3> {
                   children: [
                     FlatButton(
                         onPressed: () {
-                          int temp1 =int.parse(price.text);
-                          int temp2 =int.parse(quantity.text);
+                        if (_formKey.currentState.validate()) {
+                          int temp1 = int.parse(price.text);
+                          int temp2 = int.parse(quantity.text);
                           //TODO: HAVE TO CHANGE STATE OF CATALOG HERE (CONSUMER)
                           Provider.of<CartModel>
                             (context, listen: false).addItems(new addItem(
-                              itemName:this.name,
+                              itemName: this.name,
                               price: temp1,
                               quantity: temp2,
                               image: 'image'));
-                          widget.func(screenName:'catalog');
+                          widget.func(screenName: 'catalog');
                           // Navigator.pushNamed(context, '/purchase2', arguments: {
                           //   'obj': addItem(itemName:name, price:temp1 , quantity:temp2, image:'Image1'),
                           // } );
+                        }
+                        else{
+                          setState((){
+                            autoValid = AutovalidateMode.always;
+                          });
+                        }
                         },
                         height: 30,
                         minWidth: 90,

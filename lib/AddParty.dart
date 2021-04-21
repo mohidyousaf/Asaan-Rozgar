@@ -145,7 +145,7 @@ class _AddPartyState extends State<AddParty> {
                             children: <Widget>[
                               Container(
                             width: MediaQuery.of(context).size.width * 0.39,
-                            child: InputTextFields(label: 'Account Payables', controller:receivable,
+                            child: InputTextFields(label: 'Account Payables', controller:payable,
                               validateFunc: ValidationFunctions.validateEmpty),
                           ),
                           Container(

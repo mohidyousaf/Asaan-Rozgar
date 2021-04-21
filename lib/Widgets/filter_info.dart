@@ -46,7 +46,7 @@ Widget filter_info(context){
                                       semanticLabel: 'Info',
                                       ), 
                                     onPressed: () {
-                                      Navigator.pushNamed(context, '/inventory');
+                                      Navigator.pushNamed(context, '/parties_info');
                                     },
                                     ),
                                     Text(
