@@ -428,7 +428,21 @@ class _Reports1State extends State<Reports1> {
                        ),
                        SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
                        Divider(),
-                       SizedBox(height: MediaQuery.of(context).size.height * 0.01,)
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                       FlatButton(
+                          onPressed: () {},
+                          height: 30,
+                          minWidth: 90,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text('PRINT',
+                              style: TextStyle(
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 10.0,
+                                  color: Colors.white
+                              )),
+                          color: Color.fromRGBO(11, 71, 109, 1.0)),
                        //here
                    ],
                  ),
