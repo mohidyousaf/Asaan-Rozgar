@@ -26,7 +26,7 @@ class _PercentageChartState extends State<PercentageChart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: std_appbar(context, "label", 0, 0, 0),
-      body: percChart(0.3, Color.fromRGBO(11, 71, 109, 1), "30%")
+      body: percChart(0.3, Color.fromRGBO(11, 71, 109, 1), "30%", "Testing Chart")
       
     );
   }
