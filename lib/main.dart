@@ -30,7 +30,7 @@ import 'package:asaanrozgar/AfterAddingCompany.dart';
 import 'package:asaanrozgar/Balance.dart';
 import 'package:asaanrozgar/Parties.dart';
 import 'package:asaanrozgar/Parties_info.dart';
-import 'package:asaanrozgar/report_test.dart';
+import 'package:asaanrozgar/IncomeStatement.dart';
 import 'package:asaanrozgar/ReportsMenu.dart';
 
 
@@ -51,7 +51,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      //initialRoute: '/linegraph',
+      initialRoute: '/linegraph',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),

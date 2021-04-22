@@ -51,11 +51,7 @@ packages:
     source: hosted
     version: "0.10.0"
   charts_flutter:
-<<<<<<< HEAD
-    dependency: "direct dev"
-=======
     dependency: "direct main"
->>>>>>> b71bbc4865cafebf890f3aa70c762da4466030bb
     description:
       name: charts_flutter
       url: "https://pub.dartlang.org"
