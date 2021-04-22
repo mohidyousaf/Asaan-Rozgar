@@ -30,14 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   dots_indicator: ^0.0.5+1
   pie_chart: ^4.0.1
-<<<<<<< HEAD
-=======
   percent_indicator: "^2.1.7+2"
- 
->>>>>>> b71bbc4865cafebf890f3aa70c762da4466030bb
-
-  #=======
->>>>>>> d424b44cf666a81572849f28e5a58f1ae47fb2ed
   sqflite: null
   charts_flutter: ^0.10.0
 

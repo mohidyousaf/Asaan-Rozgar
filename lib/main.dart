@@ -51,7 +51,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      initialRoute: '/linegraph',
+      initialRoute: '/income_stmnt',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -82,7 +82,7 @@ void main() async{
         '/check':(context)=> Check(),
         '/balance':(context)=> Balance(),
         '/parties_info': (context) => parties_info(),
-        '/linegraph' :(context) => Reports1(),
+        '/income_stmnt' :(context) => Reports1(),
         '/reportsHome': (context) => ReportsMenu(),
       },
       theme: ThemeData(
