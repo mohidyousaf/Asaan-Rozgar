@@ -11,6 +11,9 @@ import './Widgets/percChart.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/Widgets/inventory_list.dart';
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
+import 'package:asaanrozgar/itemCard.dart';
+
 
 // void main() => runApp(MaterialApp(home: Reports1()));
 
@@ -25,7 +28,12 @@ class _Reports1State extends State<Reports1> {
     'SALARY': 1,
     'RENT': 1,
   };
-
+ List<report_items> objects = [
+    report_items(itemName: 'Mobile sale', price: 51000),
+    report_items(itemName: 'Bag Sale', price: 5000),
+    report_items(itemName: 'Camera Sale', price: 150000),
+    report_items(itemName: 'Merchandise Sale', price: 50000),
+  ];
   List<Color> colorsList = [
     Color.fromRGBO(136, 182, 211, 1),
     Color.fromRGBO(38, 51, 58, 1),
@@ -60,11 +68,12 @@ class _Reports1State extends State<Reports1> {
             )
           ],
         ),
-        floatingActionButton:
-        std_FAB(Colors.white, 11, 71, 109, buttons, context),
-        bottomNavigationBar: std_chinbar(context, 0,0,0),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: Column(
+        //floatingActionButton:
+        //std_FAB(Colors.white, 11, 71, 109, buttons, context),
+       // bottomNavigationBar: std_chinbar(context, 0,0,0),
+       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: SingleChildScrollView(
+          child: Column(
           children: [
             Container(
               margin: EdgeInsets.symmetric(vertical: 20.0),
@@ -234,8 +243,7 @@ class _Reports1State extends State<Reports1> {
               ),
             ),
             Container(
-              
-            height: MediaQuery.of(context).size.height * 0.5495,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
           // margin: EdgeInsets.only(top: 200),
             decoration: BoxDecoration(
@@ -250,155 +258,186 @@ class _Reports1State extends State<Reports1> {
              padding: const EdgeInsets.symmetric(horizontal: 16.0),
              child:
              Container(
-               margin: EdgeInsets.only(top: 20),
+               margin: EdgeInsets.only(top: 10),
 
-               child: Column(
-                //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                   Column(
+               child: SingleChildScrollView(
+                                child: Column(
+                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     Column(
 
-                    children: [
-                      Center(
-                        child: Text("Income Statement",
+                      children: [
+                         Text("Income Report",
+                                  style: TextStyle(
+                                    color: Color.fromRGBO(11, 71, 109, 1),
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                     )
+                       ),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                        Row(
+                          children: [
+                            SizedBox(width: 10,),
+                            Text("To: ",
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(107, 143, 165, 0.7),
+                            )),
+                            Text("16/11/2000",
                                 style: TextStyle(
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                  color: Color.fromRGBO(11, 71, 109, 1.0),
+                                )),
+                                SizedBox(width: 3,),
+                                Icon(Icons.calendar_today_rounded,
+                                color: Color.fromRGBO(11, 71, 109, 1.0),
+                                size: 15,),
+                            Spacer(),
+                            Text("From: ",
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12.0,
+                              color: Color.fromRGBO(107, 143, 165, 0.7),
+                            )),
+                            Text("16/11/2000",
+                                style: TextStyle(
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                  color: Color.fromRGBO(11, 71, 109, 1.0),
+                                )),
+                                SizedBox(width: 3,),
+                                Icon(Icons.calendar_today_rounded,
+                                color: Color.fromRGBO(11, 71, 109, 1.0),
+                                size: 15,),
+                                SizedBox(width: 10,)
+                          ],
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                        Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children:[
+                         
+                       Text("Revenue",
+                       style: TextStyle(
                                   color: Color.fromRGBO(11, 71, 109, 1),
                                   fontFamily: "Lato",
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontSize: 16,
                                    )
+                       ),
+                       Spacer(),
+                       Text("Rs.",
+                       style: TextStyle(
+                                  color: Color.fromRGBO(11, 71, 109, 1),
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                   )
+                       ),
+                       ]
+                       ),
+                       Divider(),
+                       Column(
+                          children: objects
+                              .map((sub) => report_list(obj3: sub))
+                              .toList()),
+                      ],
                      ),
-                      ),
-                      SizedBox(height: 25),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                       Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                     Text("Revenue",
-                     style: TextStyle(
-                                color: Color.fromRGBO(11, 71, 109, 1),
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                 )
-                     ),
-                     Spacer(),
-                     Text("Rs.",
-                     style: TextStyle(
-                                color: Color.fromRGBO(11, 71, 109, 1),
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                 )
-                     ),
-                     ]
-                     ),
-                    ],
-                   ),
-                  SizedBox(height: 15),
-                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                     Text("1.",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                     ),
-                     SizedBox(width: 5),
-                     Text("Mobile Sale",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                                 ),
-                     Spacer(),
-                     Text("51,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                     ),
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children: [
+                       Text("Total Revenue",
+                       style: TextStyle(
+                                  color: Color.fromRGBO(11, 71, 109, 1),
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                   )
+                       ),
+                       Spacer(),
+                       Text("2,56,000",
+                       style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                   )
+                       ),
+                       ]
+                       ),
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+                       Divider(),
+                       Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children:[
+                         
+                       Text("Expense",
+                       style: TextStyle(
+                                  color: Color.fromRGBO(11, 71, 109, 1),
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                   )
+                       ),
+                       Spacer(),
+                       Text("Rs.",
+                       style: TextStyle(
+                                  color: Color.fromRGBO(11, 71, 109, 1),
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                   )
+                       ),
+                       ]
+                       ),
+                       Divider(),
+                       Column(
+                          children: objects
+                              .map((sub) => report_list(obj3: sub))
+                              .toList()),
+                              SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                      Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children: [
+                       Text("Total Expense",
+                       style: TextStyle(
+                                  color: Color.fromRGBO(11, 71, 109, 1),
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                   )
+                       ),
+                       Spacer(),
+                       Text("2,56,000",
+                       style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
+                                   )
+                       ),
+                       ]
+                       ),
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
+                       Divider(),
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.01,)
+                       //here
                    ],
-                   ),
-                   SizedBox(height: 8),
-
-                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                     Text("1.",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                     ),
-                     SizedBox(width: 5),
-                     Text("10 ruppay dy Turturay",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                                 ),
-                     Spacer(),
-                     Text("510",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                     ),
-                   ],
-                   ),
-                   SizedBox(height: 8),
-
-                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                     Text("1.",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                     ),
-                     SizedBox(width: 5),
-                     Text("Mobile Sale with something",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                                 ),
-                     Spacer(),
-                     Text("51,000,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 15,
-                                 )
-                     ),
-                   ],
-                   ),
-                   SizedBox(height: 8),
-                   
-                 ],
+                 ),
                ),
              ),
            )
-            )// further items here
+            ),// further items here
           ],
+        ),
         ),
         );
   }

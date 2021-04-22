@@ -2,6 +2,42 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
+class report_list extends StatelessWidget {
+  final report_items obj3;
+  report_list({this.obj3});
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+        Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                         children: [
+                         SizedBox(width: 5),
+                         Text(obj3.itemName.toString(),
+                         style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                     )
+                                     ),
+                         Spacer(),
+                         Text(obj3.price.toString(),
+                         style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 15,
+                                     )
+                         ),
+                       ],
+                       ),
+      ],
+    );
+  }
+}
+
 class invoice_list extends StatelessWidget {
   final addItem obj2;
   invoice_list({this.obj2});
@@ -10,32 +46,32 @@ class invoice_list extends StatelessWidget {
     return Container(
       child: Row(
         // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-                Text(obj2.itemName,
-                  style: TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.0,
-                    color: Colors.black,
-                  )),
-              SizedBox(width: obj2.itemName.length>5 ? 100:110),
-              Text(obj2.quantity.toString(),
-                  style: TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.0,
-                    color: Colors.black,
-                  )),
-            SizedBox(width: obj2.quantity<100 ? 128:120),
-                  Text(obj2.price.toString(),
-                  style: TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.0,
-                    color: Colors.black,
-                  )),
-          ],
-        ),
+        children: [
+          Text(obj2.itemName,
+              style: TextStyle(
+                fontFamily: "Lato",
+                fontWeight: FontWeight.w500,
+                fontSize: 13.0,
+                color: Colors.black,
+              )),
+          SizedBox(width: obj2.itemName.length > 5 ? 100 : 110),
+          Text(obj2.quantity.toString(),
+              style: TextStyle(
+                fontFamily: "Lato",
+                fontWeight: FontWeight.w500,
+                fontSize: 13.0,
+                color: Colors.black,
+              )),
+          SizedBox(width: obj2.quantity < 100 ? 128 : 120),
+          Text(obj2.price.toString(),
+              style: TextStyle(
+                fontFamily: "Lato",
+                fontWeight: FontWeight.w500,
+                fontSize: 13.0,
+                color: Colors.black,
+              )),
+        ],
+      ),
     );
   }
 }
@@ -117,26 +153,21 @@ class itemCard extends StatelessWidget {
                               // fontWeight:
                               // FontWeight.w600,
                               fontSize: 14.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 1.0),
+                              color: Color.fromRGBO(38, 51, 58, 1.0),
                             )),
                         Text(" ",
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 14.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 1.0),
+                              color: Color.fromRGBO(38, 51, 58, 1.0),
                             )),
                         Text(obj.itemName.toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 14.0,
-                              color: Color.fromRGBO(
-                                  38, 51, 58, 1.0),
+                              color: Color.fromRGBO(38, 51, 58, 1.0),
                             )),
                       ],
                     ),
@@ -167,11 +198,9 @@ class itemCard extends StatelessWidget {
                         Text((obj.quantity * obj.price).toString(),
                             style: TextStyle(
                               fontFamily: "Lato",
-                              fontWeight:
-                              FontWeight.w600,
+                              fontWeight: FontWeight.w600,
                               fontSize: 14.0,
-                              color: Color.fromRGBO(
-                                  11, 71, 109, 1.0),
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
                             )),
                       ],
                     ),
@@ -226,6 +255,5 @@ class itemCard extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }

@@ -94,7 +94,8 @@ class _LineGraphState extends State<LineGraph> {
               _seriesLineData,
               defaultRenderer: new charts.LineRendererConfig(
                   includeArea: true, stacked: true),
-              animate: false,
+              animate: true,
+              animationDuration: Duration(seconds: 2),
               layoutConfig: new charts.LayoutConfig(
                   leftMarginSpec: new charts.MarginSpec.fixedPixel(0),
                   topMarginSpec: new charts.MarginSpec.fixedPixel(0),
