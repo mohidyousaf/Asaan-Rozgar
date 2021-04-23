@@ -174,8 +174,7 @@ class item_transactions_list extends StatelessWidget {
         final item = temps[index];
         return Table(
              children: [
-                TableRow( children: [ 
-                        //SizedBox(width: 5.0), 
+                TableRow( children: [
                         Container(
                           padding: EdgeInsets.only(left: 15.0),
                           child: Column(children:[

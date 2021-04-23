@@ -17,22 +17,31 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 //party_filter() -> party_filters_display -> calendar_sheet() -> calendar
 
 class filter_list extends StatefulWidget {
-  filter_list({this.model, this.searchController});
+  filter_list({this.model, this.searchController, this.categoryFunc});
   var model;
   var searchController;
+  Function categoryFunc;
   @override
   _filter_listState createState() => _filter_listState();
 }
 class _filter_listState extends State<filter_list> {
    int selected_value;
    String dropdownvalue;
-   var temp = ['Temp1','Temp2','Temp3','Temp4','Temp5','Temp6','Temp7','Temp8'];
+   List<String> temp;
    var selected_range=RangeValues(0, 10000);
+   void catFunc(){
+     var list = widget.model.getCategories();
+     setState(() {
+       temp = list.toList();
+       dropdownvalue = temp[0];
+     });
+   }
    @override
-   void init_State(){
+   void initState(){
      super.initState();
      selected_value = 0;
-     dropdownvalue = "";
+     catFunc();
+
    }
 
    void selected_button(int value){
@@ -44,6 +53,7 @@ class _filter_listState extends State<filter_list> {
      setState(() {
        dropdownvalue=value;
      });
+     widget.categoryFunc(value);
    }
 
    void price_range(RangeValues values){
@@ -175,7 +185,7 @@ class _filter_listState extends State<filter_list> {
               Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Low Stock Price',
+                'Low Stock Items',
                 style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0)),fontSize: 18.0,),
               ),
             ),
@@ -253,15 +263,15 @@ class _filter_listState extends State<filter_list> {
                      ),
                      //SizedBox(height: 50.0,),
                      DropdownButtonHideUnderline(
-                                            child: Container(
-                                              width: box_width,
-                                              height: box_height,
-                                              decoration: ShapeDecoration(
-                                                  shape: RoundedRectangleBorder(
-                                                    side: BorderSide(style: BorderStyle.solid),
-                                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                                  ) 
-                                                ),
+                      child: Container(
+                        width: box_width,
+                        height: box_height,
+                        decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(style: BorderStyle.solid),
+                              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            )
+                          ),
                          child: DropdownButton<String>(
                            value: dropdownvalue,
                            icon: const Icon(Icons.arrow_drop_down),
@@ -270,11 +280,17 @@ class _filter_listState extends State<filter_list> {
                              ' Select Category Tag',
                              style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
                            ),
-                           items: temp.map((String dropDownStringItem){
+                           items: temp != null ? temp.map((String dropDownStringItem){
                              return DropdownMenuItem<String>(
                                value: dropDownStringItem,
                                child: Text(dropDownStringItem),
                               );
+                           }).toList():
+                           ['empty'].map((String dropDownStringItem){
+                             return DropdownMenuItem<String>(
+                               value: dropDownStringItem,
+                               child: Text(dropDownStringItem),
+                             );
                            }).toList(),
                            onChanged: (String newvalue){
                              selected_drop(newvalue);
@@ -336,7 +352,11 @@ class _filter_listState extends State<filter_list> {
 
 inventory_filter(context){
   final myModel = Provider.of<InventoryModel>(context, listen: false);
+  var catVal;
   TextEditingController searchController = new TextEditingController();
+  Function categoryFunc(text){
+    catVal = text;
+  }
   int filter_options=0;
     showModalBottomSheet(
       isScrollControlled: true,
@@ -354,11 +374,19 @@ inventory_filter(context){
                 ),
               child: Column(
                 children: [
-                  Divider(
-                    indent: 165,
-                    endIndent: 180,
-                    thickness: 5.0,
-                    color: Colors.grey,
+                  Center(
+                    child: Container(
+
+                      margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
+                      height: 4,
+                        width: 100,
+                        decoration: BoxDecoration(
+                        color: Colors.grey[400],
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(10)
+                        )
+                    )
+                    ),
                   ),
                   Row(
                     //crossAxisAlignment: CrossAxisAlignment.start,
@@ -366,28 +394,18 @@ inventory_filter(context){
                     children: [
                      Padding(
                        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                       child: IconButton(
-                         icon: Icon(Icons.close),
-                          onPressed: (){
-                            Navigator.of(context).pop();
-                          }
-                          ),
                      ),
-                        Text(
-                          'Filters',
-                          style: GoogleFonts.lato(textStyle: TextStyle(
-                            color: Color.fromRGBO(11, 71, 109, 1.0)),
-                            fontSize: 24.0,
-                            ),
+                        Center(
+                          child: Text(
+                            'Filters',
+                            style: GoogleFonts.lato(textStyle: TextStyle(
+                              color: Color.fromRGBO(11, 71, 109, 1.0)),
+                              fontSize: 24.0,
+                              ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                          child: TextButton(
-                            onPressed: () {},
-                             child: Text(
-                               'Reset',
-                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                             )),
                         )
                     ]
                     ),
@@ -396,7 +414,7 @@ inventory_filter(context){
                       indent: 24,
                       endIndent: 24,
                     ),
-                    filter_list(model:myModel, searchController: searchController),
+                    filter_list(model:myModel, searchController: searchController, categoryFunc:categoryFunc),
                   Container(
                     padding: EdgeInsets.fromLTRB(120, 20, 120, 50),
                     child: Material(
@@ -407,7 +425,7 @@ inventory_filter(context){
                       child: TextButton(
                         onPressed: () async {
                           var searchString = searchController.text.toString();
-                          myModel.filterItems(searchString);
+                          myModel.filterItems(types:[5], searchText: searchString, categoryVal:catVal);
                           Navigator.of(context).pop();
 
                         },

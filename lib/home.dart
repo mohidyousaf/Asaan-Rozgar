@@ -7,6 +7,7 @@ import 'package:asaanrozgar/dashboard.dart';
 import 'package:asaanrozgar/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 
 // void main() => runApp(MaterialApp(
@@ -409,49 +410,61 @@ class ListItem extends StatelessWidget {
   final date;
   @override
   Widget build(BuildContext context) {
-    return  TextButton(
-      onPressed: ()=> {
-        Navigator.pushNamed(context, '/party', arguments:
-        {'name': name})
-      },
-      child: Column(
-          children: [
-              ListTile(
-                title: Text(name,
-                style:TextStyle(
-                    fontFamily: "Lato",
-                    fontWeight: FontWeight.normal,
-                    fontSize: 17.0,
-                    color: Color.fromRGBO(38, 51, 58, 1.0),
-                    ),
-                ),
-                subtitle: Text(date == null ? '':date),
-                trailing:
-                    Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                        Text(amount,
-                        style:TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
-                            color: Color.fromRGBO(46, 189, 133, 1.0),
-                            ),
-                        ),
-                        Text('You will get',
-                        style:TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15.0,
-                            color: Color.fromRGBO(46, 189, 133, 1.0),
-                            ),
-                        ),
-                    ],
-                    ),
+    return  Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      secondaryActions: <Widget>[
+        IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () {},
+        ),
+      ],
+      child: TextButton(
+        onPressed: ()=> {
+          Navigator.pushNamed(context, '/party', arguments:
+          {'name': name})
+        },
+        child: Column(
+            children: [
+                ListTile(
+                  title: Text(name,
+                  style:TextStyle(
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.normal,
+                      fontSize: 17.0,
+                      color: Color.fromRGBO(38, 51, 58, 1.0),
+                      ),
+                  ),
+                  subtitle: Text(date == null ? '':date),
+                  trailing:
+                      Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                          Text(amount,
+                          style:TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Color.fromRGBO(46, 189, 133, 1.0),
+                              ),
+                          ),
+                          Text('You will get',
+                          style:TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                              color: Color.fromRGBO(46, 189, 133, 1.0),
+                              ),
+                          ),
+                      ],
+                      ),
 
-              ),
-              Divider(height: 1, thickness: 0.5, endIndent: 15,),
-              ],
+                ),
+                Divider(height: 1, thickness: 0.5, endIndent: 15,),
+                ],
+        ),
       ),
     );
   }

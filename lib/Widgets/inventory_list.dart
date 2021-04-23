@@ -2,6 +2,7 @@ import 'package:asaanrozgar/Inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 
 class inventory_lis extends StatelessWidget {
@@ -27,88 +28,111 @@ class inventory_lis extends StatelessWidget {
         return SingleChildScrollView(
                   child: Column(
             children: <Widget>[
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
-                      //Insert the dynamic image variable here.
-                      child: Image(image: AssetImage('assets/Frame 8.png'),height: 80.0,width: 80.0,
-                      )),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: TextButton(
+                  onPressed: (){
+                    Navigator.pushNamed(context, '/itemReport');
+                  },
+                  child: Container(
+                    child: Row(
                       children: <Widget>[
-                        Text(
-                          //The Name of the item is being displayed here so change variable accordingly
-                          '${item.name}',
-                          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black),fontWeight: FontWeight.bold,fontSize: 20.0),
-                        ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                                                  child: Row(
-                                                    //mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Sale Price(Rs.)',
-                                     style: GoogleFonts.lato(textStyle: TextStyle(
-                                       color: Colors.grey,
-                                       fontSize: 12.0
-                                       )),
-                                  ),
-                                  Text(
-                                    //The Price of the item is being displayed here so change variable accordingly
-                                  '${item.price}',
-                                   style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                              ),
-                                ],
-                              ),
-                              SizedBox(width: 35.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Quantity',
-                                     style: GoogleFonts.lato(textStyle: TextStyle(
-                                       color: Colors.grey,
-                                       fontSize: 12.0,
-                                       )),
-                                  ),
-                                  Text(
-                                    //The quantity of the item is being displayed here so change variable accordingly
-                                 '${item.quantity}',
-                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                               ),
-
-                                ],
-                              ),
-                              SizedBox(width: 35.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'Value(Rs.)',
-                                     style: GoogleFonts.lato(textStyle: TextStyle(
-                                       color: Colors.grey,
-                                       fontSize: 12.0,
-                                       )),
-                                  ),
-                                  Text(
-                                    //The Value of the item is being displayed here so change variable accordingly
-                                 '${item.value}',
-                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                               ),
-                                ],
-                              )
-                            ],
+                          padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
+                          //Insert the dynamic image variable here.
+                          child: Image(image: AssetImage('assets/Frame 8.png'),height: 80.0,width: 80.0,
+                          )),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              //The Name of the item is being displayed here so change variable accordingly
+                              '${item.name}',
+                              style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black),fontWeight: FontWeight.bold,fontSize: 20.0),
                             ),
-                        ),
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                                                      child: Row(
+                                                        //mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Sale Price(Rs.)',
+                                         style: GoogleFonts.lato(textStyle: TextStyle(
+                                           color: Colors.grey,
+                                           fontSize: 12.0
+                                           )),
+                                      ),
+                                      Text(
+                                        //The Price of the item is being displayed here so change variable accordingly
+                                      '${item.price}',
+                                       style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                                  ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 35.0),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Quantity',
+                                         style: GoogleFonts.lato(textStyle: TextStyle(
+                                           color: Colors.grey,
+                                           fontSize: 12.0,
+                                           )),
+                                      ),
+                                      Text(
+                                        //The quantity of the item is being displayed here so change variable accordingly
+                                     '${item.quantity}',
+                                     style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                                   ),
+
+                                    ],
+                                  ),
+                                  SizedBox(width: 35.0),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Value(Rs.)',
+                                         style: GoogleFonts.lato(textStyle: TextStyle(
+                                           color: Colors.grey,
+                                           fontSize: 12.0,
+                                           )),
+                                      ),
+                                      Text(
+                                        //The Value of the item is being displayed here so change variable accordingly
+                                     '${item.value}',
+                                     style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
+                                   ),
+                                    ],
+                                  )
+                                ],
+                                ),
+                            ),
+                          ],
+                          )
                       ],
                       )
-                  ],
-                  )
+                  ),
+                ),
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'More',
+                    color: Colors.black45,
+                    icon: Icons.more_horiz,
+                    onTap:(){},
+                  ),
+                  IconSlideAction(
+                    caption: 'Delete',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () {},
+                  ),
+                ],
               )
             ],
             ),
