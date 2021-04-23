@@ -38,3 +38,16 @@ class itemList extends StatelessWidget {
     return Container();
   }
 }
+
+class report_items extends StatelessWidget {
+  
+  final String itemName;
+  final int price;
+
+  report_items({this.itemName, this.price});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
