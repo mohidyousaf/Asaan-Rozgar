@@ -6,6 +6,9 @@ import 'package:asaanrozgar/Widgets/long_circleBtt.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'package:provider/provider.dart';
+import 'package:asaanrozgar/Widgets/temp.dart';
+
 
 //filter flows:
 //inventory_filter() -> filter_list
@@ -14,10 +17,12 @@ import 'package:flutter/cupertino.dart';
 //party_filter() -> party_filters_display -> calendar_sheet() -> calendar
 
 class filter_list extends StatefulWidget {
+  filter_list({this.model, this.searchController});
+  var model;
+  var searchController;
   @override
   _filter_listState createState() => _filter_listState();
 }
-
 class _filter_listState extends State<filter_list> {
    int selected_value;
    String dropdownvalue;
@@ -194,7 +199,26 @@ class _filter_listState extends State<filter_list> {
             child: Stack(
               children: <Widget> [
                 selected_value==1?
-                Text('Implement Search bar here'):Text(''),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                  child: TextField(
+                          controller: widget.searchController,
+                          onChanged: (text){
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.search),
+                            contentPadding: EdgeInsets.fromLTRB(20,3,20,3),
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: 'Search',
+                            hintStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  const Radius.circular(16.0),)
+                            ),
+                          ),
+                        ),
+                ):
                 selected_value==3?
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,7 +334,9 @@ class _filter_listState extends State<filter_list> {
   }
 }
 
-void inventory_filter(context){
+inventory_filter(context){
+  final myModel = Provider.of<InventoryModel>(context, listen: false);
+  TextEditingController searchController = new TextEditingController();
   int filter_options=0;
     showModalBottomSheet(
       isScrollControlled: true,
@@ -370,11 +396,34 @@ void inventory_filter(context){
                       indent: 24,
                       endIndent: 24,
                     ),
-                    filter_list(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 20.0),
-                      child: long_circleBtt('Apply',255,159,10),
-                    )
+                    filter_list(model:myModel, searchController: searchController),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(120, 20, 120, 50),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20.0),
+                      shadowColor: Colors.grey[900],
+                      color: Color.fromRGBO(255, 159, 10, 1.0),
+                      elevation: 7.0,
+                      child: TextButton(
+                        onPressed: () async {
+                          var searchString = searchController.text.toString();
+                          myModel.filterItems(searchString);
+                          Navigator.of(context).pop();
+
+                        },
+                        child: Center(
+                          child: Text(
+                            'Apply',
+                            style: GoogleFonts.lato(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
 
                 ],
                 ),

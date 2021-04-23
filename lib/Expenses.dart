@@ -77,7 +77,7 @@ class _expensesState extends State<expenses> {
                   child: SingleChildScrollView(
                                       child: Column(
                       children: [
-                        filter_reports(context),
+                        filter_reports(),
                         expenses_head(context),
                         // SizedBox(
                         //   height: MediaQuery.of(context).size.height *0.8,

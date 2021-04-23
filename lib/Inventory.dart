@@ -93,7 +93,7 @@ class _inventoryState extends State<inventory> {
                 ),
                  child: Column(
                     children: [
-                      filter_reports(context),
+                      filter_reports(),
                       Expanded(
                         child: SizedBox(
                             child:Consumer<InventoryModel>(

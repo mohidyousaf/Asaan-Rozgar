@@ -132,9 +132,9 @@ class _transactionsState extends State<transactions> {
                   )
                 ),
                   child: SingleChildScrollView(
-                                      child: Column(
+                    child: Column(
                       children: [
-                         filter_reports(context),
+                        filter_reports(),
                         // Stack(
                         //   children: <Widget>[
                         //     currentState==0?

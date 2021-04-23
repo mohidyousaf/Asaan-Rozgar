@@ -29,6 +29,10 @@ class InventoryModel extends ChangeNotifier{
     items = await DBprovider.db.getInventory();
     displayItems = items;
   }
+  filterItems(text) async{
+    print(text);
+
+  }
   searchItems(text) async{
     print(text);
     text = text.toLowerCase();
