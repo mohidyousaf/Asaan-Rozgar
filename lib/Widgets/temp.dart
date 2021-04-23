@@ -51,3 +51,25 @@ class InventoryModel extends ChangeNotifier{
     notifyListeners();
   }
 }
+
+
+
+
+class temporary{
+  final String name;
+  final int price;
+  final int quantity;
+  final int value;
+
+  temporary({this.name,this.price,this.quantity,this.value});
+  static List<temporary> getAll(){
+    List <temporary> temps = List<temporary> ();
+    temps.add(temporary(name: 'Hello',price: 5, quantity: 5, value: 10));
+    temps.add(temporary(name: 'Hello',price: 5, quantity: 5, value: 10));
+    temps.add(temporary(name: 'Hello',price: 5, quantity: 5, value: 10));
+    temps.add(temporary(name: 'Hello',price: 5, quantity: 5, value: 10));
+    temps.add(temporary(name: 'Hello',price: 5, quantity: 5, value: 10));
+    return temps;
+  }
+
+}
