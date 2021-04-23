@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -619,6 +620,7 @@ class DBprovider{
       var price = 0.0;
       var value = 0.0;
       var q = 0;
+      var partyName = '';
       var query = await db.query(
       'purchases',
       where: 'ProductID = ?',
@@ -630,7 +632,17 @@ class DBprovider{
         value += (q * price);
 
       });
+      var partyQuery = await db.query(
+          'parties',
+          where: 'PartyID = ?',
+          whereArgs:[element['PartyID']]);
+      partyQuery.forEach((party) {
+        partyName = party['PartyName'];
+      });
       items.add(new InventoryItem(
+          partyName: partyName,
+          tag: element['ProductDescription'],
+          lowStock: element['MinStock'],
           name: element['ProductName'],
           price: element['SalePrice'].toInt(),
           quantity: quantity.toInt(),

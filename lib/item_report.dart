@@ -19,17 +19,17 @@ import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/Widgets/graph_inventory.dart';
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: item_report()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       theme: ThemeData(
+//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+//         accentColor: Colors.white,
+//         textTheme: GoogleFonts.latoTextTheme(),
+//       ),
+//       home: item_report()
+//   ));
+// }
 
 
 class item_report extends StatefulWidget {

@@ -7,8 +7,12 @@ class InventoryItem{
   final int price;
   final int quantity;
   final int value;
+  final partyName;
+  final tag;
+  final lowStock;
   bool display = true;
-  InventoryItem({this.name,this.price,this.quantity,this.value, this.image});
+  InventoryItem({this.name,this.price,this.quantity,
+    this.value, this.image, this.partyName, this.tag, this.lowStock});
   setBool(bool newVal){
     display = newVal;
   }
@@ -25,13 +29,70 @@ class InventoryModel extends ChangeNotifier{
       notifyListeners();
     });
   }
+  getCategories(){
+    Set<String> categories = Set();
+    items.forEach((element){
+        categories.add(element.tag);
+    });
+    return categories;
+  }
   initializeCart() async{
     items = await DBprovider.db.getInventory();
     displayItems = items;
   }
-  filterItems(text) async{
-    print(text);
+  reset() {
+    displayItems = items;
+    displayItems.forEach((element) {
+      element.setBool(true);
+    });
+    notifyListeners();
+  }
+  filterItems({searchText, types, categoryVal}) async {
+    if (types.contains(1)) {
+      searchText = searchText.toLowerCase();
+      displayItems = items;
+      displayItems.forEach((element) {
+        if (element.partyName.toLowerCase() != searchText) {
+          element.setBool(false);
+        }
+        else {
+          element.setBool(true);
+        }
+      });
+    }
+    else if (types.contains(2)){
+      categoryVal = categoryVal.toLowerCase();
+      displayItems = items;
+      displayItems.forEach((element) {
+        if (element.tag.toLowerCase() != categoryVal) {
+          element.setBool(false);
+        }
+        else {
+          element.setBool(true);
+        }
+      });
+    }
+    else if (types.contains(3)){
 
+    }
+    else if (types.contains(4)){
+
+    }
+    else if (types.contains(5)){
+      displayItems = items;
+      displayItems.forEach((element) {
+        print(element.quantity);
+        print(element.lowStock);
+        if (element.quantity > element.lowStock) {
+          element.setBool(false);
+        }
+        else {
+          element.setBool(true);
+        }
+      });
+
+    }
+    notifyListeners();
   }
   searchItems(text) async{
     print(text);
