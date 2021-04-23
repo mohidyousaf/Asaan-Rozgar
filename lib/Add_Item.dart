@@ -1,10 +1,13 @@
+import 'dart:io';
+import 'dart:async';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
-// import 'package:asaanrozgar/Components/orderItem.dart';
+import 'package:image_picker/image_picker.dart';
 
+// import 'package:asaanrozgar/Components/orderItem.dart';
 
 // void main() => runApp(MaterialApp(home: AddItem()));
 
@@ -22,6 +25,53 @@ class _AddItemState extends State<AddItem> {
   TextEditingController purchasePrice = new TextEditingController();
   TextEditingController salePrice = new TextEditingController();
   TextEditingController taxRate = new TextEditingController();
+  PickedFile imageFile;
+  final ImagePicker _picker = ImagePicker();
+
+  _openGallery() async {
+    var picture = await _picker.getImage(source: ImageSource.gallery);
+    this.setState(() {
+      imageFile = picture;
+    });
+  }
+
+  _openCamera() async {
+    var picture = await _picker.getImage(source: ImageSource.camera);
+    this.setState(() {
+      imageFile = picture;
+    });
+  }
+
+  Future<void> _choice(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Choose"),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  GestureDetector(
+                    child: Text("Gallery"),
+                    onTap: () {
+                      _openGallery();
+                    },
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  GestureDetector(
+                    child: Text("Camera"),
+                    onTap: () {
+                      _openCamera();
+                    },
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +80,7 @@ class _AddItemState extends State<AddItem> {
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .1,
           leading: IconButton(
-            onPressed: () => {
-              Navigator.pop(context)
-            },
+            onPressed: () => {Navigator.pop(context)},
             icon: Icon(Icons.arrow_back_ios),
           ),
           elevation: 0,
@@ -67,18 +115,56 @@ class _AddItemState extends State<AddItem> {
                   child: SizedBox(height: 20),
                 ),
                 Container(
-                    child: FlatButton.icon(
-                        onPressed: () {},
+                    child: imageFile == null ? FlatButton.icon(
+                        onPressed: () {
+                          _choice(context);
+                        },
                         padding: EdgeInsets.fromLTRB(80, 25, 80, 25),
                         color: Color.fromRGBO(255, 255, 255, 1.0),
                         icon: Icon(Icons.add_a_photo),
-                        label: Text("          Upload Photo"))),
+                        label: Text("          Upload Photo"))
+                        : FileImage(File(imageFile.path)),
+                        ),
                 Container(
                   height: 35,
                   padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: InputTextFields(label:"Product Name", controller:productName),
+                  child: InputTextFields(
+                      label: "Product Name", controller: productName),
+                ),
+                Container(
+                  height: 35,
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
+                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                  child: InputTextFields(
+                      label: "Partner Name (optional)",
+                      controller: partnerName),
+                ),
+                Container(
+                  height: 35,
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
+                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                  child: InputTextFields(
+                      label: "Category Tag", controller: categoryTag),
+                ),
+                Container(
+                  height: 35,
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
+                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                  child: InputTextFields(
+                      label: "Purchase Price", controller: purchasePrice),
+                ),
+                Container(
+                  height: 35,
+                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
+                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                  child: InputTextFields(
+                      label: "Sale Price", controller: salePrice),
                 ),
                 Container(
                   height: 35,
@@ -86,35 +172,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child:
-                    InputTextFields(label:"Partner Name (optional)", controller:partnerName),
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: InputTextFields(label:"Category Tag", controller:categoryTag),
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: InputTextFields(label:"Purchase Price", controller:purchasePrice),
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: InputTextFields(label:"Sale Price", controller:salePrice),
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: InputTextFields(label:"Tax Rate", controller:taxRate),
+                      InputTextFields(label: "Tax Rate", controller: taxRate),
                 ),
                 Container(
                     height: 35,
@@ -156,9 +214,9 @@ class _AddItemState extends State<AddItem> {
                                   width: 20,
                                   child: IconButton(
                                     onPressed: () {
-                                          setState(() {
-                                            quantity = quantity + 1;
-                                          });
+                                      setState(() {
+                                        quantity = quantity + 1;
+                                      });
                                     },
                                     iconSize: 10,
                                     icon: Icon(Icons.add),
@@ -209,9 +267,9 @@ class _AddItemState extends State<AddItem> {
                                   width: 20,
                                   child: IconButton(
                                     onPressed: () {
-                                        setState(() {
-                                          minStock = minStock + 1;
-                                        });
+                                      setState(() {
+                                        minStock = minStock + 1;
+                                      });
                                     },
                                     iconSize: 10,
                                     icon: Icon(Icons.add),
@@ -234,28 +292,30 @@ class _AddItemState extends State<AddItem> {
                     child: TextButton(
                       onPressed: () async {
                         //TODO: have to change this to a class
-                        List<addItem> order = [new addItem(
+                        List<addItem> order = [
+                          new addItem(
                             itemName: productName.text.toString(),
                             price: int.parse(purchasePrice.text.toString()),
                             quantity: quantity,
-                            image: 'img',)];
-                        Navigator.pushNamed(context, '/addItem2',
-                        arguments: {
-                          'obj':order,
-                          'partyName':partnerName.text.toString(),
-                            'tag':categoryTag.text.toString(),
-                            'salePrice':salePrice.text.toString(),
-                            'taxRate':taxRate.text.toString(),
-                            'minStock':minStock}
-                            );
-                       // var temp = await DBprovider.db.addItem(
-                       //     order,
-                       //     partnerName.text.toString(),
-                       //     categoryTag.text.toString(),
-                       //     salePrice.text.toString(),
-                       //     taxRate.text.toString(),
-                       //     minStock);
-                       // print(temp);
+                            image: 'img',
+                          )
+                        ];
+                        Navigator.pushNamed(context, '/addItem2', arguments: {
+                          'obj': order,
+                          'partyName': partnerName.text.toString(),
+                          'tag': categoryTag.text.toString(),
+                          'salePrice': salePrice.text.toString(),
+                          'taxRate': taxRate.text.toString(),
+                          'minStock': minStock
+                        });
+                        // var temp = await DBprovider.db.addItem(
+                        //     order,
+                        //     partnerName.text.toString(),
+                        //     categoryTag.text.toString(),
+                        //     salePrice.text.toString(),
+                        //     taxRate.text.toString(),
+                        //     minStock);
+                        // print(temp);
                       },
                       child: Center(
                         child: Text(
@@ -276,4 +336,3 @@ class _AddItemState extends State<AddItem> {
         ));
   }
 }
-
