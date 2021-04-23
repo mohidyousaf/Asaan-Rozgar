@@ -129,7 +129,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30),
+                    //SizedBox(height: 5),
                     Text(response,
                       style: TextStyle(
                         fontSize: 20,
@@ -139,6 +139,28 @@ class _SignInState extends State<SignIn> {
                         fontFamily: 'lato'
                       ),
                     ),
+                    Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Don\'t have an account?',
+                                  style: TextStyle(
+                                      color: Colors.grey
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/signUp');
+                                  },
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(color: Colors.blue[900]),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                   ],
                 ),
               ),

@@ -14,17 +14,17 @@ import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: inventory()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       theme: ThemeData(
+//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+//         accentColor: Colors.white,
+//         textTheme: GoogleFonts.latoTextTheme(),
+//       ),
+//       home: inventory()
+//   ));
+// }
 
 class inventory extends StatefulWidget {
 
