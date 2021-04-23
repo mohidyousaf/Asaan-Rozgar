@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:asaanrozgar/Widgets/table_head.dart';
+import 'package:asaanrozgar/Widgets/table.dart';
 
 void main() {
   // TestWidgetsFlutterBinding.ensureInitialized();
@@ -39,10 +41,12 @@ class _item_reportState extends State<item_report> {
   List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
   List<String> dayList = ['Mon','Tues','Wed','Thur','Fri','Sat','Sun'];
   List<String> yearList = ['2010','2011','2012','2013','2014','2015','2016'];
+  List<String> temp = ['2010','2011','2012','2013','2014','2015','2016'];
   String day='Mon';
   String month = 'Jan';
   String year='2010';
   int currentState=0;
+  int table_selector=0;
   @override
   void changeMonth({type,arr,current}){
     print(arr);
@@ -161,7 +165,7 @@ class _item_reportState extends State<item_report> {
                         children: [
                           currentState==0?
                           Container(
-              padding: EdgeInsets.only(bottom:30.0),
+              padding: EdgeInsets.only(bottom:5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -201,7 +205,7 @@ class _item_reportState extends State<item_report> {
             ): Text(''),
             currentState==1?
             Container(
-              padding: EdgeInsets.only(bottom:30.0),
+              padding: EdgeInsets.only(bottom:5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -241,7 +245,7 @@ class _item_reportState extends State<item_report> {
             ): Text(''),
             currentState==2?
             Container(
-              padding: EdgeInsets.only(bottom:30.0),
+              padding: EdgeInsets.only(bottom:5.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -322,7 +326,7 @@ class _item_reportState extends State<item_report> {
                          },
                      ),
               ),
-              SizedBox(height: 50.0),
+              SizedBox(height: 30.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -374,7 +378,64 @@ class _item_reportState extends State<item_report> {
                   ),
                 ],
               ),
-                      Text('Hello')
+              SizedBox(height: 20.0),
+              Container(
+                //height: 42,
+                padding: EdgeInsets.all(15.0),
+                width: phone_width,
+                decoration: BoxDecoration(
+                  //color: Colors.grey,
+                  color: Color.fromRGBO(250, 250, 250, 1.0),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(22.0),
+                    topRight: Radius.circular(22.0)
+                  )
+                ),
+                //width: slider_width,
+                child: Column(
+                  children: [
+                    Container(
+                      width: slider_width,
+                      child: CupertinoSlidingSegmentedControl(
+                               groupValue: table_selector,
+                               backgroundColor: Color.fromRGBO(118, 118, 128, 0.12),
+                               children: <int, Widget>{
+                                 0: Text('Inventory',
+                                     style: TextStyle(
+                                        color: Color.fromRGBO(11, 71, 109, 1.0),
+                                        fontFamily: "Lato",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+
+                                       )
+                                    ),
+                                 1: Text('Transactions',
+                                     style: TextStyle(
+                                       color: Color.fromRGBO(11, 71, 109, 1.0),
+                                       fontFamily: "Lato",
+                                       fontWeight: FontWeight.bold,
+                                       fontSize: 14,
+                                     )
+                                   ),
+                               },
+                               onValueChanged: (v){
+                                 setState(() {
+                                   currentState = v;
+                                 });
+                               },
+                           ),
+                    ),
+                    inventory_head(context),
+                    SizedBox(
+                          height: MediaQuery.of(context).size.height *0.1,
+                          child: item_details_list(temps: temporary.getAll())
+                        ),
+                        Text('Hello'),
+                        SizedBox(height: 50.0)
+                  ],
+                ),
+              ),
+                      //Text('Hello')
                     ]
                   ),
                   )
