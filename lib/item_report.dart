@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
+import 'package:asaanrozgar/Widgets/graph_inventory.dart';
 
 void main() {
   // TestWidgetsFlutterBinding.ensureInitialized();
@@ -161,6 +162,12 @@ class _item_reportState extends State<item_report> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget> [
+                      SizedBox(height:0.0),
+                      SizedBox( 
+                        width: phone_width,
+                        height: phone_height*0.189,
+                        child: LineGraph_inventory()
+                        ),
                       Stack(
                         children: [
                           currentState==0?
@@ -420,17 +427,47 @@ class _item_reportState extends State<item_report> {
                                },
                                onValueChanged: (v){
                                  setState(() {
-                                   currentState = v;
+                                   table_selector = v;
                                  });
                                },
                            ),
                     ),
-                    inventory_head(context),
+                    Stack(children: [
+                      table_selector==0?
+                      Column(children: [
+                        inventory_head(context),
                     SizedBox(
-                          height: MediaQuery.of(context).size.height *0.1,
+                          height: MediaQuery.of(context).size.height *0.12,
                           child: item_details_list(temps: temporary.getAll())
                         ),
-                        Text('Hello'),
+                      ],):Text(''),
+                      table_selector==1?
+                      Column(children: [
+                        inventory_transactions_head(context),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height *0.12,
+                          child: item_transactions_list(temps: temporary.getAll())
+                        ),
+                      ]):Text('')
+                    ],),
+                        SizedBox(height: 10.0),
+                        Container(
+                          //alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(left: phone_width * 0.244),
+                          child: Row(
+                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'Total',
+                                style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0),decoration: TextDecoration.underline,fontSize: 14,fontWeight: FontWeight.bold))
+                                ),
+                                Text(
+                                  '75',
+                                  style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0),fontSize: 14,fontWeight: FontWeight.bold)),
+                                )
+                            ],
+                          )
+                          ),
                         SizedBox(height: 50.0)
                   ],
                 ),

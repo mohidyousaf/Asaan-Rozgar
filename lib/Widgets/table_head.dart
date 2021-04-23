@@ -119,5 +119,42 @@ Widget inventory_head(BuildContext context){
 }
 
 
-
-
+Widget inventory_transactions_head(BuildContext context){
+  return Container(
+    padding: EdgeInsets.only(top: 30.0),
+    child: Column(
+      children: [
+        Table(
+          children: [
+             TableRow( children: [  
+                            Column(children:[
+                              Text(
+                                'Date',
+                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12.0)),
+                              ]),  
+                            Column(children:[
+                              Text(
+                                'Type',
+                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12.0))]), 
+                                 Column(children:[
+                              Text(
+                                'Quantity',
+                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12.0),
+                                 )]), 
+                            Column(children:[
+                              Text(
+                                'Price',
+                                 style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12.0),
+                                 )]),  
+                          ])
+          ],
+          ),
+          Divider(
+            indent: 33.0,
+            endIndent: 33.0,
+            color: Colors.grey
+          )
+      ],
+    )
+  );
+}
