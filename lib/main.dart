@@ -45,6 +45,7 @@ void main() async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedIn = prefs.getString('loggedIn');
   prefs.setString('onBoarding','Done');
+  prefs.setString('companyAddress', 'aac@lums.co.uk');
   // prefs.remove('onBoarding');
   var companyName = prefs.getString('companyName');
   print(companyName);

@@ -104,6 +104,7 @@ class _AddAccountsState extends State<AddCompany> {
 
                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                 prefs.setString('companyName', CompanyName.text.toString());
+                                prefs.setString('companyAddress', EmailAddress.text.toString());
                                 Navigator.pushNamed(context, '/check', arguments: {
                                   'companyName': CompanyName.text.toString()
                                 });

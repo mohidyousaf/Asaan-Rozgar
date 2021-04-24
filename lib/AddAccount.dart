@@ -4,6 +4,7 @@ import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:asaanrozgar/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // void main() {
@@ -26,14 +27,28 @@ class _AddAccountsState extends State<AddAccounts> {
   TextEditingController AccountNo = new TextEditingController();
   TextEditingController CurrentBal = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  initFunc() async{
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('companyName');
+
+    });
+  }
+  SharedPreferences prefs;
   Map data={};
   String name;
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
-    setState(() {
-      name = data['companyName'];
-    });
+    if (data == null){
+      initFunc();
+    }
+    else{
+      setState(() {
+        name = data['companyName'];
+      });
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
 
@@ -93,7 +108,7 @@ class _AddAccountsState extends State<AddAccounts> {
                                     Name.text.toString(),
                                     AccountNo.text.toString(),
                                     CurrentBal.text.toString());
-                                Navigator.pushNamed(context, '/signIn');
+                                Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                               }
                             },
                             child: Center(

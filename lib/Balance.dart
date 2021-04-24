@@ -76,8 +76,8 @@ class _BalanceState extends State<Balance> {
                             onPressed: () async {
 
                                 var temp = await DBprovider.db.updateBalance(
-                                    name,
-                                    balance.text.toString());
+                                    name:name,
+                                    balance:balance.text.toString());
                                 Navigator.pushNamed(context, '/signIn');
 
                             },
