@@ -4,14 +4,6 @@ import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 
 
-
-// void main() {
-//   // TestWidgetsFlutterBinding.ensureInitialized();
-//   runApp(MaterialApp(
-//       home: AddAssets()
-//   ));
-// }
-
 class AddAssets extends StatefulWidget {
   @override
   _AddAssetsState createState() => _AddAssetsState();
@@ -76,11 +68,12 @@ class _AddAssetsState extends State<AddAssets> {
                         child: TextButton(
                           onPressed: () async {
                             var temp = await DBprovider.db.addAssets(Name.text.toString(), Description.text.toString(), Type.text.toString(), Value.text.toString());
+                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                             print(temp);
                             },
                           child: Center(
                             child: Text(
-                                'Login',
+                                'Add Asset',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

@@ -421,7 +421,7 @@ class DBprovider{
         SET TotalReceivable = ?
         WHERE CompanyID=?
       ''',[totalReceivable,companyID]);
-      updateBalance(companyName, companyBalance+double.parse(received));
+      updateBalance(name:companyName, balance:companyBalance+double.parse(received));
     }
     else {
       newPayable += balance;
@@ -436,7 +436,7 @@ class DBprovider{
         SET TotalPayable = ?
         WHERE CompanyID=?
       ''',[totalPayable,companyID]);
-      updateBalance(companyName, companyBalance- double.parse(received));
+      updateBalance(name:companyName, balance:companyBalance- double.parse(received));
     }
 
     // var temp2= getBalance();
@@ -476,11 +476,90 @@ class DBprovider{
     return res2;
   }
 
-  addAssets(name, description, type, value){
-    return name;
+  addAssets(name, description, type, value) async{
+    final db = await database;
+    double companyBalance;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var companyName= prefs.getString('companyName');
+    int companyID;
+    var IDquery = (await db.query(
+    'company',
+    columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+    where: 'CompanyName = ?',
+    whereArgs: [companyName])).forEach((element) {
+    companyID = element['CompanyID'];
+    });
+
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: null);
+    temp.forEach((element) {
+    companyBalance = element['Balance'];
+    });
+
+    print('before company balance: $companyBalance');
+    var order = await db.rawInsert('''
+      INSERT INTO assets(
+        CompanyID,Name, Type, Description, Value
+        ) VALUES (?,?,?,?,?)
+    ''',[companyID, name, type, description, value]);
+
+    int assetID;
+    var list2 = (await db.rawQuery('SELECT last_insert_rowid()')).forEach((element) {
+    assetID = element['last_insert_rowid()'];
+    });
+
+    DateTime now = DateTime.now();
+    String date = DateFormat('yMd').format(now);// 28/03/2020
+    await db.rawInsert('''
+        INSERT INTO transactions(
+          AssetID, Amount, TransactionType, Date
+          ) VALUES (?,?,?,?)
+      ''',[assetID, value, type, date]);
+    var newBalance = companyBalance - double.parse(value);
+    updateBalance(accountName:null, name:companyName, balance: newBalance);
   }
   addEquity(name, amount){
     return name;
+  }
+  addExpense(accountName, type, amount, details) async{
+    final db = await database;
+    double companyBalance;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var companyName= prefs.getString('companyName');
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+        where: 'CompanyName = ?',
+        whereArgs: [companyName])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: accountName);
+    temp.forEach((element) {
+      companyBalance = element['Balance'];
+    });
+
+    print('before company balance: $companyBalance');
+    var order = await db.rawInsert('''
+      INSERT INTO expenses(
+        CompanyID, Type, Description
+        ) VALUES (?,?,?)
+    ''',[companyID, type, details]);
+
+    int expenseID;
+    var list2 = (await db.rawQuery('SELECT last_insert_rowid()')).forEach((element) {
+      expenseID = element['last_insert_rowid()'];
+    });
+
+    DateTime now = DateTime.now();
+    String date = DateFormat('yMd').format(now);// 28/03/2020
+    await db.rawInsert('''
+        INSERT INTO transactions(
+          ExpenseID, Amount, TransactionType, Date
+          ) VALUES (?,?,?,?)
+      ''',[expenseID, amount, type, date]);
+    var newBalance = companyBalance - double.parse(amount);
+    updateBalance(accountName:null, name:companyName, balance: newBalance);
   }
   addParty(partyType, partyName,partyDescription,emailAddress,contactNo,accountNo,payable,receivable) async{
 
@@ -654,10 +733,13 @@ class DBprovider{
 
   }
 
-  updateBalance(name,balance)async{
+  updateBalance({accountName:'cash', name,balance})async{
     final db =await database;
     print(name);
-
+    bool set = true;
+    if (accountName == null){
+      set = false;
+    }
     int companyID;
     var IDquery = (await db.query(
         'company',
@@ -669,15 +751,29 @@ class DBprovider{
 
     print("company id is");
     print(companyID);
-    var temp = await db.rawQuery('''
+    if (set){
+      var temp = await db.rawQuery('''
         UPDATE accounts
         SET Balance= ?
-        WHERE CompanyID=?
-      ''',[balance,companyID]);
+        WHERE CompanyID=? AND BankName = ?
+      ''',[balance,companyID, accountName]);
+    }
+    else{
+      var temp = await db.rawQuery('''
+        UPDATE accounts
+        SET Balance= ?
+        WHERE CompanyID=? AND AccountType = ?
+      ''',[balance,companyID, 'Default']);
+    }
+
   }
 
   //TODO: change the name as it is giving everything of account not only balance
-  getBalance()async{
+  getBalance({accountName:'cash'})async{
+    bool set = true;
+    if (accountName == null){
+      set = false;
+    }
     final db= await database;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var name= prefs.getString('companyName');
@@ -689,12 +785,20 @@ class DBprovider{
         whereArgs: [name])).forEach((element) {
       companyID = element['CompanyID'];
     });
+    if (set){
+      final List<Map<String, dynamic>> temp = await db.rawQuery('''
+        SELECT * FROM  accounts WHERE CompanyID=? AND BankName = ?;
+      ''',[companyID, accountName]);
+      return temp;
+    }
+    else{
+      final List<Map<String, dynamic>> temp = await db.rawQuery('''
+        SELECT * FROM  accounts WHERE CompanyID=? AND AccountType=?;
+      ''',[companyID, 'Default']);
+      return temp;
+    }
 
-    final List<Map<String, dynamic>> temp = await db.rawQuery('''
-        SELECT * FROM  accounts WHERE CompanyID=?;
-      ''',[companyID]);
 
-    return temp;
   }
 
   getCompanyData(companyName)async{

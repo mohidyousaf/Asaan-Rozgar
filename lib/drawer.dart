@@ -18,7 +18,8 @@ import 'package:asaanrozgar/AddLoan-1.dart';
 import 'package:asaanrozgar/AddParty.dart';
 import 'package:asaanrozgar/Add_Expenses1.dart';
 import 'package:asaanrozgar/Add_Expenses2.dart';
-import 'package:asaanrozgar/Parties_home.dart';
+
+
 class drawer extends StatefulWidget {
   drawer({this.companyName});
   final companyName;
@@ -30,18 +31,21 @@ class drawer extends StatefulWidget {
 class _drawerState extends State<drawer> {
   var companyName = "";
   double companyBalance;
+  String companyAddress;
   getName() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       companyName = prefs.getString('companyName');
+      companyAddress = prefs.getString('companyAddress');
     });
   }
 
   getBalance()async{
 
-    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: null);
     temp.forEach((element) {
       setState(() {
+        print(element['Balance']);
         companyBalance = element['Balance'];
       });
     });
@@ -66,7 +70,7 @@ class _drawerState extends State<drawer> {
               decoration: BoxDecoration(
                 color: Color.fromRGBO(11, 71, 109, 1.0),
               ),
-              accountName: Text(companyName,
+              accountName: Text(companyName == null ? '': companyName,
               style: TextStyle(
                   fontFamily: 'lato',
                   fontSize: 20,
@@ -74,7 +78,7 @@ class _drawerState extends State<drawer> {
                   // color: Color.fromRGBO(11, 71, 109, 1.0),
                 ),
                 ),
-              accountEmail: Text("ali@gmail.com",
+              accountEmail: Text(companyAddress == null ? '': companyAddress,
               style: TextStyle(
                   fontFamily: 'lato',
                   fontSize: 18,
@@ -104,12 +108,12 @@ class _drawerState extends State<drawer> {
               ),
 
               ),
-              title: Text(companyBalance.toString(),
+              title: Text('${companyBalance.toString()}',
                 style: TextStyle(
                   fontFamily: 'lato',
                   fontSize: 22,
                   // fontWeight: FontWeight.bold,
-                  color: Colors.green[800],
+                  color: companyBalance == null ? Colors.green[800]:companyBalance < 0 ? Colors.red[800]:Colors.green[800],
                 ),
               ),
               onTap: (){
@@ -128,7 +132,7 @@ class _drawerState extends State<drawer> {
 
               ListTile(
                 leading: Image.asset('assets/user2.png'),
-                title: Text("Transaction",
+                title: Text("Transactions",
                 style: TextStyle(
                   fontFamily: 'lato',
                   fontSize: 22,
@@ -142,28 +146,6 @@ class _drawerState extends State<drawer> {
                     context,
                     MaterialPageRoute(
                       builder: (BuildContext context) => transactions()
-                      )
-                   );
-                },
-              ),
-
-// Expenses
-               ListTile(
-                leading: Image.asset('assets/Vector.png'),
-                title: Text("Expenses",
-                style: TextStyle(
-                  fontFamily: 'lato',
-                  fontSize: 22,
-                  // fontWeight: FontWeight.bold,
-                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                ),
-                ),
-                onTap: (){
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => add_expenses2(),
                       )
                    );
                 },
@@ -184,11 +166,32 @@ class _drawerState extends State<drawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => partiesHome()
+                      builder: (BuildContext context) => AddParty()
                       )
                    );
                 },
               ),
+
+            ListTile(
+              leading: Image.asset('assets/Plus.png'),
+              title: Text("Add Expenses",
+                style: TextStyle(
+                  fontFamily: 'lato',
+                  fontSize: 22,
+                  // fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(11, 71, 109, 1.0),
+                ),
+              ),
+              onTap: (){
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => add_expenses2(),
+                    )
+                );
+              },
+            ),
 
 // Add Info
                ListTile(
@@ -276,12 +279,14 @@ class _drawerState extends State<drawer> {
               ),
 //Sign Out
                ListTile(
-                leading: Image.asset('assets/Plus.png'),
+                leading: Padding(
+                    padding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                    child: Icon(Icons.logout, size: 28,color: Color.fromRGBO(11, 71, 109, 1.0,))),
                 title: Text(
                 'Sign out',
                 style: TextStyle(
                   fontFamily: 'lato',
-                  fontSize: 16,
+                  fontSize: 22,
                   // fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(11, 71, 109, 1.0),
                 ),
