@@ -50,7 +50,29 @@ class _filter_reportsState extends State<filter_reports> {
                         ],
                       )),
                 ),
-                Container(
+                filtered == 1 ? Container(
+                  alignment: Alignment.bottomCenter,
+                  child: TextButton(
+                      onPressed: () {
+                        setState((){
+                          filtered = 1;
+                        });
+                        inventory_filter(context);
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.filter_alt_outlined,
+                              semanticLabel: 'Filter',
+                              color: Colors.green,),
+                          Text('Filter',
+                            style: GoogleFonts.lato(
+                                textStyle: TextStyle(color: Colors.green,)
+                            )
+                          )
+                        ],
+                      )),
+                ):Container(
                   alignment: Alignment.bottomCenter,
                   child: TextButton(
                       onPressed: () {
