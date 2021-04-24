@@ -125,6 +125,7 @@ class _AddItemState extends State<AddItem> {
                         label: Text("          Upload Photo"))
                         : Row(
                           children: [
+                            SizedBox(width: 15,),
                             Image(image: FileImage(File(imageFile.path)),height: 80.0,width: 80.0,),
                             Icon(Icons.check,
                             color: Color.fromRGBO(52, 199, 89, 1.0),
