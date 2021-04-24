@@ -232,7 +232,7 @@ class _TestState extends State<Test> {
                       color: Color.fromRGBO(136, 182, 211, 1),
                       fontFamily: "Lato",
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: home.sales(curr).ceil() == null ? 20.0 :home.sales(curr).ceil() > 9999999 ? 16.0 :home.sales(curr).ceil() > 99999 ? 18 : 20.0,
                     ),
                   );
                 },)
@@ -265,6 +265,7 @@ class _TestState extends State<Test> {
 
              Consumer<HomeModel>(
                builder: (context, home, child){
+
                    return Text('Rs. ${home.expenses ==  null ?
                    '0': home.expenses(curr).ceil().toString()}'
                    ,
@@ -272,7 +273,7 @@ class _TestState extends State<Test> {
                        color: Color.fromRGBO(136, 182, 211, 1),
                        fontFamily: "Lato",
                        fontWeight: FontWeight.bold,
-                       fontSize: 20,
+                       fontSize: home.expenses(curr).ceil() == null ? 20.0 :home.expenses(curr).ceil() > 9999999 ? 16.0 :home.expenses(curr).ceil() > 99999 ? 18 : 20.0,
                    ),
                    );
              },)

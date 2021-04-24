@@ -67,6 +67,7 @@ void main() async{
         '/menu': (context) => Menu(),
         '/addItem': (context) => AddItem(),
         '/signIn': (context) => SignIn(),
+        '/signUp': (context) => SignUp(),
         '/addAccount': (context) => AddAccounts(),
         '/addParty': (context) => AddParty(),
         '/party': (context) => Parties(),

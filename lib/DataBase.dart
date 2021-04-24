@@ -949,6 +949,42 @@ class DBprovider{
 
     }));
 
+
+    var temp2 = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['purchase']);
+
+    print(temp2);
+    await Future.wait(temp2.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''',[element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async{
+        double cost = element2['Price'];
+        int quantity = element2['Quantity'];
+        double total = cost * quantity;
+        print(total);
+
+        var nameIDquery = await db.rawQuery('''
+        SELECT ProductName
+        FROM inventory
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        print(nameIDquery);
+        nameIDquery.forEach((element3) {
+          objects.add(new report_items(itemName: element3['ProductName'],price: total.toInt()));
+
+        });
+      }));
+    }));
     return objects;
   }
 
