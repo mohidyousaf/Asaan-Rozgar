@@ -16,7 +16,9 @@ import './Parties.dart';
 import 'package:asaanrozgar/Transactions.dart';
 import 'package:asaanrozgar/AddLoan-1.dart';
 import 'package:asaanrozgar/AddParty.dart';
-
+import 'package:asaanrozgar/Add_Expenses1.dart';
+import 'package:asaanrozgar/Add_Expenses2.dart';
+import 'package:asaanrozgar/Parties_home.dart';
 class drawer extends StatefulWidget {
   drawer({this.companyName});
   final companyName;
@@ -161,7 +163,7 @@ class _drawerState extends State<drawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => null,
+                      builder: (BuildContext context) => add_expenses2(),
                       )
                    );
                 },
@@ -182,7 +184,7 @@ class _drawerState extends State<drawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => AddParty()
+                      builder: (BuildContext context) => partiesHome()
                       )
                    );
                 },

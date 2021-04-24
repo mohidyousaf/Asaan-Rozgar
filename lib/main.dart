@@ -33,6 +33,11 @@ import 'package:asaanrozgar/Parties_info.dart';
 import 'package:asaanrozgar/IncomeStatement.dart';
 import 'package:asaanrozgar/ReportsMenu.dart';
 import 'package:asaanrozgar/item_report.dart';
+import 'package:asaanrozgar/Add_Expenses1.dart';
+import 'package:asaanrozgar/Add_Expenses2.dart';
+import 'package:asaanrozgar/Add_Expenses3.dart';
+import 'package:asaanrozgar/Parties_home.dart';
+import 'package:asaanrozgar/Parties_info.dart';
 
 
 import 'package:google_fonts/google_fonts.dart';
@@ -52,7 +57,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      // initialRoute: '/addItem',
+      initialRoute: '/expenses1',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -85,7 +90,11 @@ void main() async{
         '/parties_info': (context) => parties_info(),
         '/income_stmnt' :(context) => Reports1(),
         '/reportsHome': (context) => ReportsMenu(),
+        '/expenses1' :(context) => add_expenses1(),
+        '/expenses2' :(context) => add_expenses2(),
+        '/expenses3' :(context) => add_expenses3(),
         '/itemReport': (context) => item_report(),
+        '/partiesHome': (context) =>  partiesHome(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),

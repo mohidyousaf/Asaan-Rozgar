@@ -5,19 +5,10 @@ import 'package:asaanrozgar/Widgets/PartyNames.dart';
 import 'package:provider/provider.dart';
 import 'DataBase.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: add_expenses1()
-  ));
-}
+
 
 class add_expenses1 extends StatefulWidget {
   @override

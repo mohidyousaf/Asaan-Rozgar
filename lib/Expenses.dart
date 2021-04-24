@@ -16,19 +16,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
 
 
-void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      home: expenses()
-  ));
-}
+// void main() {
+//   // TestWidgetsFlutterBinding.ensureInitialized();
+//   runApp(MaterialApp(
+//       theme: ThemeData(
+//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+//         accentColor: Colors.white,
+//         textTheme: GoogleFonts.latoTextTheme(),
+//       ),
+//       home: expenses()
+//   ));
+// }
 
 class expenses extends StatefulWidget {
   @override
@@ -53,15 +54,12 @@ class _expensesState extends State<expenses> {
     double divider_width = phone_width * 0.8;
     double slider_width=phone_width*0.834;
     double slider_height=phone_height*0.0417;
+    List<ChildButton> buttons = [ChildButton(label: 'Add Expense', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/expenses2')];
     return Scaffold(
       backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
       appBar: std_appbar(context, 'Expenses', color_Red, color_Green, color_Blue),
       bottomNavigationBar: std_chinbar(context, 11, 71, 109),
-      floatingActionButton:  FloatingActionButton(
-          backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-          onPressed: (){},
-          child: Icon(Icons.add,color: Colors.white),
-          ),
+      floatingActionButton: std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           body: Column(
             children:  <Widget> [

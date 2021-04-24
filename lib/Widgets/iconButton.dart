@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-Widget iconButton(String text, String imageAddress){
+Widget iconButton(String text, String imageAddress, context , routeName){
   return FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, routeName);
+                      },
                       
                       height: 150,
                       minWidth: 150,

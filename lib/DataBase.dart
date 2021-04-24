@@ -9,6 +9,7 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:asaanrozgar/Widgets/SaleExpense.dart';
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 
 class DBprovider{
@@ -734,4 +735,59 @@ class DBprovider{
     });
     return list;
   }
+
+  getSaleItems()async{
+
+    List<report_items> objects=[];
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['sale']);
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''',[element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async{
+        double cost = element2['Price'];
+        int quantity = element2['Quantity'];
+        double total = cost * quantity;
+        print(total);
+
+        var nameIDquery = await db.rawQuery('''
+        SELECT ProductName
+        FROM inventory
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        print(nameIDquery);
+        nameIDquery.forEach((element3) {
+              objects.add(new report_items(itemName: element3['ProductName'],price: total.toInt()));
+
+        });
+        print('objects');
+        print(objects[0].itemName);
+        print(objects[0].price);
+      }));
+    }));
+
+    // List<report_items> obj = [
+    //   report_items(itemName: 'Mobile sale', price: 51000),
+    //   report_items(itemName: 'Bag Sale', price: 5000),
+    //   report_items(itemName: 'Camera Sale', price: 150000),
+    //   report_items(itemName: 'Merchandise Sale', price: 50000),
+    // ];
+
+    return objects;
+  }
+
+
 }

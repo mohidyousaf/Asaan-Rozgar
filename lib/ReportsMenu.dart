@@ -5,16 +5,9 @@ import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import './Widgets/iconButton.dart';
 import './Widgets/std_chinbar.dart';
 import './Widgets/FAB.dart';
-
-
-
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   runApp(
-//   MaterialApp(
-//     home:ReportsMenu(),
-//     ));
-//  }
+import 'package:provider/provider.dart';
+import 'package:asaanrozgar/Widgets/addItemClass.dart';
+import 'package:asaanrozgar/DataBase.dart';
 
 
 class ReportsMenu extends StatelessWidget {
@@ -62,11 +55,11 @@ class ReportsMenu extends StatelessWidget {
                spacing: 20,
                runSpacing: 20,
                children: [
-               iconButton('Income\nStatement', './assets/income.png'),
-               iconButton('Tax\nReport', './assets/tax.png'),
-               iconButton('Balance\nStatement', './assets/balance.png'),
-               iconButton('Inventory\nReport', './assets/inventory.png'),
-               iconButton('Cash Flow\nStatement', './assets/money.png'),
+               iconButton('Income\nStatement', './assets/income.png', context, '/income_stmnt'),
+               iconButton('Tax\nReport', './assets/tax.png', context ,''),
+               iconButton('Balance\nStatement', './assets/balance.png',context,''),
+               iconButton('Inventory\nReport', './assets/inventory.png',context,''),
+               iconButton('Cash Flow\nStatement', './assets/money.png',context,''),
            ],
             ),
       ),
@@ -79,3 +72,4 @@ class ReportsMenu extends StatelessWidget {
     );
   }
 }
+
