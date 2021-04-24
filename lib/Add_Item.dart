@@ -123,7 +123,7 @@ class _AddItemState extends State<AddItem> {
                         color: Color.fromRGBO(255, 255, 255, 1.0),
                         icon: Icon(Icons.add_a_photo),
                         label: Text("          Upload Photo"))
-                        : FileImage(File(imageFile.path)),
+                        : Image(image: FileImage(File(imageFile.path)),height: 80.0,width: 80.0,),
                         ),
                 Container(
                   height: 35,
