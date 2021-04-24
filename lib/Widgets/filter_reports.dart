@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 
 class filter_reports extends StatefulWidget {
+  filter_reports({this.filterModel, this.type});
+  var filterModel;
+  var type;
   @override
   _filter_reportsState createState() => _filter_reportsState();
 }
@@ -19,8 +22,7 @@ class _filter_reportsState extends State<filter_reports> {
     setState(() {
       filtered = 0;
     });
-    var model = Provider.of<InventoryModel>(context, listen: false);
-    model.reset();
+    widget.filterModel.reset();
   }
 
   @override
@@ -57,7 +59,10 @@ class _filter_reportsState extends State<filter_reports> {
                         setState((){
                           filtered = 1;
                         });
-                        inventory_filter(context);
+                        widget.type == 'inventory' ? inventory_filter(context):
+                        widget.type == 'salePurchase' ? sale_purchase_filters():
+                            widget.type == 'expense' ? expense_filters():
+                            Text('');
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -79,7 +84,10 @@ class _filter_reportsState extends State<filter_reports> {
                         setState((){
                           filtered = 1;
                         });
-                        inventory_filter(context);
+                        widget.type == 'inventory' ? inventory_filter(context):
+                        widget.type == 'salePurchase' ? sale_purchase_filter(context):
+                        widget.type == 'expense' ? expenses_filter(context):
+                        Text('');
                       },
                       child: Column(
                         mainAxisSize: MainAxisSize.min,

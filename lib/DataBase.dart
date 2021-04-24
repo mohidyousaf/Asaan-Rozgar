@@ -9,6 +9,8 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:asaanrozgar/Widgets/SaleExpense.dart';
+import 'package:asaanrozgar/Transactions.dart';
+
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 
@@ -303,7 +305,7 @@ class DBprovider{
     int partyID;
     double receivable;
     var payable;
-    double companyBalance;
+    double companyBalance = 0;
     int companyID;
     var totalPayable;
     var totalReceivable;
@@ -317,7 +319,7 @@ class DBprovider{
       totalPayable = element['TotalPayable'];
     });
 
-    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName:null);
     temp.forEach((element) {
       companyBalance = element['Balance'];
     });
@@ -643,6 +645,30 @@ class DBprovider{
     });
     return list;
   }
+  getExpensesList() async{
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'type':element['TransactionType'],
+        'amount':element['Amount'].toString(),
+        'date':element['Date']});
+    });
+    return list;
+  }
+  getSalePurchaseList() async{
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'type':element['TransactionType'],
+        'amount':element['Amount'].toString(),
+        'date':element['Date']});
+    });
+    return list;
+  }
   getItemList(name) async{
 
     final db =await database;
@@ -733,7 +759,7 @@ class DBprovider{
 
   }
 
-  updateBalance({accountName:'cash', name,balance})async{
+  updateBalance({accountName, name,balance})async{
     final db =await database;
     print(name);
     bool set = true;
