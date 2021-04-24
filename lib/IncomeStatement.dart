@@ -34,6 +34,7 @@ class _Reports1State extends State<Reports1> {
     'RENT': 1,
   };
  List<report_items> objects = [];
+  List<report_items> objects2 = [];
   List<Color> colorsList = [
     Color.fromRGBO(136, 182, 211, 1),
     Color.fromRGBO(38, 51, 58, 1),
@@ -46,7 +47,7 @@ class _Reports1State extends State<Reports1> {
                                       ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
 
     return ChangeNotifierProvider(
-        create:(context) => ReportModel(),
+        create:(context) => IncomeModel(),
         child: Scaffold(
           backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
           appBar: AppBar(
@@ -105,14 +106,26 @@ class _Reports1State extends State<Reports1> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(left:18.0),
-                                        child: percChart(0.3, Color.fromRGBO(11, 71, 109, 1), "30%","Opex Ratio"),
+                                        child:
+                                        Consumer <IncomeModel>(
+                                          builder: (context,model,child){
+                                            int ratio = model.totalOpex;
+                                            return percChart(0.3, Color.fromRGBO(11, 71, 109, 1), '${ratio.toString()}%',"Opex Ratio");
+                                          },
+                                        )
                                       ),
 
                                       Padding(
                                         padding: const EdgeInsets.only(left:18.0),
-                                        child: percChart(0.84, Color.fromRGBO(24, 153, 161, 1), "84%","Gross Profit Margin"),
-                                      ),
+                                        child:
 
+                                        Consumer<IncomeModel>(
+                                          builder: (context,model,child){
+                                            double ratio = model.totalGross;
+                                            return  percChart(0.84, Color.fromRGBO(24, 153, 161, 1), '${ratio.toInt().toString()}%',"Gross Profit Margin");
+                                          },
+                                        )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -262,98 +275,102 @@ class _Reports1State extends State<Reports1> {
                Container(
                  margin: EdgeInsets.only(top: 10),
 
-                 child: SingleChildScrollView(
-                                  child: Column(
+                 child: Column(
                     //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                      children: [
                        Column(
 
                         children: [
                            Text("Income Report",
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(11, 71, 109, 1),
-                                      fontFamily: "Lato",
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                       )
+                   style: TextStyle(
+                     color: Color.fromRGBO(11, 71, 109, 1),
+                     fontFamily: "Lato",
+                     fontWeight: FontWeight.bold,
+                     fontSize: 18,
+                      )
                          ),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                          Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text("To: ",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(107, 143, 165, 0.7),
-                              )),
-                              Text("16/11/2000",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.0,
-                                    color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  )),
-                                  SizedBox(width: 3,),
-                                  Icon(Icons.calendar_today_rounded,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  size: 15,),
-                              Spacer(),
-                              Text("From: ",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(107, 143, 165, 0.7),
-                              )),
-                              Text("16/11/2000",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.0,
-                                    color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  )),
-                                  SizedBox(width: 3,),
-                                  Icon(Icons.calendar_today_rounded,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  size: 15,),
-                                  SizedBox(width: 10,)
-                            ],
-                          ),
-                          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                          // SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                          // Row(
+                          //   children: [
+                          //     SizedBox(width: 10,),
+                          //     Text("To: ",
+                          //     style: TextStyle(
+                          //       fontFamily: "Lato",
+                          //       fontWeight: FontWeight.normal,
+                          //       fontSize: 12.0,
+                          //       color: Color.fromRGBO(107, 143, 165, 0.7),
+                          //     )),
+                          //     Text("16/11/2000",
+                          //         style: TextStyle(
+                          //           fontFamily: "Lato",
+                          //           fontWeight: FontWeight.bold,
+                          //           fontSize: 12.0,
+                          //           color: Color.fromRGBO(11, 71, 109, 1.0),
+                          //         )),
+                          //         SizedBox(width: 3,),
+                          //         Icon(Icons.calendar_today_rounded,
+                          //         color: Color.fromRGBO(11, 71, 109, 1.0),
+                          //         size: 15,),
+                          //     Spacer(),
+                          //     Text("From: ",
+                          //     style: TextStyle(
+                          //       fontFamily: "Lato",
+                          //       fontWeight: FontWeight.normal,
+                          //       fontSize: 12.0,
+                          //       color: Color.fromRGBO(107, 143, 165, 0.7),
+                          //     )),
+                          //     Text("16/11/2000",
+                          //         style: TextStyle(
+                          //           fontFamily: "Lato",
+                          //           fontWeight: FontWeight.bold,
+                          //           fontSize: 12.0,
+                          //           color: Color.fromRGBO(11, 71, 109, 1.0),
+                          //         )),
+                          //         SizedBox(width: 3,),
+                          //         Icon(Icons.calendar_today_rounded,
+                          //         color: Color.fromRGBO(11, 71, 109, 1.0),
+                          //         size: 15,),
+                          //         SizedBox(width: 10,)
+                          //   ],
+                          // ),
+                          // SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                           Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                          children:[
 
                          Text("Revenue",
                          style: TextStyle(
-                                    color: Color.fromRGBO(11, 71, 109, 1),
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                     )
+                   color: Color.fromRGBO(11, 71, 109, 1),
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.bold,
+                   fontSize: 16,
+                    )
                          ),
                          Spacer(),
                          Text("Rs.",
                          style: TextStyle(
-                                    color: Color.fromRGBO(11, 71, 109, 1),
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                     )
+                   color: Color.fromRGBO(11, 71, 109, 1),
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.bold,
+                   fontSize: 16,
+                    )
                          ),
                          ]
                          ),
                          Divider(),
 
-                         Consumer<ReportModel>(
+                         Consumer<IncomeModel>(
                            builder: (context,model,child){
                              objects= model.objects;
-                             return Column(
-                                 children: objects
-                                     .map((sub) => report_list(obj3: sub))
-                                     .toList());
+                             return Container(
+                               height: (objects.length > 2)? 80.0 :((objects.length)*50.0),
+                               child: SingleChildScrollView(
+                                 child: Column(
+                    children: objects
+                        .map((sub) => report_list(obj3: sub))
+                        .toList()),
+                               ),
+                             );
                            },
                          )
 
@@ -366,23 +383,23 @@ class _Reports1State extends State<Reports1> {
                          children: [
                          Text("Total Revenue",
                          style: TextStyle(
-                                    color: Color.fromRGBO(11, 71, 109, 1),
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                     )
+                   color: Color.fromRGBO(11, 71, 109, 1),
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.bold,
+                   fontSize: 14,
+                    )
                          ),
                          Spacer(),
 
-                         Consumer<ReportModel>(
+                         Consumer<IncomeModel>(
                            builder: (context,model,child){
                              double revenue = model.totalRevenue;
                              return Text(revenue.toString(),
                                  style: TextStyle(
-                                   color: Colors.black,
-                                   fontFamily: "Lato",
-                                   fontWeight: FontWeight.normal,
-                                   fontSize: 16,
+                  color: Colors.black,
+                  fontFamily: "Lato",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
                                  )
                              );
                            },
@@ -398,73 +415,91 @@ class _Reports1State extends State<Reports1> {
 
                          Text("Expense",
                          style: TextStyle(
-                                    color: Color.fromRGBO(11, 71, 109, 1),
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                     )
+                   color: Color.fromRGBO(11, 71, 109, 1),
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.bold,
+                   fontSize: 16,
+                    )
                          ),
                          Spacer(),
                          Text("Rs.",
                          style: TextStyle(
-                                    color: Color.fromRGBO(11, 71, 109, 1),
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                     )
+                   color: Color.fromRGBO(11, 71, 109, 1),
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.bold,
+                   fontSize: 16,
+                    )
                          ),
                          ]
                          ),
                          Divider(),
-                         Column(
-                            children: objects
-                                .map((sub) => report_list(obj3: sub))
-                                .toList()),
-                                SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+
+                         Consumer<IncomeModel>(
+                           builder: (context,model,child){
+                             objects2= model.expenseItems;
+                             return Container(
+                               height: (objects2.length > 2)? 80.0 :((objects2.length)*50.0),
+                               child: SingleChildScrollView(
+                                 child: Column(
+                    children: objects2
+                        .map((sub) => report_list(obj3: sub))
+                        .toList()),
+                               ),
+                             );
+                           },
+                         ),
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                         Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                          children: [
                          Text("Total Expense",
                          style: TextStyle(
-                                    color: Color.fromRGBO(11, 71, 109, 1),
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                     )
+                   color: Color.fromRGBO(11, 71, 109, 1),
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.bold,
+                   fontSize: 14,
+                    )
                          ),
                          Spacer(),
 
-                         Text("2,56,000",
-                         style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 16,
-                                     )
+                         Consumer <IncomeModel> (
+                           builder: (context,model,child){
+                             double expense= model.totalExpense;
+                             return Text(expense.toString(),
+                                 style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: "Lato",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                                 )
+                             );
+                           },
                          ),
+
                          ]
                          ),
                          SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
                          Divider(),
                          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
                          FlatButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                            },
                             height: 30,
                             minWidth: 90,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text('PRINT',
                                 style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 10.0,
-                                    color: Colors.white
+                   fontFamily: "Lato",
+                   fontWeight: FontWeight.normal,
+                   fontSize: 10.0,
+                   color: Colors.white
                                 )),
                             color: Color.fromRGBO(11, 71, 109, 1.0)),
                          //here
                      ],
                    ),
-                 ),
                ),
              )
               ),// further items here
@@ -477,14 +512,23 @@ class _Reports1State extends State<Reports1> {
 }
 
 
-class ReportModel extends ChangeNotifier {
+class IncomeModel extends ChangeNotifier {
   List<report_items> objects=[];
+  List<report_items> objects2=[];
+  double totalGoodsCost= 0;
   double revenue =  0.0;
+  double expense = 0.0;
+  int opexRatio = 0;
+  double grossProfit= 0;
 
   get saleItems => objects;
+  get expenseItems => objects2;
   get totalRevenue => revenue;
+  get totalExpense => expense;
+  get totalOpex => opexRatio;
+  get totalGross=> grossProfit;
 
-  ReportModel() {
+  IncomeModel() {
     var initFuture = getSaleItems();
     initFuture.then((voidVal) {
       notifyListeners();
@@ -493,10 +537,25 @@ class ReportModel extends ChangeNotifier {
 
   getSaleItems() async {
     objects = await DBprovider.db.getSaleItems();
+    objects2= await DBprovider.db.getExpenseItems();
+    totalGoodsCost = await DBprovider.db.getTotalCost();
+
     objects.forEach((element) {
       revenue += element.price;
     });
+    objects2.forEach((element) {
+      expense += element.price;
+    });
     print('i am in model');
     print(objects);
+    print(objects2);
+
+    opexRatio = (expense ~/ revenue).toInt();
+
+    //TODO : CALCULATE GROSS PROFIT MARGIN HERE
+
+    grossProfit = (revenue - totalGoodsCost)/(revenue) * 100;
+    print('gross profit is $grossProfit');
+
   }
 }

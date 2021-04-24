@@ -9,6 +9,8 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:asaanrozgar/Widgets/SaleExpense.dart';
+import 'package:asaanrozgar/Transactions.dart';
+
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 
@@ -303,7 +305,7 @@ class DBprovider{
     int partyID;
     double receivable;
     var payable;
-    double companyBalance;
+    double companyBalance = 0;
     int companyID;
     var totalPayable;
     var totalReceivable;
@@ -317,7 +319,7 @@ class DBprovider{
       totalPayable = element['TotalPayable'];
     });
 
-    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance();
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName:null);
     temp.forEach((element) {
       companyBalance = element['Balance'];
     });
@@ -643,6 +645,30 @@ class DBprovider{
     });
     return list;
   }
+  getExpensesList() async{
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'type':element['TransactionType'],
+        'amount':element['Amount'].toString(),
+        'date':element['Date']});
+    });
+    return list;
+  }
+  getSalePurchaseList() async{
+    final db = await database;
+    var res = await db.query('transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
+    List<Map<String, String>> list = [];
+    res.forEach((element) {
+      list.add({'type':element['TransactionType'],
+        'amount':element['Amount'].toString(),
+        'date':element['Date']});
+    });
+    return list;
+  }
   getItemList(name) async{
 
     final db =await database;
@@ -733,7 +759,7 @@ class DBprovider{
 
   }
 
-  updateBalance({accountName:'cash', name,balance})async{
+  updateBalance({accountName, name,balance})async{
     final db =await database;
     print(name);
     bool set = true;
@@ -877,9 +903,6 @@ class DBprovider{
               objects.add(new report_items(itemName: element3['ProductName'],price: total.toInt()));
 
         });
-        print('objects');
-        print(objects[0].itemName);
-        print(objects[0].price);
       }));
     }));
 
@@ -893,5 +916,117 @@ class DBprovider{
     return objects;
   }
 
+  getExpenseItems()async{
+
+    List<report_items> objects=[];
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT ExpenseID, Type
+        FROM expenses
+      ''');
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+
+      var amount;
+      var transactionIDquery = await db.rawQuery('''
+        SELECT Amount
+        FROM transactions
+        WHERE ExpenseID=?
+      ''',[element['ExpenseID']]);
+
+
+      transactionIDquery.forEach((element2) {
+        amount = element2['Amount'];
+        print('amount');
+        print(amount);
+        objects.add(new report_items(itemName: element['Type'], price: amount.toInt()));
+      });
+
+      print('expenses in db');
+      print(objects[0].itemName);
+      print(objects[0].price);
+
+    }));
+
+
+    var temp2 = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['purchase']);
+
+    print(temp2);
+    await Future.wait(temp2.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''',[element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async{
+        double cost = element2['Price'];
+        int quantity = element2['Quantity'];
+        double total = cost * quantity;
+        print(total);
+
+        var nameIDquery = await db.rawQuery('''
+        SELECT ProductName
+        FROM inventory
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        print(nameIDquery);
+        nameIDquery.forEach((element3) {
+          objects.add(new report_items(itemName: element3['ProductName'],price: total.toInt()));
+
+        });
+      }));
+    }));
+    return objects;
+  }
+
+  getTotalCost()async{
+
+    final db= await database;
+    double totalCost = 0;
+    var temp = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['sale']);
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''', [element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async {
+        int quantity = element2['Quantity'];
+        double purchasePrice =0;
+        var purchaseQuery = await db.rawQuery('''
+        SELECT PurchasePrice
+        FROM purchases
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        purchaseQuery.forEach((element3) {
+          purchasePrice = element3['PurchasePrice'];
+          double total = purchasePrice * quantity;
+          print(total);
+          totalCost+= total;
+        });
+      }));
+    }));
+
+    return totalCost;
+  }
 
 }

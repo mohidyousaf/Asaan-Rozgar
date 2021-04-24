@@ -58,7 +58,11 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
+<<<<<<< HEAD
       //initialRoute: '/balanceSheet',
+=======
+      // initialRoute: '/expenses1',
+>>>>>>> 4f6af40b044a6f80776d9674c5162c4f633caf07
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
@@ -67,6 +71,7 @@ void main() async{
         '/menu': (context) => Menu(),
         '/addItem': (context) => AddItem(),
         '/signIn': (context) => SignIn(),
+        '/signUp': (context) => SignUp(),
         '/addAccount': (context) => AddAccounts(),
         '/addParty': (context) => AddParty(),
         '/party': (context) => Parties(),

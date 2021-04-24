@@ -59,7 +59,7 @@ class ReportsMenu extends StatelessWidget {
                iconButton('Tax\nReport', './assets/tax.png', context ,''),
                iconButton('Balance\nStatement', './assets/balance.png',context,''),
                iconButton('Inventory\nReport', './assets/inventory.png',context,''),
-               iconButton('Cash Flow\nStatement', './assets/money.png',context,''),
+               iconButton('Cash Flow\nStatement', './assets/money.png',context,'/cashflow_report'),
            ],
             ),
       ),

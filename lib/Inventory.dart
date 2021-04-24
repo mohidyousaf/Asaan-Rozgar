@@ -41,13 +41,6 @@ class _inventoryState extends State<inventory> {
     int color_Blue = 10;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
-    double longBtt_width = phone_width * 0.487;
-    double longBtt_height = phone_height* 0.051;
-    double image_height=  phone_height * 0.20;
-    double image_width = phone_width *0.5;
-    double textfield_gap = phone_height *0.0125; 
-    double button_gap = phone_height *0.063;
-    double divider_width = phone_width * 0.8;
     List<ChildButton> buttons = [ChildButton(label: 'Add Item', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/addItem')];
     return ChangeNotifierProvider(
       create: (context) => InventoryModel(),
@@ -58,7 +51,6 @@ class _inventoryState extends State<inventory> {
             bottomNavigationBar: std_chinbar(context, color_Red,color_Green,color_Blue),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Column(
-          //TODO: NEED TO IMPLEMENT SEARCH BAR
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 20.0),
@@ -94,7 +86,7 @@ class _inventoryState extends State<inventory> {
                 ),
                  child: Column(
                     children: [
-                      filter_reports(),
+                      report_model(),
                       Expanded(
                         child: SizedBox(
                             child:Consumer<InventoryModel>(
@@ -114,4 +106,13 @@ class _inventoryState extends State<inventory> {
     );
   }
 }
+
+class report_model extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final model = Provider.of<InventoryModel>(context, listen: false);
+    return filter_reports(type:'inventory',filterModel: model);
+  }
+}
+
 

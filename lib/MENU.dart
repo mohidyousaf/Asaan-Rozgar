@@ -37,10 +37,8 @@ class _MenuState extends State<Menu> {
                 Navigator.pop(context);
               },
               icon: Icon(Icons.arrow_back),
-
             ),
-
-
+            
             SizedBox(height: 0),
             Center(
               child: CircleAvatar(

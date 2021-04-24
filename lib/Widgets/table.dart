@@ -2,9 +2,10 @@ import 'package:asaanrozgar/Inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
+import 'package:asaanrozgar/Transactions.dart';
 
 class sale_purchase_lis extends StatelessWidget {
-  final List <InventoryItem> items;
+  final List<SalePurchaseItem> items;
   sale_purchase_lis({this.items});
   
   @override
@@ -31,17 +32,17 @@ class sale_purchase_lis extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.only(left:25.0),
                           child: Column(children:[
-                            Text('02/01/2021', style: GoogleFonts.lato(fontSize: 14.0)
+                            Text(item.date, style: GoogleFonts.lato(fontSize: 14.0)
                             )]),
                         ),  
                         Column(children:[
-                          Text('Lays', style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.name, style: GoogleFonts.lato(fontSize: 14.0)
                           )]),  
                         Column(children:[
-                          Text('10', style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.quantity, style: GoogleFonts.lato(fontSize: 14.0)
                           )]),
                         Column(children:[
-                          Text('Rs.50', style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.price, style: GoogleFonts.lato(fontSize: 14.0)
                           )]),  
                       ]), 
              ],
@@ -57,7 +58,7 @@ class sale_purchase_lis extends StatelessWidget {
 
 
 class expenses_lis extends StatelessWidget {
-  final List <InventoryItem> items;
+  final List <ExpenseItem> items;
   expenses_lis({this.items});
   
   @override
@@ -84,14 +85,14 @@ class expenses_lis extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.only(left:25.0),
                           child: Column(children:[
-                            Text('02/01/2021', style: GoogleFonts.lato(fontSize: 14.0)
+                            Text(item.date, style: GoogleFonts.lato(fontSize: 14.0)
                             )]),
                         ),    
                         Column(children:[
-                          Text('Equipment', style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.type, style: GoogleFonts.lato(fontSize: 14.0)
                           )]),
                         Column(children:[
-                          Text('Rs.50', style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.price, style: GoogleFonts.lato(fontSize: 14.0)
                           )]),  
                       ]), 
              ],
