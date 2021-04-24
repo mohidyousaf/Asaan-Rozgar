@@ -17,10 +17,13 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 //party_filter() -> party_filters_display -> calendar_sheet() -> calendar
 
 class filter_list extends StatefulWidget {
-  filter_list({this.model, this.searchController, this.categoryFunc});
+  filter_list({this.valFunc, this.model, this.searchController, this.categoryFunc, this.priceFunc, this.quantityFunc});
   var model;
   var searchController;
+  Function quantityFunc;
   Function categoryFunc;
+  Function priceFunc;
+  Function valFunc;
   @override
   _filter_listState createState() => _filter_listState();
 }
@@ -28,12 +31,25 @@ class _filter_listState extends State<filter_list> {
    int selected_value;
    String dropdownvalue;
    List<String> temp;
-   var selected_range=RangeValues(0, 10000);
+   var selected_range;
+   var selected_q_range;
+   double minPrice;
+   double maxPrice;
+   double minQuantity;
+   double maxQuantity;
    void catFunc(){
      var list = widget.model.getCategories();
+     minPrice = widget.model.minPrice.toDouble();
+     maxPrice = widget.model.maxPrice.toDouble();
+     minQuantity = widget.model.minQuantity.toDouble();
+     maxQuantity = widget.model.maxQuantity.toDouble();
+      print('$minPrice, $maxPrice');
      setState(() {
        temp = list.toList();
        dropdownvalue = temp[0];
+       selected_range = RangeValues(minPrice, minPrice + (maxPrice - minPrice)/10);
+       selected_q_range = RangeValues(minQuantity, minQuantity + (maxQuantity - minQuantity)/10);
+
      });
    }
    @override
@@ -48,6 +64,7 @@ class _filter_listState extends State<filter_list> {
      setState(() {
        selected_value=value;
      });
+     widget.valFunc(value);
    }
    void selected_drop(String value){
      setState(() {
@@ -60,6 +77,13 @@ class _filter_listState extends State<filter_list> {
      setState(() {
        selected_range=values;
      });
+     widget.priceFunc(values);
+   }
+   void quantity_range(RangeValues values){
+     setState(() {
+       selected_q_range=values;
+     });
+     widget.quantityFunc(values);
    }
   @override
   Widget build(BuildContext context) {
@@ -158,7 +182,7 @@ class _filter_listState extends State<filter_list> {
               Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
               child: Text(
-                'Price',
+                'Sale Price',
                 style: GoogleFonts.lato(textStyle: TextStyle(color: Color.fromRGBO(11, 71, 109, 1.0)),fontSize: 18.0,),
               ),
             ),
@@ -231,24 +255,34 @@ class _filter_listState extends State<filter_list> {
                 ):
                 selected_value==3?
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  //crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Text(
-                    'Quantity',
-                    style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,fontSize: 16.0,fontWeight: FontWeight.bold)),
+                    Text(
+                      'Quantity',
+                      style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16.0,)),
                     ),
                     Container(
                       width: box_width,
                       height: box_height,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Type your input here',
-                          labelStyle: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,))
-                        ),
+                      child: RangeSlider(
+                          values: selected_q_range,
+                          min: 0,
+                          max: maxQuantity + 1,
+                          divisions: 20,
+                          activeColor: Color.fromRGBO(11, 71, 109, 1.0),
+                          //inactiveColor: Colors.red,
+                          labels: RangeLabels(
+                              selected_q_range.start.toInt().toString(),
+                              selected_q_range.end.toInt().toString()
+                          ),
+                          onChanged: (RangeValues values){
+                            quantity_range(values);
+                          }
+                        //Text('Hello',
                       ),
-                    )
-                ],):Text(''),
+                    ),
+                  ],
+                ):Text(''),
                 selected_value==2?
                 Container(
                   width: box_width,
@@ -323,13 +357,13 @@ class _filter_listState extends State<filter_list> {
                       child: RangeSlider(
                         values: selected_range,
                         min: 0,
-                        max: 100000,
-                        divisions: 10,
+                        max: maxPrice + 1,
+                        divisions: 20,
                         activeColor: Color.fromRGBO(11, 71, 109, 1.0),
                         //inactiveColor: Colors.red,
                         labels: RangeLabels(
-                          selected_range.start.toString(),
-                          selected_range.end.toString()
+                          'Rs. ' + selected_range.start.toInt().toString(),
+                          'Rs. ' + selected_range.end.toInt().toString()
                           ),
                         onChanged: (RangeValues values){
                           price_range(values);
@@ -353,9 +387,21 @@ class _filter_listState extends State<filter_list> {
 inventory_filter(context){
   final myModel = Provider.of<InventoryModel>(context, listen: false);
   var catVal;
+  var priceVals;
+  var quantityVals;
+  var filterVal;
   TextEditingController searchController = new TextEditingController();
+  Function valFunc(val){
+    filterVal = val;
+  }
   Function categoryFunc(text){
     catVal = text;
+  }
+  Function priceFunc(text){
+    priceVals = text;
+  }
+  Function quantityFunc(text){
+    quantityVals = text;
   }
   int filter_options=0;
     showModalBottomSheet(
@@ -414,7 +460,9 @@ inventory_filter(context){
                       indent: 24,
                       endIndent: 24,
                     ),
-                    filter_list(model:myModel, searchController: searchController, categoryFunc:categoryFunc),
+                    filter_list(model:myModel, searchController: searchController,
+                        categoryFunc:categoryFunc, priceFunc:priceFunc, valFunc: valFunc,
+                          quantityFunc: quantityFunc),
                   Container(
                     padding: EdgeInsets.fromLTRB(120, 20, 120, 50),
                     child: Material(
@@ -425,7 +473,11 @@ inventory_filter(context){
                       child: TextButton(
                         onPressed: () async {
                           var searchString = searchController.text.toString();
-                          myModel.filterItems(types:[5], searchText: searchString, categoryVal:catVal);
+                          myModel.filterItems(types:[filterVal],
+                              searchText: searchString,
+                              categoryVal:catVal,
+                              priceVals:priceVals,
+                              quantityVals: quantityVals);
                           Navigator.of(context).pop();
 
                         },

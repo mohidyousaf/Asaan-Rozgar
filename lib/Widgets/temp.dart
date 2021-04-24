@@ -22,6 +22,14 @@ class InventoryItem{
 class InventoryModel extends ChangeNotifier{
   List<InventoryItem> items = [];
   List<InventoryItem> displayItems = [];
+  get maxPrice => items.fold(items[0].price, (previous, current) =>
+  previous > current.price ? previous: current.price);
+  get minPrice => items.fold(items[0].price, (previous, current) =>
+  previous < current.price ? previous: current.price);
+  get maxQuantity => items.fold(items[0].quantity, (previous, current) =>
+  previous > current.quantity ? previous: current.quantity);
+  get minQuantity => items.fold(items[0].quantity, (previous, current) =>
+  previous < current.quantity ? previous: current.quantity);
   get getItems => displayItems.where((element) => element.display == true).toList();
   InventoryModel(){
     var initFuture = initializeCart();
@@ -47,7 +55,7 @@ class InventoryModel extends ChangeNotifier{
     });
     notifyListeners();
   }
-  filterItems({searchText, types, categoryVal}) async {
+  filterItems({searchText, types, categoryVal, priceVals, quantityVals}) async {
     if (types.contains(1)) {
       searchText = searchText.toLowerCase();
       displayItems = items;
@@ -73,16 +81,30 @@ class InventoryModel extends ChangeNotifier{
       });
     }
     else if (types.contains(3)){
-
+      displayItems = items;
+      displayItems.forEach((element) {
+        if (element.quantity > quantityVals.start && element.quantity < quantityVals.end) {
+          element.setBool(true);
+        }
+        else {
+          element.setBool(false);
+        }
+      });
     }
     else if (types.contains(4)){
-
+      displayItems = items;
+      displayItems.forEach((element) {
+        if (element.price > priceVals.start && element.price < priceVals.end) {
+          element.setBool(true);
+        }
+        else {
+          element.setBool(false);
+        }
+      });
     }
     else if (types.contains(5)){
       displayItems = items;
       displayItems.forEach((element) {
-        print(element.quantity);
-        print(element.lowStock);
         if (element.quantity > element.lowStock) {
           element.setBool(false);
         }
