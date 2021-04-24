@@ -38,7 +38,7 @@ import 'package:asaanrozgar/Add_Expenses2.dart';
 import 'package:asaanrozgar/Add_Expenses3.dart';
 import 'package:asaanrozgar/Parties_home.dart';
 import 'package:asaanrozgar/CashflowStatement.dart';
-
+import 'package:asaanrozgar/BalanceSheet.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,6 +58,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
+      //initialRoute: '/balanceSheet',
       // initialRoute: '/expenses1',
       debugShowCheckedModeBanner:false,
       routes: {
@@ -98,6 +99,7 @@ void main() async{
         '/itemReport': (context) => item_report(),
         '/partiesHome': (context) =>  partiesHome(),
         '/cashflow_report': (context) =>  CashflowReport(),
+        '/balanceSheet': (context) =>  BalanceReport(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
