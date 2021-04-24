@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'package:asaanrozgar/home.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/PartyNames.dart';
+import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 import 'DataBase.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -378,17 +379,17 @@ class _Reports1State extends State<Reports1> {
 
                         ],
                        ),
-                        // SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                         Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                          children: [
                          Text("Total Revenue",
                          style: TextStyle(
-                   color: Color.fromRGBO(11, 71, 109, 1),
-                   fontFamily: "Lato",
-                   fontWeight: FontWeight.bold,
-                   fontSize: 14,
-                    )
+                         color: Color.fromRGBO(11, 71, 109, 1),
+                         fontFamily: "Lato",
+                         fontWeight: FontWeight.bold,
+                         fontSize: 14,
+                         )
                          ),
                          Spacer(),
 
@@ -397,10 +398,10 @@ class _Reports1State extends State<Reports1> {
                              double revenue = model.totalRevenue;
                              return Text(revenue.toString(),
                                  style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontFamily: "Lato",
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 16,
                                  )
                              );
                            },
@@ -475,92 +476,108 @@ class _Reports1State extends State<Reports1> {
                                      );
                                    },
                                  ),
+                           Divider(),
 
                          ]
                          ),
-                       SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
-                       Row(
-                           children: [
-                             Text("Gross Profit",
-                                 style: TextStyle(
-                                   color: Color.fromRGBO(11, 71, 109, 1),
-                                   fontFamily: "Lato",
-                                   fontWeight: FontWeight.bold,
-                                   fontSize: 12,
-                                 )
-                             ),
-                             Spacer(),
-                             Consumer <IncomeModel> (
-                               builder: (context,model,child){
-                                 double expense= model.gross;
-                                 return Text(expense.toString(),
-                                     style: TextStyle(
-                                       color: Colors.black,
-                                       fontFamily: "Lato",
-                                       fontWeight: FontWeight.normal,
-                                       fontSize: 14,
-                                     )
-                                 );
-                               },
-                             ),
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
+                       Divider(),
+                       
+                       Container(
+                         padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
+                         child: Row(
 
-                           ]
+
+                             children: [
+
+                               Text("Gross Profit",
+                                   textAlign: TextAlign.center,
+                                   style: TextStyle(
+                                     color: Color.fromRGBO(11, 71, 109, 1),
+                                     fontFamily: "Lato",
+                                     fontWeight: FontWeight.bold,
+                                     fontSize: 12,
+                                   )
+                               ),
+                               Spacer(),
+                               Consumer <IncomeModel> (
+                                 builder: (context,model,child){
+                                   double expense= model.gross;
+                                   return Text(expense.toString(),
+                                       style: TextStyle(
+                                         color: Colors.black,
+                                         fontFamily: "Lato",
+                                         fontWeight: FontWeight.normal,
+                                         fontSize: 14,
+                                       )
+                                   );
+                                 },
+                               ),
+
+                             ]
+                         ),
                        ),
-                       Row(
-                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                           children: [
-                             Text("GST",
-                                 style: TextStyle(
-                                   color: Color.fromRGBO(11, 71, 109, 1),
-                                   fontFamily: "Lato",
-                                   fontWeight: FontWeight.bold,
-                                   fontSize: 12,
-                                 )
-                             ),
-                             Spacer(),
-                             Consumer <IncomeModel> (
-                               builder: (context,model,child){
-                                 double expense= model.GST;
-                                 return Text(expense.toString(),
-                                     style: TextStyle(
-                                       color: Colors.black,
-                                       fontFamily: "Lato",
-                                       fontWeight: FontWeight.normal,
-                                       fontSize: 14,
-                                     )
-                                 );
-                               },
-                             ),
+                       Container(
+                         padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
+                         child: Row(
+                           // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                             children: [
+                               Text("GST",
+                                   style: TextStyle(
+                                     color: Color.fromRGBO(11, 71, 109, 1),
+                                     fontFamily: "Lato",
+                                     fontWeight: FontWeight.bold,
+                                     fontSize: 12,
+                                   )
+                               ),
+                               Spacer(),
+                               Consumer <IncomeModel> (
+                                 builder: (context,model,child){
+                                   double expense= model.GST;
+                                   return Text(expense.toString(),
+                                       style: TextStyle(
+                                         color: Colors.black,
+                                         fontFamily: "Lato",
+                                         fontWeight: FontWeight.normal,
+                                         fontSize: 14,
+                                       )
+                                   );
+                                 },
+                               ),
 
-                           ]
+                             ]
+                         ),
                        ),
-                       Row(
-                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                           children: [
-                             Text("Net Profit",
-                                 style: TextStyle(
-                                   color: Color.fromRGBO(11, 71, 109, 1),
-                                   fontFamily: "Lato",
-                                   fontWeight: FontWeight.bold,
-                                   fontSize: 12,
-                                 )
-                             ),
-                             Spacer(),
-                             Consumer <IncomeModel> (
-                               builder: (context,model,child){
-                                 double expense= model.profit;
-                                 return Text(expense.toString(),
-                                     style: TextStyle(
-                                       color: Colors.black,
-                                       fontFamily: "Lato",
-                                       fontWeight: FontWeight.normal,
-                                       fontSize: 14,
-                                     )
-                                 );
-                               },
-                             ),
+                       Container(
+                         padding: EdgeInsets.fromLTRB(150, 0, 0, 0),
+                         child: Row(
+                           // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                             children: [
+                               Text("Net Profit",
+                                   style: TextStyle(
+                                     color: Color.fromRGBO(11, 71, 109, 1),
+                                     fontFamily: "Lato",
+                                     fontWeight: FontWeight.bold,
+                                     fontSize: 12,
+                                   )
+                               ),
+                               Spacer(),
+                               Consumer <IncomeModel> (
+                                 builder: (context,model,child){
+                                   double expense= model.profit;
+                                   return Text(expense.toString(),
+                                       style: TextStyle(
+                                         color: Colors.black,
+                                         fontFamily: "Lato",
+                                         fontWeight: FontWeight.bold,
+                                         fontSize: 14,
+                                       )
+                                   );
+                                 },
+                               ),
 
-                           ]
+                             ]
+                         ),
                        ),
                          SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
                          Divider(),

@@ -32,14 +32,15 @@ class _CashflowReportState extends State<CashflowReport> {
     'RENT': 1,
   };
   double netIncome = 12000;
-  int depreciation = 3000;
+  int depreciation = 0;
   double increaseAccPayable = 1000;
   double increaseAccRcv = 8000;
-  int increaseInventory = 7000;
-  int netCashOperations = 256000;
-  int purchaseEquipment = 1000;
-  int notesPayable = 2000;
-  int cashFlow = 244700;
+  double increaseInventory = 7000;
+  double netCashOperations = 256000;
+  double purchaseEquipment = 1000;
+  double notesPayable = 0;
+  double cashFlow = 244700;
+  List<report_items> objects=[];
 
 //  List<report_items> objects = [
 //     report_items(itemName: 'Mobile sale', price: 51000),
@@ -361,7 +362,7 @@ class _CashflowReportState extends State<CashflowReport> {
                                               style: TextStyle(
                                                 color: Colors.black,
                                                 fontFamily: "Lato",
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontSize: 15,
                                               ));
                                         },
@@ -404,7 +405,7 @@ class _CashflowReportState extends State<CashflowReport> {
                                       Spacer(),
                                       Text(depreciation.toString(),
                                           style: TextStyle(
-                                            color: Colors.black,
+                                            color: Colors.teal[900],
                                             fontFamily: "Lato",
                                             fontWeight: FontWeight.normal,
                                             fontSize: 15,
@@ -431,9 +432,9 @@ class _CashflowReportState extends State<CashflowReport> {
                                       Consumer<CashModel>(
                                         builder: (context,model,child){
                                           double increaseAccPayable = model.totalPayables;
-                                          return Text(increaseAccPayable.toString(),
+                                          return Text('+${increaseAccPayable.toString()}',
                                               style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.teal[900],
                                                 fontFamily: "Lato",
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 15,
@@ -482,9 +483,9 @@ class _CashflowReportState extends State<CashflowReport> {
                                       Consumer<CashModel>(
                                         builder: (context,model,child){
                                           increaseAccRcv= model.totalReceivables;
-                                          return   Text(increaseAccRcv.toString(),
+                                          return   Text('-${increaseAccRcv.toString()}',
                                               style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.red,
                                                 fontFamily: "Lato",
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 15,
@@ -508,13 +509,20 @@ class _CashflowReportState extends State<CashflowReport> {
                                             fontSize: 15,
                                           )),
                                       Spacer(),
-                                      Text(increaseInventory.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 15,
-                                          )),
+
+                                      Consumer <CashModel>(
+                                        builder: (context,model,child){
+                                          increaseInventory = model.totalInventoryCost;
+                                          return  Text('-${increaseInventory.toString()}',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15,
+                                              ));
+                                        },
+                                      )
+
                                     ],
                                   ),
 
@@ -533,13 +541,21 @@ class _CashflowReportState extends State<CashflowReport> {
                                               fontSize: 14,
                                             )),
                                         Spacer(),
-                                        Text(netCashOperations.toString(),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontFamily: "Lato",
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 14,
-                                            )),
+
+                                        Consumer<CashModel>(
+                                          builder : (context, model, child){
+                                            netCashOperations = model.netCashOp;
+                                            return Text(netCashOperations.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: "Lato",
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                ));
+
+                                          }
+                                        )
+
                                       ]),
                                 ],
                               ),
@@ -569,26 +585,19 @@ class _CashflowReportState extends State<CashflowReport> {
                                   ]),
                               Divider(),
 
-                              Row(
-                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  SizedBox(width: 5),
-                                  Text("Purchase of Equipment",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                      )),
-                                  Spacer(),
-                                  Text(purchaseEquipment.toString(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.normal,
-                                        fontSize: 15,
-                                      )),
-                                ],
+                              Consumer<CashModel>(
+                                builder: (context,model,child){
+                                  objects= model.objects;
+                                  return Container(
+                                    height: (objects.length > 2)? 80.0 :((objects.length)*50.0),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                          children: objects
+                                              .map((sub) => report_list(obj3: sub))
+                                              .toList()),
+                                    ),
+                                  );
+                                },
                               ),
                               //Financing
                               SizedBox(
@@ -697,10 +706,18 @@ class CashModel extends ChangeNotifier{
   double netIncome = 0;
   double payables = 0;
   double receivables = 0;
+  double inventoryCost = 0;
+  double netCash=0;
+  double cashFlow =0;
+  List<report_items> objects=[];
 
   get income => netIncome;
   get totalPayables => payables;
   get totalReceivables => receivables;
+  get totalInventoryCost => inventoryCost;
+  get netCashOp => netCash;
+  get assets => objects;
+  get totalCashFlow => cashFlow;
 
   CashModel() {
     var initFuture = getInformation();
@@ -718,7 +735,15 @@ class CashModel extends ChangeNotifier{
     var ls = await DBprovider.db.getPayableReceivable();
     payables = ls[0];
     receivables= ls[1];
+    inventoryCost = await DBprovider.db.getInventoryCost();
+    netCash = netIncome + payables - receivables - inventoryCost;
+    objects = await DBprovider.db.getAssets();
+
   }
+
+  
+
+
 
 }
 

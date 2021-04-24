@@ -150,7 +150,7 @@ class DBprovider{
               PartyID	INTEGER,
               ProductName	TEXT,
               ProductDescription	TEXT,
-              ProductPicture	TEXT,
+              ProductPicture	BLOB,
               TaxRate	REAL,
               SalePrice	REAL,
               MinStock	INTEGER,
@@ -273,22 +273,6 @@ class DBprovider{
     ) VALUES (?,?,?,?,?,?)
     ''', [partyID, product.itemName, categoryTag, salePrice, taxRate, minStock]);
 
-      //productID
-      // var productQuery = (await db.query(
-      // 'inventory',
-      // columns: ['ProductID'],
-      // where: 'ProductName = ?',
-      // whereArgs: [product.itemName])).forEach((element) {
-      // productID = element['ProductID'];
-      // });
-
-      //adding in purchase
-    //   var res2 = await db.rawInsert('''
-    // INSERT INTO purchases(
-    //   ProductID,PurchasePrice,Quantity
-    // ) VALUES (?,?,?)
-    // ''', [productID, product.price, product.quantity]);
-    //   print('Added');
     });
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -446,6 +430,7 @@ class DBprovider{
     // print('update company  balance is: $updated');
 
     }
+
   addTransaction() async{
 
   }
@@ -519,6 +504,7 @@ class DBprovider{
     var newBalance = companyBalance - double.parse(value);
     updateBalance(accountName:null, name:companyName, balance: newBalance);
   }
+
   addEquity(name, amount){
     return name;
   }
@@ -563,6 +549,7 @@ class DBprovider{
     var newBalance = companyBalance - double.parse(amount);
     updateBalance(accountName:null, name:companyName, balance: newBalance);
   }
+
   addParty(partyType, partyName,partyDescription,emailAddress,contactNo,accountNo,payable,receivable) async{
 
     final db = await database;
@@ -633,6 +620,7 @@ class DBprovider{
     });
     return list;
   }
+
   getTransactionList() async{
     final db = await database;
     var res = await db.query('transactions',
@@ -645,6 +633,7 @@ class DBprovider{
     });
     return list;
   }
+
   getExpensesList() async{
     final db = await database;
     var res = await db.query('transactions',
@@ -657,6 +646,7 @@ class DBprovider{
     });
     return list;
   }
+
   getSalePurchaseList() async{
     final db = await database;
     var res = await db.query('transactions',
@@ -669,6 +659,7 @@ class DBprovider{
     });
     return list;
   }
+
   getItemList(name) async{
 
     final db =await database;
@@ -714,6 +705,7 @@ class DBprovider{
     return parties;
 
   }
+
   getInventory() async{
 
     final db =await database;
@@ -842,6 +834,7 @@ class DBprovider{
     });
     return details;
   }
+
   getTransactions() async{
     List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
     Map<String, SaleExpense> list = {};
@@ -1029,40 +1022,87 @@ class DBprovider{
     return totalCost;
   }
 
-
   getPayableReceivable()async{
 
-    List<double> pr= [0,0];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var companyName = prefs.getString('companyName');
     double payable=0;
     double receivable=0;
     final db= await database;
 
 
-    var payableQuery = await db.rawQuery('''
-        SELECT Payable,Receivable
-        FROM parties
+    var companyQuery = await db.rawQuery('''
+        SELECT TotalPayable,TotalReceivable
+        FROM company
       ''');
 
-    print(payableQuery);
-
-    payableQuery.forEach((element) {
-      var temp = element['Payable'];
+    companyQuery.forEach((element) {
+      var temp = element['TotalPayable'];
       // double temp3= double.parse(temp);
       print(temp);
       payable += temp;
 
 
-      var temp2 = element['Receivable'];
+      var temp2 = element['TotalReceivable'];
       print(temp2);
       receivable += temp2;
 
     });
 
+
+
     print('in Db pr is $payable $receivable');
     return [payable,receivable];
   }
 
+  getInventoryCost()async{
 
+    final db= await database;
+    double totalCost = 0;
 
+    var temp = await db.rawQuery('''
+        SELECT ProductID
+        FROM inventory
+      ''');
 
+    print(temp);
+    await Future.wait(temp.map((element)async{
+
+      var temp2= await db.rawQuery('''
+        SELECT Quantity,PurchasePrice
+        FROM purchases
+        where ProductID = ?        
+      ''',[element['ProductID']]);
+
+      print(temp2);
+
+      temp2.forEach((element2) {
+        int quantity =element2['Quantity'];
+        double price = element2['PurchasePrice'];
+        double val =  price * quantity;
+        totalCost += val;
+      });
+
+    }));
+    print('total cost is $totalCost');
+    return totalCost;
+  }
+
+  getAssets()async{
+    final db= await database;
+    List<report_items> objects=[];
+
+    var temp = await db.rawQuery('''
+        SELECT Type,Value
+        FROM assets
+      ''');
+
+    temp.forEach((element) {
+      double val = element['Value'];
+      objects.add(new report_items(itemName: element['Type'], price: val.toInt()));
+    });
+
+    print(objects);
+    return objects;
+  }
 }
