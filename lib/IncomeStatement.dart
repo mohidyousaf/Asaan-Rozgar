@@ -16,6 +16,7 @@ import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/DataBase.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/ReportsMenu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // void main() => runApp(MaterialApp(home: Reports1()));
@@ -366,9 +367,9 @@ class _Reports1State extends State<Reports1> {
                                height: (objects.length > 2)? 80.0 :((objects.length)*50.0),
                                child: SingleChildScrollView(
                                  child: Column(
-                    children: objects
-                        .map((sub) => report_list(obj3: sub))
-                        .toList()),
+                                  children: objects
+                                      .map((sub) => report_list(obj3: sub))
+                                      .toList()),
                                ),
                              );
                            },
@@ -377,7 +378,7 @@ class _Reports1State extends State<Reports1> {
 
                         ],
                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
+                        // SizedBox(height: MediaQuery.of(context).size.height * 0.03,),
                         Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
                          children: [
@@ -454,30 +455,113 @@ class _Reports1State extends State<Reports1> {
                          children: [
                          Text("Total Expense",
                          style: TextStyle(
-                   color: Color.fromRGBO(11, 71, 109, 1),
-                   fontFamily: "Lato",
-                   fontWeight: FontWeight.bold,
-                   fontSize: 14,
-                    )
-                         ),
-                         Spacer(),
-
-                         Consumer <IncomeModel> (
-                           builder: (context,model,child){
-                             double expense= model.totalExpense;
-                             return Text(expense.toString(),
-                                 style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                                 )
-                             );
-                           },
-                         ),
+                           color: Color.fromRGBO(11, 71, 109, 1),
+                           fontFamily: "Lato",
+                           fontWeight: FontWeight.bold,
+                           fontSize: 14,
+                            )
+                                 ),
+                                 Spacer(),
+                                 Consumer <IncomeModel> (
+                                   builder: (context,model,child){
+                                     double expense= model.totalExpense;
+                                     return Text(expense.toString(),
+                                         style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: "Lato",
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 16,
+                                         )
+                                     );
+                                   },
+                                 ),
 
                          ]
                          ),
+                       SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
+                       Row(
+                           children: [
+                             Text("Gross Profit",
+                                 style: TextStyle(
+                                   color: Color.fromRGBO(11, 71, 109, 1),
+                                   fontFamily: "Lato",
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 12,
+                                 )
+                             ),
+                             Spacer(),
+                             Consumer <IncomeModel> (
+                               builder: (context,model,child){
+                                 double expense= model.gross;
+                                 return Text(expense.toString(),
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontFamily: "Lato",
+                                       fontWeight: FontWeight.normal,
+                                       fontSize: 14,
+                                     )
+                                 );
+                               },
+                             ),
+
+                           ]
+                       ),
+                       Row(
+                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                           children: [
+                             Text("GST",
+                                 style: TextStyle(
+                                   color: Color.fromRGBO(11, 71, 109, 1),
+                                   fontFamily: "Lato",
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 12,
+                                 )
+                             ),
+                             Spacer(),
+                             Consumer <IncomeModel> (
+                               builder: (context,model,child){
+                                 double expense= model.GST;
+                                 return Text(expense.toString(),
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontFamily: "Lato",
+                                       fontWeight: FontWeight.normal,
+                                       fontSize: 14,
+                                     )
+                                 );
+                               },
+                             ),
+
+                           ]
+                       ),
+                       Row(
+                         // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                           children: [
+                             Text("Net Profit",
+                                 style: TextStyle(
+                                   color: Color.fromRGBO(11, 71, 109, 1),
+                                   fontFamily: "Lato",
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 12,
+                                 )
+                             ),
+                             Spacer(),
+                             Consumer <IncomeModel> (
+                               builder: (context,model,child){
+                                 double expense= model.profit;
+                                 return Text(expense.toString(),
+                                     style: TextStyle(
+                                       color: Colors.black,
+                                       fontFamily: "Lato",
+                                       fontWeight: FontWeight.normal,
+                                       fontSize: 14,
+                                     )
+                                 );
+                               },
+                             ),
+
+                           ]
+                       ),
                          SizedBox(height: MediaQuery.of(context).size.height * 0.005,),
                          Divider(),
                          SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
@@ -519,14 +603,21 @@ class IncomeModel extends ChangeNotifier {
   double revenue =  0.0;
   double expense = 0.0;
   int opexRatio = 0;
+  double grossProfitRatio= 0;
   double grossProfit= 0;
+  double gst= 0;
+  double netProfit = 0;
+
 
   get saleItems => objects;
   get expenseItems => objects2;
   get totalRevenue => revenue;
   get totalExpense => expense;
   get totalOpex => opexRatio;
-  get totalGross=> grossProfit;
+  get totalGross=> grossProfitRatio;
+  get gross => grossProfit;
+  get GST => gst;
+  get profit => netProfit;
 
   IncomeModel() {
     var initFuture = getSaleItems();
@@ -539,6 +630,8 @@ class IncomeModel extends ChangeNotifier {
     objects = await DBprovider.db.getSaleItems();
     objects2= await DBprovider.db.getExpenseItems();
     totalGoodsCost = await DBprovider.db.getTotalCost();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
 
     objects.forEach((element) {
       revenue += element.price;
@@ -551,11 +644,12 @@ class IncomeModel extends ChangeNotifier {
     print(objects2);
 
     opexRatio = (expense ~/ revenue).toInt();
+    grossProfit = revenue - expense;
+    grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100;
+    gst = 16/100 * revenue;
+    netProfit= grossProfit - gst;
 
-    //TODO : CALCULATE GROSS PROFIT MARGIN HERE
-
-    grossProfit = (revenue - totalGoodsCost)/(revenue) * 100;
-    print('gross profit is $grossProfit');
+    prefs.setDouble('netIncome',netProfit);
 
   }
 }

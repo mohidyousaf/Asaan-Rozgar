@@ -187,7 +187,7 @@ class CatalogModel extends ChangeNotifier{
     });
   }
   initializeCart() async{
-    items = await DBprovider.db.getItemList(partyName);
+    items = await DBprovider.db.getInventory();
     displayItems = items;
   }
   searchItems(text) async{

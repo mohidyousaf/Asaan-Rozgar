@@ -1029,4 +1029,40 @@ class DBprovider{
     return totalCost;
   }
 
+
+  getPayableReceivable()async{
+
+    List<double> pr= [0,0];
+    double payable=0;
+    double receivable=0;
+    final db= await database;
+
+
+    var payableQuery = await db.rawQuery('''
+        SELECT Payable,Receivable
+        FROM parties
+      ''');
+
+    print(payableQuery);
+
+    payableQuery.forEach((element) {
+      var temp = element['Payable'];
+      // double temp3= double.parse(temp);
+      print(temp);
+      payable += temp;
+
+
+      var temp2 = element['Receivable'];
+      print(temp2);
+      receivable += temp2;
+
+    });
+
+    print('in Db pr is $payable $receivable');
+    return [payable,receivable];
+  }
+
+
+
+
 }
