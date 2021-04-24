@@ -660,13 +660,19 @@ class _CashflowReportState extends State<CashflowReport> {
                                           fontSize: 14,
                                         )),
                                     Spacer(),
-                                    Text(cashFlow.toString(),
-                                        style: TextStyle(
-                                          color: Color.fromRGBO(11, 71, 109, 1),
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
-                                        )),
+
+                                    Consumer<CashModel>(
+                                      builder: (context,model,child){
+                                        cashFlow = model.totalCashFlow;
+                                        return Text(cashFlow.toString(),
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(11, 71, 109, 1),
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            ));
+                                      },
+                                    )
                                   ]),
                               Divider(),
 
@@ -717,7 +723,7 @@ class CashModel extends ChangeNotifier{
   get totalInventoryCost => inventoryCost;
   get netCashOp => netCash;
   get assets => objects;
-  get totalCashFlow => cashFlow;
+  get totalCashFlow => objects.fold(netCash , (total, current) => total - (current.price));
 
   CashModel() {
     var initFuture = getInformation();
@@ -739,9 +745,11 @@ class CashModel extends ChangeNotifier{
     netCash = netIncome + payables - receivables - inventoryCost;
     objects = await DBprovider.db.getAssets();
 
+
+
   }
 
-  
+
 
 
 
