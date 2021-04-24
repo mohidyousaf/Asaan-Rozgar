@@ -119,7 +119,7 @@ class _Sale3State extends State<Sale3> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 20,),
-                          Text("Purchase Price:",
+                          Text("Sale Price:",
                               style: TextStyle(
                                 fontFamily: "Lato",
                                 fontWeight: FontWeight.w500,
@@ -128,7 +128,7 @@ class _Sale3State extends State<Sale3> {
                               )),
                           Row(
                             children: [
-                              Text("Rs.",
+                              Text("Rs. ${widget.object.price.toString()}",
                                   style: TextStyle(
                                     fontFamily: "Lato",
                                     fontWeight: FontWeight.w500,
@@ -136,19 +136,9 @@ class _Sale3State extends State<Sale3> {
                                     color: Colors.black54,
                                   )),
                               SizedBox(width: 10,),
-                              Container(
+                                Container(
+                                height: 30,
                                 width: MediaQuery.of(context).size.width * 0.7,
-                                child: TextFormField(
-                                  controller: price,
-                                  decoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
-                                    ),
-                                  ),
-                                ),
                               ),
                             ],
                           ),
@@ -170,7 +160,7 @@ class _Sale3State extends State<Sale3> {
                                     try{
                                       setState(() {
                                         total = int.parse(quantity) *
-                                            int.parse(price.text);
+                                            widget.object.price;
                                       });
                                     }
                                     catch(e){
@@ -230,13 +220,12 @@ class _Sale3State extends State<Sale3> {
                     FlatButton(
                         onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          int temp1 = int.parse(price.text);
                           int temp2 = int.parse(quantity.text);
                           //TODO: HAVE TO CHANGE STATE OF CATALOG HERE (CONSUMER)
                           Provider.of<CartModel>
                             (context, listen: false).addItems(new addItem(
                               itemName: this.name,
-                              price: temp1,
+                              price: widget.object.price,
                               quantity: temp2,
                               image: 'image'));
                           widget.func(screenName: 'catalog');

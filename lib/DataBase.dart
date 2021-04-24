@@ -877,9 +877,6 @@ class DBprovider{
               objects.add(new report_items(itemName: element3['ProductName'],price: total.toInt()));
 
         });
-        print('objects');
-        print(objects[0].itemName);
-        print(objects[0].price);
       }));
     }));
 
@@ -893,5 +890,81 @@ class DBprovider{
     return objects;
   }
 
+  getExpenseItems()async{
+
+    List<report_items> objects=[];
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT ExpenseID, Type
+        FROM expenses
+      ''');
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+
+      var amount;
+      var transactionIDquery = await db.rawQuery('''
+        SELECT Amount
+        FROM transactions
+        WHERE ExpenseID=?
+      ''',[element['ExpenseID']]);
+
+
+      transactionIDquery.forEach((element2) {
+        amount = element2['Amount'];
+        print('amount');
+        print(amount);
+        objects.add(new report_items(itemName: element['Type'], price: amount.toInt()));
+      });
+
+      print('expenses in db');
+      print(objects[0].itemName);
+      print(objects[0].price);
+
+    }));
+
+    return objects;
+  }
+
+  getTotalCost()async{
+
+    final db= await database;
+    double totalCost = 0;
+    var temp = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['sale']);
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''', [element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async {
+        int quantity = element2['Quantity'];
+        double purchasePrice =0;
+        var purchaseQuery = await db.rawQuery('''
+        SELECT PurchasePrice
+        FROM purchases
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        purchaseQuery.forEach((element3) {
+          purchasePrice = element3['PurchasePrice'];
+          double total = purchasePrice * quantity;
+          print(total);
+          totalCost+= total;
+        });
+      }));
+    }));
+
+    return totalCost;
+  }
 
 }

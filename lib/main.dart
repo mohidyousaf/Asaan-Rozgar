@@ -58,7 +58,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      initialRoute: '/expenses1',
+      // initialRoute: '/expenses1',
       debugShowCheckedModeBanner:false,
       routes: {
         '/': (context) => loggedIn != null ? (onBoarding != null ? MyApp() : Onboarding()): SignUp(),
