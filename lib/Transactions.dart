@@ -59,7 +59,7 @@ class _transactionsState extends State<transactions> {
                         builder:(context, transaction, child){
                           return TextField(
                             onChanged: (text){
-                              // transaction.searchItems(text);
+                              transaction.searchItems(currentState, text);
                             },
                             decoration: InputDecoration(
                               suffixIcon: Icon(Icons.search),
@@ -143,7 +143,6 @@ class _transactionsState extends State<transactions> {
                       child: Column(
                         children: [
                           report_model(currentState),
-                          currentState == 1? expenses_head(context): sale_purchase_head(context),
                           Consumer<TransactionModel>(builder: (context, transactions, child) {
                             return Stack(
                                 children: <Widget>[
@@ -296,19 +295,31 @@ class TransactionModel extends ChangeNotifier{
     }
     notifyListeners();
   }
-  searchItems(text) async{
+  searchItems(type, text) async{
     print(text);
     text = text.toLowerCase();
-    print('before $items');
     RegExp match = new RegExp('^$text');
-    items.forEach((element) {
-      if (!match.hasMatch(element.name.toLowerCase())){
-        element.setBool(false);
-      }
-      else{
-        element.setBool(true);
-      }
-    });
+    if (type == 0 || type == 2){
+      items.forEach((element) {
+        if (!match.hasMatch(element.name.toLowerCase())){
+          element.setBool(false);
+        }
+        else{
+          element.setBool(true);
+        }
+      });
+    }
+    else{
+      expenseItems.forEach((element) {
+        if (!match.hasMatch(element.type.toLowerCase())){
+          element.setBool(false);
+        }
+        else{
+          element.setBool(true);
+        }
+      });
+    }
+
     print('after $items');
     notifyListeners();
   }

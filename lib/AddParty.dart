@@ -25,7 +25,7 @@ class _AddPartyState extends State<AddParty> {
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode autoValid = AutovalidateMode.disabled;
   String selected_drop;
-  var balance=['None','Paid','Unpaid'];
+  var balance=['Vendor','Customer','ShareHolder'];
   @override
   void initState(){
     super.initState();
@@ -45,17 +45,17 @@ class _AddPartyState extends State<AddParty> {
     double box_height=phone_height*0.044;
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+        primaryColor: Color.fromRGBO(109, 11, 93, 1.0),
         accentColor: Colors.white,
         textTheme: GoogleFonts.latoTextTheme(),
       ),
 
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+        backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
 
         appBar: AppBar(
           elevation: 0,
-          backgroundColor:Color.fromRGBO(11, 71, 109, 1.0),
+          backgroundColor:Color.fromRGBO(109, 11, 93, 1.0),
           centerTitle: true,
           leading: IconButton(
             onPressed: () {
@@ -80,7 +80,7 @@ class _AddPartyState extends State<AddParty> {
               height: 250,
               width: 420,
               decoration: BoxDecoration(
-                  color: Color.fromRGBO(11, 71, 109, 1.0),
+                  color: Color.fromRGBO(109, 11, 93, 1.0),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.elliptical(20.0, -20.0),
                       bottomRight: Radius.circular(0)
@@ -207,7 +207,7 @@ class _AddPartyState extends State<AddParty> {
                                   onPressed: () async{
                                     if (_formKey.currentState.validate()) {
                                       var temp = await DBprovider.db.addParty(
-                                          partyType.text.toString(),
+                                          selected_drop,
                                           partyName.text.toString(),
                                           partyDescription.text.toString(),
                                           emailAddress.text.toString(),

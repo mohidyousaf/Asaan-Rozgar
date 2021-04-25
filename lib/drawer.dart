@@ -18,6 +18,7 @@ import 'package:asaanrozgar/AddLoan-1.dart';
 import 'package:asaanrozgar/AddParty.dart';
 import 'package:asaanrozgar/Add_Expenses1.dart';
 import 'package:asaanrozgar/Add_Expenses2.dart';
+import 'package:asaanrozgar/Parties_home.dart';
 
 
 class drawer extends StatefulWidget {
@@ -42,7 +43,7 @@ class _drawerState extends State<drawer> {
 
   getBalance()async{
 
-    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: null);
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: 'Standard Chartered');
     temp.forEach((element) {
       setState(() {
         print(element['Balance']);
@@ -166,7 +167,7 @@ class _drawerState extends State<drawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => AddParty()
+                      builder: (BuildContext context) => partiesHome()
                       )
                    );
                 },

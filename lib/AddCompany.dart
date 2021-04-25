@@ -101,6 +101,12 @@ class _AddAccountsState extends State<AddCompany> {
                                     TotalReceivable.text.toString(),
                                     EmailAddress.text.toString(),
                                     CompanyNo.text.toString());
+                                var temp2 = await DBprovider.db.addAccount(
+                                    CompanyName.text.toString(),
+                                    "Default",
+                                    "Cash",
+                                    "None",
+                                    0);
 
                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                 prefs.setString('companyName', CompanyName.text.toString());

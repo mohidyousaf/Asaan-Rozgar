@@ -1,5 +1,6 @@
 //import 'dart:js';
 
+import 'package:asaanrozgar/Parties2.dart';
 import 'package:asaanrozgar/onboarding.dart';
 import 'package:flutter/material.dart';
 // import 'DataBase.dart';
@@ -72,6 +73,7 @@ void main() async{
         '/addAccount': (context) => AddAccounts(),
         '/addParty': (context) => AddParty(),
         '/party': (context) => Parties(),
+        '/order': (context) => PaymentDetail(),
         '/addEquity': (context) => AddEquities(),
         '/addAssets': (context) => AddAssets(),
         '/addLoan1': (context) => AddLoans(),

@@ -382,7 +382,7 @@ class Partners extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: list.map((item) => ListItem(name:item['name'], amount:item['amount'])).toList()
+        children: list.map((item) => ListItem(route:'/party', name:item['name'], amount:item['amount'])).toList()
     );
   }
 }
@@ -395,6 +395,7 @@ class Transactions extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
           children: list.map((item) => ListItem(
+            route: '/order',
             name:item['type'],
             amount:item['amount'],
             date:item['date'],)).toList()
@@ -405,10 +406,12 @@ class Transactions extends StatelessWidget {
 
 class ListItem extends StatelessWidget {
 
-  const ListItem({this.name, this.amount, this.date});
+  const ListItem({this.name, this.amount, this.date, this.route, this.order});
   final name;
   final amount;
   final date;
+  final route;
+  final order;
   @override
   Widget build(BuildContext context) {
     return  Slidable(
@@ -424,13 +427,13 @@ class ListItem extends StatelessWidget {
       ],
       child: TextButton(
         onPressed: ()=> {
-          Navigator.pushNamed(context, '/party', arguments:
+          Navigator.pushNamed(context, route, arguments:
           {'name': name})
         },
         child: Column(
             children: [
                 ListTile(
-                  title: Text(name,
+                  title: Text(order != null ? 'Order No. $name':name,
                   style:TextStyle(
                       fontFamily: "Lato",
                       fontWeight: FontWeight.normal,

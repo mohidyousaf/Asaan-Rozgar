@@ -32,17 +32,17 @@ class sale_purchase_lis extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.only(left:25.0),
                           child: Column(children:[
-                            Text(item.date, style: GoogleFonts.lato(fontSize: 14.0)
+                            Text(item.date.toString(), style: GoogleFonts.lato(fontSize: 14.0)
                             )]),
                         ),  
                         Column(children:[
                           Text(item.name, style: GoogleFonts.lato(fontSize: 14.0)
                           )]),  
                         Column(children:[
-                          Text(item.quantity, style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.quantity.toString(), style: GoogleFonts.lato(fontSize: 14.0)
                           )]),
                         Column(children:[
-                          Text(item.price, style: GoogleFonts.lato(fontSize: 14.0)
+                          Text(item.price.toString(), style: GoogleFonts.lato(fontSize: 14.0)
                           )]),  
                       ]), 
              ],
@@ -85,7 +85,7 @@ class expenses_lis extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.only(left:25.0),
                           child: Column(children:[
-                            Text(item.date, style: GoogleFonts.lato(fontSize: 14.0)
+                            Text(item.date.toString(), style: GoogleFonts.lato(fontSize: 14.0)
                             )]),
                         ),    
                         Column(children:[
