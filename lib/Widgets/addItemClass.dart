@@ -51,3 +51,18 @@ class report_items extends StatelessWidget {
     return Container();
   }
 }
+
+
+class inventory_items extends StatelessWidget {
+  
+  final String itemName;
+  final double profit_loss;
+  final double sale;
+
+  inventory_items({this.itemName,this.profit_loss, this.sale});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

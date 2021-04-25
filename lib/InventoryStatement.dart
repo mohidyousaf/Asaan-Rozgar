@@ -16,7 +16,7 @@ import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/drawer.dart';
 
 
-// void main() => runApp(MaterialApp(home: InventoryReport()));
+ void main() => runApp(MaterialApp(home: InventoryReport()));
 
 class InventoryReport extends StatefulWidget {
   @override
@@ -29,11 +29,11 @@ class _InventoryReportState extends State<InventoryReport> {
     'TOILETERIES': 1,
     'SHOES': 1,
   };
- List<report_items> objects = [
-    report_items(itemName: 'Mobile sale', price: 51000),
-    report_items(itemName: 'Bag Sale', price: 5000),
-    report_items(itemName: 'Camera Sale', price: 150000),
-    report_items(itemName: 'Merchandise Sale', price: 50000),
+ List<inventory_items> objects = [
+    inventory_items(itemName: 'Mobile sale', profit_loss: 120, sale: 12),
+    inventory_items(itemName: 'Bag Sale', profit_loss: 12, sale: 12),
+    inventory_items(itemName: 'Camera Sale', profit_loss: 1200, sale: 12 ),
+    inventory_items(itemName: 'Merchandise Sale', profit_loss: 120, sale: 12 ),
   ];
   List<Color> colorsList = [
     Color.fromRGBO(136, 182, 211, 1),
@@ -212,7 +212,7 @@ class _InventoryReportState extends State<InventoryReport> {
                                     //   ),
                                     // ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left:30.0),
+                                      padding: const EdgeInsets.only(left:20.0),
                                       child: pieChartOne(context, dataMap, colorsList),
                                     ),
                     
@@ -263,50 +263,6 @@ class _InventoryReportState extends State<InventoryReport> {
                                      )
                        ),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                        Row(
-                          children: [
-                            SizedBox(width: 10,),
-                            Text("To: ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(107, 143, 165, 0.7),
-                            )),
-                            Text("16/11/2000",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                )),
-                                SizedBox(width: 3,),
-                                Icon(Icons.calendar_today_rounded,
-                                color: Color.fromRGBO(11, 71, 109, 1.0),
-                                size: 15,),
-                            Spacer(),
-                            Text("From: ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(107, 143, 165, 0.7),
-                            )),
-                            Text("16/11/2000",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                )),
-                                SizedBox(width: 3,),
-                                Icon(Icons.calendar_today_rounded,
-                                color: Color.fromRGBO(11, 71, 109, 1.0),
-                                size: 15,),
-                                SizedBox(width: 10,)
-                          ],
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
           //ASSETS
                       Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -341,159 +297,15 @@ class _InventoryReportState extends State<InventoryReport> {
                        ]
                     ),
                   Divider(),
-                      //  Column(
-                      //     children:[
-                            
-                      //       ]
-                     
-                      //  ),
-
-
-                  
-                 
-                  
-            // Container is Each Category of the Inventory
-                Container(  
-                  child: Column(
-                    children: [
-                        Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5, left: 5),
-                        child: Text("Bags",
-                           style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                   )
-                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                    
-                     SizedBox(width: 5),
-                     
-                     Text("Camel Travel Bag",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
-                      Spacer(),
-                     Text("1200",
-                     style: TextStyle(
-                       
-                                color: Color.fromRGBO(46, 189, 133, 1),
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
-                     Spacer(),
-                     Text("+16%",
-                     style: TextStyle(
-                                color:Color.fromRGBO(46, 189, 133, 1),
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
-                   ],
-                   ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 8),
-                 Container(  
-                  child: Column(
-                    children: [
-                        Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5, left: 5),
-                        child: Text("Shoes",
-                           style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                   )
-                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                    
-                     SizedBox(width: 5),
-                     
-                     Text("Nike Shoes",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
-                      Spacer(),
-                     Text("1500",
-                     style: TextStyle(
-                     
-                                color: Color.fromRGBO(245, 70, 93, 1),
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
-                     Spacer(),
-                     Text("-0.8%",
-                     style: TextStyle(
-                                color:Color.fromRGBO(245, 70, 93, 1),
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
-                   ],
-                   ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 8),
-                 
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                   
+            // Columnn displays each item of the Inventory
                 
-          //Total: Needed to be change here
-            // Row(
-            //           // mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //            children:[
-                         
-            //            Text("TOTAL LIABILITIES AND EQUITY",
-            //            style: TextStyle(
-            //                       color: Color.fromRGBO(11, 71, 109, 1),
-            //                       fontFamily: "Lato",
-            //                       fontWeight: FontWeight.w700,
-            //                       fontSize: 16,
-            //                        )
-            //            ),
-            //            Spacer(),
-            //            Text("28000",
-            //            style: TextStyle(
-            //                       color: Color.fromRGBO(11, 71, 109, 1),
-            //                       fontFamily: "Lato",
-            //                       fontWeight: FontWeight.bold,
-            //                       fontSize: 16,
-            //                        )
-            //            ),
-            //            ]
-            //            ),
-                     
+                Column(
+                      children: objects
+                          .map((sub) => inventory_list(obj4: sub))
+                          .toList()),
+                
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
                        FlatButton(
