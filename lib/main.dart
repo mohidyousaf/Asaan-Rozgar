@@ -60,7 +60,7 @@ void main() async{
 
   print(loggedIn);
   runApp(MaterialApp(
-      //initialRoute: '/balanceSheet',
+      initialRoute: '/InventoryReport',
       // initialRoute: '/expenses1',
       debugShowCheckedModeBanner:false,
       routes: {
