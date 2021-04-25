@@ -20,6 +20,7 @@ class _AddAssetsState extends State<AddAssets> {
   void initState(){
     super.initState();
     selected_drop=asset_type[0];
+
   }
   void select_dropdown(String val){
     setState(() {
@@ -68,8 +69,8 @@ class _AddAssetsState extends State<AddAssets> {
                     SizedBox(height: 10),
                     InputTextFields(label:'Description', controller: Description),
                     SizedBox(height: 10),
-                    InputTextFields(label: 'Type', controller: Type),
-                    SizedBox(height: 10),
+                    // InputTextFields(label: 'Type', controller: Type),
+                    // SizedBox(height: 10),
                     InputTextFields(label:'Value', controller: Value),
                     SizedBox(height: 10),
                     Column(
@@ -123,7 +124,7 @@ class _AddAssetsState extends State<AddAssets> {
                         elevation: 7.0,
                         child: TextButton(
                           onPressed: () async {
-                            var temp = await DBprovider.db.addAssets(Name.text.toString(), Description.text.toString(), Type.text.toString(), Value.text.toString());
+                            var temp = await DBprovider.db.addAssets(Name.text.toString(), Description.text.toString(),selected_drop, Value.text.toString());
                             Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                             print(temp);
                             },

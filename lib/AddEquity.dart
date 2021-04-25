@@ -69,6 +69,7 @@ class _AddEquitiesState extends State<AddEquities> {
                           onPressed: () async {
                             var temp = await DBprovider.db.addEquity(Name.text.toString(), Amount.text.toString());
                             print(temp);
+                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                             },
                           child: Center(
                             child: Text(
