@@ -1371,4 +1371,31 @@ class DBprovider{
       updateBalance(accountName: accountName, name:companyName, balance:companyBalance- double.parse(received));
     }
   }
+  getAccountBalances()async{
+    final db = await database;
+    var accounts = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [name])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+    var temp = await db.rawQuery('''
+        SELECT *
+        FROM accounts
+        WHERE CompanyID = ?
+    ''', [companyID]);
+    Future.wait(temp.map((element) async{
+      accounts.add({
+        'name':element['BankName'],
+        'balance':element['Balance']
+      });
+    }));
+    print(accounts);
+    return accounts;
+  }
 }
