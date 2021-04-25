@@ -10,11 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:asaanrozgar/Widgets/SaleExpense.dart';
 import 'package:asaanrozgar/Transactions.dart';
-<<<<<<< HEAD
-=======
-import 'package:asaanrozgar/Parties.dart';
 
->>>>>>> 72c891c785ac6acf62e8e67486cf5668863af44c
+import 'package:asaanrozgar/Parties.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 
