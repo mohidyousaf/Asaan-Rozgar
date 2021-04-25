@@ -129,131 +129,52 @@ class itemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.04,
-        ),
-        Text('img'),
-        // Image(image: AssetImage('assets/Plus.png'),height: 50.0,width: 50.0,),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.04),
-        Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text('>',
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              // fontWeight:
-                              // FontWeight.w600,
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(38, 51, 58, 1.0),
-                            )),
-                        Text(" ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(38, 51, 58, 1.0),
-                            )),
-                        Text(obj.itemName.toString(),
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(38, 51, 58, 1.0),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Item Subtotal",
-                        style: TextStyle(
+    return Container(
+      padding: EdgeInsets.only(left:5, right: 5),
+      child:
+          Column(
+            children: [
+              ListTile(
+                leading: Text('img'),
+                title: Text('${obj.itemName}',
+                  style:TextStyle(
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.normal,
+                    fontSize: 17.0,
+                    color: Color.fromRGBO(38, 51, 58, 1.0),
+                  ),
+                ),
+                subtitle: Text(' Item Subtotal'),
+                trailing:
+                Padding(
+                  padding: const EdgeInsets.only(top:8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text((obj.price * obj.quantity).toString(),
+                        style:TextStyle(
                           fontFamily: "Lato",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(38, 51, 58, 0.6),
-                        )),
-                  ],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                          color: Color.fromRGBO(11, 71, 109, 1.0)
+                        ),
+                      ),
+                      Text('${obj.quantity} x Rs. ${obj.price}',
+                        style:TextStyle(
+                          fontFamily: "Lato",
+                          fontWeight: FontWeight.w100,
+                          fontSize: 13.0,
+                          color: Colors.grey[500]//parties
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 20),
-              ],
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.25),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        Text((obj.quantity * obj.price).toString(),
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(11, 71, 109, 1.0),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text((obj.quantity).toString(),
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(38, 51, 58, 0.6),
-                            )),
-                        Text(" x Rs. ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(38, 51, 58, 0.6),
-                            )),
-                        Text((obj.price).toString(),
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(38, 51, 58, 0.6),
-                            )),
-                        Text(" = ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(38, 51, 58, 0.6),
-                            )),
-                        Text((obj.quantity * obj.price).toString(),
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(38, 51, 58, 0.6),
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-              ],
-            ),
-          ],
-        ),
-      ],
+
+              ),
+              Divider(height: 1, thickness: 0.5, endIndent: 15,),
+            ],
+          ),
     );
   }
 }

@@ -75,7 +75,7 @@ class _PartiesState extends State<Parties> {
                                   child: SizedBox(
                                     child: SingleChildScrollView(
                                       child: Column(
-                                          children: party.orderList.map<Widget>((item) => ListItem(route:'/order',name:item.name, amount:item.amount, date: item.date,order: 1,)).toList()
+                                          children: party.orderList.map<Widget>((item) => ListItem(route:'/order',name:item.name, amount:item.amount, date: item.date,order: item.type,)).toList()
                                       ),
                                     ),
                                   ),

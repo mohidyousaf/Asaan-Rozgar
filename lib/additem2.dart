@@ -383,7 +383,7 @@ class _additem2State extends State<additem2> {
                 children: [
                   FlatButton(
                       onPressed: () async{
-                        var temp = await DBprovider.db.addItem(
+                        var temp = await DBprovider.db.addItems(
                             _value,
                             data['obj'],
                             data['partyName'],
