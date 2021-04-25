@@ -1,12 +1,13 @@
-//import 'dart:js';
+//Filter + Report Widget
+//This page contains the widget for filter and report buttons that are on top of every informatio page.
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/action_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 
+//Child class for filter and reports.
 class filter_reports extends StatefulWidget {
   filter_reports({this.filterModel, this.type});
   var filterModel;
@@ -27,6 +28,7 @@ class _filter_reportsState extends State<filter_reports> {
 
   @override
   Widget build(BuildContext context) {
+    //Creates a button for filters and reports with a divider underneath.
     return Container(
       child: Column(
         children: [

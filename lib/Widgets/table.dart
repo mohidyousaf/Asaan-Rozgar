@@ -1,17 +1,26 @@
+//Table Head Widgets
+//This page contains all the different tables that are used by different parent classes.
+//Only one of the tables has been fully commented.
+//Every Single table follows the same method with additional text widgets only.
+
 import 'package:asaanrozgar/Inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:asaanrozgar/Transactions.dart';
 
+//This is the table for sale and purchase. 
 class sale_purchase_lis extends StatelessWidget {
+  //The list that contains data for the table.
   final List<SalePurchaseItem> items;
   sale_purchase_lis({this.items});
   
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
      double phone_width= MediaQuery.of(context).size.width;
      double phone_height=MediaQuery.of(context).size.height;
+    //A list is created that is divided by dividers.
     return ListView.separated(
       separatorBuilder: (context,index){
         return Divider(
@@ -21,9 +30,11 @@ class sale_purchase_lis extends StatelessWidget {
         );
       },
       
+      //Counts the items in the list.
       itemCount: items.length,
       itemBuilder: (context,index){
         final item = items[index];
+        //Creates a table entry with the data from the list.
         return SingleChildScrollView(
            child:Table(
              children: [
@@ -57,6 +68,7 @@ class sale_purchase_lis extends StatelessWidget {
 }
 
 
+//This is the table for expenses.
 class expenses_lis extends StatelessWidget {
   final List <ExpenseItem> items;
   expenses_lis({this.items});
@@ -106,6 +118,8 @@ class expenses_lis extends StatelessWidget {
   }
 }
 
+
+//This is the table for item details.
 class item_details_list extends StatelessWidget {
   final List <temporary> temps;
   item_details_list({this.temps});
@@ -153,6 +167,7 @@ class item_details_list extends StatelessWidget {
   }
 }
 
+//This is the table for transactions in item details.
 class item_transactions_list extends StatelessWidget {
   final List <temporary> temps;
   item_transactions_list({this.temps});

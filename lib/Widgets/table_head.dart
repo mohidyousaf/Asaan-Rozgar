@@ -1,13 +1,18 @@
-//import 'dart:js';
+//Table Head Widgets
+//This page contains all the different table headings that are used by different parent classes.
+//Only one of the table head has been fully commented.
+//Every Single Table follows the same method with additional text widgets only.
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
- import 'package:asaanrozgar/Widgets/action_sheet.dart';
+import 'package:asaanrozgar/Widgets/action_sheet.dart';
 
+//This is table head widget for sale and purchase.
 Widget sale_purchase_head(BuildContext context){
   return Container(
     padding: EdgeInsets.only(top: 5.0),
+    //This contains the headings for the table: Date, Itemname, Quantity, Price.
     child: Column(
       children: [
         Padding(
@@ -38,6 +43,8 @@ Widget sale_purchase_head(BuildContext context){
             ],
             ),
         ),
+        
+          //The table header is seperated from the table with a divider.
           Divider(
             indent: 33.0,
             endIndent: 33.0,
@@ -50,7 +57,7 @@ Widget sale_purchase_head(BuildContext context){
 
 
 
-
+//This is the table head widget for expenses.
 Widget expenses_head(BuildContext context){
   return Container(
     padding: EdgeInsets.only(top: 5.0),
@@ -89,6 +96,7 @@ Widget expenses_head(BuildContext context){
   );
 }
 
+//This is table head widget for inventory in the item details parent class.
 Widget inventory_head(BuildContext context){
   return Container(
     padding: EdgeInsets.only(top: 30.0),
@@ -125,6 +133,7 @@ Widget inventory_head(BuildContext context){
 }
 
 
+//This is the table head widget for the transactions in the item details parent class.
 Widget inventory_transactions_head(BuildContext context){
   return Container(
     padding: EdgeInsets.only(top: 30.0),

@@ -1,16 +1,11 @@
-//import 'package:asaanrozgar/Widgets/searchbar.dart';
-import 'package:asaanrozgar/Widgets/action_sheet.dart';
+//The transaction page.
+//This page provides the user with information about their transactions
+
 import 'package:asaanrozgar/Widgets/filter_reports.dart';
-import 'package:asaanrozgar/Widgets/inventory_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:asaanrozgar/Widgets/long_circleBtt.dart';
-import 'package:asaanrozgar/Widgets/textfield.dart';
-import 'package:asaanrozgar/Widgets/std_appbar.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:asaanrozgar/Widgets/table_head.dart';
@@ -18,6 +13,7 @@ import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/DataBase.dart';
 import 'package:provider/provider.dart';
 
+//Transactions parent class.
 class transactions extends StatefulWidget {
   @override
   _transactionsState createState() => _transactionsState();
@@ -32,6 +28,7 @@ class _transactionsState extends State<transactions> {
   }
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
     int color_Red = 11;
     int color_Green = 71;
     int color_Blue = 109;
@@ -42,6 +39,7 @@ class _transactionsState extends State<transactions> {
     return ChangeNotifierProvider(
       create: (context) => TransactionModel(),
       child: Scaffold(
+        //Creating the skeleton of the page.
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
         appBar: std_appbar(context, 'Transactions', color_Red, color_Green, color_Blue),
         bottomNavigationBar: std_chinbar(context, color_Red, color_Green, color_Blue),
@@ -51,8 +49,10 @@ class _transactionsState extends State<transactions> {
             child: Icon(Icons.add,color: Colors.white),
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            //Creating the body of the page.
             body: Column(
               children: [
+                //Search Bar to search through transactions
                 Padding(
                     padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0,0),
                     child: Consumer<TransactionModel>(
@@ -76,11 +76,10 @@ class _transactionsState extends State<transactions> {
                           );
                         })
                 ),
+                //Segmented slider button with options: 0-Sale 1-Expenses 2-Purchase
                 Container(
                   padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-                  //height: 250,
                   width: phone_width,
-                  //color: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
                   child: Align(
                     alignment: Alignment.center,
                                     child: Container(
@@ -88,12 +87,10 @@ class _transactionsState extends State<transactions> {
                                       width: slider_width,
                                       child: CupertinoSlidingSegmentedControl(
                        groupValue: currentState,
-                       //backgroundColor: Color.fromRGBO(118, 118, 128, 1.0),
                        backgroundColor: Colors.grey[100],
                        children: <int, Widget>{
                          0: Text('Sale',
                              style: TextStyle(
-                                // color: Color.fromRGBO(11, 71, 109, 1.0),
                                 color: Colors.black,
                                 fontFamily: "Lato",
                                 fontWeight: FontWeight.bold,
@@ -103,7 +100,6 @@ class _transactionsState extends State<transactions> {
                             ),
                          1: Text('Expenses',
                              style: TextStyle(
-                               //color: Color.fromRGBO(11, 71, 109, 1.0),
                                color: Colors.black,
                                fontFamily: "Lato",
                                fontWeight: FontWeight.bold,
@@ -112,7 +108,6 @@ class _transactionsState extends State<transactions> {
                            ),
                            2: Text('Purchase',
                              style: TextStyle(
-                               //color: Color.fromRGBO(11, 71, 109, 1.0),
                                color: Colors.black,
                                fontFamily: "Lato",
                                fontWeight: FontWeight.bold,
@@ -129,7 +124,7 @@ class _transactionsState extends State<transactions> {
                                     ),
                   ),
                 ),
-
+                //Displaying the data visibilty section of the page
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(

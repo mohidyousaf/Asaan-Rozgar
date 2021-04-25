@@ -1,13 +1,15 @@
-//import 'dart:js';
+//Filter + Info Widget
+//This page contains the widget for filter and information at top of the party page.
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/action_sheet.dart';
 import 'package:asaanrozgar/Parties_info.dart';
 import 'package:asaanrozgar/main.dart';
 
+//Widget used in the party flow.
 Widget filter_info(context){
+  //Returns a button for filter and information, divided by a divider underneath.
   return Container(
                       child: Column(
                         children: [

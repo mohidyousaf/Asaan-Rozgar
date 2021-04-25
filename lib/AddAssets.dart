@@ -14,8 +14,23 @@ class _AddAssetsState extends State<AddAssets> {
   TextEditingController Name = new TextEditingController();
   TextEditingController Type = new TextEditingController();
   TextEditingController Value = new TextEditingController();
+    String selected_drop;
+  var asset_type=['Fixed Asset','Land','Equipment','Other'];
   @override
+  void initState(){
+    super.initState();
+    selected_drop=asset_type[0];
+  }
+  void select_dropdown(String val){
+    setState(() {
+      selected_drop=val;
+    });
+  }
   Widget build(BuildContext context) {
+    double phone_width=MediaQuery.of(context).size.width;
+    double phone_height=MediaQuery.of(context).size.height;
+    double box_width=phone_width*0.541;
+    double box_height=phone_height*0.044;
     return Scaffold(
       backgroundColor: Colors.grey[50],
 
@@ -56,6 +71,47 @@ class _AddAssetsState extends State<AddAssets> {
                     InputTextFields(label: 'Type', controller: Type),
                     SizedBox(height: 10),
                     InputTextFields(label:'Value', controller: Value),
+                    SizedBox(height: 10),
+                    Column(
+                            children: <Widget>[
+                              Text(
+                         'Asset Type',
+                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,fontSize: 16.0,)),
+                       ),
+                       SizedBox(height: 5.0),
+                DropdownButtonHideUnderline(
+                                              child: Container(
+                                                width: box_width,
+                                                height: box_height,
+                                                decoration: ShapeDecoration(
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(style: BorderStyle.solid),
+                                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                                    ) 
+                                                  ),
+                           child: DropdownButton<String>(
+                             value: selected_drop,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Type of Asset',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                              items: asset_type.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String value){
+                               select_dropdown(value);
+                             },
+                           ),
+                         ),
+                       ),
+                            ],
+                          ),
+
                     SizedBox(height: 40),
                     Container(
                       height: 40.0,
