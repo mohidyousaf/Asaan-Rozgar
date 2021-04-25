@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:asaanrozgar/Widgets/SaleExpense.dart';
 import 'package:asaanrozgar/Transactions.dart';
-
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 
 
@@ -658,6 +657,42 @@ class DBprovider{
         'date':element['Date']});
     });
     return list;
+  }
+
+  getTaxes() async{
+    final db = await database;
+    double totalPurchase = 0; 
+    double totalSale = 0; 
+    double purchaseTax = 0;
+    double saleTax = 0;
+
+    var res = await db.rawQuery('''
+        SELECT Price,Quantity,OrderType,TaxRate
+        FROM orderGoods
+        INNER JOIN orders ON orderGoods.OrderID=orders.OrderID
+        INNER JOIN inventory ON orderGoods.OrderID=inventory.OrderID;
+      ''');
+
+    print("In db $res");
+    
+    res.forEach((element) {
+      
+        double cost = element['Price'];
+        int quantity = element['Quantity'];
+        double total = cost * quantity;
+        double tax = total * element['TaxRate'];
+        if(element['OrderType'] == 'Purchase'){
+          totalPurchase += total;
+          purchaseTax += tax;
+        }
+        else{
+          totalSale += total;
+          saleTax += tax;
+        }
+      
+    });
+  // Return 
+    return [totalPurchase,totalSale,purchaseTax,saleTax];
   }
 
   getItemList(name) async{

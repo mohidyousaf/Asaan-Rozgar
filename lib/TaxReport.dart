@@ -17,7 +17,7 @@ import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
 
 
-// void main() => runApp(MaterialApp(home: TaxReport()));
+void main() => runApp(MaterialApp(home: TaxReport()));
 
 class TaxReport extends StatefulWidget {
   @override
@@ -25,6 +25,8 @@ class TaxReport extends StatefulWidget {
 }
 
 class _TaxReportState extends State<TaxReport> {
+
+  var sp;
   
  List<report_items> objects = [
     report_items(itemName: 'Mobile sale', price: 51000),
@@ -43,7 +45,10 @@ class _TaxReportState extends State<TaxReport> {
     final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
                                       ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
 
-    return Scaffold(
+    return ChangeNotifierProvider(
+    create: (context) => TaxModel(),
+    child:
+     Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .08,
@@ -219,14 +224,20 @@ class _TaxReportState extends State<TaxReport> {
                                  )
                                  ),
                      Spacer(flex: 3),
-                     Text("6,000",
-                     style: TextStyle(
+                     Consumer<TaxModel>(
+                       builder: (context,model,child){
+                         
+                         return Text( "6,000",
+                        style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: "Lato",
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,
                                  )
-                                 ),
+                                 );
+                       }
+                     ),
+                     
                      Spacer(),
                      Text("40,000",
                      style: TextStyle(
@@ -490,6 +501,29 @@ class _TaxReportState extends State<TaxReport> {
           ],
         ),
         ),
+        )
         );
   }
 }
+
+
+class TaxModel extends ChangeNotifier{
+
+  get sp => sp;
+
+  TaxModel(){
+    var initFuture = getInformation();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  getInformation()async{
+
+    var ls = await DBprovider.db.getTaxes();
+    print('Taxes are $ls');
+
+  }
+
+}
+
+

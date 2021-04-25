@@ -725,7 +725,7 @@ class CashModel extends ChangeNotifier{
   get assets => objects;
   get totalCashFlow => objects.fold(netCash , (total, current) => total - (current.price));
 
-  CashModel() {
+  CashModel()  {
     var initFuture = getInformation();
     initFuture.then((voidVal) {
       notifyListeners();
@@ -744,8 +744,6 @@ class CashModel extends ChangeNotifier{
     inventoryCost = await DBprovider.db.getInventoryCost();
     netCash = netIncome + payables - receivables - inventoryCost;
     objects = await DBprovider.db.getAssets();
-
-
 
   }
 
