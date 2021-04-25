@@ -677,7 +677,9 @@ class _CashflowReportState extends State<CashflowReport> {
                               Divider(),
 
                               FlatButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                                  },
                                   height: 30,
                                   minWidth: 90,
                                   shape: RoundedRectangleBorder(

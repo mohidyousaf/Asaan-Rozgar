@@ -40,9 +40,10 @@ import 'package:asaanrozgar/Add_Expenses3.dart';
 import 'package:asaanrozgar/Parties_home.dart';
 import 'package:asaanrozgar/CashflowStatement.dart';
 import 'package:asaanrozgar/BalanceSheet.dart';
-
+import 'package:asaanrozgar/InventoryStatement.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:asaanrozgar/TaxReport.dart';
 
 
 
@@ -102,6 +103,8 @@ void main() async{
         '/partiesHome': (context) =>  partiesHome(),
         '/cashflow_report': (context) =>  CashflowReport(),
         '/balanceSheet': (context) =>  BalanceReport(),
+        '/inventoryReport': (context) => InventoryReport(),
+        '/taxReport': (context) => TaxReport(),
       },
       theme: ThemeData(
         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),

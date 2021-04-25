@@ -686,32 +686,52 @@ class DBprovider{
     double purchaseTax = 0;
     double saleTax = 0;
 
-    var res = await db.rawQuery('''
-        SELECT Price,Quantity,OrderType,TaxRate
-        FROM orderGoods
-        INNER JOIN orders ON orderGoods.OrderID=orders.OrderID
-        INNER JOIN inventory ON orderGoods.OrderID=inventory.OrderID;
+    var temp1 = await db.rawQuery('''
+        SELECT OrderID, OrderType
+        FROM orders
       ''');
 
-    print("In db $res");
-    
-    res.forEach((element) {
-      
-        double cost = element['Price'];
-        int quantity = element['Quantity'];
-        double total = cost * quantity;
-        double tax = total * element['TaxRate'];
-        if(element['OrderType'] == 'Purchase'){
-          totalPurchase += total;
-          purchaseTax += tax;
-        }
-        else{
-          totalSale += total;
-          saleTax += tax;
-        }
-      
-    });
-  // Return 
+    print(temp1);
+
+    await Future.wait(temp1.map((element) async{
+      var temp2 = await db.rawQuery('''
+        SELECT Price,Quantity,ProductID
+        FROM orderGoods
+        where OrderID=?
+      ''',[element['OrderID']]);
+
+      print(temp2);
+
+      await Future.wait(temp2.map((element2) async{
+        var temp3 = await db.rawQuery('''
+        SELECT TaxRate, SalePrice
+        FROM inventory
+        where ProductID=?
+      ''',[element2['ProductID']]);
+
+        print(temp3);
+
+        temp3.forEach((element3) {
+          double cost = element2['Price'];
+          int quantity = element2['Quantity'];
+          double total = cost * quantity;
+          double temp = element3['TaxRate'];
+          double tax = (temp/100)* total;
+          if(element['OrderType'] == 'purchase'){
+            totalPurchase += total;
+            purchaseTax += tax;
+          }
+          else{
+            double cost2 = element3['SalePrice'];
+            double total2= quantity * cost2;
+            totalSale += total2;
+            saleTax += tax;
+          }
+        });
+      }));
+    }));
+  // Return
+    print('$totalPurchase,$totalSale,$purchaseTax,$saleTax');
     return [totalPurchase,totalSale,purchaseTax,saleTax];
   }
 
