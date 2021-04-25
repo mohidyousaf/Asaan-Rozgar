@@ -1311,8 +1311,8 @@ class DBprovider{
     double newPayable = payable;
     var balance = (double.parse(amount) - double.parse(received));
     if (type == 'sale') {
-      newReceivable += balance;
-      totalReceivable += balance;
+      newReceivable -= double.parse(received);
+      totalReceivable -= double.parse(received);
       await db.rawQuery('''
        UPDATE parties
         SET Receivable = ?
@@ -1331,8 +1331,8 @@ class DBprovider{
       updateBalance(accountName: accountName, name:companyName, balance:companyBalance+double.parse(received));
     }
     else {
-      newPayable += balance;
-      totalPayable += balance;
+      newPayable -= double.parse(received);
+      totalPayable -= double.parse(received);
       await db.rawQuery('''
        UPDATE parties
         SET Payable = ?
