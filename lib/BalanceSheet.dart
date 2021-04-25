@@ -810,7 +810,9 @@ class _BalanceReportState extends State<BalanceReport> {
                                     MediaQuery.of(context).size.height * 0.015),
 
                             FlatButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                                },
                                 height: 30,
                                 minWidth: 90,
                                 shape: RoundedRectangleBorder(
@@ -833,4 +835,29 @@ class _BalanceReportState extends State<BalanceReport> {
       ),
     );
   }
+}
+
+class BalanceModel extends ChangeNotifier{
+  //
+  // BalanceModel() {
+  //   var initFuture = getSaleItems();
+  //   initFuture.then((voidVal) {
+  //     notifyListeners();
+  //   });
+  // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -35,7 +35,7 @@ class _Reports1State extends State<Reports1> {
     'SALARY': 1,
     'RENT': 1,
   };
- List<report_items> objects = [];
+  List<report_items> objects = [];
   List<report_items> objects2 = [];
   List<Color> colorsList = [
     Color.fromRGBO(136, 182, 211, 1),
@@ -443,9 +443,9 @@ class _Reports1State extends State<Reports1> {
                                height: (objects2.length > 2)? 80.0 :((objects2.length)*50.0),
                                child: SingleChildScrollView(
                                  child: Column(
-                    children: objects2
-                        .map((sub) => report_list(obj3: sub))
-                        .toList()),
+                                  children: objects2
+                                      .map((sub) => report_list(obj3: sub))
+                                      .toList()),
                                ),
                              );
                            },
@@ -592,10 +592,10 @@ class _Reports1State extends State<Reports1> {
                                 borderRadius: BorderRadius.circular(5)),
                             child: Text('PRINT',
                                 style: TextStyle(
-                   fontFamily: "Lato",
-                   fontWeight: FontWeight.normal,
-                   fontSize: 10.0,
-                   color: Colors.white
+                               fontFamily: "Lato",
+                               fontWeight: FontWeight.normal,
+                               fontSize: 10.0,
+                               color: Colors.white
                                 )),
                             color: Color.fromRGBO(11, 71, 109, 1.0)),
                          //here

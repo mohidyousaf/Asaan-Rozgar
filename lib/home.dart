@@ -396,9 +396,10 @@ class Transactions extends StatelessWidget {
       child: Column(
           children: list.map((item) => ListItem(
             route: '/order',
-            name:item['type'],
+            name:item['orderID'],
             amount:item['amount'],
-            date:item['date'],)).toList()
+            date:item['date'],
+            type: item['type'],)).toList(),
       ),
     );
   }
@@ -406,12 +407,13 @@ class Transactions extends StatelessWidget {
 
 class ListItem extends StatelessWidget {
 
-  const ListItem({this.name, this.amount, this.date, this.route, this.order});
+  const ListItem({this.type, this.name, this.amount, this.date, this.route, this.order});
   final name;
   final amount;
   final date;
   final route;
   final order;
+  final type;
   @override
   Widget build(BuildContext context) {
     return  Slidable(
@@ -433,7 +435,8 @@ class ListItem extends StatelessWidget {
         child: Column(
             children: [
                 ListTile(
-                  title: Text(order != null ? 'Order No. $name':name,
+                  title: Text(order == null ?
+                              type == null ? name: '${type}':'Order No. $name',
                   style:TextStyle(
                       fontFamily: "Lato",
                       fontWeight: FontWeight.normal,
@@ -451,15 +454,32 @@ class ListItem extends StatelessWidget {
                               fontFamily: "Lato",
                               fontWeight: FontWeight.bold,
                               fontSize: 18.0,
-                              color: Color.fromRGBO(46, 189, 133, 1.0),
+                              color: type != null ?
+                                          type == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):
+                                              Colors.red[500]:
+                                            order != null ?
+                                            order == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):Colors.red[500]:
+                                            Color.fromRGBO(46, 189, 133, 1.0),//parties
                               ),
                           ),
-                          Text('You will get',
+                          Text(type == null?
+                                      order != null ?
+                                          order == 'sale'?'To Get':'To Give':
+                                          'You will Give'://party
+                                type == 'sale'?'Received':
+                                type == 'purchase'? 'Paid':
+                                type == 'expense'? 'Paid':
+                                type == 'asset' ? 'Paid':'',
                           style:TextStyle(
                               fontFamily: "Lato",
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0,
-                              color: Color.fromRGBO(46, 189, 133, 1.0),
+                              color: type != null ?
+                                      type == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):
+                                      Colors.red[500]:
+                                      order != null ?
+                                      order == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):Colors.red[500]:
+                                      Color.fromRGBO(46, 189, 133, 1.0),//parties
                               ),
                           ),
                       ],

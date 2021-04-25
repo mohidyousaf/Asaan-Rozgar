@@ -60,7 +60,7 @@ class Dashboard extends StatelessWidget {
                       color: Color.fromRGBO(46,189,133,1),
                       fontFamily: "Lato",
                       fontWeight: FontWeight.bold,
-                      fontSize: home.receivables == null ? 27.0 :home.receivables > 9999999 ? 22.0 : home.receivables > 99999 ? 24.0 : 27.0,
+                      fontSize: home.receivables == null ? 27.0 :home.receivables > 9999999 ? 16.0 : home.receivables > 99999 ? 24.0 : 27.0,
                       ),
                       );
                     }),
@@ -108,7 +108,7 @@ class Dashboard extends StatelessWidget {
                             color: Color.fromRGBO(245,70,93,1),
                             fontFamily: "Lato",
                             fontWeight: FontWeight.bold,
-                            fontSize: home.payables == null ? 27.0 : home.payables > 9999999.0 ? 22.0 : home.payables > 99999 ? 24.0 : 27.0,
+                            fontSize: home.payables == null ? 27.0 : home.payables > 9999999.0 ? 21.0 : home.payables > 99999 ? 24.0 : 27.0,
                           ),
                         );
                       }),

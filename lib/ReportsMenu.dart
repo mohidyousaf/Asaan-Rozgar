@@ -56,9 +56,9 @@ class ReportsMenu extends StatelessWidget {
                runSpacing: 20,
                children: [
                iconButton('Income\nStatement', './assets/income.png', context, '/income_stmnt'),
-               iconButton('Tax\nReport', './assets/tax.png', context ,''),
-               iconButton('Balance\nStatement', './assets/balance.png',context,''),
-               iconButton('Inventory\nReport', './assets/inventory.png',context,''),
+               iconButton('Tax\nReport', './assets/tax.png', context ,'/taxReport'),
+               iconButton('Balance\nStatement', './assets/balance.png',context,'/balanceSheet'),
+               iconButton('Inventory\nReport', './assets/inventory.png',context,'/inventoryReport'),
                iconButton('Cash Flow\nStatement', './assets/money.png',context,'/cashflow_report'),
            ],
             ),
