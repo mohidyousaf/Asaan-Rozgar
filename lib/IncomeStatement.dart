@@ -18,6 +18,7 @@ import 'package:asaanrozgar/DataBase.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/ReportsMenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:asaanrozgar/drawer.dart';
 
 
 // void main() => runApp(MaterialApp(home: Reports1()));
@@ -52,6 +53,7 @@ class _Reports1State extends State<Reports1> {
         create:(context) => IncomeModel(),
         child: Scaffold(
           backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+          endDrawer: drawer(),
           appBar: AppBar(
             toolbarHeight: MediaQuery.of(context).size.height * .08,
             leading: IconButton(

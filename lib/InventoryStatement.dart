@@ -13,6 +13,7 @@ import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/Widgets/inventory_list.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
+import 'package:asaanrozgar/drawer.dart';
 
 
 // void main() => runApp(MaterialApp(home: InventoryReport()));
@@ -47,6 +48,7 @@ class _InventoryReportState extends State<InventoryReport> {
 
     return Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
+        endDrawer: drawer(),
         appBar: AppBar(
           toolbarHeight: MediaQuery.of(context).size.height * .08,
           leading: IconButton(

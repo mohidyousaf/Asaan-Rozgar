@@ -12,6 +12,7 @@ import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/DataBase.dart';
 import 'package:provider/provider.dart';
+import 'package:asaanrozgar/drawer.dart';
 
 //Transactions parent class.
 class transactions extends StatefulWidget {
@@ -41,6 +42,7 @@ class _transactionsState extends State<transactions> {
       child: Scaffold(
         //Creating the skeleton of the page.
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
+        endDrawer: drawer(),
         appBar: std_appbar(context, 'Transactions', color_Red, color_Green, color_Blue),
         bottomNavigationBar: std_chinbar(context, color_Red, color_Green, color_Blue),
         floatingActionButton:  FloatingActionButton(

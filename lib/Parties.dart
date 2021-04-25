@@ -13,6 +13,7 @@ import 'Widgets/std_appbar.dart';
 import 'Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/Widgets/filter_info.dart';
 import 'package:provider/provider.dart';
+import 'package:asaanrozgar/drawer.dart';
 
 // void main() => runApp(MaterialApp(
 //   home: Parties(),
@@ -44,7 +45,7 @@ class _PartiesState extends State<Parties> {
       //Creates the skeleton of the page.
       child: Scaffold(
           backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
-
+          endDrawer: drawer(),
           appBar: std_appbar(context, name, 109, 11, 93),
           floatingActionButton: std_FAB(Colors.white, 109, 11, 93, buttons, context),
           bottomNavigationBar: std_chinbar(context, 0, 0, 0),

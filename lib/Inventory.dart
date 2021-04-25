@@ -11,6 +11,7 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
+import 'package:asaanrozgar/drawer.dart';
 
 
 //The Parent inventory class
@@ -35,6 +36,7 @@ class _inventoryState extends State<inventory> {
       //Creates the skeleton of the page
       child: Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
+        endDrawer: drawer(),
         appBar: std_appbar(context, 'Inventory', color_Red, color_Green, color_Blue),
           floatingActionButton: std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
             bottomNavigationBar: std_chinbar(context, color_Red,color_Green,color_Blue),

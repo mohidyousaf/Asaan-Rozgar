@@ -12,18 +12,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/Widgets/graph_inventory.dart';
+import 'package:asaanrozgar/drawer.dart';
 
-// void main() {
-//   // TestWidgetsFlutterBinding.ensureInitialized();
-//   runApp(MaterialApp(
-//       theme: ThemeData(
-//         primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-//         accentColor: Colors.white,
-//         textTheme: GoogleFonts.latoTextTheme(),
-//       ),
-//       home: item_report()
-//   ));
-// }
+void main() {
+  // TestWidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
+        accentColor: Colors.white,
+        textTheme: GoogleFonts.latoTextTheme(),
+      ),
+      home: item_report()
+  ));
+}
 
 //Parent class for item report.
 class item_report extends StatefulWidget {
@@ -108,6 +109,7 @@ class _item_reportState extends State<item_report> {
     //Creating the skeleton of the page.
     return Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
+        endDrawer: drawer(),
         appBar: std_appbar(context, 'Item Details', color_Red, color_Green, color_Blue),
           floatingActionButton: std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
             bottomNavigationBar: std_chinbar(context, color_Red,color_Green,color_Blue),
