@@ -1,3 +1,5 @@
+//Parties page.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
