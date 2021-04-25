@@ -1,4 +1,5 @@
-import 'dart:ffi';
+//Add Expenses page 1
+//This page contains the creation of the first step of adding expenses.
 
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/PartyNames.dart';
@@ -10,14 +11,17 @@ import 'package:asaanrozgar/Widgets/FAB.dart';
 
 
 
+//The parent class of add expenses 1.
 class add_expenses1 extends StatefulWidget {
   @override
   _add_expenses1State createState() => _add_expenses1State();
 }
 
 class _add_expenses1State extends State<add_expenses1> {
+  //Names of all the parties that the user is in business with.
   List <String> names = [];
 
+  //Gets the list of parties from the database.
   getParty() async{
     var temp2 = await DBprovider.db.getParties();
     setState((){
@@ -26,6 +30,7 @@ class _add_expenses1State extends State<add_expenses1> {
   }
 
   @override
+  //Initializes the party names.
   void initState(){
     super.initState();
     print("hi");
@@ -34,22 +39,17 @@ class _add_expenses1State extends State<add_expenses1> {
   }
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
     int color_Red = 12;
     int color_Green = 109;
     int color_Blue = 109;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
-    double longBtt_width = phone_width * 0.487;
-    double longBtt_height = phone_height* 0.051;
     double image_height=  phone_height * 0.052;
     double image_width = phone_width *0.149;
-    double textfield_gap = phone_height *0.0125;
-    double button_gap = phone_height *0.063;
-    double divider_width = phone_width * 0.8;
-    double slider_width=phone_width*0.834;
-    double slider_height=phone_height*0.0417;
     double image_container_width=phone_width*0.219;
     double image_container_height=phone_height*0.113;
+    //Creates the skeleton of the page.
     return Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
         appBar: AppBar(
@@ -76,8 +76,10 @@ class _add_expenses1State extends State<add_expenses1> {
             )
           ],
         ),
+        //Creates the body of the page.
         body:Column(
           children: [
+            //Creates a clickable image of the user's profile.
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -120,7 +122,9 @@ class _add_expenses1State extends State<add_expenses1> {
                 ],
               ),
             ),
+            //Creates the data part of the page.
             Expanded(
+              //Creates a list of names for all the parties as a button.
                           child: Container(
                             width: phone_width,
                 decoration: BoxDecoration(

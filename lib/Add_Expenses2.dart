@@ -1,4 +1,5 @@
-import 'dart:ffi';
+//Add Expenses 2 page.
+//This page creates the second step of adding expenses where expense details are added.
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import 'DataBase.dart';
 void main() => runApp(MaterialApp(home: add_expenses2()));
 
 
-
+//Parent class for add expenses 2.
 class add_expenses2 extends StatefulWidget {
   
   @override
@@ -20,8 +21,8 @@ class add_expenses2 extends StatefulWidget {
 }
 
 class _add_expenses2State extends State<add_expenses2> {
+  //A list of buttons and accounts.
   List<ChildButton> buttons = [];
-  int invoiceNo = 8;
   List<String> accounts = [];
 
   TextEditingController typeController = new TextEditingController();
@@ -29,6 +30,7 @@ class _add_expenses2State extends State<add_expenses2> {
   TextEditingController detailsController = new TextEditingController();
   String accountName = 'Cash';
 
+  //Sets the party you are conducting business with.
   accountType(value){
     setState(() {
       accountName = value;
@@ -51,11 +53,13 @@ class _add_expenses2State extends State<add_expenses2> {
   }
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
     int color_Red = 12;
     int color_Green = 109;
     int color_Blue = 109;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
+    //Creates the skeleton of the page.
     return Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
         appBar: std_appbar(context, 'Expense Details', color_Red, color_Green, color_Blue),
@@ -63,9 +67,10 @@ class _add_expenses2State extends State<add_expenses2> {
         std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
         bottomNavigationBar: std_chinbar(context, 0,0,0),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
+        //Creates the body of the page.
         body: Column(
           children: [
+            //Creates the progress bar at the bottom of the app bar.
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -77,6 +82,7 @@ class _add_expenses2State extends State<add_expenses2> {
               ],
             ),
             SizedBox(height: 20),
+            //Prints the name of the party selected in the previous stage.
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -92,11 +98,9 @@ class _add_expenses2State extends State<add_expenses2> {
               ],
             ),
             SizedBox(height: 15),
-           // SingleChildScrollView(
+            //Creates the data part of the page.
                  Expanded(
                                   child: Container(
-              //height: MediaQuery.of(context).size.height * .6531,
-              //height: 493,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                     color: Colors.white,
@@ -107,9 +111,9 @@ class _add_expenses2State extends State<add_expenses2> {
               child: SingleChildScrollView(
                               child: Column(children: [
                     SizedBox(height: 25),
+                    //Creates the header of the data section, containing the date.
                     Row(
                       children: [
-                        //SizedBox(width: 20),
                         SizedBox(width: MediaQuery.of(context).size.width * 0.7),
                         Container(
                           child: Row(children: [
@@ -132,6 +136,7 @@ class _add_expenses2State extends State<add_expenses2> {
                       ],
                     ),
                        SizedBox(height:MediaQuery.of(context).size.height * 0.071),
+                       //Creates a input text field for type.
                        Row(
                          children: [
                            Container(
@@ -157,6 +162,7 @@ class _add_expenses2State extends State<add_expenses2> {
                        ),
                           
                           SizedBox(height: 30.0),
+                                  //Creates a input text field for amount.
                                   Container(
                             
                                       alignment: AlignmentDirectional.topStart,
@@ -166,7 +172,6 @@ class _add_expenses2State extends State<add_expenses2> {
                                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
                                       ),
                                     ),
-                      // SizedBox(height:10),
                                      Row(
                                        children: [
                                          Padding(

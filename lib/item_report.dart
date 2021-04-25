@@ -1,20 +1,14 @@
-//import 'package:asaanrozgar/Widgets/searchbar.dart';
-import 'package:asaanrozgar/Widgets/filter_reports.dart';
-import 'package:asaanrozgar/Widgets/inventory_list.dart';
+//Item Report page.
+//This page creates the report of the item selected.
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:asaanrozgar/Widgets/long_circleBtt.dart';
-import 'package:asaanrozgar/Widgets/textfield.dart';
-import 'package:asaanrozgar/Widgets/std_appbar.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/Widgets/graph_inventory.dart';
@@ -31,7 +25,7 @@ import 'package:asaanrozgar/Widgets/graph_inventory.dart';
 //   ));
 // }
 
-
+//Parent class for item report.
 class item_report extends StatefulWidget {
 
   @override
@@ -39,6 +33,7 @@ class item_report extends StatefulWidget {
 }
 
 class _item_reportState extends State<item_report> {
+  //Arrays to provides the days,months and years to change the graph.
   List<String> monthList = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct', 'Nov', 'Dec'];
   List<String> dayList = ['Mon','Tues','Wed','Thur','Fri','Sat','Sun'];
   List<String> yearList = ['2010','2011','2012','2013','2014','2015','2016'];
@@ -49,7 +44,8 @@ class _item_reportState extends State<item_report> {
   int currentState=0;
   int table_selector=0;
   @override
-  void changeMonth({type,arr,current}){
+  //This functions changes the date, the month or the year on the users input.
+  void change({type,arr,current}){
     print(arr);
     print(current);
     String current_val;
@@ -98,21 +94,18 @@ class _item_reportState extends State<item_report> {
   }
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
     int color_Red = 255;
     int color_Green = 159;
     int color_Blue = 10;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
-    double longBtt_width = phone_width * 0.487;
-    double longBtt_height = phone_height* 0.051;
-    double image_height=  phone_height * 0.20;
-    double image_width = phone_width *0.5;
-    double textfield_gap = phone_height *0.0125; 
-    double button_gap = phone_height *0.063;
-    double divider_width = phone_width * 0.8;
+    double image_height=  phone_height * 0.113;
+    double image_width = phone_width *0.22;
     double slider_width=phone_width*0.834;
     double slider_height=phone_height*0.0417;
     List<ChildButton> buttons = [ChildButton(label: 'Add Item', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/addItem')];
+    //Creating the skeleton of the page.
     return Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue,1.0),
         appBar: std_appbar(context, 'Item Details', color_Red, color_Green, color_Blue),
@@ -121,12 +114,13 @@ class _item_reportState extends State<item_report> {
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Column(
           children: [
+            //Showing the item selected with its image and name.
             Container(
               padding: EdgeInsets.only(top: 30.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/Frame 7.png',height: 91, width: 91,),
+                  Image.asset('assets/Frame 7.png',height: image_height, width: image_width,),
                   SizedBox(width: 30.0),
                   Column(
                     children: [
@@ -149,6 +143,7 @@ class _item_reportState extends State<item_report> {
               ],)
             ),
             SizedBox(height: 20.0),
+            //Creates the data section of the page.
             Expanded(
               child: Container(
                 width: phone_width,
@@ -161,6 +156,7 @@ class _item_reportState extends State<item_report> {
                 ),
                 child: SingleChildScrollView(
                   child: Column(
+                    //Creates the graph on the page.
                     children: <Widget> [
                       SizedBox(height:0.0),
                       SizedBox( 
@@ -168,8 +164,10 @@ class _item_reportState extends State<item_report> {
                         height: phone_height*0.189,
                         child: LineGraph_inventory()
                         ),
+                        //Creates a button to move through either days,months or years, to adjust the graph.
                       Stack(
                         children: [
+                          //Creates a button to move through days.
                           currentState==0?
                           Container(
               padding: EdgeInsets.only(bottom:5.0),
@@ -180,7 +178,7 @@ class _item_reportState extends State<item_report> {
                     icon: Icon(Icons.arrow_back_ios_rounded),
                     color: Color.fromRGBO(136, 182, 211, 1),
                     onPressed: () {
-                      changeMonth(type: 'dec',arr: dayList,current: 'day');
+                      change(type: 'dec',arr: dayList,current: 'day');
                       },
                     iconSize: 18,
                   ),
@@ -203,13 +201,14 @@ class _item_reportState extends State<item_report> {
                     icon: Icon(Icons.arrow_forward_ios_rounded),
                     color: Color.fromRGBO(136, 182, 211, 1),
                     onPressed: () {
-                      changeMonth(type: 'inc',arr: dayList,current: 'day');
+                      change(type: 'inc',arr: dayList,current: 'day');
                     },
                     iconSize: 18,
                   ),
                 ],
                 ),
             ): Text(''),
+            //Creates a button to move through months.
             currentState==1?
             Container(
               padding: EdgeInsets.only(bottom:5.0),
@@ -220,7 +219,7 @@ class _item_reportState extends State<item_report> {
                     icon: Icon(Icons.arrow_back_ios_rounded),
                     color: Color.fromRGBO(136, 182, 211, 1),
                     onPressed: () {
-                      changeMonth(type: 'dec',arr: monthList,current: 'month');
+                      change(type: 'dec',arr: monthList,current: 'month');
                       },
                     iconSize: 18,
                   ),
@@ -243,13 +242,14 @@ class _item_reportState extends State<item_report> {
                     icon: Icon(Icons.arrow_forward_ios_rounded),
                     color: Color.fromRGBO(136, 182, 211, 1),
                     onPressed: () {
-                      changeMonth(type: 'inc',arr: monthList,current: 'month');
+                      change(type: 'inc',arr: monthList,current: 'month');
                     },
                     iconSize: 18,
                   ),
                 ],
                 ),
             ): Text(''),
+            //Creates a button to move through the years.
             currentState==2?
             Container(
               padding: EdgeInsets.only(bottom:5.0),
@@ -260,7 +260,7 @@ class _item_reportState extends State<item_report> {
                     icon: Icon(Icons.arrow_back_ios_rounded),
                     color: Color.fromRGBO(136, 182, 211, 1),
                     onPressed: () {
-                      changeMonth(type: 'dec',arr: yearList,current: 'year');
+                      change(type: 'dec',arr: yearList,current: 'year');
                       },
                     iconSize: 18,
                   ),
@@ -283,7 +283,7 @@ class _item_reportState extends State<item_report> {
                     icon: Icon(Icons.arrow_forward_ios_rounded),
                     color: Color.fromRGBO(136, 182, 211, 1),
                     onPressed: () {
-                      changeMonth(type: 'inc',arr: yearList,current: 'year');
+                      change(type: 'inc',arr: yearList,current: 'year');
                     },
                     iconSize: 18,
                   ),
@@ -292,9 +292,8 @@ class _item_reportState extends State<item_report> {
             ): Text(''),
                         ],
                         ),
-
+                        //Creates a slider button to choose between: Days, Months, Years.
                       Container(
-                //height: 42,
                 width: slider_width,
                 child: CupertinoSlidingSegmentedControl(
                          groupValue: currentState,
@@ -334,6 +333,7 @@ class _item_reportState extends State<item_report> {
                      ),
               ),
               SizedBox(height: 30.0),
+              //Prints information about the item in a specific format.
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -386,12 +386,11 @@ class _item_reportState extends State<item_report> {
                 ],
               ),
               SizedBox(height: 20.0),
+              //Creates a slider button to choose between: Inventory and, Transactions.
               Container(
-                //height: 42,
                 padding: EdgeInsets.all(15.0),
                 width: phone_width,
                 decoration: BoxDecoration(
-                  //color: Colors.grey,
                   color: Color.fromRGBO(250, 250, 250, 1.0),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(22.0),
@@ -432,7 +431,9 @@ class _item_reportState extends State<item_report> {
                                },
                            ),
                     ),
+                    //Creates tha table according to the choice selected by the user.
                     Stack(children: [
+                      //Creates a table for inventory.
                       table_selector==0?
                       Column(children: [
                         inventory_head(context),
@@ -441,6 +442,7 @@ class _item_reportState extends State<item_report> {
                           child: item_details_list(temps: temporary.getAll())
                         ),
                       ],):Text(''),
+                      //Creates a table for transactions of an item.
                       table_selector==1?
                       Column(children: [
                         inventory_transactions_head(context),
@@ -451,8 +453,8 @@ class _item_reportState extends State<item_report> {
                       ]):Text('')
                     ],),
                         SizedBox(height: 10.0),
+                        //Shows the total.
                         Container(
-                          //alignment: Alignment.centerRight,
                           padding: EdgeInsets.only(left: phone_width * 0.244),
                           child: Row(
                            mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -472,7 +474,6 @@ class _item_reportState extends State<item_report> {
                   ],
                 ),
               ),
-                      //Text('Hello')
                     ]
                   ),
                   )
