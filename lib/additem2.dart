@@ -24,11 +24,12 @@ class _additem2State extends State<additem2> {
 
 
   Map data = {};
+  List<String> accounts = [];
   List<addItem> objects = [];
   String name;
   bool toGive = false;
   int invoiceNo = 8;
-  int _value = 1;
+  String _value = 'Cash';
   double total = 0;
 //  TextEditingController ProductName = new TextEditingController();
   double receivable;
@@ -41,8 +42,10 @@ class _additem2State extends State<additem2> {
 
   getData() async {
     var temp2 = await DBprovider.db.getData(name);
+    var temp3 = await DBprovider.db.getAccounts();
     setState(() {
       temp = temp2;
+      accounts = temp3;
       print('data is');
       print(temp);
       payable = temp['Payable'];
@@ -126,13 +129,6 @@ class _additem2State extends State<additem2> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(data['name'],
-                    //     style: TextStyle(
-                    //       fontFamily: "Lato",
-                    //       fontWeight: FontWeight.w500,
-                    //       fontSize: 16.0,
-                    //       color: Colors.white,
-                    //     )),
                         Text(name == null ? '' : name,
                         style: TextStyle(
                           fontFamily: "Lato",
@@ -340,21 +336,17 @@ class _additem2State extends State<additem2> {
                               Container(
                                 child: DropdownButton(
                                     value: _value,
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text("Cash"),
-                                        value: 1,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Bank"),
-                                        value: 2,
-                                      ),
-                                    ],
+                                    items: accounts.map((String dropDownStringItem){
+                                      return DropdownMenuItem<String>(
+                                        value: dropDownStringItem,
+                                        child: Text(dropDownStringItem),
+                                      );
+                                    }).toList(),
                                     onChanged: (value) {
                                       setState(() {
                                         _value = value;
                                       });
-                                    }),
+                                    })
                               ),
                             ],
                           ),
@@ -392,6 +384,7 @@ class _additem2State extends State<additem2> {
                   FlatButton(
                       onPressed: () async{
                         var temp = await DBprovider.db.addItem(
+                            _value,
                             data['obj'],
                             data['partyName'],
                             data['tag'],

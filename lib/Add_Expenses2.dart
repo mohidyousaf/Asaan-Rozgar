@@ -22,15 +22,31 @@ class add_expenses2 extends StatefulWidget {
 class _add_expenses2State extends State<add_expenses2> {
   List<ChildButton> buttons = [];
   int invoiceNo = 8;
+  List<String> accounts = [];
 
   TextEditingController typeController = new TextEditingController();
   TextEditingController amountController = new TextEditingController();
   TextEditingController detailsController = new TextEditingController();
-  String accountName;
+  String accountName = 'Cash';
 
   accountType(value){
     setState(() {
       accountName = value;
+    });
+  }
+  getData() async{
+    var temp3 = await DBprovider.db.getAccounts();
+    setState(() {
+      accounts = temp3;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    // future that allows us to access context. function is called inside the future
+    // otherwise it would be skipped and args would return null
+    Future.delayed(Duration.zero, () {
+      getData();
     });
   }
   @override
@@ -204,18 +220,19 @@ class _add_expenses2State extends State<add_expenses2> {
                           child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            new DropdownButton<String>(
-                              hint: Text("Payment Method"),
-                              items: <String>['Cash', 'Bank'].map((String value) {
-                              return new DropdownMenuItem<String>(
-                                    value: value,
-                                    child: new Text(value),
-                                    );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                        accountType(value);
-                                    },
-                                    ),
+                            DropdownButton(
+                              value: accountName,
+                              items: accounts.map((String dropDownStringItem){
+                                return DropdownMenuItem<String>(
+                                  value: dropDownStringItem,
+                                  child: Text(dropDownStringItem),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  accountName = value;
+                                });
+                              })
                           ],
                         ),
                       ),
@@ -240,7 +257,7 @@ class _add_expenses2State extends State<add_expenses2> {
                                       },
                                       child: Center(
                                         child: Text(
-                                          'Apply',
+                                          'Add Expense',
                                           style: GoogleFonts.lato(
                                               textStyle: TextStyle(
                                                 color: Colors.white,

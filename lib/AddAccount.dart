@@ -102,12 +102,15 @@ class _AddAccountsState extends State<AddAccounts> {
                           child: TextButton(
                             onPressed: () async {
                               if (_formKey.currentState.validate()) {
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                var loggedIn= prefs.getString('loggedIn');
                                 var temp = await DBprovider.db.addAccount(
                                     name,
                                     Title.text.toString(),
                                     Name.text.toString(),
                                     AccountNo.text.toString(),
                                     CurrentBal.text.toString());
+                                loggedIn == null ? Navigator.of(context).pushNamedAndRemoveUntil('/signIn', (Route<dynamic> route) => false):
                                 Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                               }
                             },

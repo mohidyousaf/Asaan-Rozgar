@@ -1,3 +1,6 @@
+//Inventory List Widget
+//This page is used to create the list of items in the inventory.
+
 import 'package:asaanrozgar/Inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,14 +8,18 @@ import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 
+//Child class of inventory, used to create a list of items.
 class inventory_lis extends StatelessWidget {
+  //This contains the data of each item.
   final List <InventoryItem> items;
   inventory_lis({this.items});
   
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
      double phone_width= MediaQuery.of(context).size.width;
      double phone_height=MediaQuery.of(context).size.height;
+     //This creates a list that is seperated by dividers.
     return ListView.separated(
       separatorBuilder: (context,index){
         return Divider(
@@ -21,10 +28,11 @@ class inventory_lis extends StatelessWidget {
           color: Colors.grey,
         );
       },
-      
+      //This loops over all the items in the list.
       itemCount: items.length,
       itemBuilder: (context,index){
         final item = items[index];
+        //This contans a list of items that are both tappable and slidable.
         return SingleChildScrollView(
                   child: Column(
             children: <Widget>[

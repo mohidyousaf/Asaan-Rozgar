@@ -1,16 +1,17 @@
 import 'dart:ffi';
 
+// import 'package:asaanrozgar/practise.dart';
 import 'package:flutter/material.dart';
 import 'Widgets/std_appbar.dart';
 import 'Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-//import 'DataBase.dart';
+import 'DataBase.dart';
 
-void main() => runApp(MaterialApp(home: PaymentDetail()));
+// void main() => runApp(MaterialApp(home: PaymentDetail()));
 
 class PaymentDetail extends StatefulWidget {
-  
+
   @override
   _PaymentDetailState createState() => _PaymentDetailState();
 }
@@ -19,20 +20,37 @@ class _PaymentDetailState extends State<PaymentDetail> {
 List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.person, color: Colors.white,), route: '/addParty')];
   int balance = 990;
   bool toGive = false;
-  String name = "Alina Anjum";
+  String name = "";
   int invoiceNo = 8;
+  var data;
+  getData() async{
+    var temp = await DBprovider.db.getOrderDetails(id:name);
+  }
   // TextEditingController ProductName = new TextEditingController();
   // TextEditingController PartnerName = new TextEditingController();
   // TextEditingController CategoryTag = new TextEditingController();
   // TextEditingController PurchasePrice = new TextEditingController();
   // TextEditingController SalePrice = new TextEditingController();
   // TextEditingController TaxRate = new TextEditingController();
-
+  @override
+  void initState() {
+    super.initState();
+    print("init");
+    // future that allows us to access context. function is called inside the future
+    // otherwise it would be skipped and args would return null
+    Future.delayed(Duration.zero, () {
+      getData();
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      name = data['name'];
+    });
     return Scaffold(
         backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
-        appBar: std_appbar(context, 'Order No. 234', 109, 11, 93),
+        appBar: std_appbar(context, 'Order No. $name', 109, 11, 93),
         // appBar: AppBar(
         //   toolbarHeight: MediaQuery.of(context).size.height * .1,
         //   leading: IconButton(
@@ -80,7 +98,7 @@ List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.pe
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name,
+                    Text('',
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontWeight: FontWeight.w500,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-
+import 'package:asaanrozgar/DataBase.dart';
 import 'package:asaanrozgar/dashboard.dart';
 import 'package:asaanrozgar/home.dart';
 import 'Widgets/std_appbar.dart';
@@ -32,9 +32,12 @@ class _PartiesState extends State<Parties> {
       name = data['name'];
     });
     double width = MediaQuery.of(context).size.width;
-    return
-    ChangeNotifierProvider(
-      create: (context) => HomeModel(type:'party', name:name),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HomeModel(type:'party', name:name),),
+        ChangeNotifierProvider(create: (context) => PartyModel(partyName: name),),
+      ],
+
       child: Scaffold(
           backgroundColor: Color.fromRGBO(109, 11, 93, 1.0),
 
@@ -51,7 +54,6 @@ class _PartiesState extends State<Parties> {
             SizedBox(height:3),
            Expanded(
              child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width,
           // margin: EdgeInsets.only(top: 200),
               decoration: BoxDecoration(
@@ -61,57 +63,24 @@ class _PartiesState extends State<Parties> {
                topRight: Radius.circular(26),
               ),
           ),
-          child:  Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Column(
-              children: [
-                filter_info(context),
-                SizedBox(height:10),
-                Column(
-                  children: [
-                    ListTile(
-                        title: Text('Order001',
-                        style:TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.normal,
-                          fontSize: 17.0,
-                          color: Color.fromRGBO(38, 51, 58, 1.0),
-                        ),
-                        ),
-                        subtitle: Text('13/12/2021',
-                        style:TextStyle(
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.0,
-                          color: Color.fromRGBO(43, 59, 69, 0.7),
-                        ),),
-                        trailing:
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                child:  Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                      child: Column(
                           children: [
-                            Text('3000',
-                                  style:TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                    color: Color.fromRGBO(46, 189, 133, 1.0),
+                           filter_info(context),
+                            SizedBox(height:10),
+                            Consumer<PartyModel>(
+                                builder: (context, party, child){
+                                return Expanded(
+                                  child: SizedBox(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                          children: party.orderList.map<Widget>((item) => ListItem(route:'/order',name:item.name, amount:item.amount, date: item.date,order: 1,)).toList()
+                                      ),
+                                    ),
                                   ),
-                                  ),
-                            Text('You will get',
-                                  style:TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0,
-                                    color: Color.fromRGBO(46, 189, 133, 1.0),
-                                  ),
-                                  ),
-                          ],
-                        ),
-
-                      ),
-                      Divider(height: 1, thickness: 0.5, endIndent: 15,),
-                  ],
-                ),
+                                );
+                              }),
         ]
         ),
           ),
@@ -121,5 +90,45 @@ class _PartiesState extends State<Parties> {
           )
           ),
     );
+  }
+}
+class Order{
+  var name;
+  var amount;
+  var date;
+  var type;
+  bool display = true;
+  Order({this.name, this.amount, this.date, this.type});
+  setBool(bool newVal) {
+    display = newVal;
+  }
+}
+
+class PartyModel extends ChangeNotifier{
+  String partyName;
+  List<Order> orders = [];
+  List<Order> get orderList => orders.where((element)=>element.display == true).toList();
+  PartyModel({this.partyName}){
+    var initFuture = initializeScreen();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  initializeScreen() async{
+    orders = await DBprovider.db.getOrderList(partyName);
+  }
+  searchItems(text){
+    print(text);
+    text = text.toLowerCase();
+    RegExp match = new RegExp('^$text');
+    orders.forEach((element) {
+      if (!match.hasMatch(element.name.toLowerCase())){
+        element.setBool(false);
+      }
+      else{
+        element.setBool(true);
+      }
+    });
+    notifyListeners();
   }
 }

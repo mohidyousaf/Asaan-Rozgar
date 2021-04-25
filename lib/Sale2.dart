@@ -65,11 +65,12 @@ class _Sale2State extends State<Sale2> {
   // List<int> quantity = [20, 2];
   // List<String> image = ['Image1', 'Image2'];
 
+  var accounts = [];
   Map data = {};
   String name;
   bool toGive = false;
   int invoiceNo = 8;
-  int _value = 1;
+  String _value = 'Cash';
   TextEditingController amountReceived = new TextEditingController();
 //  TextEditingController ProductName = new TextEditingController();
   double receivable;
@@ -423,22 +424,21 @@ class _Sale2State extends State<Sale2> {
                                 children: [
                                   SizedBox(width: 10,),
                                   Container(
-                                    child: DropdownButton(
-                                        value: _value,
-                                        items: [
-                                          DropdownMenuItem(
-                                            child: Text("Cash"),
-                                            value: 1,
-                                          ),
-                                          DropdownMenuItem(
-                                            child: Text("Bank"),
-                                            value: 2,
-                                          ),
-                                        ],
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _value = value;
-                                          });
+                                    child: Consumer<CartModel>(
+                                        builder: (context, model, child){
+                                          return DropdownButton(
+                                              value: _value,
+                                              items: model.accountList.map((String dropDownStringItem){
+                                                return DropdownMenuItem<String>(
+                                                  value: dropDownStringItem,
+                                                  child: Text(dropDownStringItem),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  _value = value;
+                                                });
+                                              });
                                         }),
                                   ),
                                 ],
@@ -461,13 +461,17 @@ class _Sale2State extends State<Sale2> {
                                         color: Color.fromRGBO(11, 71, 109, 1.0),
                                       )),
                                   SizedBox(height: 5,),
-                                  Text("Rs. 0.00",
-                                      style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 20.0,
-                                        color: Color.fromRGBO(11, 71, 109, 1.0),
-                                      )),
+                                  Consumer<CartModel>(
+                                    builder: (context,cart,child){
+                                      return Text(cart.totalPrice.toString(),
+                                          style: TextStyle(
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 20.0,
+                                            color: Color.fromRGBO(11, 71, 109, 1.0),
+                                          ));
+                                    },
+                                  )
                                 ],
                               ),
 
@@ -482,6 +486,7 @@ class _Sale2State extends State<Sale2> {
                                             onPressed: () {
                                               print(amountReceived.text.toString());
                                               DBprovider.db.addOrder(
+                                                  _value,
                                                   companyName ,
                                                   objects,
                                                   name,
@@ -537,11 +542,23 @@ class _Sale2State extends State<Sale2> {
 // }
 
 class CartModel extends ChangeNotifier{
+  List<String> accounts = [];
   List<addItem> cartList = [];
+  CartModel(){
+    var initFuture = initialize();
+    initFuture.then((voidVal){
+      notifyListeners();
+    });
+  }
+  initialize() async{
+    accounts = await DBprovider.db.getAccounts();
+    print('accounts: $accounts');
+  }
   void addItems(object){
     cartList.add(object);
     notifyListeners();
   }
+  List<String> get accountList => accounts;
   double get totalPrice =>
       cartList.fold(0, (total, current) => total + (current.quantity*current.price));
 

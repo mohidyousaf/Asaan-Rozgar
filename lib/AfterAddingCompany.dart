@@ -105,12 +105,6 @@ class _CheckState extends State<Check> {
                           elevation: 7.0,
                           child: TextButton(
                             onPressed: ()  async{
-                              var temp = await DBprovider.db.addAccount(
-                                  name,
-                                  "Default",
-                                  "None",
-                                  "None",
-                                  0);
                               Navigator.pushNamed(context,'/balance',arguments: {
                                 'companyName':name
                               });
