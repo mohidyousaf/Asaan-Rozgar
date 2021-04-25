@@ -38,6 +38,8 @@ class DBprovider{
     print(await getDatabasesPath());
     if (delete) {
       await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('accountCheck');
     }
     Database dbs = await openDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'),            //join method comes from path package
         onCreate: (db,version) async {
@@ -505,7 +507,7 @@ class DBprovider{
     updateBalance(accountName:null, name:companyName, balance: newBalance);
   }
 
-  addEquity(name, amount)async{
+  addEquity(name, amount , accountName, check)async{
 
     final db = await database;
 
@@ -535,7 +537,10 @@ class DBprovider{
           ) VALUES (?,?,?,?)
       ''',[EquityID, amount, 'equity', date]);
     var newBalance = companyBalance + double.parse(amount);
-    updateBalance(accountName:null, name:companyName, balance: newBalance);
+
+    if(check==1){
+      updateBalance(accountName:accountName, name:companyName, balance: newBalance);
+    }
 
     print(equityQuery);
     return equityQuery;

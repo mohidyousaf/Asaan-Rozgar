@@ -110,6 +110,19 @@ class _AddAccountsState extends State<AddAccounts> {
                                     Name.text.toString(),
                                     AccountNo.text.toString(),
                                     CurrentBal.text.toString());
+
+                                int check = prefs.getInt('accountCheck');
+
+                                if (check == null){
+                                  var temp2 = await DBprovider.db.addEquity("Owner's Equity" , CurrentBal.text.toString(), name, 0);
+                                }
+                                else{
+                                  var temp2 = await DBprovider.db.addEquity("Owner's Equity" , CurrentBal.text.toString(), name, 1);
+                                }
+
+
+
+
                                 loggedIn == null ? Navigator.of(context).pushNamedAndRemoveUntil('/signIn', (Route<dynamic> route) => false):
                                 Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                               }
