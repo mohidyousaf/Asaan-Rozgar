@@ -111,8 +111,9 @@ class _Reports1State extends State<Reports1> {
                                         child:
                                         Consumer <IncomeModel>(
                                           builder: (context,model,child){
-                                            int ratio = model.totalOpex;
-                                            return percChart(0.3, Color.fromRGBO(11, 71, 109, 1), '${ratio.toString()}%',"Opex Ratio");
+                                            double ratio = model.totalOpex;
+                                            int rat = ratio.toInt();
+                                            return percChart(0.3, Color.fromRGBO(11, 71, 109, 1), '${rat.toString()}%',"Opex Ratio");
                                           },
                                         )
                                       ),
@@ -619,7 +620,7 @@ class IncomeModel extends ChangeNotifier {
   double totalGoodsCost= 0;
   double revenue =  0.0;
   double expense = 0.0;
-  int opexRatio = 0;
+  double opexRatio = 0;
   double grossProfitRatio= 0;
   double grossProfit= 0;
   double gst= 0;
@@ -645,6 +646,7 @@ class IncomeModel extends ChangeNotifier {
 
   getSaleItems() async {
     objects = await DBprovider.db.getSaleItems();
+    print(objects);
     objects2= await DBprovider.db.getExpenseItems();
     totalGoodsCost = await DBprovider.db.getTotalCost();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -660,9 +662,11 @@ class IncomeModel extends ChangeNotifier {
     print(objects);
     print(objects2);
 
-    opexRatio = (expense ~/ revenue).toInt();
+    revenue != 0 ? opexRatio = (expense / revenue) * 100.0: opexRatio=0;
+    print('opex ratio is $opexRatio');
     grossProfit = revenue - expense;
-    grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100;
+
+    revenue != 0 ? grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100 : grossProfitRatio=0;
     gst = 16/100 * revenue;
     netProfit= grossProfit - gst;
 

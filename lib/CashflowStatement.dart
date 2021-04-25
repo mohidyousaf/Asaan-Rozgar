@@ -705,10 +705,6 @@ class _CashflowReportState extends State<CashflowReport> {
 }
 
 
-
-
-
-
 class CashModel extends ChangeNotifier{
 
   double netIncome = 0;
