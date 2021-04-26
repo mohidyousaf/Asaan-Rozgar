@@ -177,14 +177,20 @@ class _CashflowReportState extends State<CashflowReport> {
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 10.0,
                                               )),
-                                          Text("384",
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    11, 71, 109, 1.0),
-                                                fontFamily: "Lato",
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 10.0,
-                                              )),
+
+                                          Consumer<CashModel>(
+                                            builder: (context,model,child){
+                                              return Text("384",
+                                                  style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        11, 71, 109, 1.0),
+                                                    fontFamily: "Lato",
+                                                    fontWeight: FontWeight.normal,
+                                                    fontSize: 10.0,
+                                                  ));
+                                              }
+                                            ),
+
                                           Divider(),
                                           Text("Out Flow",
                                               style: TextStyle(

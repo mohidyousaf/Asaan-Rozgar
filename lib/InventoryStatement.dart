@@ -123,7 +123,8 @@ class _InventoryReportState extends State<InventoryReport> {
                                           ),
                                           Consumer<InventoryModel>(
                                               builder: (context, model, child) {
-                                            turnoverratio = model.ratio1;
+                                                model.ratio1!= null?
+                                            turnoverratio = model.ratio1: turnoverratio=0;
                                             return Text(num.parse(turnoverratio.toStringAsFixed(2)).toString(),
                                               style: TextStyle(
                                                 color: Color.fromRGBO(
@@ -302,7 +303,8 @@ class _InventoryReportState extends State<InventoryReport> {
 
                                     Consumer<InventoryModel>(
                                         builder: (context, model, child) {
-                                      objects = model.items;
+                                          model.items!= null?
+                                      objects = model.items: objects=[];
                                       return Column(
                                           children: objects
                                               .map((sub) =>

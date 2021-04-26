@@ -95,13 +95,15 @@ class _drawerState extends State<drawer> {
                 ),
               ),
               currentAccountPicture: CircleAvatar(
-                      radius: 60.0,
-                      backgroundColor:  Colors.orange,
-                      child: Image.asset(
-                       'assets/photo.png',
-                      ), //For Image Asset
+                radius: 100,
+                backgroundColor: Colors.red,
+                child: CircleAvatar(
+                        radius: 40.0,
+                        // backgroundColor:  Colors.white,
+                        child:Icon(Icons.account_circle, size: 70,), //For Image Asset
 
-                    ),
+                      ),
+              ),
                // image:AssetImage('assets/photo.png'),
 
               ),

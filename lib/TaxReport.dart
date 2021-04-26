@@ -409,7 +409,10 @@ class _TaxReportState extends State<TaxReport> {
                        // Spacer(),
                          Consumer <TaxModel>(
                              builder : (context,model,child){
-                               double tax = model.saleTax- model.totalPurchaseTax;
+                               double tax=0;
+                               model.saleTax != null && model.totalPurchaseTax!=null?
+                               tax = model.saleTax- model.totalPurchaseTax
+                               :tax=0;
                                return Text(tax.toString(),
                                    style: TextStyle(
                                      color: Colors.black,

@@ -43,7 +43,7 @@ class _transactionsState extends State<transactions> {
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
     double slider_width=phone_width*0.9;
-    double slider_height=phone_height*0.0417;
+    double slider_height=phone_height*0.05;
     return ChangeNotifierProvider(
       create: (context) => TransactionModel(),
       child: Scaffold(
