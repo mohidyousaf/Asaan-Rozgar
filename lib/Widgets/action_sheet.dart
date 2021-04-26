@@ -449,7 +449,7 @@ inventory_filter(context){
                   ),
                   //Prints the word filter on top and has a divider below it.
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                      Padding(
                        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
@@ -651,28 +651,25 @@ void expenses_filter(context){
                 ),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                                    child: Divider(
+                  Divider(
                       indent: 165,
-                      endIndent: 180,
+                      endIndent: 165,
                       thickness: 5.0,
                       color: Colors.grey,
                     ),
-                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                        Align(
-                          alignment: Alignment.center,
-                                                child: Text(
-                            'Filters',
-                            style: GoogleFonts.lato(textStyle: TextStyle(
-                              color: Color.fromRGBO(11, 71, 109, 1.0)),
-                              fontSize: 24.0,
-                              ),
-                          ),
-                        ),
+                         Center(
+                           child: Text(
+                              'Filters',
+                              style: GoogleFonts.lato(textStyle: TextStyle(
+                                color: Color.fromRGBO(11, 71, 109, 1.0)),
+                                fontSize: 24.0,
+                                ),
+                            ),
+                         ),
+                      
                     ]
                     ),
                     Divider(
@@ -718,21 +715,23 @@ void calendar_sheet(context,int color_red,int color_green,int color_blue){
                 children: [
                   Divider(
                     indent: 165,
-                    endIndent: 180,
+                    endIndent: 165,
                     thickness: 5.0,
                     color: Colors.grey,
                   ),
                   //Adds the words "Date" on the header.
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                      
-                        Text(
-                          'Date',
-                          style: GoogleFonts.lato(textStyle: TextStyle(
-                            color: Color.fromRGBO(11, 71, 109, 1.0)),
-                            fontSize: 24.0,
-                            ),
+                        Center(
+                          child: Text(
+                            'Date',
+                            style: GoogleFonts.lato(textStyle: TextStyle(
+                              color: Color.fromRGBO(11, 71, 109, 1.0)),
+                              fontSize: 24.0,
+                              ),
+                          ),
                         ),
                     ]
                     ),
@@ -997,29 +996,26 @@ void sale_purchase_filter(context){
                   ),
                 child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                                      child: Divider(
+                     Divider(
                         indent: 165,
-                        endIndent: 180,
+                        endIndent: 165,
                         thickness: 5.0,
                         color: Colors.grey,
                       ),
-                    ),
+                    
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                       
-                          Align(
-                            alignment: Alignment.center,
-                                                  child: Text(
-                              'Filters',
-                              style: GoogleFonts.lato(textStyle: TextStyle(
-                                color: Color.fromRGBO(11, 71, 109, 1.0)),
-                                fontSize: 24.0,
-                                ),
-                            ),
-                          ),
+                        Center(
+                          child: Text(
+                                'Filters',
+                                style: GoogleFonts.lato(textStyle: TextStyle(
+                                  color: Color.fromRGBO(11, 71, 109, 1.0)),
+                                  fontSize: 24.0,
+                                  ),
+                              ),
+                        ),
+                          
                       ]
                       ),
                       Divider(
@@ -1096,9 +1092,12 @@ class _sale_purchase_filtersState extends State<sale_purchase_filters> {
                       child: ButtonTheme(
                         alignedDropdown: true,
                         child: Container(
+                          width: box_width,
+                          height: box_height,
                           decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                                side: BorderSide(style: BorderStyle.solid),
+                                borderRadius: BorderRadius.all(Radius.circular(8.0)),
                               ) 
                             ),
                            child: DropdownButton<String>(
@@ -1234,42 +1233,25 @@ void party_filter(context){
                     alignment: Alignment.center,
                                     child: Divider(
                       indent: 165,
-                      endIndent: 180,
+                      endIndent: 165,
                       thickness: 5.0,
                       color: Colors.grey,
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                     Padding(
-                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                       child: IconButton(
-                         icon: Icon(Icons.close),
-                          onPressed: (){
-                            Navigator.of(context).pop();
-                          }
-                          ),
+                     
+                     Center(
+                       child: Text(
+                              'Filters',
+                              style: GoogleFonts.lato(textStyle: TextStyle(
+                                color: Color.fromRGBO(11, 71, 109, 1.0)),
+                                fontSize: 24.0,
+                                ),
+                            ),
                      ),
-                        Align(
-                          alignment: Alignment.center,
-                                                child: Text(
-                            'Filters',
-                            style: GoogleFonts.lato(textStyle: TextStyle(
-                              color: Color.fromRGBO(11, 71, 109, 1.0)),
-                              fontSize: 24.0,
-                              ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                          child: TextButton(
-                            onPressed: () {},
-                             child: Text(
-                               'Reset',
-                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black)),
-                             )),
-                        )
+                        
                     ]
                     ),
                     Divider(

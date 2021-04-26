@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 // import 'package:asaanrozgar/Components/orderItem.dart';
 
@@ -77,28 +78,7 @@ class _AddItemState extends State<AddItem> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(255, 159, 10, 1.0),
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * .1,
-          leading: IconButton(
-            onPressed: () => {Navigator.pop(context)},
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-          elevation: 0,
-          title: Text("Add Item",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              )),
-          centerTitle: true,
-          backgroundColor: Color.fromRGBO(255, 159, 10, 1.0),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.menu),
-            )
-          ],
-        ),
+        appBar: std_appbar(context, 'Add Item', 255, 159, 10),
         body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
@@ -154,7 +134,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "Partner Name (optional)",
+                      label: "Partner Name",
                       controller: partnerName),
                 ),
                 Container(

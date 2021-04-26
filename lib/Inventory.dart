@@ -13,6 +13,9 @@ import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:asaanrozgar/drawer.dart';
 
+void main() => runApp(MaterialApp(
+  home: inventory(),
+));
 
 //The Parent inventory class
 class inventory extends StatefulWidget {

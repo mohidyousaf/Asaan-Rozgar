@@ -21,7 +21,7 @@ class _AddEquitiesState extends State<AddEquities> {
   TextEditingController Name = new TextEditingController();
   TextEditingController Amount = new TextEditingController();
       String selected_drop;
-  var asset_type=['None','Owner\'s Equity','Shareholders\' Equity',];
+  var asset_type=['Owner\'s Equity','Shareholders\' Equity',];
   @override
   void initState(){
     super.initState();

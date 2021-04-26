@@ -7,6 +7,7 @@ import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/Sale2.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 
 
@@ -36,27 +37,7 @@ class _Sale3State extends State<Sale3> {
     });
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * .1,
-          leading: IconButton(
-            onPressed: () => {Navigator.pop(context)},
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-          title: Text("Choose Item",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              )),
-          centerTitle: true,
-          backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.menu),
-            )
-          ],
-        ),
+        appBar: std_appbar(context, 'Choose Item', 11, 71, 109),
         body: SingleChildScrollView(
           child: Column(
               children:[

@@ -10,6 +10,7 @@ import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/Purchase3.dart';
 import 'package:asaanrozgar/Purchase4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
@@ -138,27 +139,7 @@ class _Purchase2State extends State<Purchase2> {
     print(Balance_message);
     return Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * .1,
-          leading: IconButton(
-            onPressed: () => {Navigator.pop(context)},
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-          title: Text("Payment Details",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              )),
-          centerTitle: true,
-          backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.menu),
-            )
-          ],
-        ),
+        appBar: std_appbar(context, 'Payment Details', 11, 71, 109),
         body: Column(
           children: [
             Row(

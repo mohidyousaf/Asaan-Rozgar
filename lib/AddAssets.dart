@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 
+void main() => runApp(MaterialApp(
+  home: AddAssets(),
+));
 
 class AddAssets extends StatefulWidget {
   @override
