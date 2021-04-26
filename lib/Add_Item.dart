@@ -28,6 +28,8 @@ class _AddItemState extends State<AddItem> {
   TextEditingController taxRate = new TextEditingController();
   PickedFile imageFile;
   final ImagePicker _picker = ImagePicker();
+  Map data = {};
+  String name = '';
 
   _openGallery() async {
     var picture = await _picker.getImage(source: ImageSource.gallery);
@@ -76,19 +78,23 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    setState(() {
+      name = data['name'];
+    });
     return Scaffold(
         backgroundColor: Color.fromRGBO(255, 159, 10, 1.0),
         appBar: std_appbar(context, 'Add Item', 255, 159, 10),
-        body: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                color: Color.fromRGBO(250, 250, 250, 1.0),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(26),
-                  topRight: Radius.circular(26),
-                )),
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(250, 250, 250, 1.0),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(26),
+                topRight: Radius.circular(26),
+              )),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
@@ -121,53 +127,44 @@ class _AddItemState extends State<AddItem> {
                         ),
                         ),
                 Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "Product Name", controller: productName),
+                      label: "\t\t\tProduct Name", controller: productName),
                 ),
                 Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "Partner Name",
-                      controller: partnerName),
+                      label: "\t\t\tCategory Tag", controller: categoryTag),
                 ),
                 Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "Category Tag", controller: categoryTag),
+                      label: "\t\t\tPurchase Price", controller: purchasePrice),
                 ),
                 Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "Purchase Price", controller: purchasePrice),
+                      label: "\t\t\tSale Price", controller: salePrice),
                 ),
                 Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                  margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
-                  color: Color.fromRGBO(255, 255, 255, 1.0),
-                  child: InputTextFields(
-                      label: "Sale Price", controller: salePrice),
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child:
-                      InputTextFields(label: "Tax Rate", controller: taxRate),
+                      InputTextFields(label: "\t\t\tTax Rate", controller: taxRate),
                 ),
                 Container(
                     height: 35,
@@ -297,7 +294,7 @@ class _AddItemState extends State<AddItem> {
                         ];
                         Navigator.pushNamed(context, '/addItem2', arguments: {
                           'obj': order,
-                          'partyName': partnerName.text.toString(),
+                          'partyName': name,
                           'tag': categoryTag.text.toString(),
                           'salePrice': salePrice.text.toString(),
                           'taxRate': taxRate.text.toString(),

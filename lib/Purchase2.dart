@@ -301,7 +301,7 @@ class _Purchase2State extends State<Purchase2> {
                             children: [
                               SizedBox(height: 20),
                               Container(
-                                height: (objects.length > 2)? 100.0 :((objects.length)*50.0),
+                                height: (objects.length > 2)? 160.0 :((objects.length)*80.0),
                                 child: SingleChildScrollView(
                                   child: Column(
                                       children: objects
@@ -380,19 +380,7 @@ class _Purchase2State extends State<Purchase2> {
                           // ),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.7,
-                            child: InputTextFields(label: 'Amount Paid ',controller: amountReceived),
-                            
-                            // TextField(
-                            //   controller:amountReceived,
-                            //   decoration: InputDecoration(
-                            //     enabledBorder: UnderlineInputBorder(
-                            //       borderSide: BorderSide(color: Colors.grey),
-                            //     ),
-                            //     focusedBorder: UnderlineInputBorder(
-                            //       borderSide: BorderSide(color: Colors.grey),
-                            //     ),
-                            //   ),
-                            // ),
+                            child: InputTextFields(initial:'0.0', label: 'Amount Paid ',controller: amountReceived),
                           ),
                         ],
                       ),

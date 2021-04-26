@@ -41,12 +41,6 @@ class ListItem extends StatelessWidget {
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       secondaryActions: <Widget>[
-        IconSlideAction(
-          caption: 'Delete',
-          color: Colors.red,
-          icon: Icons.delete,
-          onTap: () {},
-        ),
       ],
       child: TextButton(
         onPressed: ()=> {

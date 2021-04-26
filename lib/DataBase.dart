@@ -35,12 +35,18 @@ class DBprovider {
     if (delete) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove('accountCheck');
+      prefs.remove('loggedIn');
+      prefs.remove('onBoarding');
       await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
     }
     Database dbs = await openDatabase(
         join(await getDatabasesPath(),
             'AssanRozgaar.db'), //join method comes from path package
         onCreate: (db, version) async {
+
+          await db.execute('''
+            PRAGMA foreign_keys = ON;
+          ''');
       await db.execute('''
           CREATE TABLE IF NOT EXISTS users (
               Username	TEXT,
@@ -90,7 +96,7 @@ class DBprovider {
               PRIMARY KEY(TransactionID),
               FOREIGN KEY(AccountID) REFERENCES accounts(AccountID),
               FOREIGN KEY(EquityID) REFERENCES  equity(EquityID),
-              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID) ON DELETE SET NULL,
               FOREIGN KEY(ExpenseID) REFERENCES expenses(ExpenseID),
               FOREIGN KEY(LiabilityID) REFERENCES liabilities(LiabilityID),
               FOREIGN KEY(AssetID) REFERENCES assets(AssetID),
@@ -117,7 +123,7 @@ class DBprovider {
               TotalReceived	REAL,
               OrderType	TEXT,
               Date TEXT,
-              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID) ON DELETE SET NULL,
               PRIMARY KEY(OrderID)
             );
             ''');
@@ -145,7 +151,7 @@ class DBprovider {
               BalanceDue	REAL,
               AmountPaid	REAL,
               FOREIGN KEY(CompanyID) REFERENCES company(CompanyID),
-              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID) ON DELETE SET NULL,
               PRIMARY KEY(LiabilityID)
             );
             ''');
@@ -159,7 +165,7 @@ class DBprovider {
               SalePrice	REAL,
               MinStock	INTEGER,
 
-              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID) ON DELETE SET NULL,
               PRIMARY KEY(ProductID)
             );
             ''');
@@ -177,7 +183,7 @@ class DBprovider {
               ProductID	INTEGER,
               Quantity	INTEGER,
               Price REAL,
-              FOREIGN KEY(ProductID) REFERENCES inventory(ProductID),
+              FOREIGN KEY(ProductID) REFERENCES inventory(ProductID) ON DELETE SET NULL,
               FOREIGN KEY(OrderID) REFERENCES orders(OrderID),
               PRIMARY KEY(OrderID, ProductID)
             );
@@ -196,7 +202,7 @@ class DBprovider {
               PartyID	INTEGER,
               Type	TEXT,
               Amount	REAL,
-              FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
+              FOREIGN KEY(PartyID) REFERENCES parties(PartyID) ON DELETE SET NULL,
               PRIMARY KEY(EquityID)
             );       
        ''');
@@ -285,9 +291,10 @@ class DBprovider {
 
   // productList is supposed to be a class with three attributes itemName, quantity and price.
   // this should be passed whenever the function is called
-  addOrder(accountName, companyName, productList, partyName, amount, received,
+  addOrder(accountName, companyName, productList, partyName, amount, _received,
       type) async {
     final db = await database;
+    double received = double.parse(_received);
     int partyID;
     double receivable;
     var payable;
@@ -326,7 +333,7 @@ class DBprovider {
       INSERT INTO orders(
         Date, PartyID, TotalPayable, TotalReceived, OrderType
         ) VALUES (?,?,?,?,?)
-    ''', [date, partyID, amount, received, type]);
+    ''', [date, partyID, double.parse(amount), received, type]);
 
     int orderID;
     var list2 =
@@ -395,7 +402,7 @@ class DBprovider {
     print('receivable :$receivable, amount: $amount, received: $received');
     double newReceivable = receivable;
     double newPayable = payable;
-    var balance = (double.parse(amount) - double.parse(received));
+    var balance = (double.parse(amount) - received);
     if (type == 'sale') {
       newReceivable += balance;
       totalReceivable += balance;
@@ -412,7 +419,7 @@ class DBprovider {
       updateBalance(
           accountName: accountName,
           name: companyName,
-          balance: companyBalance + double.parse(received));
+          balance: companyBalance + received);
     } else {
       newPayable += balance;
       totalPayable += balance;
@@ -429,7 +436,7 @@ class DBprovider {
       updateBalance(
           accountName: accountName,
           name: companyName,
-          balance: companyBalance - double.parse(received));
+          balance: companyBalance - received);
     }
 
     // var temp2= getBalance();
@@ -740,6 +747,7 @@ class DBprovider {
         FROM orders INNER JOIN 
         (orderGoods INNER JOIN inventory ON inventory.productID = orderGoods.productID)
         ON orders.OrderID = orderGoods.OrderID
+        ORDER BY Date DESC
     ''');
     List<SalePurchaseItem> list = [];
     res.forEach((element) {
@@ -917,8 +925,8 @@ class DBprovider {
       var temp = await db.rawQuery('''
         UPDATE accounts
         SET Balance= ?
-        WHERE CompanyID=? AND AccountType = ?
-      ''', [balance, companyID, 'Default']);
+        WHERE CompanyID=? AND BankName = ?
+      ''', [balance, companyID, 'Cash']);
     }
   }
 
@@ -946,8 +954,8 @@ class DBprovider {
       return temp;
     } else {
       final List<Map<String, dynamic>> temp = await db.rawQuery('''
-        SELECT * FROM  accounts WHERE CompanyID=? AND AccountType=?;
-      ''', [companyID, 'Default']);
+        SELECT * FROM  accounts WHERE CompanyID=? AND BankName = ?;
+      ''', [companyID, 'Cash']);
       return temp;
     }
   }
@@ -985,8 +993,28 @@ class DBprovider {
     ];
     Map<String, SaleExpense> list = {};
     final db = await database;
-    var res = await db
-        .query('transactions', columns: ['TransactionType', 'Amount', 'Date']);
+    var query = await db.rawQuery('''
+      SELECT OrderType, TotalPayable, Date
+      FROM orders
+    ''');
+    query.forEach((element) {
+      var inputFormat = DateFormat("MM/dd/yyyy");
+      var date = element['Date'];
+      var tempDate = inputFormat.parse(date);
+      if (list[monthList[tempDate.month - 1]] == null) {
+        list[monthList[tempDate.month - 1]] = new SaleExpense();
+      }
+      if (element['OrderType'] == 'sale'){
+        list[monthList[tempDate.month - 1]].sale += element['TotalPayable'];
+
+      }
+      else if (element['OrderType'] == 'purchase'){
+        list[monthList[tempDate.month - 1]].expense += element['TotalPayable'];
+      }
+    });
+    var res = await db.query(
+        'transactions',
+        columns: ['TransactionType', 'Amount', 'Date']);
     res.forEach((element) {
       var inputFormat = DateFormat("MM/dd/yyyy");
       var date = element['Date'];
@@ -994,9 +1022,13 @@ class DBprovider {
       if (list[monthList[tempDate.month - 1]] == null) {
         list[monthList[tempDate.month - 1]] = new SaleExpense();
       }
-      if (element['TransactionType'] == 'sale') {
-        list[monthList[tempDate.month - 1]].sale += element['Amount'];
-      } else {
+      if (element['TransactionType'] == 'sale' ||
+          element['TransactionType'] == 'purchase') {
+      }
+      else if (element['TransactionType'] == 'equity') {
+
+      }
+      else {
         list[monthList[tempDate.month - 1]].expense += element['Amount'];
       }
     });
@@ -1263,9 +1295,24 @@ class DBprovider {
         where: 'PartyID = ?',
         whereArgs: [partyID],
         orderBy: 'Date DESC');
+    double rec;
     orderQuery.forEach((element) {
+      print(element['TotalPayable'].runtimeType);
+      if(element['TotalReceived'].runtimeType == String){
+        print(element['TotalReceived']);
+        try{
+          rec = double.parse(element['TotalReceived']);
+        }
+        catch(e) {
+          rec = 0;
+        }
+      }
+      else{
+        rec = element['TotalReceived'];
+      }
       double total = element['TotalPayable'];
-      double received = element['TotalReceived'];
+      double received = rec;
+
       orders.add(new Order(
           type: element['OrderType'],
           name: element['OrderID'].toString(),
@@ -1284,12 +1331,32 @@ class DBprovider {
     double partyPay;
     double partyRec;
     String date;
-    double payable;
-    double received;
+    double payable = 0.0;
+    double received = 0.0;
     var price;
     var type;
 
-    print(id.runtimeType);
+    var partyQuery = (await db.rawQuery('''
+        SELECT PartyID, TotalPayable, TotalReceived from orders WHERE OrderID = ?
+    ''', [orderID])).forEach((element) {
+          partnerID = element['PartyID'];
+          payable = element['TotalPayable'];
+          double rec;
+          if(element['TotalReceived'].runtimeType == String){
+            print(element['TotalReceived']);
+            try{
+              rec = double.parse(element['TotalReceived']);
+            }
+            catch(e) {
+              rec = 0;
+            }
+          }
+          else{
+            rec = element['TotalReceived'];
+          }
+          received = rec;
+    });
+    // print(id.runtimeType);
     var temp1 = await db.rawQuery('''
         SELECT * 
         FROM inventory INNER JOIN 
@@ -1298,11 +1365,8 @@ class DBprovider {
         WHERE T.OrderID = ?
     ''', [orderID]);
     await Future.wait(temp1.map((element) async {
-      partnerID = element['PartyID'];
       price = element['Price'];
       date = element['Date'];
-      payable = element['TotalPayable'];
-      received = element['TotalReceived'];
       type = element['OrderType'];
       items.add(new addItem(
         itemName: element['ProductName'],
@@ -1356,7 +1420,21 @@ class DBprovider {
     var totalPayable;
     var totalReceivable;
     var partyID;
+    double orderReceived;
     double companyBalance;
+    double rec;
+    if(received.runtimeType == String){
+      try{
+        rec = double.parse(received);
+      }
+      catch(e) {
+        rec = 0;
+      }
+    }
+    else{
+      rec = received;
+    }
+    received = rec;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var companyName = prefs.getString('companyName');
     int companyID;
@@ -1368,6 +1446,25 @@ class DBprovider {
       companyID = element['CompanyID'];
       totalReceivable = element['TotalReceivable'];
       totalPayable = element['TotalPayable'];
+    });
+    var temp4 = (await db.query('orders',
+    columns: ['TotalReceived'],
+    where: 'OrderID = ?',
+    whereArgs: [orderID])).forEach((element) {
+      double rec;
+      if(element['TotalReceived'].runtimeType == String){
+        print(element['TotalReceived']);
+        try{
+          rec = double.parse(element['TotalReceived']);
+        }
+        catch(e) {
+          rec = 0;
+        }
+      }
+      else{
+        rec = element['TotalReceived'];
+      }
+      orderReceived = rec;
     });
 
     List<Map<String, dynamic>> temp =
@@ -1391,13 +1488,13 @@ class DBprovider {
           OrderID, Amount, TransactionType, Date
           ) VALUES (?,?,?,?)
       ''', [orderID, received, type, date]);
+
     print('receivable :$receivable, amount: $amount, received: $received');
     double newReceivable = receivable;
     double newPayable = payable;
-    var balance = (double.parse(amount) - double.parse(received));
     if (type == 'sale') {
-      newReceivable -= double.parse(received);
-      totalReceivable -= double.parse(received);
+      newReceivable -= received;
+      totalReceivable -= received;
       await db.rawQuery('''
        UPDATE parties
         SET Receivable = ?
@@ -1406,20 +1503,20 @@ class DBprovider {
       await db.rawQuery('''
        UPDATE company
         SET TotalReceivable = ?
-        WHERE CompanyID=?
+        WHERE CompanyID = ?
       ''', [totalReceivable, companyID]);
       await db.rawQuery('''
         UPDATE orders
-        SET TotalPayable = ?
+        SET TotalReceived = ?
         WHERE OrderID = ?
-      ''', [balance, orderID]);
+      ''', [orderReceived + received, orderID]);
       updateBalance(
           accountName: accountName,
           name: companyName,
-          balance: companyBalance + double.parse(received));
+          balance: companyBalance + received);
     } else {
-      newPayable -= double.parse(received);
-      totalPayable -= double.parse(received);
+      newPayable -= received;
+      totalPayable -= received;
       await db.rawQuery('''
        UPDATE parties
         SET Payable = ?
@@ -1432,13 +1529,13 @@ class DBprovider {
       ''', [totalPayable, companyID]);
       await db.rawQuery('''
         UPDATE orders
-        SET TotalPayable = ?
+        SET TotalReceived = ?
         WHERE OrderID = ?
-      ''', [balance, orderID]);
+      ''', [orderReceived + received, orderID]);
       updateBalance(
           accountName: accountName,
           name: companyName,
-          balance: companyBalance - double.parse(received));
+          balance: companyBalance - received);
     }
   }
 
@@ -1755,4 +1852,47 @@ class DBprovider {
       DELETE FROM inventory WHERE ProductID = ?
     ''', [productID]);
   }
+  removeParty(partyName) async{
+    final db = await database;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name = prefs.getString('companyName');
+    int companyID;
+    var receivables;
+    var payables;
+    var IDquery = (await db.query('company',
+        columns: ['CompanyID', 'TotalPayable', 'TotalReceivable'],
+        where: 'CompanyName = ?',
+        whereArgs: [name]))
+        .forEach((element) {
+      companyID = element['CompanyID'];
+      receivables = element['TotalReceivable'];
+      payables = element['TotalPayable'];
+    });
+    int partyID;
+    double rec;
+    double pay;
+    var temp = await db.rawQuery('''
+    SELECT PartyID, Receivable, Payable FROM parties WHERE PartyName = ?
+    ''', [partyName]);
+    temp.forEach((element) {
+      partyID = element['PartyID'];
+      rec = element['Receivable'];
+      pay = element['Payable'];
+
+    });
+    var query = await db.rawDelete('''
+      DELETE FROM parties WHERE PartyID = ?
+    ''', [partyID]);
+    double newRec = receivables - rec;
+    double newPay = payables - pay;
+    if (query != 0){
+      await db.rawQuery('''
+       UPDATE company
+        SET TotalReceivable = ?,
+            TotalPayable = ?
+        WHERE CompanyID=?
+      ''', [newRec, newPay, companyID]);
+    }
+  }
+
 }

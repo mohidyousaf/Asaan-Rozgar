@@ -200,7 +200,7 @@ class _additem2State extends State<additem2> {
                 ),
                 SizedBox(height: 15),
                 Container(
-                  height: MediaQuery.of(context).size.height * .7,
+                  height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -262,7 +262,7 @@ class _additem2State extends State<additem2> {
                         children: [
                           SizedBox(height: 20),
                           Container(
-                            height: (objects.length > 3)? 150.0 :((objects.length)*50.0),
+                            height: (objects.length > 2)? 160.0 :((objects.length)*80.0),
                             child: SingleChildScrollView(
                               child: Column(
                                   children: objects

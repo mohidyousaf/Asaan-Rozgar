@@ -44,6 +44,8 @@ import 'package:asaanrozgar/InventoryStatement.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:asaanrozgar/TaxReport.dart';
+import 'package:asaanrozgar/AddItem_pre.dart';
+
 
 
 
@@ -51,13 +53,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var loggedIn = prefs.getString('loggedIn');
-  prefs.setString('onBoarding','Done');
-  prefs.setString('companyAddress', 'aac@lums.co.uk');
-  // prefs.remove('onBoarding');
-  var companyName = prefs.getString('companyName');
-  print(companyName);
   var onBoarding = prefs.getString('onBoarding');
-
   print(loggedIn);
   runApp(MaterialApp(
       // initialRoute: '/InventoryReport',
@@ -89,6 +85,7 @@ void main() async{
         '/purchase_invoice':(context)=> Purchase_invoice(),
         '/inventory':(context) => inventory(),
         '/addItem2':(context)=> additem2(),
+        '/addItem1':(context)=> AddItemParty(),
         '/sale':(context)=> Sale(),
         '/sale2':(context)=> SaleMain(),
         '/check':(context)=> Check(),

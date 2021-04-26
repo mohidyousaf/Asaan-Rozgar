@@ -33,7 +33,7 @@ class _inventoryState extends State<inventory> {
     int color_Blue = 10;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
-    List<ChildButton> buttons = [ChildButton(label: 'Add Item', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/addItem')];
+    List<ChildButton> buttons = [ChildButton(label: 'Add Item', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/addItem1')];
     return ChangeNotifierProvider(
       create: (context) => InventoryModel(),
       //Creates the skeleton of the page

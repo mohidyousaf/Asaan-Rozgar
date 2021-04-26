@@ -27,14 +27,7 @@ class _signupState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Color.fromRGBO(11, 71, 109, 1.0),
-        accentColor: Colors.white,
-        textTheme: GoogleFonts.latoTextTheme(),
-      ),
-      //Creating the skeleton of the page.
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
         //Creating the body of the page.
         body: Column(
@@ -162,7 +155,6 @@ class _signupState extends State<SignUp> {
             ),
           ],
         ),
-      ),
     );
   }
 }

@@ -48,8 +48,8 @@ class _filter_listState extends State<filter_list> {
      maxQuantity = widget.model.maxQuantity.toDouble();
       print('$minPrice, $maxPrice');
      setState(() {
-       temp = list.toList();
-       dropdownvalue = temp[0];
+       temp = list.length == 0 ? ['None']:list.toList();
+       dropdownvalue = list.length == 0 ? 'None':temp[0];
        selected_range = RangeValues(minPrice, minPrice + (maxPrice - minPrice)/10);
        selected_q_range = RangeValues(minQuantity, minQuantity + (maxQuantity - minQuantity)/10);
 

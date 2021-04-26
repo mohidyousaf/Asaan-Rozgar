@@ -23,13 +23,13 @@ class InventoryItem{
 class InventoryModel extends ChangeNotifier{
   List<InventoryItem> items = [];
   List<InventoryItem> displayItems = [];
-  get maxPrice => items.fold(items[0].price, (previous, current) =>
+  get maxPrice => items.fold(items.length == 0 ? 1:items[0].price, (previous, current) =>
   previous > current.price ? previous: current.price);
-  get minPrice => items.fold(items[0].price, (previous, current) =>
+  get minPrice => items.fold(items.length == 0 ? 0:items[0].price, (previous, current) =>
   previous < current.price ? previous: current.price);
-  get maxQuantity => items.fold(items[0].quantity, (previous, current) =>
+  get maxQuantity => items.fold(items.length == 0 ? 1:items[0].quantity, (previous, current) =>
   previous > current.quantity ? previous: current.quantity);
-  get minQuantity => items.fold(items[0].quantity, (previous, current) =>
+  get minQuantity => items.fold(items.length == 0 ? 0:items[0].quantity, (previous, current) =>
   previous < current.quantity ? previous: current.quantity);
   get getItems => displayItems.where((element) => element.display == true).toList();
   InventoryModel(){

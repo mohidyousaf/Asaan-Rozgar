@@ -8,7 +8,7 @@ import 'package:asaanrozgar/drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 
 // void main() => runApp(MaterialApp(
 //   home:MyApp(),
@@ -58,7 +58,6 @@ class MyApp extends StatelessWidget {
         Test(),
         Expanded(
           child: Container(
-          height: MediaQuery.of(context).size.height * 0.7,
           width: MediaQuery.of(context).size.width,
           // margin: EdgeInsets.only(top: 200),
           decoration: BoxDecoration(
@@ -156,7 +155,7 @@ class _TestState extends State<Test> {
                   ),
 
                 SizedBox(
-                  width: 35,
+                  width: 40,
                   child: Center(
                     child: Text(
                       curr,
@@ -210,7 +209,7 @@ class _TestState extends State<Test> {
             Padding(
                 padding: const EdgeInsets.only(left:5.0, right: 5.0),
                 child: Text(
-                  "+91%",
+                  "- %",
                   //  textAlign: TextAlign.end,
                    style: TextStyle(
                           color: Color.fromRGBO(136, 182, 211, 1),
@@ -296,33 +295,20 @@ class SegmentControl extends StatefulWidget {
 
 class _SegmentControlState extends State<SegmentControl> {
   int currentState = 0;
-  List<Map<String, String>> partnerList = [];
-  List<Map<String, String>> transactionList = [];
-  void getList() async{
-    var temp = await DBprovider.db.getPartyList();
-    var temp2 = await DBprovider.db.getTransactionList();
-    setState((){
-      partnerList = temp;
-      transactionList = temp2;
-    });
 
-  }
   @override
   void initState(){
     super.initState();
-    getList();
   }
   // List<Map<String, String>> partnerList = [{'name':'Adil Aslam','amount':'3000'},{'name':'Mohid Yousaf','amount':'5000'}];
 
   Widget segmentControl()
   {
     return Container(
-      width: 200,
+      // width: 200,
       // margin: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.01,MediaQuery.of(context).size.width*0.001,MediaQuery.of(context).size.width*0.1,MediaQuery.of(context).size.height*0.6),
       // padding: EdgeInsets.all(8.0),
-      child:
-        SingleChildScrollView(
-          child:Column(
+      child: Column(
            children: [
              Center(
                 child: Container(
@@ -357,13 +343,13 @@ class _SegmentControlState extends State<SegmentControl> {
                ),
                 ),
              ),
-             currentState == 0 ? Partners(list:partnerList) : Transactions(list:transactionList),
+             // Transactions(list:transactionList)
+             Consumer<HomeModel>(builder: (context, model, child){
+               return currentState == 0 ? Partners(list:model.partners) : Transactions(list:model.transactions);
+             },)
+
            ],
-         ),
-        ),
-
-
-
+           ),
     );
   }
 
@@ -376,47 +362,106 @@ class _SegmentControlState extends State<SegmentControl> {
   }
 }
 
-class Partners extends StatelessWidget {
-  const Partners({this.list});
+class Partners extends StatefulWidget {
+  Partners({this.list});
   final List<Map<String, String>> list;
+  final _key = GlobalKey<AnimatedListState>();
+  @override
+  _PartnersState createState() => _PartnersState();
+}
+
+class _PartnersState extends State<Partners> {
+  var model;
+
+  Func(context, index){
+    widget._key.currentState.removeItem(
+        index, (context, animation) => ListItem(
+                        index:index,
+                        animation: animation),
+        duration: const Duration(milliseconds: 300));
+    Future.delayed(Duration(milliseconds: 250)).then((value) => model.removeItem(index));
+  }
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: list.map((item) => ListItem(route:'/party', name:item['name'], amount:item['amount'])).toList()
+    model = Provider.of<HomeModel>(context, listen: false);
+    //This contans a list of items that are both tappable and slidable.
+    return Flexible(
+        child:AnimatedList(
+      key: widget._key,
+      initialItemCount: widget.list.length,
+      itemBuilder: (context, index, animation) {
+        var item = widget.list[index];
+        return ListItem(
+            func: Func,
+            index:index,
+            animation: animation,
+            route: '/party',
+            name:item['name'],
+            amount:item['amount'],
+            ); // Refer step 3
+      },
+    )
     );
+
   }
 }
 
-class Transactions extends StatelessWidget {
-  const Transactions({this.list});
+class Transactions extends StatefulWidget {
+  Transactions({this.list});
   final List<Map<String, String>> list;
+  final _key = GlobalKey<AnimatedListState>();
+  @override
+  _TransactionsState createState() => _TransactionsState();
+}
+
+class _TransactionsState extends State<Transactions> {
+  var model;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-          children: list.map((item) => ListItem(
+    model = Provider.of<HomeModel>(context, listen: false);
+    //This contans a list of items that are both tappable and slidable.
+    return Flexible(
+      child: AnimatedList(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        key: widget._key,
+        initialItemCount: widget.list.length,
+        itemBuilder: (context, index, animation) {
+          var item = widget.list[index];
+          return ListItem(
+            index:index,
+            animation: animation,
             route: '/order',
             name:item['orderID'],
             amount:item['amount'],
             date:item['date'],
-            type: item['type'],)).toList(),
+            type: item['type'],);
+        },
       ),
     );
+
   }
 }
 
 class ListItem extends StatelessWidget {
 
-  const ListItem({this.type, this.name, this.amount, this.date, this.route, this.order});
+  const ListItem({this.func, this.model, this.animation, this.index, this.type, this.name, this.amount, this.date, this.route, this.order});
   final name;
   final amount;
   final date;
   final route;
   final order;
   final type;
+  final animation;
+  final index;
+  final model;
+  final func;
   @override
   Widget build(BuildContext context) {
-    return  Slidable(
+    return  order == null? SizeTransition(
+        axis: Axis.vertical,
+        sizeFactor: animation,
+        child:Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
       secondaryActions: type == null && order == null? <Widget>[
@@ -424,18 +469,20 @@ class ListItem extends StatelessWidget {
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete,
-          onTap: () {},
+          onTap: () async{
+            await myAlert(context, func, index);
+          },
         ),
       ]:[],
       child: TextButton(
-        onPressed: ()=> {
+        onPressed: ()=> type == null ? {
           Navigator.pushNamed(context, route, arguments:
           {'name': name})
-        },
+        }: null,
         child: Column(
             children: [
                 ListTile(
-                  title: Text(order == null ?
+                  title: Text(name == null ? '':order == null ?
                               type == null ? name: '${type}':'Order No. $name',
                   style:TextStyle(
                       fontFamily: "Lato",
@@ -449,7 +496,7 @@ class ListItem extends StatelessWidget {
                       Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                          Text(amount,
+                          Text(amount == null ? '':amount,
                           style:TextStyle(
                               fontFamily: "Lato",
                               fontWeight: FontWeight.bold,
@@ -490,11 +537,92 @@ class ListItem extends StatelessWidget {
                 ],
         ),
       ),
+    )
+    ):Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      actionExtentRatio: 0.25,
+      secondaryActions: type == null && order == null? <Widget>[
+        IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () async{
+            await myAlert(context, func, index);
+          },
+        ),
+      ]:[],
+      child: TextButton(
+        onPressed: ()=> type == null ? {
+          Navigator.pushNamed(context, route, arguments:
+          {'name': name})
+        }: null,
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(name == null ? '':order == null ?
+              type == null ? name: '${type}':'Order No. $name',
+                style:TextStyle(
+                  fontFamily: "Lato",
+                  fontWeight: FontWeight.normal,
+                  fontSize: 17.0,
+                  color: Color.fromRGBO(38, 51, 58, 1.0),
+                ),
+              ),
+              subtitle: Text(date == null ? '':date),
+              trailing:
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(amount == null ? '':amount,
+                    style:TextStyle(
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                      color: type != null ?
+                      type == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):
+                      Colors.red[500]:
+                      order != null ?
+                      order == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):Colors.red[500]:
+                      Color.fromRGBO(46, 189, 133, 1.0),//parties
+                    ),
+                  ),
+                  Text(type == null?
+                  order != null ?
+                  order == 'sale'?'To Get':'To Give':
+                  'You will Give'://party
+                  type == 'sale'?'Received':
+                  type == 'purchase'? 'Paid':
+                  type == 'expense'? 'Paid':
+                  type == 'asset' ? 'Paid':'',
+                    style:TextStyle(
+                      fontFamily: "Lato",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15.0,
+                      color: type != null ?
+                      type == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):
+                      Colors.red[500]:
+                      order != null ?
+                      order == 'sale'?Color.fromRGBO(46, 189, 133, 1.0):Colors.red[500]:
+                      Color.fromRGBO(46, 189, 133, 1.0),//parties
+                    ),
+                  ),
+                ],
+              ),
+
+            ),
+            Divider(height: 1, thickness: 0.5, endIndent: 15,),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class HomeModel extends ChangeNotifier{
+  List<Map<String, String>> partnerList = [];
+  List<Map<String, String>> transactionList = [];
+  get partners => partnerList;
+  get transactions => transactionList;
   var name;
   var type;
   var receivable;
@@ -523,6 +651,10 @@ class HomeModel extends ChangeNotifier{
     }
 
   }
+  removeItem(index)async{
+    var query = await DBprovider.db.removeParty(partnerList[index]['name']);
+    partnerList.removeAt(index);
+  }
   initializeScreen() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var name= prefs.getString('companyName');
@@ -530,6 +662,10 @@ class HomeModel extends ChangeNotifier{
     saleExpenses = await DBprovider.db.getTransactions();
     receivable = details['Receivable'];
     payable = details['Payable'];
+    var temp = await DBprovider.db.getPartyList();
+    var temp2 = await DBprovider.db.getTransactionList();
+    partnerList = temp;
+    transactionList = temp2;
   }
   initializePartyScreen(name) async{
     var partyDetails = await DBprovider.db.getData(name);
@@ -538,4 +674,52 @@ class HomeModel extends ChangeNotifier{
     notifyListeners();
   }
 }
+
+myAlert(BuildContext context, func, index)async {
+  return await showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))
+        ),
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.delete, color: Colors.red,size: 50,),
+            Text('Delete Party ?', style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey)))
+          ],
+        ),
+        content: Text('Do you really want to delete Party ?', style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey))),
+        actions: <Widget>[
+          OutlinedButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              // true here means you clicked ok
+            },
+            style: ButtonStyle(shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
+            ),
+            child: Text('Cancel', style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey))),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right:14.0),
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.redAccent),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)))
+              ),
+              child:  Text('Delete', style: GoogleFonts.lato(textStyle:TextStyle(color: Colors.white, ),)),
+              onPressed: () {
+                func(context, index);
+                Navigator.of(context).pop(true);
+                // true here means you clicked ok
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 

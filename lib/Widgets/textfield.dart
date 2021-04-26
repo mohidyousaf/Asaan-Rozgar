@@ -20,25 +20,41 @@ Widget input_text_fields(String label,String hinttext){
 //SHIFFA STYLE
 class InputTextFields extends StatefulWidget {
 
-  InputTextFields({this.label,this.controller, this.validateFunc, this.arg});
+  InputTextFields({this.initial:'',this.label,this.controller, this.validateFunc, this.arg});
   final String label;
   final TextEditingController controller;
   final String Function({String text,int args}) validateFunc;
   final arg;
+  final initial;
+
 
   @override
   _InputTextFieldsState createState() => _InputTextFieldsState();
 }
 class _InputTextFieldsState extends State<InputTextFields> {
+  String val;
+
+  @override
+  initState(){
+    super.initState();
+    val = widget.initial;
+  }
+  onChanges(text){
+      val = text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        controller: widget.controller,
+        controller: widget.controller..text = val,
         cursorColor: Colors.lightBlue,
         obscureText: widget.label=='Password' ? true : false,
         validator: (text) {
           return widget.validateFunc(text:text, args:widget.arg);
 
+        },
+        onChanged: (text){
+          onChanges(text);
         },
         decoration: InputDecoration(
           // border: InputBorder.none,
@@ -46,6 +62,12 @@ class _InputTextFieldsState extends State<InputTextFields> {
           // enabledBorder: InputBorder.none,
           // errorBorder: InputBorder.none,
           // disabledBorder: InputBorder.none,
+          labelText:'${widget.label}',
+          labelStyle: GoogleFonts.lato(
+              textStyle: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+              )),
           hintText: '${widget.label}',
           hintStyle: GoogleFonts.lato(
               textStyle: TextStyle(

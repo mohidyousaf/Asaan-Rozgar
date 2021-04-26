@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:asaanrozgar/onboarding_controller.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import './home.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 // void main() {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   runApp(MaterialApp(
@@ -61,7 +61,9 @@ class Onboarding extends StatelessWidget {
 ),
           SizedBox(height: 15,),
           index ==3?  FlatButton(
-                    onPressed: () {
+                    onPressed: () async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('onBoarding', 'Done');
                       Navigator.of(context).pop();
                       Navigator.push(
                       context,

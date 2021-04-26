@@ -296,7 +296,7 @@ class _Sale2State extends State<Sale2> {
                                     children: [
                                       SizedBox(height: 20),
                                       Container(
-                                        height: (objects.length > 2)? 100.0 :((objects.length)*50.0),
+                                        height: (objects.length > 2)? 160.0 :((objects.length)*80.0),
                                         child: SingleChildScrollView(
                                           child: Column(
                                               children: objects
@@ -334,25 +334,6 @@ class _Sale2State extends State<Sale2> {
                             children: [
                               SizedBox(
                                 height: 20,
-                              ), Row(
-                                children: [
-                                  Text("Total:",
-                                      style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14.0,
-                                        color: Colors.black54,
-                                      )),
-                                  Consumer<CartModel>(
-                                      builder:(context, cart, child){
-                                        return Text(cart.totalPrice.toString());
-                                      }
-                                  )
-                                ],
-                              ),
-
-                              SizedBox(
-                                height: 20,
                               ),
                               // Text("Paid:",
                               //     style: TextStyle(
@@ -361,71 +342,45 @@ class _Sale2State extends State<Sale2> {
                               //       fontSize: 14.0,
                               //       color: Colors.black54,
                               //     )),
-                              Row(
-                                children: [
-                                  // Text("Rs.",
-                                  //     style: TextStyle(
-                                  //       fontFamily: "Lato",
-                                  //       fontWeight: FontWeight.w500,
-                                  //       fontSize: 14.0,
-                                  //       color: Colors.black54,
-                                  //     )),
-                                  SizedBox(
-                                    width: 10,
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child:InputTextFields(label: 'Amount Received ',controller: amountReceived),
                                   ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width * 0.7,
-                                    child: InputTextFields(label: 'Amount Received ',controller: amountReceived),
-                                    
-                                    // TextField(
-                                    //   controller:amountReceived,
-                                    //   decoration: InputDecoration(
-                                    //     enabledBorder: UnderlineInputBorder(
-                                    //       borderSide: BorderSide(color: Colors.grey),
-                                    //     ),
-                                    //     focusedBorder: UnderlineInputBorder(
-                                    //       borderSide: BorderSide(color: Colors.grey),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ),
-                                ],
-                              ),
                               SizedBox(
                                 height: 20,
                               ),
-                              Text("Payment Type",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.0,
-                                    color: Colors.black54,
-                                  )),
+                              Padding(
+                                padding: const EdgeInsets.only(left:20.0),
+                                child: Text("Payment Type",
+                                    style: TextStyle(
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14.0,
+                                      color: Colors.black54,
+                                    )),
+                              ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 10,),
-                                  Container(
-                                    child: Consumer<CartModel>(
-                                        builder: (context, model, child){
-                                          return DropdownButton(
-                                              value: _value,
-                                              items: model.accountList.map((String dropDownStringItem){
-                                                return DropdownMenuItem<String>(
-                                                  value: dropDownStringItem,
-                                                  child: Text(dropDownStringItem),
-                                                );
-                                              }).toList(),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _value = value;
-                                                });
-                                              });
-                                        }),
-                                  ),
-                                ],
+                              SizedBox(width: 10,),
+                              Container(
+                                padding: const EdgeInsets.only(left:20.0),
+                                child: Consumer<CartModel>(
+                                    builder: (context, model, child){
+                                      return DropdownButton(
+                                          value: _value,
+                                          items: model.accountList.map((String dropDownStringItem){
+                                            return DropdownMenuItem<String>(
+                                              value: dropDownStringItem,
+                                              child: Text(dropDownStringItem),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _value = value;
+                                            });
+                                          });
+                                    }),
                               ),
                             ],
                           ),
