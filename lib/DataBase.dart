@@ -483,6 +483,33 @@ class DBprovider {
     return res2;
   }
 
+  addLoan(amount,timePeriod,interestRate)async {
+    final db = await database;
+
+    var res2 = await db.rawInsert('''
+    INSERT INTO liabilities(
+      BaseAmount, TimePeriod,InterestRate
+    ) VALUES (?,?,?)
+    ''', [amount, timePeriod, interestRate]);
+
+    int loanID;
+    var list2 = (await db.rawQuery('SELECT last_insert_rowid()')).forEach((element) {
+      loanID = element['last_insert_rowid()'];
+    });
+
+
+    DateTime now = DateTime.now();
+    String date = DateFormat('yMd').format(now);// 28/03/2020
+    await db.rawInsert('''
+        INSERT INTO transactions(
+          LiabilityID, Amount, TransactionType, Date
+          ) VALUES (?,?,?,?)
+      ''',[loanID, amount, 'liability', date]);
+
+
+    return res2;
+  }
+
   addAssets(name, description, type, value) async {
     final db = await database;
     double companyBalance;
@@ -1895,4 +1922,23 @@ class DBprovider {
     }
   }
 
+
+  getLoanAmount()async{
+    final db = await database;
+
+    print('here');
+    double val= 0;
+    var temp = await db.rawQuery('''
+        SELECT *
+        FROM liabilities
+      ''');
+
+    temp.forEach((element) {
+      val+= element['BaseAmount'];
+    });
+
+    print(val);
+    return val;
+  }
 }
+
