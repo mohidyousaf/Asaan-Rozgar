@@ -123,7 +123,7 @@ class _AddEquitiesState extends State<AddEquities> {
                         elevation: 7.0,
                         child: TextButton(
                           onPressed: () async {
-                            var temp = await DBprovider.db.addEquity(Name.text.toString(), Amount.text.toString());
+                            var temp = await DBprovider.db.addEquity(selected_drop, Amount.text.toString(), null, 1);
                             print(temp);
                             Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                             },

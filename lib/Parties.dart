@@ -72,7 +72,7 @@ class _PartiesState extends State<Parties> {
                       child: Column(
                           children: [
                             //Creates the filter and report buttons on the top.
-                           filter_info(context),
+                           filter_info(context,name),
                             SizedBox(height:10),
                             Consumer<PartyModel>(
                                 builder: (context, party, child){

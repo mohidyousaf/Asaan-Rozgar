@@ -17,7 +17,7 @@ import 'package:asaanrozgar/drawer.dart';
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 
- void main() => runApp(MaterialApp(home: InventoryReport()));
+ // void main() => runApp(MaterialApp(home: InventoryReport()));
 
 class InventoryReport extends StatefulWidget {
   @override
@@ -47,7 +47,10 @@ class _InventoryReportState extends State<InventoryReport> {
     final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
                                       ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
 
-    return Scaffold(
+    return ChangeNotifierProvider(
+    create : (context) => InventoryModel(),
+      child :
+      Scaffold(
         backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
         endDrawer: drawer(),
         appBar: std_appbar(context, 'Inventory Statement', 11, 71, 109),
@@ -281,12 +284,19 @@ class _InventoryReportState extends State<InventoryReport> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                    
             // Columnn displays each item of the Inventory
-                
-                Column(
-                      children: objects
-                          .map((sub) => inventory_list(obj4: sub))
-                          .toList()),
-                
+
+
+
+                Consumer<InventoryModel>(
+                  builder : (context,model,child){
+                    objects = model.items;
+                    return Column(
+                        children: objects
+                            .map((sub) => inventory_list(obj4: sub))
+                            .toList());
+                  }
+                ),
+
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
                        FlatButton(
@@ -313,6 +323,25 @@ class _InventoryReportState extends State<InventoryReport> {
             )],
         ),
         ),
-        );
+        ));
   }
+}
+
+
+class InventoryModel extends ChangeNotifier{
+
+  List<inventory_items> objects=[];
+  get items => objects;
+
+ InventoryModel() {
+    var initFuture = getInformation();
+    initFuture.then((voidVal) {
+      notifyListeners();
+    });
+  }
+
+ getInformation()async{
+   objects = await DBprovider.db.getInventoryReportDetails();
+ }
+
 }

@@ -128,14 +128,21 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 13.0,
                                         ),
                                       ),
-                                      Text("1.5",
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                193, 193, 193, 1),
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 30.0,
-                                          )),
+
+                                      Consumer<BalanceModel>(
+                                        builder: (context,model,child){
+                                          double ratio = model.totalQuickRatio;
+                                          return Text(num.parse(ratio.toStringAsFixed(2)).toString(),
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    193, 193, 193, 1),
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30.0,
+                                              ));
+                                        },
+                                      ),
+
                                       Text(
                                         "CURRENT RATIO",
                                         style: TextStyle(
@@ -145,26 +152,35 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 13.0,
                                         ),
                                       ),
-                                      Text(
-                                        "1.8",
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(193, 193, 193, 1),
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 30.0,
-                                        ),
+                                      Consumer<BalanceModel>(
+                                        builder: (context,model,child){
+                                          double ratio = model.totalCurrentRatio;
+                                          return Text(num.parse(ratio.toStringAsFixed(2)).toString(),
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    193, 193, 193, 1),
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30.0,
+                                              ));
+                                        },
                                       ),
                                     ],
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 18.0),
-                                  child: percChart(
-                                      0.84,
-                                      Color.fromRGBO(24, 153, 161, 1),
-                                      "84%",
-                                      "DEPT-ASSET RATIO"),
+                                  child:
+                                    Consumer<BalanceModel>(
+                                      builder: (context,model,cild){
+                                        double ratio = model.totalDeptAssetRatio;
+                                        return   percChart(
+                                            0.84,
+                                            Color.fromRGBO(24, 153, 161, 1),
+                                            '${ratio.toInt().toString()}%',
+                                            "DEPT-ASSET RATIO");
+                                      }
+                                    )
                                 ),
                               ],
                             ),
@@ -841,6 +857,9 @@ class BalanceModel extends ChangeNotifier{
   double assetsValue =0;
   List<report_items> objects=[];
   List<report_items> objects2=[];
+  double quickRatio= 0;
+  double currentRatio=0;
+  double deptAssetRatio=0;
 
 
 
@@ -852,6 +871,9 @@ class BalanceModel extends ChangeNotifier{
   get equity => objects2;
   get toalAssets=> objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
   get totalEquityandLiability => objects2.fold(payables , (total, current) => total + (current.price));
+  get totalQuickRatio => quickRatio;
+  get totalCurrentRatio => currentRatio;
+  get totalDeptAssetRatio=> deptAssetRatio;
 
   BalanceModel() {
     var initFuture = getInformation();
@@ -870,11 +892,20 @@ class BalanceModel extends ChangeNotifier{
     cash = await DBprovider.db.getCashEquivalents();
     objects2 = await DBprovider.db.getEquity();
 
+    double totalAssetsVal =  objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
+
+    totalAssetsVal!=0 ?
+    deptAssetRatio =  (payables / totalAssetsVal) * 100 : deptAssetRatio=0;
+
+    payables!=0?
+    quickRatio = (cash + receivables) / payables:quickRatio=0;
+    //TODO : plus  loan in cuurent ratio in payables also in totalDebt and in getter of equityandpayables
+
+    double totalDebt = objects2.fold(payables , (total, current) => total + (current.price));
 
 
-
-
-
+    payables!=0?
+    currentRatio= totalAssetsVal / payables:currentRatio=0;
   }
 
 }

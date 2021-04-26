@@ -4,6 +4,7 @@ import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:asaanrozgar/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Balance extends StatefulWidget {
@@ -80,6 +81,11 @@ class _BalanceState extends State<Balance> {
                                     name:name,
                                     balance:balance.text.toString());
                                 Navigator.pushNamed(context, '/signIn');
+
+
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                var temp2 = await DBprovider.db.addEquity("Owner's Equity", balance.text.toString(), null, 0);
+                                prefs.setInt('accountCheck', 1);
 
                             },
                             child: Center(
