@@ -38,15 +38,16 @@ class _InputTextFieldsState extends State<InputTextFields> {
   initState(){
     super.initState();
     val = widget.initial;
+    widget.controller.text = val;
   }
   onChanges(text){
       val = text;
   }
-
   @override
   Widget build(BuildContext context) {
+    // widget.controller.text = val;
     return TextFormField(
-        controller: widget.controller..text = val,
+        controller: widget.controller,
         cursorColor: Colors.lightBlue,
         obscureText: widget.label=='Password' ? true : false,
         validator: (text) {
