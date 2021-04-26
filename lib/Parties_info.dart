@@ -37,17 +37,25 @@ class parties_info extends StatefulWidget {
 }
 
 class _parties_infoState extends State<parties_info> {
-  Map data = {};
+  Map data ;
   String name;
   var temp;
-  String Type;
-  
+  String type;
+  int contact= 0;
+  String email='';
+  String accountNumber;
 
   getData()async{
-
   var temp2 = await DBprovider.db.getPartyDetails();
   setState(() {
     temp = temp2;
+    temp.forEach((element){
+      type = element['PartyType'];
+      email= element['EmailAddress'];
+      contact= element['ContactNo'];
+      accountNumber= element['AccountNo'];
+
+    });
   });
 
   }
@@ -127,7 +135,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            'Type Variable',
+                            type,
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
                           ),
                         ),
@@ -152,7 +160,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            '03214567891',
+                            contact.toString(),
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.blue),fontSize: 12)
                           ),
                         ),
@@ -177,7 +185,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            'mohidyousaf@gmail.com',
+                            email,
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.blue),fontSize: 12)
                           ),
                         ),
@@ -188,34 +196,34 @@ class _parties_infoState extends State<parties_info> {
                         )
                       ]
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget> [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 33.0),
-                          child: Text(
-                            'Address',
-                            style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
-                          ),
-                        ),
-                        SizedBox(height: 15.0),
-                    
-                          Container(
-                            width: phone_width*0.365,
-                            padding: EdgeInsets.only(left: 33.0),
-                            child: Text(
-                              '255-K Street#5, DHA, Lahore',
-                              style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
-                            ),
-                          ),
-        
-                        Divider(
-                          color: Colors.grey,
-                          indent: 28.0,
-                          endIndent: 28.0
-                        )
-                      ]
-                    ),
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: <Widget> [
+                    //     Padding(
+                    //       padding: const EdgeInsets.only(left: 33.0),
+                    //       child: Text(
+                    //         'Address',
+                    //         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
+                    //       ),
+                    //     ),
+                    //     SizedBox(height: 15.0),
+                    //
+                    //       Container(
+                    //         width: phone_width*0.365,
+                    //         padding: EdgeInsets.only(left: 33.0),
+                    //         child: Text(
+                    //           '255-K Street#5, DHA, Lahore',
+                    //           style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
+                    //         ),
+                    //       ),
+                    //
+                    //     Divider(
+                    //       color: Colors.grey,
+                    //       indent: 28.0,
+                    //       endIndent: 28.0
+                    //     )
+                    //   ]
+                    // ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget> [
@@ -230,7 +238,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            '0123456789',
+                            accountNumber,
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
                           ),
                         ),

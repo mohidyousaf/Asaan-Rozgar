@@ -48,7 +48,7 @@ class _MenuState extends State<Menu> {
             ),
 
             SizedBox(height: 20),
-            Center(child: Text_temp('Adil Enterprise')),
+            // Center(child: Text_temp('Adil Enterprise')),
 
             SizedBox(height: 20),
             // long_circleBtt('Company Details'),

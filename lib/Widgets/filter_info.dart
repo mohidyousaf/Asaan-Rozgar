@@ -48,6 +48,7 @@ Widget filter_info(context, name){
                                       semanticLabel: 'Info',
                                       ), 
                                     onPressed: () {
+                                      print('name is $name');
                                       Navigator.pushNamed(context, '/parties_info',arguments: {
                                         'name':name
                                       });
