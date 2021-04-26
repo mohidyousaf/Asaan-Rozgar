@@ -180,226 +180,222 @@ class _additem2State extends State<additem2> {
               ],
             ),
             SizedBox(height: 15),
-            Expanded(
-                          child: Container(
-                height: MediaQuery.of(context).size.height * .7,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 255, 255, 1.0),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(26),
-                      topRight: Radius.circular(26),
-                    )),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(13, 0, 0, 0),
-                  child: SingleChildScrollView(
-                                    child: Column(children: [
-                      SizedBox(height: 25),
+            Container(
+              height: MediaQuery.of(context).size.height * .7,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 255, 255, 1.0),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(26),
+                    topRight: Radius.circular(26),
+                  )),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(13, 0, 0, 0),
+                child: Column(children: [
+                  SizedBox(height: 25),
+                  Row(
+                    children: [
+                      SizedBox(width: 10),
+                      Text("Invoice No:  ",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(107, 143, 165, 0.7),
+                          )),
+                      Text("$invoiceNo",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(255, 159, 10, 1.0),
+                          )),
+                      SizedBox(width: MediaQuery.of(context).size.width * 0.36),
+                      Text("Date: ",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.0,
+                            color: Color.fromRGBO(107, 143, 165, 0.7),
+                          )),
                       Row(
                         children: [
-                          SizedBox(width: 10),
-                          Text("Invoice No:  ",
+                          Text("16/11/2000",
                               style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(107, 143, 165, 0.7),
-                              )),
-                          Text("$invoiceNo",
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
                                 fontFamily: "Lato",
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12.0,
                                 color: Color.fromRGBO(255, 159, 10, 1.0),
                               )),
-                          SizedBox(width: MediaQuery.of(context).size.width * 0.36),
-                          Text("Date: ",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.0,
-                                color: Color.fromRGBO(107, 143, 165, 0.7),
-                              )),
-                          Row(
-                            children: [
-                              Text("16/11/2000",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.0,
-                                    color: Color.fromRGBO(255, 159, 10, 1.0),
-                                  )),
-                                  SizedBox(width: 3,),
-                                  Icon(Icons.calendar_today_rounded,
-                                  color: Color.fromRGBO(255, 159, 10, 1.0),
-                                  size: 15,)
-                            ],
-                          ),
+                              SizedBox(width: 3,),
+                              Icon(Icons.calendar_today_rounded,
+                              color: Color.fromRGBO(255, 159, 10, 1.0),
+                              size: 15,)
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Container(
+                        height: (objects.length > 3)? 150.0 :((objects.length)*50.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                              children: objects
+                                  .map((sub) => itemCard(obj: sub))
+                                  .toList()),
+                        ),
                       ),
-                      Column(
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("Paid:",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          )),
+                      Row(
                         children: [
-                          SizedBox(height: 20),
+                          Text("Rs.",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                color: Colors.black54,
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Container(
-                            height: (objects.length > 3)? 150.0 :((objects.length)*50.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                  children: objects
-                                      .map((sub) => itemCard(obj: sub))
-                                      .toList()),
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: TextField(
+                              controller:amountReceived,
+                              decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.grey),
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
                       SizedBox(
+                        height: 20,
+                      ),
+                      Text("Payment Type",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                          )),
+                      SizedBox(
                         height: 10,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text("Paid:",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
-                                color: Colors.black54,
-                              )),
                           Row(
                             children: [
-                              Text("Rs.",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.0,
-                                    color: Colors.black54,
-                                  )),
-                              SizedBox(
-                                width: 10,
-                              ),
+                              SizedBox(width: 10,),
                               Container(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                child: TextField(
-                                  controller:amountReceived,
-                                  decoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.grey),
-                                    ),
-                                  ),
-                                ),
+                                child: DropdownButton(
+                                    value: _value,
+                                    items: accounts.map((String dropDownStringItem){
+                                      return DropdownMenuItem<String>(
+                                        value: dropDownStringItem,
+                                        child: Text(dropDownStringItem),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _value = value;
+                                      });
+                                    })
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text("Payment Type",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
-                                color: Colors.black54,
-                              )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 10,),
-                                  Container(
-                                    child: DropdownButton(
-                                        value: _value,
-                                        items: accounts.map((String dropDownStringItem){
-                                          return DropdownMenuItem<String>(
-                                            value: dropDownStringItem,
-                                            child: Text(dropDownStringItem),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _value = value;
-                                          });
-                                        })
-                                  ),
-                                ],
-                              ),
-                        ],
-                      ),
-                      SizedBox(height: 17,),
-                       Row(
+                    ],
+                  ),
+                  SizedBox(height: 17,),
+                   Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 20,),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(width: 20,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                              Text("Sub Total:",
-                              style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                )),
-                              SizedBox(height: 5,),
-                              Text("Rs. ${totalPrice == null ? '0': totalPrice}",
-                              style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                )),
-                        ],
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width*0.3,),
-                      Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FlatButton(
-                          onPressed: () async{
-                            var temp = await DBprovider.db.addItems(
-                                _value,
-                                data['obj'],
-                                data['partyName'],
-                                data['tag'],
-                                data['salePrice'],
-                                data['taxRate'],
-                                data['minStock'],
-                                totalPrice.toString(),
-                                amountReceived.text.toString())
-                            ;
-                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-                            print(temp);
-                          },
-                          height: 30,
-                          minWidth: 90,
-                          shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)),
-                          child: Text('SAVE',
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 10.0,
-                                color: Colors.white
-                              )),
-                          color: Color.fromRGBO(255, 159, 10, 1.0)),
-                          SizedBox(width: 50,),
+                          Text("Sub Total:",
+                          style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
+                          SizedBox(height: 5,),
+                          Text("Rs. ${totalPrice == null ? '0': totalPrice}",
+                          style: TextStyle(
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20.0,
+                              color: Color.fromRGBO(11, 71, 109, 1.0),
+                            )),
                     ],
-                )
-                    ],
-                ),
-                    ]),
                   ),
-                ),
+                  SizedBox(width: MediaQuery.of(context).size.width*0.3,),
+                  Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FlatButton(
+                      onPressed: () async{
+                        var temp = await DBprovider.db.addItems(
+                            _value,
+                            data['obj'],
+                            data['partyName'],
+                            data['tag'],
+                            data['salePrice'],
+                            data['taxRate'],
+                            data['minStock'],
+                            totalPrice.toString(),
+                            amountReceived.text.toString())
+                        ;
+                        Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                        print(temp);
+                      },
+                      height: 30,
+                      minWidth: 90,
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                      child: Text('SAVE',
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.normal,
+                            fontSize: 10.0,
+                            color: Colors.white
+                          )),
+                      color: Color.fromRGBO(255, 159, 10, 1.0)),
+                      SizedBox(width: 50,),
+                ],
+              )
+                ],
+              ),
+                ]),
               ),
             ),
           ],
