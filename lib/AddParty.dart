@@ -213,8 +213,8 @@ class _AddPartyState extends State<AddParty> {
                                           emailAddress.text.toString(),
                                           contactNo.text.toString(),
                                           accountNo.text.toString(),
-                                          0,
-                                          0);
+                                          '0',
+                                          '0');
                                     print(temp);
                                     Navigator.pushReplacementNamed(context, '/home');
                                     }
