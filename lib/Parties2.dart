@@ -274,15 +274,16 @@ List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.pe
                            ],
                         ),
                         FlatButton(
-                        onPressed: () {
-                            DBprovider.db.updateOrder(
+                        onPressed: () async{
+                            await DBprovider.db.updateOrder(
                                 partyName,
                                 type,
                                 name,
                                 priceController.text.toString(),
                                 payable.toString(),
                                 _value);
-                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                            Future.delayed(Duration(milliseconds: 50)).then((_)=>
+                                Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false));
                         },
                         height: 40,
                         minWidth: 90,

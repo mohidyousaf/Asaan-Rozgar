@@ -654,6 +654,7 @@ class HomeModel extends ChangeNotifier{
   removeItem(index)async{
     var query = await DBprovider.db.removeParty(partnerList[index]['name']);
     partnerList.removeAt(index);
+    notifyListeners();
   }
   initializeScreen() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
