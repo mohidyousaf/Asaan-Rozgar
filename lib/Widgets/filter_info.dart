@@ -8,7 +8,7 @@ import 'package:asaanrozgar/Parties_info.dart';
 import 'package:asaanrozgar/main.dart';
 
 //Widget used in the party flow.
-Widget filter_info(context){
+Widget filter_info(context, name){
   //Returns a button for filter and information, divided by a divider underneath.
   return Container(
                       child: Column(
@@ -48,7 +48,9 @@ Widget filter_info(context){
                                       semanticLabel: 'Info',
                                       ), 
                                     onPressed: () {
-                                      Navigator.pushNamed(context, '/parties_info');
+                                      Navigator.pushNamed(context, '/parties_info',arguments: {
+                                        'name':name
+                                      });
                                     },
                                     ),
                                     Text(

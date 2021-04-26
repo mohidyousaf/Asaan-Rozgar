@@ -18,9 +18,11 @@ import 'package:asaanrozgar/DataBase.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/ReportsMenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:asaanrozgar/drawer.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 
-// void main() => runApp(MaterialApp(home: Reports1()));
+void main() => runApp(MaterialApp(home: Reports1()));
 
 
 
@@ -52,27 +54,8 @@ class _Reports1State extends State<Reports1> {
         create:(context) => IncomeModel(),
         child: Scaffold(
           backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-          appBar: AppBar(
-            toolbarHeight: MediaQuery.of(context).size.height * .08,
-            leading: IconButton(
-              onPressed: () => {Navigator.pop(context)},
-              icon: Icon(Icons.arrow_back_ios),
-            ),
-            title: Text("Income Statement",
-                style: TextStyle(
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                )),
-            centerTitle: true,
-            backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => {},
-                icon: Icon(Icons.menu),
-              )
-            ],
-          ),
+          endDrawer: drawer(),
+          appBar: std_appbar(context, 'Income Statement', 11, 71, 109),
           //floatingActionButton:
           //std_FAB(Colors.white, 11, 71, 109, buttons, context),
          // bottomNavigationBar: std_chinbar(context, 0,0,0),
@@ -111,8 +94,9 @@ class _Reports1State extends State<Reports1> {
                                         child:
                                         Consumer <IncomeModel>(
                                           builder: (context,model,child){
-                                            int ratio = model.totalOpex;
-                                            return percChart(0.3, Color.fromRGBO(11, 71, 109, 1), '${ratio.toString()}%',"Opex Ratio");
+                                            double ratio = model.totalOpex;
+                                            int rat = ratio.toInt();
+                                            return percChart(0.3, Color.fromRGBO(11, 71, 109, 1), '${rat.toString()}%',"Opex Ratio");
                                           },
                                         )
                                       ),
@@ -619,7 +603,7 @@ class IncomeModel extends ChangeNotifier {
   double totalGoodsCost= 0;
   double revenue =  0.0;
   double expense = 0.0;
-  int opexRatio = 0;
+  double opexRatio = 0;
   double grossProfitRatio= 0;
   double grossProfit= 0;
   double gst= 0;
@@ -645,6 +629,7 @@ class IncomeModel extends ChangeNotifier {
 
   getSaleItems() async {
     objects = await DBprovider.db.getSaleItems();
+    print(objects);
     objects2= await DBprovider.db.getExpenseItems();
     totalGoodsCost = await DBprovider.db.getTotalCost();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -660,10 +645,12 @@ class IncomeModel extends ChangeNotifier {
     print(objects);
     print(objects2);
 
-    opexRatio = (expense ~/ revenue).toInt();
+    revenue != 0 ? opexRatio = (expense / revenue) * 100.0: opexRatio=0;
+    print('opex ratio is $opexRatio');
     grossProfit = revenue - expense;
-    grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100;
-    gst = 16/100 * revenue;
+
+    revenue != 0 ? grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100 : grossProfitRatio=0;
+    gst = 0;
     netProfit= grossProfit - gst;
 
     prefs.setDouble('netIncome',netProfit);

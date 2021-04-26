@@ -1,4 +1,5 @@
-import 'dart:ffi';
+//Add expenses 3 page
+//This page creates the last step of the add expenses process, the confirmation.
 
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
@@ -25,6 +26,7 @@ void main() {
   ));
 }
 
+//Parent class for add expenses 3.
 class add_expenses3 extends StatefulWidget {
   @override
   _add_expenses3State createState() => _add_expenses3State();
@@ -33,31 +35,24 @@ class add_expenses3 extends StatefulWidget {
 class _add_expenses3State extends State<add_expenses3> {
   @override
   Widget build(BuildContext context) {
+    //Variables for properties of the page.
     List<ChildButton> buttons = [ChildButton(label: 'Add Expense', icon: Icon(Icons.person, color: Colors.white,), route: '/addExpense')];
     int color_Red = 12;
     int color_Green = 109;
     int color_Blue = 109;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
-    double longBtt_width = phone_width * 0.487;
-    double longBtt_height = phone_height* 0.051;
-    double image_height=  phone_height * 0.052;
-    double image_width = phone_width *0.149;
-    double textfield_gap = phone_height *0.0125;
-    double button_gap = phone_height *0.063;
-    double divider_width = phone_width * 0.8;
-    double slider_width=phone_width*0.834;
-    double slider_height=phone_height*0.0417;
-    double image_container_width=phone_width*0.219;
-    double image_container_height=phone_height*0.113;
+    //Creates the skeleton of the page.
     return Scaffold(
       backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
       appBar: std_appbar(context, 'Type entered', color_Red, color_Green, color_Blue),
       bottomNavigationBar: std_chinbar(context, color_Red, color_Green, color_Blue),
       floatingActionButton: std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      //Creates the body of the page.
       body: Column(
         children: <Widget> [
+          //Creates the progress bar below the app bar.
           Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -69,6 +64,7 @@ class _add_expenses3State extends State<add_expenses3> {
               ],
             ),
             SizedBox(height: 20),
+          //Creates the data section of the page.
           Expanded(
                       child: Container(
               width: phone_width,
@@ -82,6 +78,7 @@ class _add_expenses3State extends State<add_expenses3> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget> [
+                    //Creates the paid icon + text for the confirmation.
                     Container(
                       margin: EdgeInsets.only(top:150.0),
                       alignment: Alignment.center,
@@ -106,6 +103,7 @@ class _add_expenses3State extends State<add_expenses3> {
                       )
                     ),
                     SizedBox(height: 250.0),
+                    //Creates the button to return from add expenses.
                     Container(
                       alignment: AlignmentDirectional.bottomCenter,
                       padding: EdgeInsets.only(left: 10.0),

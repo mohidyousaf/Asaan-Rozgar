@@ -16,12 +16,12 @@ Widget std_appbar(context, String label,int color_redval,int color_greenval,int 
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {} ,
-            icon: Icon(Icons.menu),
-            )
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {} ,
+        //     icon: Icon(Icons.menu),
+        //     )
+        // ],
         );
 }
 

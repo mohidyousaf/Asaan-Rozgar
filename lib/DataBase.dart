@@ -37,6 +37,8 @@ class DBprovider{
   initDB({delete: false}) async{
     print(await getDatabasesPath());
     if (delete) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('accountCheck');
       await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
     }
     Database dbs = await openDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'),            //join method comes from path package
@@ -82,12 +84,14 @@ class DBprovider{
               AssetID	INTEGER,
               LiabilityID	INTEGER,
               ExpenseID	INTEGER,
+              EquityID INTEGER, 
               Amount	REAL,
               TransactionType	TEXT,
               Description	TEXT,
               Date TEXT,
               PRIMARY KEY(TransactionID),
               FOREIGN KEY(AccountID) REFERENCES accounts(AccountID),
+              FOREIGN KEY(EquityID) REFERENCES  equity(EquityID),
               FOREIGN KEY(PartyID) REFERENCES parties(PartyID),
               FOREIGN KEY(ExpenseID) REFERENCES expenses(ExpenseID),
               FOREIGN KEY(LiabilityID) REFERENCES liabilities(LiabilityID),
@@ -503,8 +507,43 @@ class DBprovider{
     updateBalance(accountName:null, name:companyName, balance: newBalance);
   }
 
-  addEquity(name, amount){
-    return name;
+  addEquity(name, amount , accountName, check)async{
+
+    final db = await database;
+
+    var equityQuery =  await db.rawInsert('''
+        INSERT INTO equity(
+         Type,Amount
+          ) VALUES (?,?)
+      ''',[name, amount]);
+
+    int EquityID;
+    var list2 = (await db.rawQuery('SELECT last_insert_rowid()')).forEach((element) {
+      EquityID = element['last_insert_rowid()'];
+    });
+
+    double companyBalance;
+    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: null);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var companyName= prefs.getString('companyName');
+    temp.forEach((element) {
+      companyBalance = element['Balance'];
+    });
+    DateTime now = DateTime.now();
+    String date = DateFormat('yMd').format(now);// 28/03/2020
+    await db.rawInsert('''
+        INSERT INTO transactions(
+          EquityID, Amount, TransactionType, Date
+          ) VALUES (?,?,?,?)
+      ''',[EquityID, amount, 'equity', date]);
+    var newBalance = companyBalance + double.parse(amount);
+
+    if(check==1){
+      updateBalance(accountName:accountName, name:companyName, balance: newBalance);
+    }
+
+    print(equityQuery);
+    return equityQuery;
   }
   addExpense(accountName, type, amount, details) async{
     final db = await database;
@@ -1118,7 +1157,6 @@ class DBprovider{
 
     return totalCost;
   }
-
   getPayableReceivable()async{
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1151,7 +1189,6 @@ class DBprovider{
     print('in Db pr is $payable $receivable');
     return [payable,receivable];
   }
-
   getInventoryCost()async{
 
     final db= await database;
@@ -1267,7 +1304,6 @@ class DBprovider{
     print('orderID = $orderID, partyID = $partnerID, partyName = $partnerName');
     return order;
   }
-
   getAssets()async{
     final db= await database;
     List<report_items> objects=[];
@@ -1371,4 +1407,152 @@ class DBprovider{
       updateBalance(accountName: accountName, name:companyName, balance:companyBalance- double.parse(received));
     }
   }
+  getAccountBalances()async{
+    final db = await database;
+    var accounts = [];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name= prefs.getString('companyName');
+    int companyID;
+    var IDquery = (await db.query(
+        'company',
+        columns: ['companyID'],
+        where: 'companyName = ?',
+        whereArgs: [name])).forEach((element) {
+      companyID = element['CompanyID'];
+    });
+    var temp = await db.rawQuery('''
+        SELECT *
+        FROM accounts
+        WHERE CompanyID = ?
+    ''', [companyID]);
+    Future.wait(temp.map((element) async{
+      accounts.add({
+        'name':element['BankName'],
+        'balance':element['Balance']
+      });
+    }));
+    print(accounts);
+    return accounts;
+  }
+
+  getCashEquivalents()async{
+
+    final db = await database;
+    double cash= 0;
+
+
+    var temp = await db.rawQuery('''
+        SELECT Balance
+        FROM accounts
+      ''');
+
+    temp.forEach((element) {
+      cash += element['Balance'];
+    });
+
+    print('cash equivalents are $cash');
+    return cash;
+  }
+
+  getEquity()async{
+
+    List <report_items> obj = [];
+    final db = await database;
+
+    var temp = await db.rawQuery('''
+        SELECT Type,Amount
+        FROM equity
+      ''');
+
+    temp.forEach((element) {
+      double temp = element['Amount'];
+      obj.add(new report_items(itemName: element['Type'],price: temp.toInt()));
+    });
+
+    print('equity is $obj');
+    return obj;
+  }
+
+  getInventoryReportDetails()async{
+    List<inventory_items> objects=[];
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['sale']);
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''',[element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async{
+        double cost = element2['Price'];
+        int quantity = element2['Quantity'];
+        double total = cost * quantity;
+        print(total);
+
+        var nameIDquery = await db.rawQuery('''
+        SELECT ProductName
+        FROM inventory
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        var purchaseIDquery = await db.rawQuery('''
+        SELECT PurchasePrice
+        FROM purchases
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        double price2 = 0;
+        purchaseIDquery.forEach((element4) {
+          price2 = element4['PurchasePrice'];
+        });
+
+        String name;
+        nameIDquery.forEach((element3) {
+           name = element3['ProductName'];
+        });
+
+        double profitAndLoss=  (cost - price2) * quantity;
+        double sale = cost * quantity;
+        print(nameIDquery);
+
+        int check= 1;
+        objects.forEach((element5) {
+          if(name == element5.itemName){
+            check=0;
+            element5.profit_loss += profitAndLoss;
+            element5.sale += sale;
+          }
+        });
+
+        if(check==1){
+          objects.add(new inventory_items(itemName: name ,profit_loss: profitAndLoss, sale:sale));
+        }
+      }));
+    }));
+
+    return objects;
+  }
+
+
+
+  getPartyDetails()async{
+
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT *
+        FROM parties
+      ''');
+
+    return temp;
+  }
 }
+

@@ -32,7 +32,9 @@ class drawer extends StatefulWidget {
 class _drawerState extends State<drawer> {
   var companyName = "";
   double companyBalance;
+  var accounts = [];
   String companyAddress;
+  int state = 1;
   getName() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -43,11 +45,16 @@ class _drawerState extends State<drawer> {
 
   getBalance()async{
 
-    List<Map<String, dynamic>> temp = await DBprovider.db.getBalance(accountName: 'Standard Chartered');
+    var temp = await DBprovider.db.getAccountBalances();
     temp.forEach((element) {
       setState(() {
-        print(element['Balance']);
-        companyBalance = element['Balance'];
+        print(element['balance']);
+        if (element['name'] == 'Cash'){
+          companyBalance = element['balance'];
+        }
+        else{
+          accounts.add(element);
+        }
       });
     });
   }
@@ -100,7 +107,15 @@ class _drawerState extends State<drawer> {
               ),
 
             ListTile(
-              leading: Text('Balance',
+                trailing: IconButton(
+                icon: state == 1 ?Icon(Icons.arrow_drop_down):Icon(Icons.arrow_drop_up),
+                onPressed: (){
+                setState(() {
+                state *= -1;
+                });
+                },
+                ),
+              leading: Text('Cash',
               style: TextStyle(
                 fontFamily: 'lato',
                 fontSize: 22,
@@ -109,7 +124,7 @@ class _drawerState extends State<drawer> {
               ),
 
               ),
-              title: Text('${companyBalance.toString()}',
+              title: Text(companyBalance == null ? '':'${companyBalance.toInt().toString()}',
                 style: TextStyle(
                   fontFamily: 'lato',
                   fontSize: 22,
@@ -117,18 +132,12 @@ class _drawerState extends State<drawer> {
                   color: companyBalance == null ? Colors.green[800]:companyBalance < 0 ? Colors.red[800]:Colors.green[800],
                 ),
               ),
-              onTap: (){
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => transactions()
-                    )
-                );
-              },
             ),
-
-
+            state == -1 ? Column(
+              children:accounts.map((e) =>
+              Balance(balance:e['balance'], name:e['name'])).toList()
+            ):SizedBox(),
+            Divider(color: Colors.grey[500],height: 1, thickness: 0.5, endIndent:0,),
 // Transaction
 
               ListTile(
@@ -325,5 +334,35 @@ class _drawerState extends State<drawer> {
       // ),
 
 
+  }
+}
+
+class Balance extends StatelessWidget {
+  Balance({this.balance, this.name}){
+    print(balance);
+  }
+  final name;
+  final balance;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Text('Bank',
+        style: TextStyle(
+          fontFamily: 'lato',
+          fontSize: 22,
+          // fontWeight: FontWeight.bold,
+          color: Color.fromRGBO(11, 71, 109, 1.0),
+        ),
+
+      ),
+      title: Text(balance == null ? '':'${balance.toInt().toString()}',
+        style: TextStyle(
+          fontFamily: 'lato',
+          fontSize: 22,
+          // fontWeight: FontWeight.bold,
+          color: balance == null ? Colors.green[800]:balance < 0 ? Colors.red[800]:Colors.green[800],
+        ),
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:asaanrozgar/Add_Item.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/std_chinbar.dart';
@@ -37,27 +38,7 @@ class _Sale4State extends State<Sale4> {
       create:(context) => CatalogModel(name),
       child: Scaffold(
           backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-          appBar: AppBar(
-            toolbarHeight: MediaQuery.of(context).size.height * .1,
-            leading: IconButton(
-              onPressed: () => {Navigator.pop(context)},
-              icon: Icon(Icons.arrow_back_ios),
-            ),
-            title: Text("Choose Item",
-                style: TextStyle(
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
-                )),
-            centerTitle: true,
-            backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => {},
-                icon: Icon(Icons.menu),
-              )
-            ],
-          ),
+          appBar: std_appbar(context, 'Choose Item', 11, 71, 109),
           floatingActionButton: std_FAB(Colors.white, 11, 71, 109, buttons, context),
           bottomNavigationBar: std_chinbar(context, 11,71,109),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -13,6 +13,8 @@ import 'package:asaanrozgar/Widgets/std_chinbar.dart';
 import 'package:asaanrozgar/Widgets/inventory_list.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
+import 'package:asaanrozgar/drawer.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 void main() => runApp(MaterialApp(home: BalanceReport()));
 
@@ -27,17 +29,19 @@ class _BalanceReportState extends State<BalanceReport> {
     'INVENTORY': 1,
     'EQUIPMENT': 1,
   };
-  int cashEq = 3000;
-  int accRcv = 1000;
-  int inventory = 1000;
-  int land = 8000;
-  int equipment = 7000;
-  int intangibleAsset = 8000;
-  int totalAsset = 28000;
-  int accPayable = 10000;
-  int loanPayable = 8000;
-  int shareholderEquity = 10000;
-  int totalLiabAndEquity = 28000;
+  double cashEq = 3000;
+  double accRcv = 1000;
+  double inventory = 1000;
+  double land = 8000;
+  double equipment = 7000;
+  double intangibleAsset = 8000;
+  double totalAsset = 28000;
+  double accPayable = 10000;
+  double loanPayable = 8000;
+  double shareholderEquity = 10000;
+  double totalLiabAndEquity = 28000;
+  List<report_items> objects=[];
+  List<report_items> objects2=[];
 
 
 //  List<report_items> objects = [
@@ -71,29 +75,12 @@ class _BalanceReportState extends State<BalanceReport> {
           route: '/purchase')
     ];
 
-    return Scaffold(
+    return ChangeNotifierProvider(
+      create: (context)=> BalanceModel(),
+      child :Scaffold(
       backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-      appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * .08,
-        leading: IconButton(
-          onPressed: () => {Navigator.pop(context)},
-          icon: Icon(Icons.arrow_back_ios),
-        ),
-        title: Text("Balance Sheet",
-            style: TextStyle(
-              fontFamily: "Lato",
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-            )),
-        centerTitle: true,
-        backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(Icons.menu),
-          )
-        ],
-      ),
+      endDrawer: drawer(),
+      appBar: std_appbar(context, 'Balance Sheet', 11, 71, 109),
       //floatingActionButton:
       //std_FAB(Colors.white, 11, 71, 109, buttons, context),
       // bottomNavigationBar: std_chinbar(context, 0,0,0),
@@ -141,14 +128,21 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 13.0,
                                         ),
                                       ),
-                                      Text("1.5",
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                193, 193, 193, 1),
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 30.0,
-                                          )),
+
+                                      Consumer<BalanceModel>(
+                                        builder: (context,model,child){
+                                          double ratio = model.totalQuickRatio;
+                                          return Text(num.parse(ratio.toStringAsFixed(2)).toString(),
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    193, 193, 193, 1),
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30.0,
+                                              ));
+                                        },
+                                      ),
+
                                       Text(
                                         "CURRENT RATIO",
                                         style: TextStyle(
@@ -158,26 +152,35 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 13.0,
                                         ),
                                       ),
-                                      Text(
-                                        "1.8",
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(193, 193, 193, 1),
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 30.0,
-                                        ),
+                                      Consumer<BalanceModel>(
+                                        builder: (context,model,child){
+                                          double ratio = model.totalCurrentRatio;
+                                          return Text(num.parse(ratio.toStringAsFixed(2)).toString(),
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    193, 193, 193, 1),
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 30.0,
+                                              ));
+                                        },
                                       ),
                                     ],
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 18.0),
-                                  child: percChart(
-                                      0.84,
-                                      Color.fromRGBO(24, 153, 161, 1),
-                                      "84%",
-                                      "DEPT-ASSET RATIO"),
+                                  child:
+                                    Consumer<BalanceModel>(
+                                      builder: (context,model,cild){
+                                        double ratio = model.totalDeptAssetRatio;
+                                        return   percChart(
+                                            0.84,
+                                            Color.fromRGBO(24, 153, 161, 1),
+                                            '${ratio.toInt().toString()}%',
+                                            "DEPT-ASSET RATIO");
+                                      }
+                                    )
                                 ),
                               ],
                             ),
@@ -423,13 +426,20 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text(cashEq.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
+
+                                    Consumer<BalanceModel>(
+                                      builder: (context,model,child){
+                                        cashEq = model.cashEquivalents;
+                                        return Text(cashEq.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15,
+                                            ));
+                                      },
+                                    )
+
                                   ],
                                 ),
                                 SizedBox(
@@ -447,13 +457,17 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text(accRcv.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
+                                    Consumer<BalanceModel>(
+                                    builder: (context,model,child){
+                                      accRcv = model.totalReceivables;
+                                      return Text(accRcv.toString(),
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15,
+                                          ));
+                                    })
                                   ],
                                 ),
 
@@ -472,13 +486,19 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text(inventory.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
+
+                                    Consumer<BalanceModel>(
+                                      builder : (context,model,child){
+                                        inventory = model.totalInventoryCost;
+                                        return Text(inventory.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15,
+                                            ));
+                                      }
+                                    )
                                   ],
                                 ),
 
@@ -505,51 +525,23 @@ class _BalanceReportState extends State<BalanceReport> {
                                     height: MediaQuery.of(context).size.height *
                                         0.013),
 
-                                Row(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SizedBox(width: 5),
-                                    Text("Lands (Shops / Building)",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
-                                    Spacer(),
-                                    Text(land.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
-                                  ],
+                                Consumer<BalanceModel>(
+                                  builder: (context,model,child){
+                                    objects= model.assets;
+                                    return Container(
+                                      height: (objects.length > 2)? 80.0 :((objects.length)*25.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                            children: objects
+                                                .map((sub) => report_list(obj3: sub))
+                                                .toList()),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.01),
-                                Row(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SizedBox(width: 5),
-                                    Text("Equipment (Machinery)",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
-                                    Spacer(),
-                                    Text(equipment.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
-                                  ],
-                                ),
+                                // SizedBox(
+                                //     height: MediaQuery.of(context).size.height *
+                                //         0.01),
 
                                 //Other Assets
                                 SizedBox(
@@ -587,7 +579,7 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text(intangibleAsset.toString(),
+                                    Text('0',
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: "Lato",
@@ -612,13 +604,19 @@ class _BalanceReportState extends State<BalanceReport> {
                                             fontSize: 15,
                                           )),
                                       Spacer(),
-                                      Text(totalAsset.toString(),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 15,
-                                          )),
+
+                                      Consumer <BalanceModel>(
+                                        builder: (context,model,child){
+                                          totalAsset = model.toalAssets;
+                                          return Text(totalAsset.toString(),
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: "Lato",
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ));
+                                        },
+                                      )
                                     ]),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
@@ -687,13 +685,19 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text(accPayable.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
+
+                                    Consumer<BalanceModel>(
+                                      builder: (context,model,child){
+                                        accPayable = model.totalPayables;
+                                        return Text(accPayable.toString(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 15,
+                                            ));
+                                      },
+                                    )
                                   ],
                                 ),
                                 SizedBox(
@@ -711,7 +715,7 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text(loanPayable.toString(),
+                                    Text('0',
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontFamily: "Lato",
@@ -722,7 +726,7 @@ class _BalanceReportState extends State<BalanceReport> {
                                 ),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
-                                        0.015),
+                                        0.025),
                                 //EQUITY
                                 Row(
                                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -752,31 +756,30 @@ class _BalanceReportState extends State<BalanceReport> {
 
                                 //  ),
 
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.013),
+                                // SizedBox(
+                                //     height: MediaQuery.of(context).size.height *
+                                //         0.013),
 
-                                Row(
+
                                   // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    SizedBox(width: 5),
-                                    Text("Shareholder's Equity",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
-                                    Spacer(),
-                                    Text(shareholderEquity.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
-                                  ],
-                                ),
+
+                                    // SizedBox(width: 5),
+                                    Consumer<BalanceModel>(
+                                      builder: (context,model,child){
+                                        objects2= model.equity;
+                                        return Container(
+                                          height: (objects2.length > 2)? 80.0 :((objects2.length)*25.0),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                                children: objects2
+                                                    .map((sub) => report_list(obj3: sub))
+                                                    .toList()),
+                                          ),
+                                        );
+                                      },
+                                    ),
+
+
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.012),
@@ -797,13 +800,20 @@ class _BalanceReportState extends State<BalanceReport> {
                                         fontSize: 14,
                                       )),
                                   Spacer(),
-                                  Text(totalLiabAndEquity.toString(),
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(11, 71, 109, 1),
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      )),
+
+                                  Consumer<BalanceModel>(
+                                    builder :(context,model,child){
+                                      totalLiabAndEquity = model.totalEquityandLiability;
+                                      return Text(totalLiabAndEquity.toString(),
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(11, 71, 109, 1),
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ));
+                                    }
+                                  )
+
                                 ]),
                             SizedBox(
                                 height:
@@ -833,31 +843,69 @@ class _BalanceReportState extends State<BalanceReport> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 
 class BalanceModel extends ChangeNotifier{
-  //
-  // BalanceModel() {
-  //   var initFuture = getSaleItems();
-  //   initFuture.then((voidVal) {
-  //     notifyListeners();
-  //   });
-  // }
+
+  double payables = 0;
+  double receivables = 0;
+  double inventoryCost = 0;
+  double cash =0;
+  double equityLiability=0;
+  double assetsValue =0;
+  List<report_items> objects=[];
+  List<report_items> objects2=[];
+  double quickRatio= 0;
+  double currentRatio=0;
+  double deptAssetRatio=0;
 
 
 
+  get totalPayables => payables;
+  get totalReceivables => receivables;
+  get totalInventoryCost => inventoryCost;
+  get assets => objects;
+  get cashEquivalents => cash;
+  get equity => objects2;
+  get toalAssets=> objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
+  get totalEquityandLiability => objects2.fold(payables , (total, current) => total + (current.price));
+  get totalQuickRatio => quickRatio;
+  get totalCurrentRatio => currentRatio;
+  get totalDeptAssetRatio=> deptAssetRatio;
+
+  BalanceModel() {
+    var initFuture = getInformation();
+    initFuture.then((voidVal) {
+      notifyListeners();
+    });
+  }
+
+  getInformation() async{
+
+    var ls = await DBprovider.db.getPayableReceivable();
+    payables = ls[0];
+    receivables= ls[1];
+    inventoryCost = await DBprovider.db.getInventoryCost();
+    objects = await DBprovider.db.getAssets();
+    cash = await DBprovider.db.getCashEquivalents();
+    objects2 = await DBprovider.db.getEquity();
+
+    double totalAssetsVal =  objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
+
+    totalAssetsVal!=0 ?
+    deptAssetRatio =  (payables / totalAssetsVal) * 100 : deptAssetRatio=0;
+
+    payables!=0?
+    quickRatio = (cash + receivables) / payables:quickRatio=0;
+    //TODO : plus  loan in cuurent ratio in payables also in totalDebt and in getter of equityandpayables
+
+    double totalDebt = objects2.fold(payables , (total, current) => total + (current.price));
 
 
-
-
-
-
-
-
-
-
-
+    payables!=0?
+    currentRatio= totalAssetsVal / payables:currentRatio=0;
+  }
 
 }

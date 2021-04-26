@@ -1,5 +1,5 @@
 //Expenses page
-//This page creates the parent for expenses .
+//This page creates the parent for expenses.
 
 import 'package:asaanrozgar/Widgets/filter_reports.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,11 @@ import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
+import 'package:asaanrozgar/drawer.dart';
 
-
+void main() => runApp(MaterialApp(
+  home: expenses(),
+));
 
 class expenses extends StatefulWidget {
   @override
@@ -33,6 +36,7 @@ class _expensesState extends State<expenses> {
     //Creates the skeleton of the page.
     return Scaffold(
       backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
+      endDrawer: drawer(),
       appBar: std_appbar(context, 'Expenses', color_Red, color_Green, color_Blue),
       bottomNavigationBar: std_chinbar(context, 11, 71, 109),
       floatingActionButton: std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),

@@ -12,6 +12,12 @@ import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/DataBase.dart';
 import 'package:provider/provider.dart';
+import 'package:asaanrozgar/drawer.dart';
+import 'package:asaanrozgar/Widgets/FAB.dart';
+
+void main() => runApp(MaterialApp(
+  home: transactions(),
+));
 
 //Transactions parent class.
 class transactions extends StatefulWidget {
@@ -20,6 +26,8 @@ class transactions extends StatefulWidget {
 }
 
 class _transactionsState extends State<transactions> {
+  final List<ChildButton> buttons = [ChildButton(label: 'sale', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/sale'),
+                                      ChildButton(label: 'purchase', icon: Icon(Icons.add_shopping_cart, color: Colors.white,), route: '/purchase')];
   int currentState;
   @override
   void initState(){
@@ -41,14 +49,12 @@ class _transactionsState extends State<transactions> {
       child: Scaffold(
         //Creating the skeleton of the page.
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
+        endDrawer: drawer(),
         appBar: std_appbar(context, 'Transactions', color_Red, color_Green, color_Blue),
         bottomNavigationBar: std_chinbar(context, color_Red, color_Green, color_Blue),
-        floatingActionButton:  FloatingActionButton(
-            backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-            onPressed: (){},
-            child: Icon(Icons.add,color: Colors.white),
-            ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton:
+        std_FAB(Colors.white, 11, 71, 109, buttons, context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             //Creating the body of the page.
             body: Column(
               children: [

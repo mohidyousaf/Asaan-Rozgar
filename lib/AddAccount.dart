@@ -7,12 +7,12 @@ import 'package:asaanrozgar/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-// void main() {
-//   // TestWidgetsFlutterBinding.ensureInitialized();
-//   runApp(MaterialApp(
-//       home: AddAccounts()
-//   ));
-// }
+void main() {
+  // TestWidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+      home: AddAccounts()
+  ));
+}
 
 class AddAccounts extends StatefulWidget {
   @override
@@ -37,8 +37,24 @@ class _AddAccountsState extends State<AddAccounts> {
   SharedPreferences prefs;
   Map data={};
   String name;
+  String selected_drop;
+  var account_type=['Personal','Business'];
   @override
+  void initState(){
+    super.initState();
+    selected_drop=account_type[0];
+
+  }
+  void select_dropdown(String val){
+    setState(() {
+      selected_drop=val;
+    });
+  }
   Widget build(BuildContext context) {
+    double phone_width=MediaQuery.of(context).size.width;
+    double phone_height=MediaQuery.of(context).size.height;
+    double box_width=phone_width*0.899;
+    double box_height=phone_height*0.0527;
     data = ModalRoute.of(context).settings.arguments;
     if (data == null){
       initFunc();
@@ -83,7 +99,46 @@ class _AddAccountsState extends State<AddAccounts> {
                   child: Column(
 
                     children: <Widget>[
-                      InputTextFields(label: 'Account Type', controller: Title, validateFunc: ValidationFunctions.validateEmpty),
+                      Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                         'Type',
+                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,fontSize: 16.0,)),
+                       ),
+                       SizedBox(height: 5.0),
+                DropdownButtonHideUnderline(
+                                              child: Container(
+                                                width: box_width,
+                                                height: box_height,
+                                                decoration: ShapeDecoration(
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(style: BorderStyle.solid),
+                                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                                    ) 
+                                                  ),
+                           child: DropdownButton<String>(
+                             value: selected_drop,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Type of Account',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                              items: account_type.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String value){
+                               select_dropdown(value);
+                             },
+                           ),
+                         ),
+                       ),
+                            ],
+                          ),
                       SizedBox(height: 10),
                       InputTextFields(label: 'Bank Name', controller: Name, validateFunc: ValidationFunctions.validateEmpty),
                       SizedBox(height: 10),
@@ -110,6 +165,16 @@ class _AddAccountsState extends State<AddAccounts> {
                                     Name.text.toString(),
                                     AccountNo.text.toString(),
                                     CurrentBal.text.toString());
+
+                                int check = prefs.getInt('accountCheck');
+
+                                if (check == null){
+                                  var temp2 = await DBprovider.db.addEquity("Owner's Equity" , CurrentBal.text.toString(), name, 0);
+                                }
+                                else{
+                                  var temp2 = await DBprovider.db.addEquity("Owner's Equity" , CurrentBal.text.toString(), name, 1);
+                                }
+
                                 loggedIn == null ? Navigator.of(context).pushNamedAndRemoveUntil('/signIn', (Route<dynamic> route) => false):
                                 Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                               }

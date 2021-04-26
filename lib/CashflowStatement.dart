@@ -16,6 +16,8 @@ import 'package:asaanrozgar/Widgets/inventory_list.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:asaanrozgar/drawer.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 
 // void main() => runApp(MaterialApp(home: CashflowReport()));
@@ -78,27 +80,8 @@ class _CashflowReportState extends State<CashflowReport> {
         child:
           Scaffold(
           backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-          appBar: AppBar(
-            toolbarHeight: MediaQuery.of(context).size.height * .08,
-            leading: IconButton(
-              onPressed: () => {Navigator.pop(context)},
-              icon: Icon(Icons.arrow_back_ios),
-            ),
-            title: Text("Cash Flow Statement",
-                style: TextStyle(
-                  fontFamily: "Lato",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                )),
-            centerTitle: true,
-            backgroundColor: Color.fromRGBO(11, 71, 109, 1.0),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => {},
-                icon: Icon(Icons.menu),
-              )
-            ],
-          ),
+          endDrawer: drawer(),
+          appBar: std_appbar(context, 'Cash Flow Statement', 11, 71, 109),
           //floatingActionButton:
           //std_FAB(Colors.white, 11, 71, 109, buttons, context),
           // bottomNavigationBar: std_chinbar(context, 0,0,0),
@@ -703,10 +686,6 @@ class _CashflowReportState extends State<CashflowReport> {
         ));
   }
 }
-
-
-
-
 
 
 class CashModel extends ChangeNotifier{

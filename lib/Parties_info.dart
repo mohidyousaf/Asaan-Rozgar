@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:asaanrozgar/Widgets/table_head.dart';
 import 'package:asaanrozgar/Widgets/table.dart';
 import 'package:asaanrozgar/Widgets/FAB.dart';
+import 'package:asaanrozgar/DataBase.dart';
 
 
 void main() {
@@ -30,13 +31,42 @@ void main() {
 }
 
 class parties_info extends StatefulWidget {
+
   @override
   _parties_infoState createState() => _parties_infoState();
 }
 
 class _parties_infoState extends State<parties_info> {
+  Map data = {};
+  String name;
+  var temp;
+  String Type;
+  
+
+  getData()async{
+
+  var temp2 = await DBprovider.db.getPartyDetails();
+  setState(() {
+    temp = temp2;
+  });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      getData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    setState((){
+      name = data['name'];
+    });
     List<ChildButton> buttons = [ChildButton(label: 'Add Party', icon: Icon(Icons.person, color: Colors.white,), route: '/addParty')];
     int color_Red = 109;
     int color_Green = 11;
@@ -52,7 +82,7 @@ class _parties_infoState extends State<parties_info> {
     double image_container_height=phone_height*0.113;
     return Scaffold(
       backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
-      appBar: std_appbar(context, 'Party Name', color_Red, color_Green, color_Blue),
+      appBar: std_appbar(context, name.toString(), color_Red, color_Green, color_Blue),
       bottomNavigationBar: std_chinbar(context, color_Red, color_Green, color_Blue),
       floatingActionButton: std_FAB(Colors.white, 109, 11, 93, buttons, context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

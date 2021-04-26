@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'DataBase.dart';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
+import 'package:asaanrozgar/Widgets/std_appbar.dart';
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
 
@@ -87,27 +88,7 @@ class _additem2State extends State<additem2> {
 
     return Scaffold(
         backgroundColor: Color.fromRGBO(255, 159, 10, 1.0),
-        appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height * .1,
-          leading: IconButton(
-            onPressed: () => {Navigator.pop(context)},
-            icon: Icon(Icons.arrow_back_ios),
-          ),
-          title: Text("Payment Details",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontWeight: FontWeight.bold,
-                fontSize: 24.0,
-              )),
-          centerTitle: true,
-          backgroundColor: Color.fromRGBO(255, 159, 10, 1.0),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {},
-              icon: Icon(Icons.menu),
-            )
-          ],
-        ),
+        appBar: std_appbar(context, 'Payment Details', 255, 159, 10),
         body: SingleChildScrollView(
             child: Column(
           children: [

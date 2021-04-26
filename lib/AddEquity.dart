@@ -4,12 +4,12 @@ import 'package:asaanrozgar/Widgets/textfield.dart';
 import 'DataBase.dart';
 
 
-// void main() {
-//   // TestWidgetsFlutterBinding.ensureInitialized();
-//   runApp(MaterialApp(
-//       home: AddEquities()
-//   ));
-// }
+void main() {
+  // TestWidgetsFlutterBinding.ensureInitialized();
+  runApp(MaterialApp(
+      home: AddEquities()
+  ));
+}
 
 class AddEquities extends StatefulWidget {
   @override
@@ -20,7 +20,24 @@ class _AddEquitiesState extends State<AddEquities> {
   @override
   TextEditingController Name = new TextEditingController();
   TextEditingController Amount = new TextEditingController();
+      String selected_drop;
+  var asset_type=['Owner\'s Equity','Shareholders\' Equity',];
+  @override
+  void initState(){
+    super.initState();
+    selected_drop=asset_type[0];
+
+  }
+  void select_dropdown(String val){
+    setState(() {
+      selected_drop=val;
+    });
+  }
   Widget build(BuildContext context) {
+    double phone_width=MediaQuery.of(context).size.width;
+    double phone_height=MediaQuery.of(context).size.height;
+    double box_width=phone_width*0.899;
+    double box_height=phone_height*0.0527;
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -53,8 +70,47 @@ class _AddEquitiesState extends State<AddEquities> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    InputTextFields(label: 'Type',controller: Name),
-                    SizedBox(height: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                         'Type',
+                         style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,fontSize: 16.0,)),
+                       ),
+                       SizedBox(height: 5.0),
+                DropdownButtonHideUnderline(
+                                              child: Container(
+                                                width: box_width,
+                                                height: box_height,
+                                                decoration: ShapeDecoration(
+                                                    shape: RoundedRectangleBorder(
+                                                      side: BorderSide(style: BorderStyle.solid),
+                                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                                    ) 
+                                                  ),
+                           child: DropdownButton<String>(
+                             value: selected_drop,
+                             icon: const Icon(Icons.arrow_drop_down),
+                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.black,)),
+                             hint: Text(
+                               ' Select Type of Equity',
+                               style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey,)),
+                             ),
+                              items: asset_type.map((String dropDownStringItem){
+                               return DropdownMenuItem<String>(
+                                 value: dropDownStringItem,
+                                 child: Text(dropDownStringItem),
+                                );
+                             }).toList(),
+                             onChanged: (String value){
+                               select_dropdown(value);
+                             },
+                           ),
+                         ),
+                       ),
+                            ],
+                          ),
+                    SizedBox(height: 20),
                     InputTextFields(label: 'Amount', controller: Amount),
                     SizedBox(height: 40),
                     Container(
@@ -67,8 +123,9 @@ class _AddEquitiesState extends State<AddEquities> {
                         elevation: 7.0,
                         child: TextButton(
                           onPressed: () async {
-                            var temp = await DBprovider.db.addEquity(Name.text.toString(), Amount.text.toString());
+                            var temp = await DBprovider.db.addEquity(selected_drop, Amount.text.toString(), null, 1);
                             print(temp);
+                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
                             },
                           child: Center(
                             child: Text(
