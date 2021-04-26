@@ -14,4 +14,4 @@ You will have an app-release,apk which would be the latest build of the applicat
 6- The system would prompt you to change your security settings to allow  install from a unregistered apk, change your security settings to allow the install. (Note: The error will not appear if you have already enabled such installs.)\
 7- After the app has finished installing, the system would offer you to "Send app for scanning", tap "Don't Send".\
 8- Your app is now installed, tap "Open" to start using it.\
-9- Enjoy.\
+9- Enjoy.
