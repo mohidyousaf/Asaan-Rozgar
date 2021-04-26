@@ -1,6 +1,6 @@
 # Asaan Rozgar
 
-A new Flutter application, made for SME's (Small to Medium Scale Businesses) to conduct their businnesses with ease.
+A new Flutter application, made for SME's (Small to Medium Scale Businesses) to conduct their businesses with ease.
 
 ## Installation Guide
 
