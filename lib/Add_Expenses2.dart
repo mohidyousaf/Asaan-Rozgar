@@ -8,6 +8,8 @@ import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
+import './Widgets/textfield.dart';
+
 
 void main() => runApp(MaterialApp(home: add_expenses2()));
 
@@ -132,87 +134,107 @@ class _add_expenses2State extends State<add_expenses2> {
                       ],
                     ),
                        SizedBox(height:MediaQuery.of(context).size.height * 0.071),
-                       Row(
-                         children: [
-                           Container(
-                                alignment: AlignmentDirectional.topStart,
-                                padding: EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Type: ',
-                                  style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16) 
-                                ),
-                              ),
-                           Expanded(
-                             child: Container(
-                               padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                               child: TextField(
-                                 controller: typeController,
-                                   decoration: InputDecoration(
+                       Container(
+                        alignment: AlignmentDirectional.topStart,
+                                      padding: EdgeInsets.only(left: 16.0),
+                       child: InputTextFields(label: 'Type',controller: typeController),
 
-                                   )
-                               ),
-                             ),
-                           ),
-                         ],
                        ),
+                      //  Row(
+                      //    children: [
+                      //      Container(
+                      //           alignment: AlignmentDirectional.topStart,
+                      //           padding: EdgeInsets.only(left: 16.0),
+                      //           child: //InputTextFields(label: 'Type',controller: typeController),
+                      //           Text(
+                      //             'Type: ',
+                      //             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16) 
+                      //           ),
+                      //         ),
+                      //     //  Expanded(
+                      //     //    child: Container(
+                      //     //      padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                      //     //      child: TextField(
+                      //     //        controller: typeController,
+                      //     //          decoration: InputDecoration(
+
+                      //     //          )
+                      //     //      ),
+                      //     //    ),
+                      //     //  ),
+                      //    ],
+                      //  ),
                           
                           SizedBox(height: 30.0),
                                   Container(
                             
                                       alignment: AlignmentDirectional.topStart,
                                       padding: EdgeInsets.only(left: 16.0),
-                                      child: Text(
-                                        'Amount: ',
-                                        style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
-                                      ),
+                                      child: InputTextFields(label: 'Amount',controller: amountController),
+
+                                      
+                                      // Text(
+                                      //   'Amount: ',
+                                      //   style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
+                                      // ),
                                     ),
+                               SizedBox(height: 30.0),
+                               Container(
+                                    alignment: AlignmentDirectional.topStart,
+                                    padding: EdgeInsets.only(left: 16.0),
+                                    child: InputTextFields(label: 'Details',controller: detailsController)
+
+                               ),
                       // SizedBox(height:10),
-                                     Row(
-                                       children: [
-                                         Padding(
-                                           padding: const EdgeInsets.only(left: 16.0),
-                                           child: Text(
-                                             'Rs.',
-                                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
-                                           ),
-                                         ),
-                                         Expanded(
-                                           child: Container(
-                                             padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                                             child: TextField(
-                                                 controller: amountController,
-                                                 decoration: InputDecoration(
+                                    //  Row(
+                                    //    children: [
+                                    //      Padding(
+                                    //        padding: const EdgeInsets.only(left: 16.0),
+                                    //        child: Text(
+                                    //          'Rs.',
+                                    //          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
+                                    //        ),
+                                    //      ),
+                                    //      Expanded(
+                                    //        child: Container(
+                                    //          padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                                    //          child: TextField(
+                                    //              controller: amountController,
+                                    //              decoration: InputDecoration(
 
-                                                 )
-                                             ),
-                                           ),
-                                         ),
-                                         ],),
+                                    //              )
+                                    //          ),
+                                    //        ),
+                                    //      ),
+                                    //      ],),
                                 SizedBox(height: 30.0),
-                                Row(
-                                  children: [
-                                    Container(
-                                      alignment: AlignmentDirectional.topStart,
-                                      padding: EdgeInsets.only(left: 20.0),
-                                      child: Text(
-                                          'Details: ',
-                                          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                                        child: TextField(
-                                          controller: detailsController,
-                                            decoration: InputDecoration(
+                                // Row(
+                                //   children: [
+                                //     Container(
+                                //       alignment: AlignmentDirectional.topStart,
+                                //       padding: EdgeInsets.only(left: 20.0),
+                                //       child: //InputTextFields(label: 'Details',controller: detailsController),
+                                      
+                                //       Text(
+                                //           'Details: ',
+                                //           style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
+                                //       ),
+                                //     ),
+                                //     Expanded(
+                                //       child: Container(
+                                //         padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                                //         child: TextField(
+                                //           controller: detailsController,
+                                //             decoration: InputDecoration(
 
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                    SizedBox(height: 40.0,),
+                                //             )
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                   
+                   SizedBox(height: 40.0,),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Align(
@@ -220,7 +242,10 @@ class _add_expenses2State extends State<add_expenses2> {
                           child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            DropdownButton(
+                            DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Account Type',
+                              ),
                               value: accountName,
                               items: accounts.map((String dropDownStringItem){
                                 return DropdownMenuItem<String>(
