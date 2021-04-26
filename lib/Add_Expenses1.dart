@@ -108,7 +108,9 @@ class _add_expenses1State extends State<add_expenses1> {
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom:20.0),
-                    child: Text(
+                    child: 
+                    
+                    Text(
                       //Add name of variable
                       'Name of our Company',
                       style: TextStyle(

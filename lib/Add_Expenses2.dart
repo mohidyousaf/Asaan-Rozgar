@@ -1,5 +1,4 @@
-//Add Expenses 2 page.
-//This page creates the second step of adding expenses where expense details are added.
+import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +8,13 @@ import 'package:asaanrozgar/Widgets/FAB.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'DataBase.dart';
+import './Widgets/textfield.dart';
+
 
 void main() => runApp(MaterialApp(home: add_expenses2()));
 
 
-//Parent class for add expenses 2.
+
 class add_expenses2 extends StatefulWidget {
   
   @override
@@ -21,8 +22,8 @@ class add_expenses2 extends StatefulWidget {
 }
 
 class _add_expenses2State extends State<add_expenses2> {
-  //A list of buttons and accounts.
   List<ChildButton> buttons = [];
+  int invoiceNo = 8;
   List<String> accounts = [];
 
   TextEditingController typeController = new TextEditingController();
@@ -30,7 +31,6 @@ class _add_expenses2State extends State<add_expenses2> {
   TextEditingController detailsController = new TextEditingController();
   String accountName = 'Cash';
 
-  //Sets the party you are conducting business with.
   accountType(value){
     setState(() {
       accountName = value;
@@ -53,13 +53,11 @@ class _add_expenses2State extends State<add_expenses2> {
   }
   @override
   Widget build(BuildContext context) {
-    //Variables for properties of the page.
     int color_Red = 12;
     int color_Green = 109;
     int color_Blue = 109;
     double phone_width = MediaQuery.of(context).size.width;
     double phone_height = MediaQuery.of(context).size.height;
-    //Creates the skeleton of the page.
     return Scaffold(
         backgroundColor: Color.fromRGBO(color_Red, color_Green, color_Blue, 1.0),
         appBar: std_appbar(context, 'Expense Details', color_Red, color_Green, color_Blue),
@@ -67,10 +65,9 @@ class _add_expenses2State extends State<add_expenses2> {
         std_FAB(Colors.white, color_Red, color_Green, color_Blue, buttons, context),
         bottomNavigationBar: std_chinbar(context, 0,0,0),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        //Creates the body of the page.
+
         body: Column(
           children: [
-            //Creates the progress bar at the bottom of the app bar.
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -82,7 +79,6 @@ class _add_expenses2State extends State<add_expenses2> {
               ],
             ),
             SizedBox(height: 20),
-            //Prints the name of the party selected in the previous stage.
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -98,9 +94,11 @@ class _add_expenses2State extends State<add_expenses2> {
               ],
             ),
             SizedBox(height: 15),
-            //Creates the data part of the page.
+           // SingleChildScrollView(
                  Expanded(
                                   child: Container(
+              //height: MediaQuery.of(context).size.height * .6531,
+              //height: 493,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                     color: Colors.white,
@@ -111,9 +109,9 @@ class _add_expenses2State extends State<add_expenses2> {
               child: SingleChildScrollView(
                               child: Column(children: [
                     SizedBox(height: 25),
-                    //Creates the header of the data section, containing the date.
                     Row(
                       children: [
+                        //SizedBox(width: 20),
                         SizedBox(width: MediaQuery.of(context).size.width * 0.7),
                         Container(
                           child: Row(children: [
@@ -136,88 +134,107 @@ class _add_expenses2State extends State<add_expenses2> {
                       ],
                     ),
                        SizedBox(height:MediaQuery.of(context).size.height * 0.071),
-                       //Creates a input text field for type.
-                       Row(
-                         children: [
-                           Container(
-                                alignment: AlignmentDirectional.topStart,
-                                padding: EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Type: ',
-                                  style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16) 
-                                ),
-                              ),
-                           Expanded(
-                             child: Container(
-                               padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                               child: TextField(
-                                 controller: typeController,
-                                   decoration: InputDecoration(
+                       Container(
+                        alignment: AlignmentDirectional.topStart,
+                                      padding: EdgeInsets.only(left: 16.0),
+                       child: InputTextFields(label: 'Type',controller: typeController),
 
-                                   )
-                               ),
-                             ),
-                           ),
-                         ],
                        ),
+                      //  Row(
+                      //    children: [
+                      //      Container(
+                      //           alignment: AlignmentDirectional.topStart,
+                      //           padding: EdgeInsets.only(left: 16.0),
+                      //           child: //InputTextFields(label: 'Type',controller: typeController),
+                      //           Text(
+                      //             'Type: ',
+                      //             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16) 
+                      //           ),
+                      //         ),
+                      //     //  Expanded(
+                      //     //    child: Container(
+                      //     //      padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                      //     //      child: TextField(
+                      //     //        controller: typeController,
+                      //     //          decoration: InputDecoration(
+
+                      //     //          )
+                      //     //      ),
+                      //     //    ),
+                      //     //  ),
+                      //    ],
+                      //  ),
                           
                           SizedBox(height: 30.0),
-                                  //Creates a input text field for amount.
                                   Container(
                             
                                       alignment: AlignmentDirectional.topStart,
                                       padding: EdgeInsets.only(left: 16.0),
-                                      child: Text(
-                                        'Amount: ',
-                                        style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
-                                      ),
-                                    ),
-                                     Row(
-                                       children: [
-                                         Padding(
-                                           padding: const EdgeInsets.only(left: 16.0),
-                                           child: Text(
-                                             'Rs.',
-                                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
-                                           ),
-                                         ),
-                                         Expanded(
-                                           child: Container(
-                                             padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                                             child: TextField(
-                                                 controller: amountController,
-                                                 decoration: InputDecoration(
+                                      child: InputTextFields(label: 'Amount',controller: amountController),
 
-                                                 )
-                                             ),
-                                           ),
-                                         ),
-                                         ],),
+                                      
+                                      // Text(
+                                      //   'Amount: ',
+                                      //   style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
+                                      // ),
+                                    ),
+                               SizedBox(height: 30.0),
+                               Container(
+                                    alignment: AlignmentDirectional.topStart,
+                                    padding: EdgeInsets.only(left: 16.0),
+                                    child: InputTextFields(label: 'Details',controller: detailsController)
+
+                               ),
+                      // SizedBox(height:10),
+                                    //  Row(
+                                    //    children: [
+                                    //      Padding(
+                                    //        padding: const EdgeInsets.only(left: 16.0),
+                                    //        child: Text(
+                                    //          'Rs.',
+                                    //          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
+                                    //        ),
+                                    //      ),
+                                    //      Expanded(
+                                    //        child: Container(
+                                    //          padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                                    //          child: TextField(
+                                    //              controller: amountController,
+                                    //              decoration: InputDecoration(
+
+                                    //              )
+                                    //          ),
+                                    //        ),
+                                    //      ),
+                                    //      ],),
                                 SizedBox(height: 30.0),
-                                Row(
-                                  children: [
-                                    Container(
-                                      alignment: AlignmentDirectional.topStart,
-                                      padding: EdgeInsets.only(left: 20.0),
-                                      child: Text(
-                                          'Details: ',
-                                          style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
-                                        child: TextField(
-                                          controller: detailsController,
-                                            decoration: InputDecoration(
+                                // Row(
+                                //   children: [
+                                //     Container(
+                                //       alignment: AlignmentDirectional.topStart,
+                                //       padding: EdgeInsets.only(left: 20.0),
+                                //       child: //InputTextFields(label: 'Details',controller: detailsController),
+                                      
+                                //       Text(
+                                //           'Details: ',
+                                //           style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 16)
+                                //       ),
+                                //     ),
+                                //     Expanded(
+                                //       child: Container(
+                                //         padding: EdgeInsets.fromLTRB(10, 0, 20, 0),
+                                //         child: TextField(
+                                //           controller: detailsController,
+                                //             decoration: InputDecoration(
 
-                                            )
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                    SizedBox(height: 40.0,),
+                                //             )
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                   
+                   SizedBox(height: 40.0,),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: Align(
@@ -225,7 +242,10 @@ class _add_expenses2State extends State<add_expenses2> {
                           child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            DropdownButton(
+                            DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Account Type',
+                              ),
                               value: accountName,
                               items: accounts.map((String dropDownStringItem){
                                 return DropdownMenuItem<String>(
