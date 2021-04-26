@@ -89,7 +89,7 @@ class _inventoryState extends State<inventory> {
                         child: SizedBox(
                             child:Consumer<InventoryModel>(
                             builder: (context, items, child) {
-                              return inventory_lis(items: items.getItems);
+                              return inventory_lis(itemList: items.getItems);
                             }),
                         ),
                       ),

@@ -419,14 +419,14 @@ class ListItem extends StatelessWidget {
     return  Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.25,
-      secondaryActions: <Widget>[
+      secondaryActions: type == null && order == null? <Widget>[
         IconSlideAction(
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete,
           onTap: () {},
         ),
-      ],
+      ]:[],
       child: TextButton(
         onPressed: ()=> {
           Navigator.pushNamed(context, route, arguments:

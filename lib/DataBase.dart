@@ -168,7 +168,7 @@ class DBprovider {
               ProductID	INTEGER,
               PurchasePrice	REAL,
               Quantity	INTEGER,
-              FOREIGN KEY(ProductID) REFERENCES inventory(ProductID),
+              FOREIGN KEY(ProductID) REFERENCES inventory(ProductID) ON DELETE CASCADE,
               PRIMARY KEY(PurchaseID)
             );
             ''');
@@ -876,6 +876,7 @@ class DBprovider {
         partyName = party['PartyName'];
       });
       items.add(new InventoryItem(
+          productID: element['ProductID'],
           partyName: partyName,
           tag: element['ProductDescription'],
           lowStock: element['MinStock'],
@@ -1740,5 +1741,18 @@ class DBprovider {
       ''');
 
     return temp;
+  }
+  removeProduct(productName) async{
+    final db = await database;
+    int productID;
+    var temp = await db.rawQuery('''
+    SELECT productID FROM inventory WHERE ProductName = ?
+    ''', [productName]);
+    temp.forEach((element) {
+      productID = element['ProductID'];
+    });
+    var query = await db.rawDelete('''
+      DELETE FROM inventory WHERE ProductID = ?
+    ''', [productID]);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:asaanrozgar/DataBase.dart';
 class InventoryItem{
+  final productID;
   final image;
   final String name;
   final int price;
@@ -11,7 +12,7 @@ class InventoryItem{
   final tag;
   final lowStock;
   bool display = true;
-  InventoryItem({this.name,this.price,this.quantity,
+  InventoryItem({this.productID, this.name,this.price,this.quantity,
     this.value, this.image, this.partyName, this.tag, this.lowStock});
   setBool(bool newVal){
     display = newVal;
@@ -131,6 +132,12 @@ class InventoryModel extends ChangeNotifier{
       }
     });
     print('after $displayItems');
+    notifyListeners();
+  }
+  removeItem(index){
+    print(items[index].name);
+    DBprovider.db.removeProduct(items[index].name);
+    items.removeAt(index);
     notifyListeners();
   }
 }
