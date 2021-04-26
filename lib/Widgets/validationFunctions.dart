@@ -82,6 +82,7 @@ class ValidationFunctions {
     catch (e) {
       return 'Please enter an integer';
     }
+
   }
 }
 

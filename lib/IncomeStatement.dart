@@ -96,7 +96,8 @@ class _Reports1State extends State<Reports1> {
                                           builder: (context,model,child){
                                             double ratio = model.totalOpex;
                                             int rat = ratio.toInt();
-                                            return percChart(ratio/100, Color.fromRGBO(11, 71, 109, 1), '${rat.toString()}%',"Opex Ratio");
+                                            print('ratio:$ratio');
+                                            return percChart(ratio/100 < 0?0.0:ratio/100>1.0?1:ratio.abs()/100, Color.fromRGBO(11, 71, 109, 1), '${rat.toString()}%',"Opex Ratio");
                                           },
                                         )
                                       ),
@@ -110,7 +111,8 @@ class _Reports1State extends State<Reports1> {
                                             double ratio = model.totalGross;
                                             int temp1= ratio.toInt();
                                             double temp2= temp1.toDouble();
-                                            return  percChart(temp2/100, Color.fromRGBO(24, 153, 161, 1), '${ratio.toInt().toString()}%',"Gross Profit Margin");
+                                            print('temp2:$temp2');
+                                            return  percChart(temp2/100 < 0?0.0:temp2/100>1.0?1:temp2.abs()/100, Color.fromRGBO(24, 153, 161, 1), '${ratio.toInt().toString()}%',"Gross Profit Margin");
                                           },
                                         )
                                       ),

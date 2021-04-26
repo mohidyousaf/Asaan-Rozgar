@@ -25,23 +25,35 @@ class add_expenses2 extends StatefulWidget {
 class _add_expenses2State extends State<add_expenses2> {
   List<ChildButton> buttons = [];
   int invoiceNo = 8;
-  List<String> accounts = [];
+  var accounts;
 
   TextEditingController typeController = new TextEditingController();
   TextEditingController amountController = new TextEditingController();
   TextEditingController detailsController = new TextEditingController();
-  String accountName = 'Cash';
+  var accountName = 'Cash';
+  double balance = 0;
+  var account;
   final _formKey = GlobalKey<FormState>();
   AutovalidateMode autoValid = AutovalidateMode.disabled;
   accountType(value){
     setState(() {
-      accountName = value;
+      account = value;
+      accountName = account['name'];
+      balance = account['balance'];
     });
+    print(balance);
   }
   getData() async{
-    var temp3 = await DBprovider.db.getAccounts();
+    var temp3 = await DBprovider.db.getAccountBalances();
     setState(() {
       accounts = temp3;
+      accounts.forEach((element){
+        if (element['name'] == 'Cash'){
+          account = element;
+        }
+      });
+      accountName = account['name'];
+      balance = account['balance'];
     });
   }
   @override
@@ -138,29 +150,27 @@ class _add_expenses2State extends State<add_expenses2> {
                                           )
                                         ],
                                       ),
-                                    SizedBox(height:MediaQuery.of(context).size.height * 0.071),
+                                    SizedBox(height:MediaQuery.of(context).size.height * 0.02),
                                          Container(
                                            alignment: AlignmentDirectional.topStart,
                                            padding: EdgeInsets.only(left: 16.0),
                                          child: InputTextFields(label: 'Type',controller: typeController, validateFunc: ValidationFunctions.validateEmpty,),
                                 ),
-                                    SizedBox(height: 30.0),
+                                    SizedBox(height: 10.0),
                                     Container(
 
                                         alignment: AlignmentDirectional.topStart,
                                         padding: EdgeInsets.only(left: 16.0),
-                                        child: InputTextFields(label: 'Amount',controller: amountController, validateFunc:ValidationFunctions.validatePositive,),
+                                        child: InputTextFields(label: 'Amount',controller: amountController, validateFunc:ValidationFunctions.validateAmount,arg: balance.toInt(),),
                                       ),
-                                 SizedBox(height: 30.0),
+                                 SizedBox(height: 10.0),
                                  Container(
                                       alignment: AlignmentDirectional.topStart,
                                       padding: EdgeInsets.only(left: 16.0),
                                       child: InputTextFields(label: 'Details',controller: detailsController,validateFunc: ValidationFunctions.none,)
                                  ),
 
-                                  SizedBox(height: 30.0),
-
-                                      SizedBox(height: 40.0,),
+                                  SizedBox(height: 10.0),
                                       Padding(
                                             padding: const EdgeInsets.only(left: 16.0),
                                             child: Align(
@@ -172,17 +182,15 @@ class _add_expenses2State extends State<add_expenses2> {
                                                     decoration: InputDecoration(
                                                       labelText: 'Payment Type',
                                                     ),
-                                                    value: accountName,
-                                                    items: accounts.map((String dropDownStringItem){
-                                                      return DropdownMenuItem<String>(
+                                                    value: account,
+                                                    items: accounts == null?[]:accounts.map<DropdownMenuItem>((var dropDownStringItem){
+                                                      return DropdownMenuItem(
                                                         value: dropDownStringItem,
-                                                        child: Text(dropDownStringItem),
+                                                        child: Text(dropDownStringItem['name']),
                                                       );
                                                     }).toList(),
                                                     onChanged: (value) {
-                                                      setState(() {
-                                                        accountName = value;
-                                                      });
+                                                      accountType(value);
                                                     })
                                                 ],
                                               ),

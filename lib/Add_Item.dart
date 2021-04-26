@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:asaanrozgar/Widgets/addItemClass.dart';
+import 'package:asaanrozgar/Widgets/validationFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:asaanrozgar/Widgets/textfield.dart';
@@ -132,7 +133,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "\t\t\tProduct Name", controller: productName),
+                      label: "\t\t\tProduct Name", controller: productName, validateFunc: ValidationFunctions.validateEmpty,),
                 ),
                 Container(
                   height: 50,
@@ -140,7 +141,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "\t\t\tCategory Tag", controller: categoryTag),
+                      label: "\t\t\tCategory Tag", controller: categoryTag, validateFunc:ValidationFunctions.validateNoSpace,),
                 ),
                 Container(
                   height: 50,
@@ -148,7 +149,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "\t\t\tPurchase Price", controller: purchasePrice),
+                      label: "\t\t\tPurchase Price", controller: purchasePrice, validateFunc: ValidationFunctions.validatePositive,),
                 ),
                 Container(
                   height: 50,
@@ -156,7 +157,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child: InputTextFields(
-                      label: "\t\t\tSale Price", controller: salePrice),
+                      label: "\t\t\tSale Price", controller: salePrice, validateFunc: ValidationFunctions.validatePositive,),
                 ),
                 Container(
                   height: 50,
@@ -164,7 +165,7 @@ class _AddItemState extends State<AddItem> {
                   margin: EdgeInsets.fromLTRB(24, 14, 24, 7),
                   color: Color.fromRGBO(255, 255, 255, 1.0),
                   child:
-                      InputTextFields(label: "\t\t\tTax Rate", controller: taxRate),
+                      InputTextFields(label: "\t\t\tTax Rate", controller: taxRate, validateFunc: ValidationFunctions.validatePositive,),
                 ),
                 Container(
                     height: 35,
