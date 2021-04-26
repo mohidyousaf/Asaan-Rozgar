@@ -1,24 +1,39 @@
-
+import 'package:credit_card_validator/credit_card_validator.dart';
 class ValidationFunctions {
+  static String none({String text, int args}){
+    return null;
+  }
   static String validateAmount({String text, int args}){
-    if (true) {
-      return "Invalid Email Address";
+    try {
+      double value = double.parse(text);
+      if (value > args || value < 0) {
+        return 'Invalid Amount';
+      }
+      else {
+        return null;
+      }
     }
-    else {
-      return null;
+    catch (e) {
+      return 'Please enter an integer';
     }
   }
   static String validatePositive({String text, int args}){
-    if (true) {
-      return "Invalid Email Address";
+    try {
+      double value = double.parse(text);
+      if (value < 0) {
+        return 'Negative values not allowed';
+      }
+      else {
+        return null;
+      }
     }
-    else {
-      return null;
+    catch (e) {
+      return 'Please enter an integer';
     }
   }
   static String validateNoSpace({String text, int args}){
-    if (true) {
-      return "Invalid Email Address";
+    if (text.contains(' ')) {
+      return "No Spaces Allowed";
     }
     else {
       return null;
@@ -36,14 +51,15 @@ class ValidationFunctions {
     print(match);
   }
   static String validateAccount({String text, int args}) {
-    if (text.isEmpty) {
+    CreditCardValidator _ccValidator = CreditCardValidator();
+    var ccNumResults = _ccValidator.validateCCNum(text);
+    if (!ccNumResults.isPotentiallyValid) {
       return "Invalid Account No";
     }
     else {
       return null;
     }
   }
-
   static String validateEmpty({String text, int args}) {
     if (text.isEmpty) {
       return "field empty";

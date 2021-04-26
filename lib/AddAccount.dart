@@ -140,11 +140,11 @@ class _AddAccountsState extends State<AddAccounts> {
                             ],
                           ),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Bank Name', controller: Name, validateFunc: ValidationFunctions.validateEmail),
+                      InputTextFields(label: 'Bank Name', controller: Name, validateFunc: ValidationFunctions.validateEmpty),
                       SizedBox(height: 10),
                       InputTextFields(label: 'Account Number', controller: AccountNo, validateFunc: ValidationFunctions.validateAccount),
                       SizedBox(height: 10),
-                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: ValidationFunctions.validateEmpty),
+                      InputTextFields(label: 'Current Balance', controller: CurrentBal, validateFunc: ValidationFunctions.validatePositive),
                       SizedBox(height: 40),
                       Container(
                         height: 40.0,
