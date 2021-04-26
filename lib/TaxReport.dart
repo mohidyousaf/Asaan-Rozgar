@@ -1,6 +1,7 @@
 // Cashflow Statement
 // 
 import 'dart:ffi';
+import 'package:asaanrozgar/BalanceSheet.dart';
 import 'package:asaanrozgar/home.dart';
 import 'package:flutter/material.dart';
 import 'package:asaanrozgar/Widgets/PartyNames.dart';
@@ -89,50 +90,50 @@ class _TaxReportState extends State<TaxReport> {
                       children: [
                          
                         //SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                        Row(
-                          children: [
-                            SizedBox(width: 10,),
-                            Text("To: ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(107, 143, 165, 0.7),
-                            )),
-                            Text("16/11/2000",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                )),
-                                SizedBox(width: 3,),
-                                Icon(Icons.calendar_today_rounded,
-                                color: Color.fromRGBO(11, 71, 109, 1.0),
-                                size: 15,),
-                            Spacer(),
-                            Text("From: ",
-                            style: TextStyle(
-                              fontFamily: "Lato",
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.0,
-                              color: Color.fromRGBO(107, 143, 165, 0.7),
-                            )),
-                            Text("16/11/2000",
-                                style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                  color: Color.fromRGBO(11, 71, 109, 1.0),
-                                )),
-                                SizedBox(width: 3,),
-                                Icon(Icons.calendar_today_rounded,
-                                color: Color.fromRGBO(11, 71, 109, 1.0),
-                                size: 15,),
-                                SizedBox(width: 10,)
-                          ],
-                        ),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                        // Row(
+                        //   children: [
+                        //     SizedBox(width: 10,),
+                        //     Text("To: ",
+                        //     style: TextStyle(
+                        //       fontFamily: "Lato",
+                        //       fontWeight: FontWeight.normal,
+                        //       fontSize: 12.0,
+                        //       color: Color.fromRGBO(107, 143, 165, 0.7),
+                        //     )),
+                        //     // Text("16/11/2000",
+                        //     //     style: TextStyle(
+                        //     //       fontFamily: "Lato",
+                        //     //       fontWeight: FontWeight.bold,
+                        //     //       fontSize: 12.0,
+                        //     //       color: Color.fromRGBO(11, 71, 109, 1.0),
+                        //     //     )),
+                        //         SizedBox(width: 3,),
+                        //         Icon(Icons.calendar_today_rounded,
+                        //         color: Color.fromRGBO(11, 71, 109, 1.0),
+                        //         size: 15,),
+                        //     Spacer(),
+                        //     // Text("From: ",
+                        //     // style: TextStyle(
+                        //     //   fontFamily: "Lato",
+                        //     //   fontWeight: FontWeight.normal,
+                        //     //   fontSize: 12.0,
+                        //     //   color: Color.fromRGBO(107, 143, 165, 0.7),
+                        //     // )),
+                        //     // Text("16/11/2000",
+                        //     //     style: TextStyle(
+                        //     //       fontFamily: "Lato",
+                        //     //       fontWeight: FontWeight.bold,
+                        //     //       fontSize: 12.0,
+                        //     //       color: Color.fromRGBO(11, 71, 109, 1.0),
+                        //     //     )),
+                        //         SizedBox(width: 3,),
+                        //         Icon(Icons.calendar_today_rounded,
+                        //         color: Color.fromRGBO(11, 71, 109, 1.0),
+                        //         size: 15,),
+                        //         SizedBox(width: 10,)
+                        //   ],
+                        // ),
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                         Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
                        children:[
@@ -146,14 +147,14 @@ class _TaxReportState extends State<TaxReport> {
                                    )
                        ),
                        Spacer(flex: 3,),
-                       Text("AMOUNT",
-                       style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                   )
-                       ),
+                       // Text("AMOUNT",
+                       // style: TextStyle(
+                       //            color: Color.fromRGBO(11, 71, 109, 1),
+                       //            fontFamily: "Lato",
+                       //            fontWeight: FontWeight.w700,
+                       //            fontSize: 16,
+                       //             )
+                       // ),
                        Spacer(),
                        Text("BASE",
                        style: TextStyle(
@@ -166,12 +167,6 @@ class _TaxReportState extends State<TaxReport> {
                        ]
                        ),
                        Divider(),
-                      //  Column(
-                      //     children:[
-                            
-                      //       ]
-                     
-                      //  ),
 
             // Tax Paid                 
                   SizedBox(height: 8), 
@@ -180,64 +175,25 @@ class _TaxReportState extends State<TaxReport> {
                      children: [
                     
                      SizedBox(width: 5),
-                     Text("TAX PAID",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 17,
-                                // textBaseline: TextBaseline.values,
-                                 )
-                                 ),
+                       Text("Total Tax Paid",
+                           style: TextStyle(
+                             color: Color.fromRGBO(11, 71, 109, 1),
+                             fontFamily: "Lato",
+                             fontWeight: FontWeight.bold,
+                             fontSize: 16,
+                           )
+                       ),
                      
                    ],
                    ),
                   SizedBox(height: 8),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                    
-                     SizedBox(width: 5),
-                     Text("15% Tax",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
-                     Spacer(flex: 3),
-                     Consumer<TaxModel>(
-                       builder: (context,model,child){
-                         
-                         return Text( "6,000",
-                        style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 );
-                       }
-                     ),
-                     
-                     Spacer(),
-                     Text("40,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
-                   ],
-                   ),
+
                   
                   SizedBox(height: 8),
                    Row(
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                      children: [
-                    
+
                      SizedBox(width: 5),
                      Text("GST",
                      style: TextStyle(
@@ -247,59 +203,55 @@ class _TaxReportState extends State<TaxReport> {
                                 fontSize: 16,
                                  )
                                  ),
-                     Spacer(flex: 3),
-                     Text("3,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
+
+
                      Spacer(),
-                     Text("18,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
+
+                     Consumer <TaxModel>(
+                       builder : (context,model,child){
+                         double tax;
+                         model.totalPurchaseTax != null ?
+                         tax = model.totalPurchaseTax : tax=0;
+
+                         return Text(tax.toString(),
+                             style: TextStyle(
+                               color: Colors.black,
+                               fontFamily: "Lato",
+                               fontWeight: FontWeight.normal,
+                               fontSize: 16,
+                             )
+                         );
+                       }
+                     )
+
                    ],
                    ),
                   
                   SizedBox(height: 8),
-                  Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                       children: [
-                       Text("Total Tax Paid",
-                       style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       Spacer(flex:3),
-                       Text("9,000",
-                       style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       Spacer(),
-                       Text("58,000",
-                       style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       ]
-                       ),
+                  // Row(
+                  //     // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //      children: [
+                  //      // Text("Total Tax Paid",
+                  //      // style: TextStyle(
+                  //      //            color: Color.fromRGBO(11, 71, 109, 1),
+                  //      //            fontFamily: "Lato",
+                  //      //            fontWeight: FontWeight.bold,
+                  //      //            fontSize: 16,
+                  //      //             )
+                  //      // ),
+                  //      Spacer(flex:3),
+                  //
+                  //      Spacer(),
+                  //      Text("58,000",
+                  //      style: TextStyle(
+                  //                 color: Colors.black,
+                  //                 fontFamily: "Lato",
+                  //                 fontWeight: FontWeight.normal,
+                  //                 fontSize: 16,
+                  //                  )
+                  //      ),
+                  //      ]
+                  //      ),
                       ],
                      ),
                 // Tax Recieved
@@ -310,52 +262,51 @@ class _TaxReportState extends State<TaxReport> {
                      children: [
                     
                      SizedBox(width: 5),
-                     Text("TAX RECIEVED",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 17,
-                                // textBaseline: TextBaseline.values,
-                                 )
-                                 ),
+                       Text("Total Tax Recieved",
+                           style: TextStyle(
+                             color: Color.fromRGBO(11, 71, 109, 1),
+                             fontFamily: "Lato",
+                             fontWeight: FontWeight.bold,
+                             fontSize: 16,
+                           )
+                       ),
                      
                    ],
                    ),
                   SizedBox(height: 8),
-                  Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                     children: [
-                    
-                     SizedBox(width: 5),
-                     Text("15% Tax",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
-                     Spacer(flex: 3),
-                     Text("10,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
-                     Spacer(),
-                     Text("40,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                     ),
-                   ],
-                   ),
+                  // Row(
+                  //   // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //    children: [
+                  //
+                  //    SizedBox(width: 5),
+                  //    Text("15% Tax",
+                  //    style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontFamily: "Lato",
+                  //               fontWeight: FontWeight.normal,
+                  //               fontSize: 16,
+                  //                )
+                  //                ),
+                  //    Spacer(flex: 3),
+                  //    Text("10,000",
+                  //    style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontFamily: "Lato",
+                  //               fontWeight: FontWeight.normal,
+                  //               fontSize: 16,
+                  //                )
+                  //                ),
+                  //    Spacer(),
+                  //    Text("40,000",
+                  //    style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontFamily: "Lato",
+                  //               fontWeight: FontWeight.normal,
+                  //               fontSize: 16,
+                  //                )
+                  //    ),
+                  //  ],
+                  //  ),
                   
                   SizedBox(height: 8),
                    Row(
@@ -372,64 +323,71 @@ class _TaxReportState extends State<TaxReport> {
                                  )
                                  ),
                      Spacer(flex: 3),
-                     Text("3,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                 )
-                                 ),
+                     // Text("3,000",
+                     // style: TextStyle(
+                     //            color: Colors.black,
+                     //            fontFamily: "Lato",
+                     //            fontWeight: FontWeight.normal,
+                     //            fontSize: 16,
+                     //             )
+                     //             ),
                      Spacer(),
-                     Text("18,000",
-                     style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
+                       Consumer <TaxModel>(
+                           builder : (context,model,child){
+                             double tax;
+                             model.totalPurchaseTax != null ?
+                             tax = model.totalSaleTax : tax=0;
+                             return Text(tax.toString(),
+                                 style: TextStyle(
+                                   color: Colors.black,
+                                   fontFamily: "Lato",
+                                   fontWeight: FontWeight.normal,
+                                   fontSize: 16,
                                  )
-                     ),
+                             );
+                           }
+                       )
                    ],
                    ),
                   
                   SizedBox(height: 8),
-                  Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                       children: [
-                       Text("Total Tax Recieved",
-                       style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       Spacer(flex:3),
-                       Text("10,000",
-                       style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       Spacer(),
-                       Text("30,000",
-                       style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       ]
-                       ),
+                  // Row(
+                  //     // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //      children: [
+                  //      Text("Total Tax Recieved",
+                  //      style: TextStyle(
+                  //                 color: Color.fromRGBO(11, 71, 109, 1),
+                  //                 fontFamily: "Lato",
+                  //                 fontWeight: FontWeight.bold,
+                  //                 fontSize: 16,
+                  //                  )
+                  //      ),
+                  //      Spacer(flex:3),
+                  //      // Text("10,000",
+                  //      // style: TextStyle(
+                  //      //            color: Colors.black,
+                  //      //            fontFamily: "Lato",
+                  //      //            fontWeight: FontWeight.normal,
+                  //      //            fontSize: 16,
+                  //      //             )
+                  //      // ),
+                  //      Spacer(),
+                  //      Text("30,000",
+                  //      style: TextStyle(
+                  //                 color: Colors.black,
+                  //                 fontFamily: "Lato",
+                  //                 fontWeight: FontWeight.normal,
+                  //                 fontSize: 16,
+                  //                  )
+                  //      ),
+                  //      ]
+                  //      ),
                       SizedBox(height: 28),
                       
                      
-                       Row(
+
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                       children:[
+
                          
                        Text("TOTAL BALANCE",
                        style: TextStyle(
@@ -439,29 +397,36 @@ class _TaxReportState extends State<TaxReport> {
                                   fontSize: 16,
                                    )
                        ),
-                      Spacer(flex:3),
-                       Text("-9,000",
-                       style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+
+                       // Text("-9,000",
+                       // style: TextStyle(
+                       //            color: Color.fromRGBO(11, 71, 109, 1),
+                       //            fontFamily: "Lato",
+                       //            fontWeight: FontWeight.bold,
+                       //            fontSize: 16,
+                       //             )
+                       // ),
+                       // Spacer(),
+                         Consumer <TaxModel>(
+                             builder : (context,model,child){
+                               double tax = model.saleTax- model.totalPurchaseTax;
+                               return Text(tax.toString(),
+                                   style: TextStyle(
+                                     color: Colors.black,
+                                     fontFamily: "Lato",
+                                     fontWeight: FontWeight.normal,
+                                     fontSize: 16,
                                    )
-                       ),
-                       Spacer(),
-                       Text("-33,000",
-                       style: TextStyle(
-                                  color: Color.fromRGBO(11, 71, 109, 1),
-                                  fontFamily: "Lato",
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                   )
-                       ),
-                       ]
-                       ),
+                               );
+                             }
+                         ),
+
+
                       SizedBox(height: 16),
                        FlatButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                          },
                           height: 30,
                           minWidth: 90,
                           shape: RoundedRectangleBorder(
@@ -492,7 +457,16 @@ class _TaxReportState extends State<TaxReport> {
 
 class TaxModel extends ChangeNotifier{
 
-  get sp => sp;
+
+
+  double purchaseTax;
+  double saleTax;
+
+
+
+  get totalPurchaseTax=> purchaseTax;
+  get totalSaleTax => saleTax;
+
 
   TaxModel(){
     var initFuture = getInformation();
@@ -503,6 +477,8 @@ class TaxModel extends ChangeNotifier{
   getInformation()async{
 
     var ls = await DBprovider.db.getTaxes();
+    purchaseTax = ls[2];
+    saleTax = ls[3];
     print('Taxes are $ls');
 
   }

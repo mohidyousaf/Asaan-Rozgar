@@ -177,6 +177,8 @@ class _BalanceReportState extends State<BalanceReport> {
                                         double ratio = model.totalDeptAssetRatio;
                                         int temp1= ratio.toInt();
                                         double temp2= temp1.toDouble();
+                                        print('here $temp2');
+                                        print(temp2/100);
                                         return   percChart(
                                             temp2/100,
                                             Color.fromRGBO(24, 153, 161, 1),
@@ -195,142 +197,142 @@ class _BalanceReportState extends State<BalanceReport> {
                       ),
                     ]),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(11, 71, 109, 1.0),
-                    ),
-                    child: Wrap(children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              color: Color.fromRGBO(250, 250, 250, 1),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.15,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.045,
-                                      ),
-                                      Text("Assets",
-                                          style: TextStyle(
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 10.0,
-                                          )),
-                                      Text("384",
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                11, 71, 109, 1.0),
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 10.0,
-                                          )),
-                                      Divider(),
-                                      Text("Liabilities",
-                                          style: TextStyle(
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 10.0,
-                                          )),
-                                      Text("60",
-                                          style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(255, 0, 0, 1.0),
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 10.0,
-                                          )),
-                                      Divider(),
-                                      Text("W.C",
-                                          style: TextStyle(
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 10.0,
-                                          )),
-                                      Text("324",
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                23, 225, 67, 1.0),
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 10.0,
-                                          )),
-                                    ],
-                                  ),
-                                ), //here
-                                LineGraph(),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                        ],
-                      ),
-                    ]),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(11, 71, 109, 1.0),
-                    ),
-                    child: Wrap(children: [
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.25,
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                              color: Color.fromRGBO(250, 250, 250, 1),
-                            ),
-                            child: Row(
-                              children: [
-                                //It creates Overflow, Please Check Here...
-                                // Padding(
-                                //   padding: const EdgeInsets.only(left:8.0),
-                                //   child: Text(
-                                //     "Assets\nBreakdown",
-                                //     style: TextStyle(
-                                //               color: Color.fromRGBO(11,71,109, 1.0),
-                                //               fontFamily: "Lato",
-                                //               fontWeight: FontWeight.w800,
-                                //               fontSize: 22.0,
-                                //             )
-                                //   ),
-                                // ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
-                                  child:
-                                      pieChartOne(context, dataMap, colorsList),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
-                          ),
-                        ],
-                      ),
-                    ]),
-                  ),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     color: Color.fromRGBO(11, 71, 109, 1.0),
+                  //   ),
+                  //   child: Wrap(children: [
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: MediaQuery.of(context).size.width * 0.05,
+                  //         ),
+                  //         Container(
+                  //           height: MediaQuery.of(context).size.height * 0.25,
+                  //           width: MediaQuery.of(context).size.width * 0.9,
+                  //           decoration: BoxDecoration(
+                  //             borderRadius:
+                  //                 BorderRadius.all(Radius.circular(15)),
+                  //             color: Color.fromRGBO(250, 250, 250, 1),
+                  //           ),
+                  //           child: Row(
+                  //             children: [
+                  //               Container(
+                  //                 width:
+                  //                     MediaQuery.of(context).size.width * 0.15,
+                  //                 child: Column(
+                  //                   children: [
+                  //                     SizedBox(
+                  //                       height:
+                  //                           MediaQuery.of(context).size.height *
+                  //                               0.045,
+                  //                     ),
+                  //                     Text("Assets",
+                  //                         style: TextStyle(
+                  //                           fontFamily: "Lato",
+                  //                           fontWeight: FontWeight.normal,
+                  //                           fontSize: 10.0,
+                  //                         )),
+                  //                     Text("384",
+                  //                         style: TextStyle(
+                  //                           color: Color.fromRGBO(
+                  //                               11, 71, 109, 1.0),
+                  //                           fontFamily: "Lato",
+                  //                           fontWeight: FontWeight.normal,
+                  //                           fontSize: 10.0,
+                  //                         )),
+                  //                     Divider(),
+                  //                     Text("Liabilities",
+                  //                         style: TextStyle(
+                  //                           fontFamily: "Lato",
+                  //                           fontWeight: FontWeight.normal,
+                  //                           fontSize: 10.0,
+                  //                         )),
+                  //                     Text("60",
+                  //                         style: TextStyle(
+                  //                           color:
+                  //                               Color.fromRGBO(255, 0, 0, 1.0),
+                  //                           fontFamily: "Lato",
+                  //                           fontWeight: FontWeight.normal,
+                  //                           fontSize: 10.0,
+                  //                         )),
+                  //                     Divider(),
+                  //                     Text("W.C",
+                  //                         style: TextStyle(
+                  //                           fontFamily: "Lato",
+                  //                           fontWeight: FontWeight.normal,
+                  //                           fontSize: 10.0,
+                  //                         )),
+                  //                     Text("324",
+                  //                         style: TextStyle(
+                  //                           color: Color.fromRGBO(
+                  //                               23, 225, 67, 1.0),
+                  //                           fontFamily: "Lato",
+                  //                           fontWeight: FontWeight.normal,
+                  //                           fontSize: 10.0,
+                  //                         )),
+                  //                   ],
+                  //                 ),
+                  //               ), //here
+                  //               LineGraph(),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           width: MediaQuery.of(context).size.width * 0.05,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ]),
+                  // ),
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     color: Color.fromRGBO(11, 71, 109, 1.0),
+                  //   ),
+                  //   child: Wrap(children: [
+                  //     Row(
+                  //       children: [
+                  //         SizedBox(
+                  //           width: MediaQuery.of(context).size.width * 0.05,
+                  //         ),
+                  //         Container(
+                  //           height: MediaQuery.of(context).size.height * 0.25,
+                  //           width: MediaQuery.of(context).size.width * 0.9,
+                  //           decoration: BoxDecoration(
+                  //             borderRadius:
+                  //                 BorderRadius.all(Radius.circular(15)),
+                  //             color: Color.fromRGBO(250, 250, 250, 1),
+                  //           ),
+                  //           child: Row(
+                  //             children: [
+                  //               //It creates Overflow, Please Check Here...
+                  //               // Padding(
+                  //               //   padding: const EdgeInsets.only(left:8.0),
+                  //               //   child: Text(
+                  //               //     "Assets\nBreakdown",
+                  //               //     style: TextStyle(
+                  //               //               color: Color.fromRGBO(11,71,109, 1.0),
+                  //               //               fontFamily: "Lato",
+                  //               //               fontWeight: FontWeight.w800,
+                  //               //               fontSize: 22.0,
+                  //               //             )
+                  //               //   ),
+                  //               // ),
+                  //               Padding(
+                  //                 padding: const EdgeInsets.only(left: 20.0),
+                  //                 child:
+                  //                     pieChartOne(context, dataMap, colorsList),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //         SizedBox(
+                  //           width: MediaQuery.of(context).size.width * 0.05,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ]),
+                  // ),
                 ],
               ),
             ),
@@ -910,7 +912,7 @@ class BalanceModel extends ChangeNotifier{
   get cashEquivalents => cash;
   get equity => objects2;
   get toalAssets=> objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
-  get totalEquityandLiability => objects2.fold(payables+retainedEarnings , (total, current) => total + (current.price));
+  get totalEquityandLiability => objects2.fold(payables+retainedEarnings+loan , (total, current) => total + (current.price));
   get totalQuickRatio => quickRatio;
   get totalCurrentRatio => currentRatio;
   get totalDeptAssetRatio=> deptAssetRatio;
@@ -942,15 +944,15 @@ class BalanceModel extends ChangeNotifier{
     loan = await DBprovider.db.getLoanAmount();
 
     totalAssetsVal!=0 ?
-    deptAssetRatio =  (payables / totalAssetsVal) * 100 : deptAssetRatio=0;
+    deptAssetRatio =  ((payables+loan) / totalAssetsVal) * 100 : deptAssetRatio=0;
 
     payables!=0?
-    quickRatio = (cash + receivables) / payables:quickRatio=0;
+    quickRatio = (cash + receivables) / (payables+loan):quickRatio=0;
     //TODO : plus  loan in cuurent ratio in payables also in totalDebt and in getter of equityandpayables
 
     double totalDebt = objects2.fold(payables , (total, current) => total + (current.price));
     payables!=0?
-    currentRatio= totalAssetsVal / payables:currentRatio=0;
+    currentRatio= totalAssetsVal / (payables+loan):currentRatio=0;
 
 
 

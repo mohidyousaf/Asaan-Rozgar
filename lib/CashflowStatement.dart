@@ -95,52 +95,52 @@ class _CashflowReportState extends State<CashflowReport> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        ),
-                        child: Wrap(children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.height * 0.25,
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                  color: Color.fromRGBO(250, 250, 250, 1),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0),
-                                      child: percChart(
-                                          0.3,
-                                          Color.fromRGBO(11, 71, 109, 1),
-                                          "30%",
-                                          "Opex Ratio"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0),
-                                      child: percChart(
-                                          0.84,
-                                          Color.fromRGBO(24, 153, 161, 1),
-                                          "84%",
-                                          "Gross Profit Margin"),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     color: Color.fromRGBO(11, 71, 109, 1.0),
+                      //   ),
+                      //   child: Wrap(children: [
+                      //     Row(
+                      //       children: [
+                      //         SizedBox(
+                      //           width: MediaQuery.of(context).size.width * 0.05,
+                      //         ),
+                      //         // Container(
+                      //         //   height: MediaQuery.of(context).size.height * 0.25,
+                      //         //   width: MediaQuery.of(context).size.width * 0.9,
+                      //         //   decoration: BoxDecoration(
+                      //         //     borderRadius:
+                      //         //         BorderRadius.all(Radius.circular(15)),
+                      //         //     color: Color.fromRGBO(250, 250, 250, 1),
+                      //         //   ),
+                      //         //   child: Row(
+                      //         //     children: [
+                      //         //       Padding(
+                      //         //         padding: const EdgeInsets.only(left: 18.0),
+                      //         //         child: percChart(
+                      //         //             0.3,
+                      //         //             Color.fromRGBO(11, 71, 109, 1),
+                      //         //             "30%",
+                      //         //             "Opex Ratio"),
+                      //         //       ),
+                      //         //       Padding(
+                      //         //         padding: const EdgeInsets.only(left: 18.0),
+                      //         //         child: percChart(
+                      //         //             0.84,
+                      //         //             Color.fromRGBO(24, 153, 161, 1),
+                      //         //             "84%",
+                      //         //             "Gross Profit Margin"),
+                      //         //       ),
+                      //         //     ],
+                      //         //   ),
+                      //         // ),
+                      //         // SizedBox(
+                      //         //   width: MediaQuery.of(context).size.width * 0.05,
+                      //         // ),
+                      //       ],
+                      //     ),
+                      //   ]),
+                      // ),
                       Container(
                         decoration: BoxDecoration(
                           color: Color.fromRGBO(11, 71, 109, 1.0),
@@ -229,41 +229,41 @@ class _CashflowReportState extends State<CashflowReport> {
                           ),
                         ]),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(11, 71, 109, 1.0),
-                        ),
-                        child: Wrap(children: [
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              Container(
-                                height: MediaQuery.of(context).size.height * 0.25,
-                                width: MediaQuery.of(context).size.width * 0.9,
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                  color: Color.fromRGBO(250, 250, 250, 1),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 30.0),
-                                      child:
-                                          pieChartOne(context, dataMap, colorsList),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                            ],
-                          ),
-                        ]),
-                      ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //     color: Color.fromRGBO(11, 71, 109, 1.0),
+                      //   ),
+                      //   child: Wrap(children: [
+                      //     Row(
+                      //       children: [
+                      //         SizedBox(
+                      //           width: MediaQuery.of(context).size.width * 0.05,
+                      //         ),
+                      //         Container(
+                      //           height: MediaQuery.of(context).size.height * 0.25,
+                      //           width: MediaQuery.of(context).size.width * 0.9,
+                      //           decoration: BoxDecoration(
+                      //             borderRadius:
+                      //                 BorderRadius.all(Radius.circular(15)),
+                      //             color: Color.fromRGBO(250, 250, 250, 1),
+                      //           ),
+                      //           child: Row(
+                      //             children: [
+                      //               Padding(
+                      //                 padding: const EdgeInsets.only(left: 30.0),
+                      //                 child:
+                      //                     pieChartOne(context, dataMap, colorsList),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           width: MediaQuery.of(context).size.width * 0.05,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ]),
+                      // ),
                     ],
                   ),
                 ),
