@@ -41,8 +41,8 @@ class _parties_infoState extends State<parties_info> {
   String name;
   var temp;
   String type;
-  int contact= 0;
-  String email='';
+  int contact;
+  String email;
   String accountNumber;
 
   getData()async{
@@ -135,7 +135,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            type,
+                            type!=null? type : '',
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
                           ),
                         ),
@@ -160,7 +160,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            contact.toString(),
+                            contact!=null? contact.toString(): '',
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.blue),fontSize: 12)
                           ),
                         ),
@@ -185,7 +185,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            email,
+                            email!=null ? email: '',
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.blue),fontSize: 12)
                           ),
                         ),
@@ -238,7 +238,7 @@ class _parties_infoState extends State<parties_info> {
                         Padding(
                           padding: const EdgeInsets.only(left: 33.0),
                           child: Text(
-                            accountNumber,
+                            accountNumber!=null? accountNumber:'',
                             style: GoogleFonts.lato(textStyle: TextStyle(color: Colors.grey),fontSize: 12)
                           ),
                         ),
