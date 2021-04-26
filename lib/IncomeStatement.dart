@@ -669,7 +669,7 @@ class IncomeModel extends ChangeNotifier {
     grossProfit = revenue - expense;
 
     revenue != 0 ? grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100 : grossProfitRatio=0;
-    gst = 16/100 * revenue;
+    gst = 0;
     netProfit= grossProfit - gst;
 
     prefs.setDouble('netIncome',netProfit);

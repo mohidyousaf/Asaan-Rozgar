@@ -55,9 +55,9 @@ class report_items extends StatelessWidget {
 
 class inventory_items extends StatelessWidget {
   
-  final String itemName;
-  final double profit_loss;
-  final double sale;
+  String itemName;
+  double profit_loss;
+  double sale;
 
   inventory_items({this.itemName,this.profit_loss, this.sale});
 

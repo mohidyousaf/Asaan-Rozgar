@@ -37,9 +37,9 @@ class DBprovider{
   initDB({delete: false}) async{
     print(await getDatabasesPath());
     if (delete) {
-      await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove('accountCheck');
+      await deleteDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'));
     }
     Database dbs = await openDatabase(join(await getDatabasesPath(), 'AssanRozgaar.db'),            //join method comes from path package
         onCreate: (db,version) async {
@@ -1473,4 +1473,86 @@ class DBprovider{
     return obj;
   }
 
+  getInventoryReportDetails()async{
+    List<inventory_items> objects=[];
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT OrderID
+        FROM orders
+        WHERE OrderType=?
+      ''',['sale']);
+
+    print(temp);
+    await Future.wait(temp.map((element) async{
+      var productIDquery = await db.rawQuery('''
+        SELECT ProductID,Quantity,Price
+        FROM orderGoods
+        WHERE OrderID=?
+      ''',[element['OrderID']]);
+
+      print(productIDquery);
+
+      await Future.wait(productIDquery.map((element2) async{
+        double cost = element2['Price'];
+        int quantity = element2['Quantity'];
+        double total = cost * quantity;
+        print(total);
+
+        var nameIDquery = await db.rawQuery('''
+        SELECT ProductName
+        FROM inventory
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        var purchaseIDquery = await db.rawQuery('''
+        SELECT PurchasePrice
+        FROM purchases
+        WHERE ProductID=?
+      ''',[element2['ProductID']]);
+
+        double price2 = 0;
+        purchaseIDquery.forEach((element4) {
+          price2 = element4['PurchasePrice'];
+        });
+
+        String name;
+        nameIDquery.forEach((element3) {
+           name = element3['ProductName'];
+        });
+
+        double profitAndLoss=  (cost - price2) * quantity;
+        double sale = cost * quantity;
+        print(nameIDquery);
+
+        int check= 1;
+        objects.forEach((element5) {
+          if(name == element5.itemName){
+            check=0;
+            element5.profit_loss += profitAndLoss;
+            element5.sale += sale;
+          }
+        });
+
+        if(check==1){
+          objects.add(new inventory_items(itemName: name ,profit_loss: profitAndLoss, sale:sale));
+        }
+      }));
+    }));
+
+    return objects;
+  }
+
+
+
+  getPartyDetails()async{
+
+    final db= await database;
+    var temp = await db.rawQuery('''
+        SELECT *
+        FROM parties
+      ''');
+
+    return temp;
+  }
 }
+
