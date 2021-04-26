@@ -11,6 +11,7 @@ import 'package:asaanrozgar/Sale_invoice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:asaanrozgar/Widgets/temp.dart';
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
+import './Widgets/textfield.dart';
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
@@ -353,38 +354,40 @@ class _Sale2State extends State<Sale2> {
                               SizedBox(
                                 height: 20,
                               ),
-                              Text("Paid:",
-                                  style: TextStyle(
-                                    fontFamily: "Lato",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.0,
-                                    color: Colors.black54,
-                                  )),
+                              // Text("Paid:",
+                              //     style: TextStyle(
+                              //       fontFamily: "Lato",
+                              //       fontWeight: FontWeight.w500,
+                              //       fontSize: 14.0,
+                              //       color: Colors.black54,
+                              //     )),
                               Row(
                                 children: [
-                                  Text("Rs.",
-                                      style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14.0,
-                                        color: Colors.black54,
-                                      )),
+                                  // Text("Rs.",
+                                  //     style: TextStyle(
+                                  //       fontFamily: "Lato",
+                                  //       fontWeight: FontWeight.w500,
+                                  //       fontSize: 14.0,
+                                  //       color: Colors.black54,
+                                  //     )),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.7,
-                                    child: TextField(
-                                      controller:amountReceived,
-                                      decoration: InputDecoration(
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.grey),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.grey),
-                                        ),
-                                      ),
-                                    ),
+                                    child: InputTextFields(label: 'Amount Received ',controller: amountReceived),
+                                    
+                                    // TextField(
+                                    //   controller:amountReceived,
+                                    //   decoration: InputDecoration(
+                                    //     enabledBorder: UnderlineInputBorder(
+                                    //       borderSide: BorderSide(color: Colors.grey),
+                                    //     ),
+                                    //     focusedBorder: UnderlineInputBorder(
+                                    //       borderSide: BorderSide(color: Colors.grey),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ),
                                 ],
                               ),

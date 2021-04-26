@@ -122,7 +122,7 @@ class _add_expenses2State extends State<add_expenses2> {
                               fontSize: 12.0,
                               color: Color.fromRGBO(107, 143, 165, 0.7),
                             )),
-                        Text("16/11/2000",
+                        Text("26/04/2021",
                             style: TextStyle(
                               fontFamily: "Lato",
                               fontWeight: FontWeight.normal,
@@ -244,7 +244,7 @@ class _add_expenses2State extends State<add_expenses2> {
                           children: [
                             DropdownButtonFormField(
                               decoration: InputDecoration(
-                                labelText: 'Account Type',
+                                labelText: 'Payment Type',
                               ),
                               value: accountName,
                               items: accounts.map((String dropDownStringItem){

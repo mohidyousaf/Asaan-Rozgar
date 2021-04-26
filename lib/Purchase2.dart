@@ -11,6 +11,8 @@ import 'package:asaanrozgar/Purchase3.dart';
 import 'package:asaanrozgar/Purchase4.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
+import './Widgets/textfield.dart';
+
 
 
 // void main() => runApp(MaterialApp(home: Purchase2()));
@@ -357,38 +359,40 @@ class _Purchase2State extends State<Purchase2> {
                                 SizedBox(
                         height: 20,
                       ),
-                                  Text("Paid:",
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.0,
-                            color: Colors.black54,
-                          )),
+                          // Text("Paid:",
+                          // style: TextStyle(
+                          //   fontFamily: "Lato",
+                          //   fontWeight: FontWeight.w500,
+                          //   fontSize: 14.0,
+                          //   color: Colors.black54,
+                          // )),
                               Row(
                         children: [
-                          Text("Rs.",
-                              style: TextStyle(
-                                fontFamily: "Lato",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.0,
-                                color: Colors.black54,
-                              )),
-                          SizedBox(
-                            width: 10,
-                          ),
+                          // Text("Rs.",
+                          //     style: TextStyle(
+                          //       fontFamily: "Lato",
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 14.0,
+                          //       color: Colors.black54,
+                          //     )),
+                          // SizedBox(
+                          //   width: 10,
+                          // ),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.7,
-                            child: TextField(
-                              controller:amountReceived,
-                              decoration: InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                            ),
+                            child: InputTextFields(label: 'Amount Paid ',controller: amountReceived),
+                            
+                            // TextField(
+                            //   controller:amountReceived,
+                            //   decoration: InputDecoration(
+                            //     enabledBorder: UnderlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.grey),
+                            //     ),
+                            //     focusedBorder: UnderlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.grey),
+                            //     ),
+                            //   ),
+                            // ),
                           ),
                         ],
                       ),
@@ -412,6 +416,7 @@ class _Purchase2State extends State<Purchase2> {
                                 child: Consumer<CartModel>(
                                     builder: (context, model, child){
                                       return DropdownButton(
+                                        
                                           value: _value,
                                           items: model.accountList.map((String dropDownStringItem){
                                             return DropdownMenuItem<String>(
