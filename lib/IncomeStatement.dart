@@ -96,7 +96,7 @@ class _Reports1State extends State<Reports1> {
                                           builder: (context,model,child){
                                             double ratio = model.totalOpex;
                                             int rat = ratio.toInt();
-                                            return percChart(0.3, Color.fromRGBO(11, 71, 109, 1), '${rat.toString()}%',"Opex Ratio");
+                                            return percChart(ratio/100, Color.fromRGBO(11, 71, 109, 1), '${rat.toString()}%',"Opex Ratio");
                                           },
                                         )
                                       ),
@@ -108,7 +108,9 @@ class _Reports1State extends State<Reports1> {
                                         Consumer<IncomeModel>(
                                           builder: (context,model,child){
                                             double ratio = model.totalGross;
-                                            return  percChart(0.84, Color.fromRGBO(24, 153, 161, 1), '${ratio.toInt().toString()}%',"Gross Profit Margin");
+                                            int temp1= ratio.toInt();
+                                            double temp2= temp1.toDouble();
+                                            return  percChart(0, Color.fromRGBO(24, 153, 161, 1), '${ratio.toInt().toString()}%',"Gross Profit Margin");
                                           },
                                         )
                                       ),
@@ -649,6 +651,9 @@ class IncomeModel extends ChangeNotifier {
     print('opex ratio is $opexRatio');
     grossProfit = revenue - expense;
 
+    print('total good cost is $totalGoodsCost');
+    print('total revenue is, $revenue');
+    print('gross ratio is $grossProfitRatio');
     revenue != 0 ? grossProfitRatio = (revenue - totalGoodsCost)/(revenue) * 100 : grossProfitRatio=0;
     gst = 0;
     netProfit= grossProfit - gst;

@@ -15,6 +15,7 @@ import 'package:asaanrozgar/Widgets/addItemClass.dart';
 import 'package:asaanrozgar/itemCard.dart';
 import 'package:asaanrozgar/drawer.dart';
 import 'package:asaanrozgar/Widgets/std_appbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MaterialApp(home: BalanceReport()));
 
@@ -174,8 +175,10 @@ class _BalanceReportState extends State<BalanceReport> {
                                     Consumer<BalanceModel>(
                                       builder: (context,model,cild){
                                         double ratio = model.totalDeptAssetRatio;
+                                        int temp1= ratio.toInt();
+                                        double temp2= temp1.toDouble();
                                         return   percChart(
-                                            0.84,
+                                            temp2/100,
                                             Color.fromRGBO(24, 153, 161, 1),
                                             '${ratio.toInt().toString()}%',
                                             "DEPT-ASSET RATIO");
@@ -715,13 +718,20 @@ class _BalanceReportState extends State<BalanceReport> {
                                           fontSize: 15,
                                         )),
                                     Spacer(),
-                                    Text('0',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Lato",
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 15,
-                                        )),
+
+                                    Consumer<BalanceModel>(
+                                      builder: (conetxt,model,child){
+                                        double loan= model.totalLoan;
+                                        return Text(loan.toString(),
+                                            style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15,
+                                        ));
+                                      },
+                                    )
+
                                   ],
                                 ),
                                 SizedBox(
@@ -785,9 +795,37 @@ class _BalanceReportState extends State<BalanceReport> {
                                         0.012),
                               ],
                             ),
+
+                            Row(
+                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text("Retained Earnings",
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(11, 71, 109, 1),
+                                        fontFamily: "Lato",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                      )),
+                                  Spacer(),
+
+                                  Consumer<BalanceModel>(
+                                      builder :(context,model,child){
+                                        totalLiabAndEquity = model.retainedEarnings;
+                                        return Text(totalLiabAndEquity.toString(),
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(11, 71, 109, 1),
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                            ));
+                                      }
+                                  )
+
+                                ]),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.015),
+                                MediaQuery.of(context).size.height * 0.015),
+
                             //Total
                             Row(
                                 // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -818,6 +856,8 @@ class _BalanceReportState extends State<BalanceReport> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.015),
+
+
 
                             FlatButton(
                                 onPressed: () {
@@ -860,8 +900,8 @@ class BalanceModel extends ChangeNotifier{
   double quickRatio= 0;
   double currentRatio=0;
   double deptAssetRatio=0;
-
-
+  double loan=0;
+  double netIncome=0;
 
   get totalPayables => payables;
   get totalReceivables => receivables;
@@ -870,10 +910,12 @@ class BalanceModel extends ChangeNotifier{
   get cashEquivalents => cash;
   get equity => objects2;
   get toalAssets=> objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
-  get totalEquityandLiability => objects2.fold(payables , (total, current) => total + (current.price));
+  get totalEquityandLiability => objects2.fold(payables+retainedEarnings , (total, current) => total + (current.price));
   get totalQuickRatio => quickRatio;
   get totalCurrentRatio => currentRatio;
   get totalDeptAssetRatio=> deptAssetRatio;
+  get totalLoan => loan;
+  get retainedEarnings => netIncome;
 
   BalanceModel() {
     var initFuture = getInformation();
@@ -891,8 +933,13 @@ class BalanceModel extends ChangeNotifier{
     objects = await DBprovider.db.getAssets();
     cash = await DBprovider.db.getCashEquivalents();
     objects2 = await DBprovider.db.getEquity();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    netIncome = prefs.getDouble('netIncome');
+    print('income is $netIncome');
 
     double totalAssetsVal =  objects.fold(cash+receivables+inventoryCost , (total, current) => total + (current.price));
+
+    loan = await DBprovider.db.getLoanAmount();
 
     totalAssetsVal!=0 ?
     deptAssetRatio =  (payables / totalAssetsVal) * 100 : deptAssetRatio=0;
@@ -902,10 +949,11 @@ class BalanceModel extends ChangeNotifier{
     //TODO : plus  loan in cuurent ratio in payables also in totalDebt and in getter of equityandpayables
 
     double totalDebt = objects2.fold(payables , (total, current) => total + (current.price));
-
-
     payables!=0?
     currentRatio= totalAssetsVal / payables:currentRatio=0;
+
+
+
   }
 
 }

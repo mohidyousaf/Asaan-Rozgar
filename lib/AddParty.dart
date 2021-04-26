@@ -136,22 +136,22 @@ class _AddPartyState extends State<AddParty> {
                           // InputTextFields(label: 'Receivables', controller:receivable,
                           //     validateFunc: ValidationFunctions.validateEmpty),
                           //     SizedBox(height: 20.0),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                            width: MediaQuery.of(context).size.width * 0.39,
-                            child: InputTextFields(label: 'Account Payables', controller:payable,
-                              validateFunc: ValidationFunctions.validateEmpty),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.39,
-                            child: InputTextFields(label: 'Account Recievable', controller:receivable,
-                              validateFunc: ValidationFunctions.validateEmpty),
-                          ),
-                            ]
-                          ),
+                          // Row(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: <Widget>[
+                          //     Container(
+                          //       width: MediaQuery.of(context).size.width * 0.39,
+                          //       child: InputTextFields(label: 'Account Payables', controller:payable,
+                          //         validateFunc: ValidationFunctions.validateEmpty),
+                          // ),
+                          // Container(
+                          //   width: MediaQuery.of(context).size.width * 0.39,
+                          //   child: InputTextFields(label: 'Account Recievable', controller:receivable,
+                          //     validateFunc: ValidationFunctions.validateEmpty),
+                          // ),
+                          //   ]
+                          // ),
                           SizedBox(height: 20.0),
                           Column(
                             children: <Widget>[
@@ -213,8 +213,8 @@ class _AddPartyState extends State<AddParty> {
                                           emailAddress.text.toString(),
                                           contactNo.text.toString(),
                                           accountNo.text.toString(),
-                                          payable.text.toString(),
-                                          receivable.text.toString());
+                                          '0',
+                                          '0');
                                     print(temp);
                                     Navigator.pushReplacementNamed(context, '/home');
                                     }
